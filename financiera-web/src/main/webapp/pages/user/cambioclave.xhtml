@@ -1,0 +1,84 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:sec="http://www.springframework.org/security/facelets/tags">
+<ui:composition template="/templates/template.xhtml">
+
+    <ui:define name="subheader">
+        #{msgs['menu.cambio.clave']}
+    </ui:define>
+
+    <ui:define name="actions">
+        <sec:ifAnyGranted roles="ROLE_ADMIN">
+        <a href="search.jsf"
+           class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                class="icon-people"></i> #{msgs['menu.user']}</a>
+        </sec:ifAnyGranted>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="Wid90 DispBlock MarAuto MarTopPerc5 TexAlCenter">
+            <div class="Wid50 MarAuto WidAutoOnMobile">
+                <div class="Card ShadowEffect">
+                    <div class="EmptyBox20"></div>
+                    <div class="Wid100 OvHidden Fs24 Red">
+                        #{msgs['menu.cambio.clave']}
+                    </div>
+                    <div class="EmptyBox30"></div>
+                    <h:form id="crear">
+                        <p:panel id="panelCrear">
+                            <p:messages globalOnly="true" styleClass="error"
+                                        showSummary="true" showDetail="true"/>
+                            <p:panelGrid columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" styleClass="ui-panelgrid-blank"
+                                         layout="grid">
+                                <h:outputText value="#{msgs['claveActual']}:" styleClass="FontBold"/>
+                                <h:panelGroup styleClass="Wid100">
+                                <p:password  id="pass" value="#{authenticationBean.password}"
+                                             required="true" requiredMessage="#{msgs['validationRequired']}"/>
+                                <p:message for="pass"/>
+                                </h:panelGroup>
+                                <h:outputText value="#{msgs['claveNueva']}:" styleClass="FontBold"/>
+                                <h:panelGroup styleClass="Wid100">
+                                <p:password id="newPass" value="#{authenticationBean.newPassword}"
+                                            required="true" requiredMessage="#{msgs['validationRequired']}"
+                                            match="newPassConf" feedback="true"
+                                            promptLabel="#{msgs['password']}" weakLabel="Debil"
+                                            goodLabel="Buena" strongLabel="Fuerte"
+                                            validatorMessage="#{msgs['validationPasswordmatch']}"/>
+                                <p:message for="newPass" style="padding: 0px; margin: 0px"/>
+                                </h:panelGroup>
+                                <h:outputText value="#{msgs['claveNuevaConfirmar']}:" styleClass="FontBold"/>
+                                <h:panelGroup styleClass="Wid100">
+                                <p:password id="newPassConf" value="#{authenticationBean.confPassword}"
+                                            required="true" requiredMessage="#{msgs['validationRequired']}"/>
+                                <p:message for="newPassConf"/>
+                                </h:panelGroup>
+
+                            </p:panelGrid>
+                                <div class="EmptyBox30"></div>
+                            <div class="Fright">
+                                <div class="Wid50 Fleft Responsive50">
+                                    <p:commandButton value="#{msgs['btnCancelar']}"
+                                                     icon="fa fa-close"
+                                                     styleClass="RedButton Fs16 White RaisedButton Fleft FloatNoneOnMobile"
+                                                     onclick="history.back()"
+                                                     title="#{msgs['btnCancelar']}" immediate="true"/>
+                                </div>
+                                <div class="EmptyBox5 ShowOnMobile"></div>
+                                <div class="Wid50 Fleft Responsive50">
+                                    <p:commandButton id="linksave" value="#{msgs['btnGuardar']}"
+                                                     icon="fa fa-sign-in"
+                                                     styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
+                                                     action="#{authenticationBean.cambiarContrasenia}"
+                                                     title="#{msgs['formCambiarClave']}" update="panelCrear"/>
+                                </div>
+                            </div>
+                        </p:panel>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

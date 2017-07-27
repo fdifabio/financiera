@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+    </f:facet>
+    <title>#{msgs['title']}</title>
+    <ui:insert name="head"/>
+</h:head>
+<style>
+    .captcharAGR {
+        margin-left: 32px;
+    }
+</style>
+<h:body styleClass="GrayModena Geometry" style="height:auto;">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{perfilBean.inicioRegister()}"/>
+    </f:metadata>
+    <div class="Wid90 DispBlock MarAuto MarTopPerc5 TexAlCenter">
+        <div class="Wid33 MarAuto WidAutoOnMobile">
+            <div class="EmptyBox10"></div>
+            <div class="Card ShadowEffect">
+                <div class="Wid100 OvHidden BigTopic Fs24">
+                    <img src="resources/logo.png"/>
+                </div>
+                <div class="EmptyBox10"></div>
+                <h:form id="loginRegister">
+                    <div class="Wid100">
+                        <h:outputLabel value="#{msgs['registerLink']}" styleClass="TexAlCenter Fs16"/>
+                    </div>
+                    <div class="EmptyBox10"></div>
+                    <div class="Wid100">
+                        <p:inputText id="registerFirstName" value="#{perfilBean.entity.nombre}"
+                                     required="true" requiredMessage="#{msgs['validationRequired']}"
+                                     placeholder="#{msgs['firstName']}" styleClass="Wid80 TexAlCenter Fs14"/>
+                        <p:message for="registerFirstName"/>
+                    </div>
+                    <div class="EmptyBox10"></div>
+                    <div class="Wid100">
+                        <p:inputText id="registerLastName" value="#{perfilBean.entity.apellido}"
+                                     required="true" requiredMessage="#{msgs['validationRequired']}"
+                                     placeholder="#{msgs['lastName']}" styleClass="Wid80 TexAlCenter Fs14"/>
+                        <p:message for="registerLastName"/>
+                    </div>
+                    <div class="EmptyBox10"></div>
+                    <div class="Wid100">
+                        <p:inputText id="registerMatricula" value="#{perfilBean.entity.matricula}"
+                                     placeholder="#{msgs['matricula']}" styleClass="Wid80 TexAlCenter Fs14"/>
+                        <p:message for="registerMatricula"/>
+                    </div>
+                    <div class="EmptyBox10"></div>
+                    <div class="Wid100">
+                        <p:inputText id="registerEmail" value="#{perfilBean.entity.user.email}"
+                                     required="true"
+                                     requiredMessage="#{msgs['validationRequired']}"
+                                     validator="#{perfilBean.validateMail}"
+                                     validatorMessage="Formato Invalido"
+                                     placeholder="#{msgs['email']}" styleClass="Wid80 TexAlCenter Fs14">
+                            <f:validateRegex
+                                    pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.(com|com.ar|net|‌​org|edu.ar)"/>
+                        </p:inputText>
+                        <p:message for="registerEmail"/>
+                    </div>
+                    <div class="EmptyBox10"></div>
+                    <div class="Wid100">
+                        <p:password id="registerPassword"
+                                    match="registerConfirmPassword"
+                                    value="#{perfilBean.entity.user.password}"
+                                    required="true" requiredMessage="#{msgs['validationRequired']}" feedback="true"
+                                    promptLabel="#{msgs['password']}" weakLabel="Debil"
+                                    goodLabel="Buena" strongLabel="Fuerte"
+                                    validatorMessage="#{msgs['validationPasswordmatch']}"
+                                    placeholder="#{msgs['password']}" styleClass="Wid80 TexAlCenter Fs14"/>
+                        <p:message for="registerPassword"/>
+                    </div>
+                    <div class="EmptyBox10"></div>
+                    <div class="Wid100">
+                        <p:password id="registerConfirmPassword"
+                                    value="#{perfilBean.entity.user.password}"
+                                    required="true" requiredMessage="#{msgs['validationRequired']}"
+                                    placeholder="#{msgs['passwordConfirme']}" styleClass="Wid80 TexAlCenter Fs14"/>
+                        <p:message for="registerConfirmPassword"/>
+                    </div>
+                    <div class="EmptyBox10"></div>
+                    <div class="Wid100" style=" margin-left: 30px;">
+                        <p:captcha label="Captcha" id="captcha" required="true"
+                                   requiredMessage="#{msgs['validationRequired']}"
+                                   styleClass="captcharAGR Wid80 TexAlCenter Fs14"/>
+                        <p:messages for="captcha"/>
+                    </div>
+                    <div class="EmptyBox20"></div>
+                    <div class="Wid50 Fleft Responsive50">
+                        <p:commandButton value="#{msgs['btnCancelar']}"
+                                         icon="fa fa-close"
+                                         styleClass="RedButton Fs16 White RaisedButton FloatNoneOnMobile"
+                                         action="login?faces-redirect=true"
+                                         title="#{msgs['btnCancelar']}" immediate="true"/>
+                    </div>
+                    <div class="EmptyBox5 ShowOnMobile"></div>
+                    <div class="Wid50 Fleft Responsive50">
+                        <p:commandButton id="linksave" value="#{msgs['register']}"
+                                         icon="fa fa-sign-in"
+                                         styleClass="GreenButton Fs16 White RaisedButton FloatNoneOnMobile"
+                                         action="#{perfilBean.update}" update="loginRegister" validateClient="true"/>
+                    </div>
+                </h:form>
+                <div class="EmptyBox5 ShowOnMobile"></div>
+                <div class="EmptyBox10"></div>
+                <div class="EmptyBox20"></div>
+            </div>
+            <div class="Wid100 TexAlCenter MarTop20 Fs14 FontRobotoRegular Gray">
+                <i class="fa fa-copyright"></i>
+                <br/>
+            </div>
+        </div>
+    </div>
+    <h:outputStylesheet name="css/core-layout.css" library="modena-layout"/>
+    <h:outputStylesheet name="css/animate.css" library="modena-layout"/>
+    <h:outputStylesheet name="css/modena-font.css" library="modena-layout"/>
+    <h:outputStylesheet name="css/ripple-effect.css"
+                        library="modena-layout"/>
+    <h:outputStylesheet name="css/font-awesome.css" library="modena-layout"/>
+    <h:outputStylesheet name="css/modena-layout.css"
+                        library="modena-layout"/>
+</h:body>
+
+</html>
+

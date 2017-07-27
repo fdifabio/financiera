@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/security 
+    http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+
+    <!-- business logic (method) security -->
+    <security:global-method-security
+            pre-post-annotations="enabled" jsr250-annotations="enabled">
+    </security:global-method-security>
+    <!-- resourse Securtity -->
+    <!-- [security:http]: Elemento para configurar la seguridad de la aplicación
+        web por medio del protocolo http. Tiene los siguientes atributos: [realm]:
+        Atributo opcional que especifica el nombre del alcance que será usado para
+        todas las caracteristicas de seguridad que requieren un nombre de alcance(por
+        ejemplo autenticación BASIC y DIGEST). [auto-config]: Automáticamente registra
+        un formulario de registro, autenticaciòn BASIC, autenticación anónima, servicios
+        de cierre de sesion, opción de recordación de usuario, si es colocado a 'true'
+        todas estas caracteristicas serán configuradas, pero cualquier caracteristica
+        puede sobreescribirse especificando mediante XML dichos elementos. -->
+
+    <security:http pattern="/resources/**" security="none"/>
+    <security:http pattern="/templates/**" security="none"/>
+
+    <security:http>
+
+        <!-- In Spring Security 4, CSRF is enabled by default when using the XML
+            configuration. Previously it was only enabled by default for the Java-based
+            configuration. According to Section 14.4.2 of the Spring Security Documentation:
+
+            http://myshittycode.com/2015/03/30/spring-security-invalid-csrf-token-null-was-found-on-the-request-parameter-_csrf-or-header-x-csrf-token/-->
+        <security:csrf disabled="true"/>
+
+        <!--<security:intercept-url Especifica el patrón URL y el tipo de acceso
+            de cada interceptor -->
+
+        <!-- Forma de interceptar una Url con parametos para dar permisos a ciertos
+            roles dependiendo el parametro. Se debe agregar path-type="regex" en el tag
+            "security:http" y el pattern debe tener el formato q se ve abajo. -->
+
+        <security:intercept-url pattern="/pages/home.jsf"
+                                access="hasAnyRole('ROLE_ADMIN','ROLE_AGR', 'ROLE_SECRETARIO')"/>
+
+
+        <security:intercept-url pattern="/pages/eprofesional/create.jsf"
+                                access="hasRole('ROLE_AGR')"/>
+
+        <security:intercept-url pattern="/pages/eprofesional/view.jsf"
+                                access="hasAnyRole('ROLE_AGR', 'ROLE_SECRETARIO')"/>
+
+        <security:intercept-url pattern="/pages/eprofesional/comprobante.jsf"
+                                access="hasRole('ROLE_AGR')"/>
+
+        <security:intercept-url pattern="/pages/eprofesional/search.jsf"
+                                access="hasAnyRole('ROLE_AGR', 'ROLE_SECRETARIO')" />
+
+        <security:intercept-url pattern="/pages/perfil/**"
+                                access="hasRole('ROLE_AGR')"/>
+
+        <security:intercept-url pattern="/pages/comitente/**"
+                                access="hasRole('ROLE_AGR')"/>
+
+        <security:intercept-url pattern="/pages/eprofesional/odsList.jsf"
+                                access="hasRole('ROLE_SECRETARIO')"/>
+
+        <security:intercept-url pattern="/pages/tasa/**"
+                                access="hasRole('ROLE_ADMIN')"/>
+
+        <security:intercept-url pattern="/pages/user**"
+                                access="hasAnyRole('ROLE_ADMIN')"/>
+
+
+
+        <!--<security:form-login Especifica el proceso de autenticación mediante
+            un formulario: [login-page]: URL del formulario de autenticación. [authentication-failure-url]:
+            URL de la página en caso la autenticación falle. [login-processing-url]:
+            URL hacia el cual la autenticación será procesada. [default-target-url]:
+            URL hacia el cual se redirigirá el control luego de un login exitoso -->
+        <security:form-login login-page="/login.jsf"/>
+
+
+        <!-- <security:logout Especifica el tratamiento para los fines de sesión
+            o logouts: [invalidate-session]: Si el proceso de logout debe de terminar
+            la sesión(default=true) [logout-url]: URL que determina el fin de sesión.
+            [logout-success-url]: URL del recurso que será mostrado una vez terminada
+            la sesión. -->
+        <security:logout logout-success-url="/login.jsf"
+                         delete-cookies="JSESSIONID" invalidate-session="true"/>
+
+        <!-- <security:custom-filter ref="sessionManagementFilter" before="SESSION_MANAGEMENT_FILTER"
+            /> -->
+
+
+    </security:http>
+
+    <!-- <bean id="sas" class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
+        <constructor-arg name="sessionRegistry" ref="sessionRegistry" /> <property
+        name="maximumSessions" value="1" /> </bean> <bean id="concurrencyFilter"
+        class="org.springframework.security.web.session.ConcurrentSessionFilter">
+        <property name="sessionRegistry" ref="sessionRegistry" /> <property name="expiredUrl"
+        value="/index.jsf" />
+
+    </bean>
+
+    <bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl"
+        /> -->
+    <!-- nueva impl https://gist.github.com/banterCZ/5160269
+
+    <bean id="sessionManagementFilter"
+        class="org.springframework.security.web.session.SessionManagementFilter">
+        <constructor-arg name="securityContextRepository" ref="httpSessionSecurityContextRepository"
+        /> <property name="invalidSessionStrategy" ref="jsfRedirectStrategy" /> </bean>
+        <bean id="jsfRedirectStrategy" class="ar.edu.unrn.lia.security.JsfRedirectStrategy">
+        <property name="invalidSessionUrl" value="/mobile/mSesionExpirada.xhtml"
+        /> </bean> <bean id="httpSessionSecurityContextRepository" class="org.springframework.security.web.context.HttpSessionSecurityContextRepository"
+        /> -->
+
+    <!-- Sistema de autenticacion -->
+    <!-- Activa la codificacion de las password -->
+    <!-- Clave 1234
+        dayala- $2a$10$yaPDsdDNlO9oPej/VMULS.DWJdqWJEpmeznpXa9v6yKCpQ1pS6XJW -Clave 123
+        admin - $2a$10$UtZwsRLDqACANWWWXvWLM.LNGv2dQrYlbtmvs9IoMGJ9lZyaWD5OO  - clave 1234 -->
+    <bean id="bCryptPasswordEncoder"
+          class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+
+    <!-- manager responsible for loading user account with assigned roles -->
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider
+                user-service-ref="userService">
+            <security:password-encoder ref="bCryptPasswordEncoder"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+
+    <!-- para que la aplicación web sea notificada acerca de los eventos importantes
+        que ocurren, es necesario escribir una clase, que implemente la interface
+        listener adecuada y describirla en el web.xml -->
+    <!-- los listeners son instanciados por el Contener Web -->
+    <!-- <bean class="ar.edu.unrn.lia.seguridad.IncorrectPasswordEventListener"> -->
+    <!--property name="dataSource" ref="dataSource" / -->
+    <!-- </bean> -->
+
+
+</beans>

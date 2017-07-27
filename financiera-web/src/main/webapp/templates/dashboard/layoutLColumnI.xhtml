@@ -1,0 +1,109 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/modena">
+
+	<div class="Container70 Responsive100">
+
+			<!-- Section 1 -->
+			<div class="Container100">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile"
+						style="min-height: 275px;">
+						<h:form>
+							<p:tabView style="margin:-20px; border:none 0px;">
+								<p:tab title="Twitter">
+									<div class="Container100">
+										<div class="Container60 Responsive100">
+											<div class="Fs22 BoldGray FontRobotoRegular">
+												<div class="ContainerIndent">Mapa de Tweets</div>
+											</div>
+											<div class="ContainerIndent">
+												<div class="Card SoftBlueBack">
+													<p:selectOneMenu id="console2"
+														value="#{selectOneMenuView.console}"
+														style="width:170px; margin:0px 10px 5px 0px;"
+														styleClass="Fleft">
+														<f:selectItem itemLabel="Seleccion estado" itemValue="" />
+														<f:selectItem itemLabel="Pendiente" itemValue="pendiente" />
+														<f:selectItem itemLabel="Iniciado" itemValue="iniciado" />
+														<f:selectItem itemLabel="En ejecuación"
+															itemValue="enEjecuacio" />
+														<f:selectItem itemLabel="Finalizado"
+															itemValue="finalizado" />
+													</p:selectOneMenu>
+
+													<p:button value="Buscar"
+														styleClass="OrangeButton Fright FloatNoneOnMobile" />
+												</div>
+												<div class="EmptyBox10"></div>
+												<p:gmap styleClass="PosRelative SoftGrayBack"
+													center="36.890257,30.707417" zoom="13" type="ROADMAP"
+													style="width:100%; height:455px; z-index:1; "
+													model="#{markersView.simpleModel}" />
+
+											</div>
+										</div>
+									</div>
+								</p:tab>
+								<p:tab title="Acceso a Twitter">
+									<a class="twitter-timeline"
+										href="https://twitter.com/tweetReclamo"
+										data-widget-id="701453648652591107">Tweets por el
+										@tweetReclamo.</a>
+									<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+								</p:tab>
+							</p:tabView>
+						</h:form>
+					</div>
+				</div>
+			</div>
+
+			<!-- Section 2 -->
+			<div class="Container100">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile">
+						<h2 class="CardTopic">Estadisticas de uso por Ciudadanos</h2>
+						<div class="SeparatorFull"></div>
+						<div class="EmptyBox20"></div>
+
+						<div class="Container60 Responsive50">
+							<p:chart type="line" model="#{chartView.lineModel1}"
+								style="height:350px;" responsive="true" />
+						</div>
+						<div class="Container40 Responsive50">
+							<p:selectOneMenu id="console3"
+								value="#{selectOneMenuView.console}"
+								style="min-width:100px; width:120px; margin:10px 10px 5px 0px;"
+								styleClass="WidAutoOnMobile">
+								<f:selectItem itemLabel="Periodo" itemValue="" />
+								<f:selectItem itemLabel="Dia" itemValue="Daily" />
+								<f:selectItem itemLabel="Semana" itemValue="Weekly" />
+								<f:selectItem itemLabel="Mes" itemValue="Monthly" />
+								<f:selectItem itemLabel="Año" itemValue="Annual" />
+							</p:selectOneMenu>
+
+							<p:selectOneMenu id="console4"
+								value="#{selectOneMenuView.console}"
+								style="min-width:100px; width:120px; margin:10px 10px 5px 0px;"
+								styleClass="WidAutoOnMobile">
+								<f:selectItem itemLabel="Tipo" itemValue="" />
+								<f:selectItem itemLabel="Twitter" itemValue="Files" />
+								<f:selectItem itemLabel="Facebook" itemValue="Music" />
+							</p:selectOneMenu>
+
+							<div class="EmptyBox10"></div>
+							<p:button value="Aplicar Filtro"
+								styleClass="PinkButton White Fs14" icon="fa fa-line-chart" />
+							<p:button value="Generar Reportes" styleClass="White Fs14"
+								icon="fa fa-line-chart" />
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+</ui:composition>

@@ -1,0 +1,107 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+<ui:composition template="/templates/template.xhtml">
+
+    <ui:define name="subheader">
+        <h:outputText class="BigTopic" value="#{msgs['formTasaModificar']}"
+                      rendered="#{tasaBean.entity.id!= null}"/>
+
+        <h:outputText class="BigTopic" value="#{msgs['formTasaCrear']}"
+                      rendered="#{tasaBean.entity.id == null}"/>
+
+    </ui:define>
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{tasaBean.id}"/>
+        <f:event type="preRenderView" listener="#{tasaBean.inicio()}"/>
+    </f:metadata>
+
+    <ui:define name="actions">
+        <a href="search.jsf"
+           class="BoldGray Fs22 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                class="icon-list"></i> #{msgs['listar']}</a>
+        <h:panelGroup rendered="#{userBean.entity.id != null}" id="hello">
+            <a href="view.jsf?id=#{userBean.entity.id}"
+               class="BoldGray Fs22 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                    class="icon-zoom-in"></i> #{msgs['detalle']} </a>
+            <a href="create.jsf"
+               class="BoldGray Fs22 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                    class="icon-add_box"></i> #{msgs['btnNuevo']}</a>
+        </h:panelGroup>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect ui-fluid">
+                    <div class="MarAuto WidAutoOnMobile">
+                        <div class="ContainerIndent">
+                            <div class="EmptyBox20"></div>
+                            <h:form id="crear">
+                                <p:panel id="panelCrear">
+                                    <p:messages globalOnly="true" styleClass="error"
+                                                showSummary="true" showDetail="true"/>
+                                    <p:panelGrid columns="3"
+                                                 columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4" layout="grid"
+                                                 styleClass="ui-panelgrid-blank">
+
+                                        <h:outputText value="#{msgs['form.descripcion']}:" styleClass="FontBold"/>
+                                        <h:outputText value="#{msgs['formCosto']}" styleClass="FontBold"/>
+                                        <h:outputText value="#{msgs['formCostoAdicional']}" styleClass="FontBold"/>
+                                        <h:panelGroup layout="block">
+                                            <p:inputText id="descripcion"
+                                                         required="true"
+                                                         requiredMessage="#{msgs['validationRequired']}"
+                                                         validatorMessage="Descripción ya existe"
+                                                         value="#{tasaBean.entity.descripcion}"/>
+                                            <p:message for="descripcion"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup layout="block">
+                                            <p:inputNumber id="costo" required="true"
+                                                           requiredMessage="#{msgs['validationRequired']}"
+                                                           value="#{tasaBean.entity.costo}">
+                                            </p:inputNumber>
+                                            <p:message for="costo"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup layout="block">
+                                            <p:inputNumber id="costoadicional" required="true"
+                                                           requiredMessage="#{msgs['validationRequired']}"
+                                                           value="#{tasaBean.entity.costoAdicional}">
+                                            </p:inputNumber>
+                                            <p:message for="costoadicional"/>
+                                        </h:panelGroup>
+                                    </p:panelGrid>
+                                    <div class="EmptyBox30"></div>
+                                    <div class="Fright">
+                                        <div class="Wid45 Fleft Responsive45 MarRight10">
+                                            <p:commandButton value="#{msgs['btnCancelar']}"
+                                                             icon="fa fa-close"
+                                                             styleClass="RedButton Fs16 White RaisedButton Fleft FloatNoneOnMobile"
+                                                             action="search?faces-redirect=true"
+                                                             title="#{msgs['btnCancelar']}" immediate="true"/>
+                                        </div>
+                                        <div class="Wid45 Fleft Responsive45">
+                                            <p:commandButton id="linksave" value="#{msgs['btnGuardar']}"
+                                                             icon="fa fa-sign-in"
+                                                             styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
+                                                             action="#{tasaBean.update}" title="Grabar"
+                                                             update="crear"/>
+                                        </div>
+                                    </div>
+                                </p:panel>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+
+</ui:composition>
+</html>

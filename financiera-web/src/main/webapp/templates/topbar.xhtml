@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:sec="http://www.springframework.org/security/facelets/tags">
+
+    <!-- TOPBAR START -->
+    <div id="layout-topbar">
+        <a id="mobile-menu-button"> <span class="ButtonLine"
+                                          id="ButtonLine1"></span> <span class="ButtonLine" id="ButtonLine2"></span>
+            <span class="ButtonLine" id="ButtonLine3"></span>
+        </a>
+        <a href="#{request.contextPath}/pages/home.jsf" id="logo" style="margin-top: 10px;">
+        <span class="White">
+            <h:outputText value="#{msgs['menu']}"/></span>
+    </a> <a id="show-top-menu" class="ShowOnMobile ripplelink"><i
+            class="icon-more_vert" id="active"></i><i class="icon-close DispNone"
+                                                      id="passive"></i> </a>
+
+        <ul id="top-menu">
+            <li><a class="ripplelink"><i class="icon-cog"></i> <span
+                    class="ShowOnMobile">#{msgs['miPerfil']}</span></a>
+                <ul>
+                    <li><h:form>
+                        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SECRETARIO,ROLE_AGR">
+                            <h:commandLink
+                                    action="/pages/user/cambioclave?faces-redirect=true" ajax="false">
+                                <i class="icon-vpn_key"></i>
+                                <h:outputText value="#{msgs['menu.cambio.clave']}"/>
+                            </h:commandLink>
+                        </sec:ifAnyGranted>
+                        <sec:ifAnyGranted roles="ROLE_AGR">
+                            <h:commandLink
+                                    action="/pages/perfil/perfil?faces-redirect=true" ajax="false">
+                                <i class="fa fa-male"></i>
+                                <h:outputText value="#{msgs['miPerfil']}"/>
+                            </h:commandLink>
+                        </sec:ifAnyGranted>
+                    </h:form></li>
+                </ul>
+            </li>
+            <li><a class="ripplelink"><i class="icon-power"></i> <span
+                    class="ShowOnMobile">Salir</span></a>
+                <ul>
+                    <li><h:form>
+                        <h:commandLink id="logout" action="#{authenticationBean.logout}">
+								<span class="Red"> <i class="icon-person Fs30 DispBlock"></i>
+									<h:outputText
+                                            value="#{msgs['salir']}: #{authenticationBean.bienvenido}"/>
+								</span>
+                        </h:commandLink>
+
+                    </h:form></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- TOPBAR END -->
+
+</ui:composition>

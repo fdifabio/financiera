@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/modena"
+                xmlns:sec="http://www.springframework.org/security/facelets/tags">
+
+    <div class="Animated05" id="layout-menu-cover">
+        <h:form id="menuform">
+            <pm:menu>
+                <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_SECRETARIO, ROLE_AGR">
+                <p:menuitem id="rm_dashboard" value="Inicio"
+                            icon="icon-dashboard"
+                            outcome="/pages/home?faces-redirect=true"/>
+                </sec:ifAnyGranted>
+                <sec:ifAnyGranted roles="ROLE_ADMIN">
+                    <p:menuitem id="rm_usuarios" value="#{msgs['menu.user']}"
+                                icon="icon-people"
+                                outcome="/pages/user/search?faces-redirect=true"/>
+
+                    <p:menuitem id="rm_tasas" value="#{msgs['menu.tasa']}"
+                                icon="icon-attach_money"
+                                outcome="/pages/tasa/search?faces-redirect=true"/>
+                </sec:ifAnyGranted>
+                <sec:ifAnyGranted roles="ROLE_AGR, ROLE_SECRETARIO">
+                    <p:menuitem id="rm_eprofesional" value="#{msgs['menuEProfesional']}"
+                                icon="icon-paper"
+                                outcome="/pages/eprofesional/search?faces-redirect=true"/>
+                </sec:ifAnyGranted>
+                <sec:ifAnyGranted roles="ROLE_AGR">
+                    <p:menuitem id="rm_comitente" value="#{msgs['menuComitente']}"
+                                icon="fa fa-users "
+                                outcome="/pages/comitente/search?faces-redirect=true"/>
+                </sec:ifAnyGranted>
+                <sec:ifAnyGranted roles="ROLE_AGR">
+                    <p:menuitem id="rm_formularioDP" value="#{msgs['descargarFormDatosPersonales']}"
+                                icon="fa fa-download"
+                                url="http://www.cparn.com.ar/planilla/datosPersonales.pdf"
+                    target="_blank"/>
+                </sec:ifAnyGranted>
+                <sec:ifAnyGranted roles="ROLE_SECRETARIO">
+                    <p:menuitem id="rm_ods" value="#{msgs['menuODS']}"
+                                icon="icon-paper"
+                                outcome="/pages/eprofesional/odsList?faces-redirect=true"/>
+                </sec:ifAnyGranted>
+                <p:separator/>
+            </pm:menu>
+        </h:form>
+    </div>
+
+</ui:composition>

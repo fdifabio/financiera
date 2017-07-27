@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/templates/templateLayout.xhtml">
+
+
+
+	<ui:define name="centerContent">
+		<h:panelGroup layout="block"
+			class="title ui-widget-header ui-corner-all"
+			style="padding: 8px; font-size: 16px !important; text-align: center;">
+			<h1>
+				<b><h:outputText value="#{msgs['acceso.denegado.titulo']}" /></b>
+			</h1>
+			<h:form>
+				<h:panelGrid columns="2">
+					<h:outputLabel for="login" value="Ingrese: " />
+
+				</h:panelGrid>
+			</h:form>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>

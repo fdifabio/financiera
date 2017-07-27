@@ -1,0 +1,96 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/templates/template.xhtml">
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{perfilBean.vermensaje()}"/>
+    </f:metadata>
+    <ui:define name="subheader">
+
+    </ui:define>
+    <ui:define name="content">
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect">
+                    <p:growl autoUpdate="true" showDetail="true" life="3000"
+                             globalOnly="true"/>
+                    <p:panel header="#{msgs['micuenta']}" style="margin-top:20px">
+                        <p:panelGrid columns="2"
+                                     columnClasses="ui-grid-col-3,ui-grid-col-9" layout="grid"
+                                     styleClass="ui-panelgrid-blank">
+
+                            <h3 style="margin-top: 10px !important;font: bold;" >#{msgs['datos.personales']}</h3>
+                            <h:outputText value="" styleClass="FontBold"/>
+                            <h:outputText value="#{msgs['firstName']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{authenticationBean.perfilAGR.nombre}"/>
+                            <h:outputText value="#{msgs['lastName']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{authenticationBean.perfilAGR.apellido}"/>
+                            <h:outputText value="#{msgs['form.fecha.nacimiento']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{authenticationBean.perfilAGR.fechaNacimiento}">
+                                <f:convertDateTime pattern="#{authenticationBean.patternDate}"/>
+                            </h:outputText>
+                            <h:outputText value="#{msgs['form.celular']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{authenticationBean.perfilAGR.celular}"/>
+                            <h:outputText value="#{msgs['form.telefono']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{authenticationBean.perfilAGR.telefono}"/>
+
+                            <h3 style="margin-top: 10px !important;font: bold;" >#{msgs['datos.profesionales']}</h3>
+                            <h:outputText value="" styleClass="FontBold"/>
+                            <h:outputText value="#{msgs['matricula']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{authenticationBean.perfilAGR.matricula}"/>
+                            <h:outputText value="#{msgs['formTitulo']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{authenticationBean.perfilAGR.titulo}"/>
+                            <h:outputText value="#{msgs['form.cuit']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{authenticationBean.perfilAGR.cuit}"/>
+
+                            <h3 style="margin-top: 10px !important;font: bold;" >#{msgs['datos.academicos']}</h3>
+                            <h:outputText value="" styleClass="FontBold"/>
+                            <h:outputText value="#{msgs['form.fecha.egreso']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{authenticationBean.perfilAGR.fechaEgreso}">
+                                <f:convertDateTime pattern="#{authenticationBean.patternDate}"/>
+                            </h:outputText>
+                            <h:outputText value="#{msgs['form.universidad']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{authenticationBean.perfilAGR.universidad}"/>
+
+                            <h3 style="margin-top: 10px !important;font: bold;" >#{msgs['form.domicilio.real']}</h3>
+                            <h:outputText value="" styleClass="FontBold"/>
+                            <h:outputText value="#{msgs['form.domicilio']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{authenticationBean.perfilAGR.domicilioReal}"/>
+                            <h:outputText value="#{msgs['form.ciudad']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{authenticationBean.perfilAGR.ciudadReal.nombre}"/>
+
+                            <h3 style="margin-top: 10px !important;font: bold;" >#{msgs['form.domicilio.legal']}</h3>
+                            <h:outputText value="" styleClass="FontBold"/>
+                            <h:outputText value="#{msgs['form.domicilio']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{authenticationBean.perfilAGR.domicilioLegal}"/>
+                            <h:outputText value="#{msgs['form.ciudad']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{authenticationBean.perfilAGR.ciudadLegal.nombre}"/>
+
+                        </p:panelGrid>
+                        <div class="Card ShadowEffect BoldGray TexAlCenter HoverEffect MarRight10 Wid70 MarTop20"
+                             style="margin-left: 13%;background-color: gainsboro;">
+                            <div class="EmptyBox10"></div>
+                            <div class="FontRobotoLight Fs18 DispBlock ClearBoth TexAlCenter">#{perfilBean.leyenda}</div>
+                        </div>
+                    </p:panel>
+                    <div class="EmptyBox20"></div>
+
+                    <div class="EmptyBox10 ShowOnMobile"></div>
+                    <div class="Wid10 Fright Responsive50 MarRight10">
+                        <p:commandButton value="#{msgs['menu.home']}"
+                                         icon="fa fa-close"
+                                         styleClass="RedButton Fright Fs16 White RaisedButton FloatNoneOnMobile"
+                                         action="/pages/home?faces-redirect=true"
+                                         title="#{msgs['menu.home']}" immediate="true"/>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>
+

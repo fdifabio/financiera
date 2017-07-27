@@ -1,0 +1,116 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:sec="http://www.springframework.org/security/facelets/tags">
+<ui:composition template="/templates/template.xhtml">
+
+    <ui:define name="subheader">
+        <h:outputText class="BigTopic" value="#{msgs['formUsuarioModificar']}"
+                      rendered="#{userBean.entity.id!= null}"/>
+
+        <h:outputText class="BigTopic" value="#{msgs['formUsuarioCrear']}"
+                      rendered="#{userBean.entity.id == null}"/>
+
+    </ui:define>
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{userBean.id}"/>
+        <f:event type="preRenderView" listener="#{userBean.inicio()}"/>
+    </f:metadata>
+
+    <ui:define name="actions">
+        <sec:ifAnyGranted roles="ROLE_ADMIN">
+        <a href="search.jsf"
+           class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                class="icon-list"></i> #{msgs['listar']}</a>
+        </sec:ifAnyGranted>
+        <h:panelGroup rendered="#{userBean.entity.id != null}" id="hello">
+            <a href="view.jsf?id=#{userBean.entity.id}"
+               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                    class="icon-zoom-in"></i> #{msgs['detalle']} </a>
+            <sec:ifAnyGranted roles="ROLE_ADMIN">
+            <a href="create.jsf"
+               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                    class="icon-person_add"></i> #{msgs['btnNuevo']}</a>
+            </sec:ifAnyGranted>
+        </h:panelGroup>
+    </ui:define>
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect ui-fluid">
+                    <div class="MarAuto WidAutoOnMobile">
+                        <div class="ContainerIndent">
+                            <div class="EmptyBox20"></div>
+                            <h:form id="crear">
+                                <p:panel id="panelCrear">
+                                    <p:growl autoUpdate="true" showDetail="true" life="3000"
+                                             globalOnly="true"/>
+                                    <p:messages globalOnly="true" styleClass="error"
+                                                showSummary="true" showDetail="true"/>
+                                    <p:panelGrid columns="2"
+                                                 columnClasses="ui-grid-col-6,ui-grid-col-6" layout="grid"
+                                                 styleClass="ui-panelgrid-blank">
+
+                                        <h:outputText value="#{msgs['formMail']}:" styleClass="FontBold"/>
+                                        <h:outputText value="#{msgs['formRol']}" styleClass="FontBold"/>
+                                       <h:panelGroup layout="block">
+                                            <p:inputText id="userBeanEmail"
+                                                         required="true"
+                                                         requiredMessage="#{msgs['validationRequired']}"
+                                                         validator="#{userBean.validateMail}"
+                                                         validatorMessage="Formato invalido"
+                                                         value="#{userBean.entity.email}">
+                                            <f:validateRegex
+                                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                            </p:inputText>
+                                            <p:message for="userBeanEmail"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup layout="block" rendered="#{sec:ifAllGranted('ROLE_ADMIN')}" >
+                                            <p:selectOneMenu id="cmbRol" value="#{userBean.entity.role}"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}">
+                                                <f:selectItem itemValue=""
+                                                              itemDescription="#{msgs['formRol']}"
+                                                              itemLabel="#{msgs['formRol']}"/>
+                                                <f:selectItems value="#{userBean.roles()}"
+                                                               itemLabel="#{g.rol}" var="g"/>
+                                            </p:selectOneMenu>
+                                            <p:message for="cmbRol"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup layout="block" rendered="#{sec:ifAllGranted('ROLE_AGR') || sec:ifAllGranted('ROLE_SECRETARIO')}">
+                                            <p:outputLabel value="#{userBean.entity.role.rol}"/>
+                                        </h:panelGroup>
+                                    </p:panelGrid>
+                                    <div class="EmptyBox30"></div>
+                                    <div class="Fright">
+                                        <div class="Wid45 Fleft Responsive45 MarRight10">
+                                            <p:commandButton value="#{msgs['btnCancelar']}"
+                                                             icon="fa fa-close"
+                                                             styleClass="RedButton Fs16 White RaisedButton Fleft FloatNoneOnMobile"
+                                                             action="search?faces-redirect=true"
+                                                             title="#{msgs['btnCancelar']}" immediate="true"/>
+                                        </div>
+                                        <div class="Wid45 Fleft Responsive45">
+                                            <p:commandButton id="linksave" value="#{msgs['btnGuardar']}"
+                                                             icon="fa fa-sign-in"
+                                                             styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
+                                                             action="#{userBean.update}" title="Grabar"
+                                                             update="crear" validateClient="true"/>
+                                        </div>
+                                    </div>
+                                </p:panel>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+
+</ui:composition>
+</html>

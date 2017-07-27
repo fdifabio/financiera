@@ -1,0 +1,52 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:task="http://www.springframework.org/schema/task" xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="
+      http://www.springframework.org/schema/beans 
+      http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+      http://www.springframework.org/schema/tx 
+      http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+      http://www.springframework.org/schema/context 
+	  http://www.springframework.org/schema/context/spring-context-4.2.xsd
+    http://www.springframework.org/schema/jee 
+    http://www.springframework.org/schema/jee/spring-jee-4.2.xsd 
+    http://www.springframework.org/schema/task 
+     http://www.springframework.org/schema/task/spring-task-4.2.xsd">
+
+    <!-- used to activate annotations in beans already registered in the application
+        context (no matter if they were defined with XML or by package scanning) -->
+    <context:annotation-config/>
+
+    <task:annotation-driven/>
+
+    <context:component-scan
+            base-package="ar.edu.unrn.lia,ar.edu.unrn.lia.dao,ar.edu.unrn.lia.service"/>
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>messages</value>
+            </list>
+        </property>
+    </bean>
+
+    <context:property-placeholder location="classpath:*.properties"/>
+    <!-- bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location"> <value>classpath:/db.properties</value> </property>
+        </bean> -->
+
+    <!-- Configuracion de Hibernate/Datasources -->
+    <import resource="spring-tx.xml"/>
+
+    <!-- Definición de ViewScope: JSF2 View Scope with Spring Core -->
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="view">
+                    <bean class="ar.edu.unrn.lia.bean.scope.ViewScope"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+</beans>

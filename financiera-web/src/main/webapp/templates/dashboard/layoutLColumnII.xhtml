@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/modena">
+
+		<div class="Container70 Responsive100">
+
+			<!-- Section 1 -->
+			<div class="Container100">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile">
+						<h2 class="CardTopic">Responsables</h2>
+						<div class="SeparatorFull"></div>
+						<h:form>
+						</h:form>
+					</div>
+				</div>
+			</div>
+
+			<!-- Section 2 -->
+			<div class="Container100">
+				<div class="ContainerIndent">
+					<div class="Card ShadowEffect HeiAutoOnMobile">
+						<h2 class="CardTopic">Quick Device Request Panel</h2>
+						<div class="SeparatorFull"></div>
+
+						<p:panelGrid columns="3" layout="grid"
+							style="border:0px !important; background:none;">
+							<p:selectOneMenu id="device" value="#{selectOneMenuView.console}"
+								style="width:160px; margin:0px 10px 5px 0px;">
+								<f:selectItem itemLabel="Select Device Type" itemValue="" />
+								<f:selectItem itemLabel="GPS" itemValue="GPS" />
+								<f:selectItem itemLabel="OPS" itemValue="OPS" />
+							</p:selectOneMenu>
+							<p:inputText styleClass="Wid70" placeholder="Name" />
+							<p:inputText styleClass="Wid70" placeholder="Email" />
+
+							<p:selectOneMenu id="category"
+								value="#{selectOneMenuView.console}"
+								style="width:160px; margin:0px 10px 5px 0px;">
+								<f:selectItem itemLabel="Select Device Category" itemValue="" />
+								<f:selectItem itemLabel="GPS" itemValue="GPS" />
+								<f:selectItem itemLabel="OPS" itemValue="OPS" />
+							</p:selectOneMenu>
+							<p:inputText styleClass="Wid70" placeholder="Phone" />
+							<p:inputText styleClass="Wid70" placeholder="Address" />
+
+							<p:selectOneMenu id="plan" value="#{selectOneMenuView.console}"
+								style="width:160px; margin:0px 10px 5px 0px;">
+								<f:selectItem itemLabel="Select Device Plan" itemValue="" />
+								<f:selectItem itemLabel="GPS" itemValue="GPS" />
+								<f:selectItem itemLabel="OPS" itemValue="OPS" />
+							</p:selectOneMenu>
+							<p:selectBooleanCheckbox value="accept" styleClass="Fleft"
+								itemLabel="Add Tracking Certification" />
+							<p:selectBooleanCheckbox value="accept" styleClass="Fleft"
+								itemLabel="Add GPS Support" />
+
+							<p:selectOneMenu id="platform"
+								value="#{selectOneMenuView.console}"
+								style="width:160px; margin:0px 10px 5px 0px;">
+								<f:selectItem itemLabel="Select Device Platform" itemValue="" />
+								<f:selectItem itemLabel="GPS" itemValue="GPS" />
+								<f:selectItem itemLabel="OPS" itemValue="OPS" />
+							</p:selectOneMenu>
+							<h:outputText value=""></h:outputText>
+
+							<p:column headerText="Action">
+								<p:commandButton value="Clear Form" styleClass="RedButton" />
+								<p:commandButton value="Send Form" styleClass="CyanButton" />
+							</p:column>
+
+						</p:panelGrid>
+					</div>
+				</div>
+			</div>
+
+		</div>
+</ui:composition>

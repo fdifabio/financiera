@@ -1,0 +1,160 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:sec="http://www.springframework.org/security/facelets/tags">
+<ui:composition template="/templates/template.xhtml">
+
+    <ui:define name="subheader">
+        <h:outputText  styleClass="TexAlCenter" value="#{msgs['formComitenteModificar']}"
+                      rendered="#{comitenteBean.entity.id!= null}"/>
+
+        <h:outputText styleClass="TexAlCenter"  value="#{msgs['formComitenteCrear']}"
+                      rendered="#{comitenteBean.entity.id == null}"/>
+    </ui:define>
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{comitenteBean.id}"/>
+        <f:event type="preRenderView" listener="#{comitenteBean.inicio()}"/>
+    </f:metadata>
+
+    <ui:define name="actions">
+        <a href="search.jsf"
+           class="BoldGray Fs20 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                class="icon-list"></i> #{msgs['listar']}</a>
+        <h:panelGroup rendered="#{comitenteBean.entity.id != null}" id="hello">
+            <a href="view.jsf?id=#{comitenteBean.entity.id}"
+               class="BoldGray Fs20 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                    class="icon-zoom-in"></i> #{msgs['detalle']} </a>
+            <sec:ifAnyGranted roles="ROLE_AGR">
+                <a href="create.jsf"
+                   class="BoldGray Fs20 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                        class="icon-add_box"></i> #{msgs['btnNuevo']}</a>
+            </sec:ifAnyGranted>
+        </h:panelGroup>
+
+    </ui:define>
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect ui-fluid">
+                    <div class="MarAuto WidAutoOnMobile">
+                        <div class="ContainerIndent">
+                            <div class="EmptyBox20"></div>
+                            <h:form id="crear">
+                                <p:panel id="panelCrear">
+                                    <p:growl autoUpdate="true" showDetail="true" life="3000"
+                                             globalOnly="true"/>
+                                    <p:messages globalOnly="true" styleClass="error"
+                                                showSummary="true" showDetail="true"/>
+                                    <p:panelGrid columns="2"
+                                                 columnClasses="ui-grid-col-4,ui-grid-col-4" layout="grid"
+                                                 styleClass="ui-panelgrid-blank">
+                                        <h:outputLabel for="empresa" value="#{msgs['form.empresa']}"/>
+                                        <h:panelGroup>
+                                            <p:inputSwitch id="empresa"
+                                                           value="#{comitenteBean.entity.empresa}"
+                                                           required="true"
+                                                           requiredMessage="#{msgs['validationRequired']}"
+                                                           onLabel="Si" offLabel="No" style="width:60px">
+                                                <f:ajax event="change" render="form"/>
+                                            </p:inputSwitch>
+                                            <p:message for="empresa"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup id="form">
+                                            <h:outputLabel rendered="#{comitenteBean.entity.empresa}" for="cnombre"
+                                                           value="#{msgs['form.empresa']}"/>
+                                            <h:outputLabel rendered="#{!comitenteBean.entity.empresa}" for="cnombre"
+                                                           value="#{msgs['form.nombre.apellido']}"/>
+                                            <h:panelGroup>
+                                                <p:inputText id="cnombre"
+                                                             value="#{comitenteBean.entity.nombre}"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"/>
+                                                <p:message for="cnombre"/>
+                                            </h:panelGroup>
+                                            <h:outputLabel rendered="#{comitenteBean.entity.empresa}" for="cuit"
+                                                           value="#{msgs['form.cuit']}"/>
+                                            <h:outputLabel rendered="#{!comitenteBean.entity.empresa}" for="cuit"
+                                                           value="#{msgs['form.cuil']}"/>
+                                            <h:panelGroup>
+                                                <p:inputMask id="cuit" value="#{comitenteBean.entity.cuit}"
+                                                             required="true" mask="99-99999999-9"
+                                                             requiredMessage="#{msgs['validationRequired']}"/>
+                                                <p:message for="cuit"/>
+                                            </h:panelGroup>
+                                            <h:outputLabel for="domicilio" value="#{msgs['form.domicilio']}"/>
+                                            <h:panelGroup>
+                                                <p:inputText id="domicilio" value="#{comitenteBean.entity.domicilio}"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"/>
+                                                <p:message for="domicilio"/>
+                                            </h:panelGroup>
+                                            <h:outputText value="#{msgs['form.ciudad']}:"/>
+                                            <h:panelGroup>
+                                                <p:selectOneMenu id="ciudad"
+                                                                 value="#{comitenteBean.ciudadSelecionada}"
+                                                                 converter="#{comitenteBean.ciudadConvert}"
+                                                                 required="true"
+                                                                 requiredMessage="#{msgs['validationRequired']}">
+                                                    <f:selectItem itemLabel="--Seleccione una ciudad--"
+                                                                  itemValue="-1"/>
+                                                    <f:selectItems value="#{comitenteBean.listCiudades()}" var="c"
+                                                                   itemLabel="#{c.nombre}" itemValue="#{c}"/>
+                                                </p:selectOneMenu>
+                                                <p:message for="ciudad"/>
+                                            </h:panelGroup>
+                                            <h:outputLabel rendered="#{comitenteBean.entity.empresa}" for="resp"
+                                                           value="#{msgs['formResponsableNombre']}"/>
+                                            <h:panelGroup rendered="#{comitenteBean.entity.empresa}">
+                                                <p:inputText id="resp" required="true"
+                                                             value="#{comitenteBean.entity.responsable.nombre}"
+                                                             requiredMessage="#{msgs['validationRequired']}"/>
+                                                <p:message for="resp"/>
+                                            </h:panelGroup>
+                                            <h:outputLabel for="resp_contacto"
+                                                           value="#{msgs['formResponsableContacto']}"/>
+                                            <h:panelGroup>
+                                                <p:inputText id="resp_contacto"
+                                                             value="#{comitenteBean.entity.responsable.email}"
+                                                             required="true"
+                                                             validatorMessage="Formato invalido"
+                                                             requiredMessage="#{msgs['validationRequired']}">
+                                                    <f:validateRegex
+                                                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                                                </p:inputText>
+                                                <p:message for="resp_contacto"/>
+                                            </h:panelGroup>
+                                        </h:panelGroup>
+                                    </p:panelGrid>
+                                    <div class="EmptyBox30"></div>
+                                    <div class="Fright">
+                                        <div class="Wid45 Fleft Responsive45 MarRight10">
+                                            <p:commandButton value="#{msgs['btnCancelar']}"
+                                                             icon="fa fa-close"
+                                                             styleClass="RedButton Fs16 White RaisedButton Fleft FloatNoneOnMobile"
+                                                             action="search?faces-redirect=true"
+                                                             title="#{msgs['btnCancelar']}" immediate="true"/>
+                                        </div>
+                                        <div class="Wid45 Fleft Responsive45">
+                                            <p:commandButton id="linksave" value="#{msgs['btnGuardar']}"
+                                                             icon="fa fa-sign-in"
+                                                             styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
+                                                             action="#{comitenteBean.update}" title="Grabar"
+                                                             update="crear" validateClient="true"/>
+                                        </div>
+                                    </div>
+                                </p:panel>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+
+</ui:composition>
+</html>

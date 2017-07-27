@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
+	http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+	<application>
+		<!-- JSF ELResolver that delegates to the Spring root WebApplicationContext, 
+			resolving name references to Spring-defined beans. -->
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+		<resource-bundle>
+			<base-name>messages</base-name>
+			<var>msgs</var>
+		</resource-bundle>
+		<locale-config>
+			<default-locale>es</default-locale>
+		</locale-config>
+	</application>
+	<factory>
+		<exception-handler-factory>
+			ar.edu.unrn.lia.exception.CustomExceptionHandlerFactory
+		</exception-handler-factory>
+	</factory>
+	
+	<component>
+        <component-type>org.primefaces.component.ModenaMenu</component-type>
+        <component-class>org.primefaces.modena.component.menu.ModenaMenu</component-class>
+    </component>
+    
+    <render-kit>
+        <renderer>
+            <component-family>org.primefaces.component</component-family>
+            <renderer-type>org.primefaces.component.ModenaMenuRenderer</renderer-type>
+            <renderer-class>org.primefaces.modena.component.menu.ModenaMenuRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+    
+</faces-config>

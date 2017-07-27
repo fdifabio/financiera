@@ -1,0 +1,111 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+
+<ui:composition template="/templates/template.xhtml">
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{userBean.vermensaje()}"/>
+    </f:metadata>
+
+    <ui:define name="actions">
+        <a href="create.jsf"
+           class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                class="icon-person_add"></i> #{msgs['btnNuevo']}</a>
+    </ui:define>
+
+    <ui:define name="subheader">
+        #{msgs['tituloGrillaUsuario']}
+    </ui:define>
+
+
+    <ui:define name="content">
+
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect  ">
+                    <div class="Container100">
+                        <div class="ContainerIndent">
+                            <h:form id="formentity" class="TexAlCenter">
+                                <p:growl showDetail="true" id="msgGrwl"/>
+                                <!-- insertar usuario -->
+                                <p:dataTable id="list" var="item" value="#{userBean.list}"
+                                             reflow="true" rowKey="#{item.username}" lazy="true"
+                                             selection="#{userBean.entity}" paginator="true" paginatorPosition="bottom"
+                                             resizableColumns="false" rows="10"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="10,20,30,50">
+                                    <p:ajax event="rowSelect" listener="#{userBean.onRowSelect}"
+                                            update=":formentity:msgGrwl"/>
+                                    <p:column headerText="#{msgs['form.id']}" sortBy="#{item.id}"
+                                              rendered="false">
+                                        <h:outputText value="#{item.id}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msgs['formUsuario']}"
+                                              filterBy="#{item.username}" sortBy="#{item.username}">
+                                        <h:outputText value="#{item.username}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msgs['email']}"
+                                              filterBy="#{item.email}" sortBy="#{item.email}">
+                                        <h:outputText value="#{item.email}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msgs['formRol']}" sortBy="#{item.role}">
+                                        <h:outputText value="#{item.role.rol}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msgs['activo']}"
+                                              sortBy="#{item.active}">
+                                        <h:outputText value="Activo" rendered="#{item.active}"/>
+                                        <h:outputText value="Inactivo" rendered="#{not item.active}"/>
+                                    </p:column>
+                                    <p:column headerText="Opciones" footerText="Opciones">
+                                        <h:link outcome="create" title="#{msgs['btnEditar']}">
+                                            <i class="icon-edit Fs20"></i>
+                                            <f:param name="id" value="#{item.id}"/>
+                                        </h:link>
+                                        <h:link outcome="view" title="#{msgs['btn.ver']}">
+                                            <i class="icon-zoom-in Fs20"></i>
+                                            <f:param name="id" value="#{item.id}"/>
+                                        </h:link>
+                                        <p:commandLink id="nonAjax" title="#{msgs['btnEliminar']}"
+                                                       actionListener="#{userBean.delete(item)}" update="list">
+                                            <p:confirm header="#{msgs['confirmacion']}"
+                                                       message="#{msgs['confirmarEliminar']}" icon="ui-icon-alert"/>
+                                            <i class="icon-delete2 BoldGray Fs20"></i>
+                                        </p:commandLink>
+
+                                        <p:commandLink title="#{msgs['claveReset']}"
+                                                       update=":formentity:msgGrwl"
+                                                       actionListener="#{userBean.initCambioClave(item)}"
+                                                       action="#{userBean.cambioClave()}">
+                                            <p:confirm header="#{msgs['confirmacion']}"
+                                                       message="#{msgs['confirmarResetearClave']}"
+                                                       icon="ui-icon-alert"/>
+                                            <i class="icon-lock2 BoldGray Fs20"></i>
+                                        </p:commandLink>
+                                        <p:commandButton value="#{msgs['btnActivarDesactivar']}"
+                                                         title="" update=":formentity"
+                                                         action="#{userBean.activarDesactivar(item)}">
+                                            <p:confirm header="Confirmación"
+                                                       message="#{msgs['confirmarEstadoUsuario']}"
+                                                       icon="ui-icon-alert"/>
+                                        </p:commandButton>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:confirmDialog global="true" showEffect="fade">
+                                    <p:commandButton value="Si" type="button"
+                                                     styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                                    <p:commandButton value="No" type="button"
+                                                     styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                                </p:confirmDialog>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>
