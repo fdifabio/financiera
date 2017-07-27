@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-07-2017 a las 04:22:55
+-- Tiempo de generación: 27-07-2017 a las 21:04:01
 -- Versión del servidor: 5.7.14
 -- Versión de PHP: 5.6.25
 
@@ -17,8 +17,55 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `consejo`
+-- Base de datos: `financiera_dev`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `ciudad`
+--
+
+CREATE TABLE `ciudad` (
+  `id` bigint(20) NOT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `departamento_id` bigint(20) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cliente`
+--
+
+CREATE TABLE `cliente` (
+  `id` bigint(20) NOT NULL,
+  `apellido` varchar(255) DEFAULT NULL,
+  `celular` varchar(255) DEFAULT NULL,
+  `dni` varchar(255) DEFAULT NULL,
+  `domicilio` varchar(255) DEFAULT NULL,
+  `fecha_nacimiento` datetime DEFAULT NULL,
+  `garantia` bit(1) DEFAULT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `observacion` varchar(255) DEFAULT NULL,
+  `telefono` varchar(255) DEFAULT NULL,
+  `trabajo_horario` varchar(255) DEFAULT NULL,
+  `trabajo_lugar` varchar(255) DEFAULT NULL,
+  `ciudad_id` bigint(20) DEFAULT NULL,
+  `user_id` bigint(20) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `departamento`
+--
+
+CREATE TABLE `departamento` (
+  `id` bigint(20) NOT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `provincia_id` bigint(20) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -94,9 +141,66 @@ INSERT INTO `parameter` (`id`, `key_col`, `value_col`, `description`, `uses_clas
 (52, 'pdf.ods.cupon.parrafo.visada', 'Formulario Visado Cpa', 'Texto ODS Cupon parrafo 1 Visada', 'PDF', 'String'),
 (53, 'pdf.ley.provincial.5216', 'Ley Provincial N° 5216', 'TEXTO en PDF', 'PDF', 'String');
 
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `provincia`
+--
+
+CREATE TABLE `provincia` (
+  `id` bigint(20) NOT NULL,
+  `nombre` varchar(255) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `id` bigint(20) NOT NULL,
+  `active` bit(1) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `enabled` bit(1) NOT NULL,
+  `intentos_de_login` int(11) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `rol` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`id`, `active`, `email`, `enabled`, `intentos_de_login`, `password`, `rol`, `username`) VALUES
+(1, b'1', 'fdifabio@unrn.edu.ar', b'1', NULL, '$2a$10$LsoUFkOYQJhyNjrk.LGA.em49O/cSQWwGWEEzG.x7UcYxmVKvvI9m', 'ROLE_PRESTAMISTA', 'fdifabio@unrn.edu.ar');
+
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `ciudad`
+--
+ALTER TABLE `ciudad`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKev870hgt8a7wx5t21q4mnsu3k` (`departamento_id`);
+
+--
+-- Indices de la tabla `cliente`
+--
+ALTER TABLE `cliente`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK1le6orj8lrio9vg2jdayn5kqy` (`ciudad_id`),
+  ADD KEY `FK51q58w7p2gonvu6xsuyp3t2bo` (`user_id`);
+
+--
+-- Indices de la tabla `departamento`
+--
+ALTER TABLE `departamento`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKrt88l0yaxiht7dldscug7jnon` (`provincia_id`);
 
 --
 -- Indices de la tabla `parameter`
@@ -106,14 +210,47 @@ ALTER TABLE `parameter`
   ADD UNIQUE KEY `key_col` (`key_col`);
 
 --
+-- Indices de la tabla `provincia`
+--
+ALTER TABLE `provincia`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UK_863n1y3x0jalatoir4325ehal` (`username`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT de la tabla `parameter`
+-- AUTO_INCREMENT de la tabla `ciudad`
 --
-ALTER TABLE `parameter`
-  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+ALTER TABLE `ciudad`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `cliente`
+--
+ALTER TABLE `cliente`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `departamento`
+--
+ALTER TABLE `departamento`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `provincia`
+--
+ALTER TABLE `provincia`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

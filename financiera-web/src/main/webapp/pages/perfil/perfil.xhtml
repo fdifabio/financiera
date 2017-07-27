@@ -9,8 +9,8 @@
         <h:outputText class="BigTopic" value="#{msgs['micuenta']}"/>
     </ui:define>
     <f:metadata>
-        <f:event type="preRenderView" listener="#{perfilBean.vermensaje()}"/>
-        <f:event type="preRenderView" listener="#{perfilBean.inicio()}"/>
+        <f:event type="preRenderView" listener="#{ClienteBean.vermensaje()}"/>
+        <f:event type="preRenderView" listener="#{ClienteBean.inicio()}"/>
 
     </f:metadata>
     <ui:define name="actions">
@@ -40,13 +40,13 @@
                                                            for="registerLastName"/>
                                         </h:panelGroup>
                                         <h:panelGroup>
-                                            <p:inputText id="registerFirstName" value="#{perfilBean.entity.nombre}"
+                                            <p:inputText id="registerFirstName" value="#{ClienteBean.entity.nombre}"
                                                          required="true"
                                                          requiredMessage="#{msgs['validationRequired']}"/>
                                             <p:message for="registerFirstName"/>
                                         </h:panelGroup>
                                         <h:panelGroup>
-                                            <p:inputText id="registerLastName" value="#{perfilBean.entity.apellido}"
+                                            <p:inputText id="registerLastName" value="#{ClienteBean.entity.apellido}"
                                                          required="true"
                                                          requiredMessage="#{msgs['validationRequired']}"/>
                                             <p:message for="registerLastName"/>
@@ -61,12 +61,12 @@
                                         <h:panelGroup>
                                             <p:calendar id="registerFechaNacimiento" required="true" pattern="dd/MM/yyyy"
                                                         requiredMessage="#{msgs['validationRequired']}"
-                                                        value="#{perfilBean.entity.fechaNacimiento}"
+                                                        value="#{ClienteBean.entity.fechaNacimiento}"
                                                         locale="es"/>
                                             <p:message for="registerFechaNacimiento"/>
                                         </h:panelGroup>
                                         <h:panelGroup>
-                                            <p:inputText id="registerCelular" value="#{perfilBean.entity.celular}"
+                                            <p:inputText id="registerCelular" value="#{ClienteBean.entity.celular}"
                                                          required="true"
                                                          requiredMessage="#{msgs['validationRequired']}"/>
                                             <p:message for="registerCelular"/>
@@ -77,7 +77,7 @@
                                         <p:outputLabel value=""/>
 
                                         <h:panelGroup>
-                                            <p:inputText id="registerTelefono" value="#{perfilBean.entity.telefono}"/>
+                                            <p:inputText id="registerTelefono" value="#{ClienteBean.entity.telefono}"/>
                                         </h:panelGroup>
                                         <h:panelGroup>
                                         </h:panelGroup>
@@ -94,13 +94,13 @@
                                         </h:panelGroup>
 
                                         <h:panelGroup>
-                                            <p:inputText id="registerMatricula" value="#{perfilBean.entity.matricula}"
+                                            <p:inputText id="registerMatricula" value="#{ClienteBean.entity.matricula}"
                                                          required="true"
                                                          requiredMessage="#{msgs['validationRequired']}"/>
                                             <p:message for="registerMatricula"/>
                                         </h:panelGroup>
                                         <h:panelGroup>
-                                            <p:inputText id="registerTitulo" value="#{perfilBean.entity.titulo}"
+                                            <p:inputText id="registerTitulo" value="#{ClienteBean.entity.titulo}"
                                                          required="true"
                                                          requiredMessage="#{msgs['validationRequired']}"/>
                                             <p:message for="registerTitulo"/>
@@ -111,7 +111,7 @@
                                         </h:panelGroup>
                                         <h:panelGroup></h:panelGroup>
                                         <h:panelGroup>
-                                            <p:inputMask id="registerCuit" value="#{perfilBean.entity.cuit}"
+                                            <p:inputMask id="registerCuit" value="#{ClienteBean.entity.cuit}"
                                                          required="true" requiredMessage="#{msgs['validationRequired']}"
                                                          mask="99-99999999-9"/>
                                             <p:message for="registerCuit"/>
@@ -136,14 +136,14 @@
                                             <h:panelGroup>
                                                 <p:calendar id="registerEgreso" required="true" pattern="dd/MM/yyyy"
                                                             requiredMessage="#{msgs['validationRequired']}"
-                                                            value="#{perfilBean.entity.fechaEgreso}"
+                                                            value="#{ClienteBean.entity.fechaEgreso}"
                                                             locale="es"/>
                                                 <p:message for="registerEgreso"/>
                                             </h:panelGroup>
                                         </h:panelGroup>
                                         <h:panelGroup>
                                             <p:inputText id="registerUniversidad"
-                                                         value="#{perfilBean.entity.universidad}"
+                                                         value="#{ClienteBean.entity.universidad}"
                                                          required="true"
                                                          requiredMessage="#{msgs['validationRequired']}"/>
                                             <p:message for="registerUniversidad"/>
@@ -154,42 +154,42 @@
                                             <p:outputLabel for="perfilProvinciaReal"
                                                            value="#{msgs['form.provincia']}:"/>
                                             <p:selectOneMenu id="perfilProvinciaReal"
-                                                             value="#{perfilBean.provinciaSeleccionadaReal}"
+                                                             value="#{ClienteBean.provinciaSeleccionadaReal}"
                                                              converter="provinciaRealConverter"
                                                              required="true"
                                                              requiredMessage="#{msgs['validationRequired']}">
                                                 <f:selectItem itemLabel="--Seleccione una Provincia--"
                                                               itemValue="-1"/>
-                                                <f:selectItems value="#{perfilBean.listProvinciasReal}" var="p"
+                                                <f:selectItems value="#{ClienteBean.listProvinciasReal}" var="p"
                                                                itemLabel="#{p.nombre}" itemValue="#{p}"/>
                                                 <f:ajax event="change" render="perfilDptoReal"
-                                                        listener="#{perfilBean.cargaListaDeptosReal}"/>
+                                                        listener="#{ClienteBean.cargaListaDeptosReal}"/>
                                             </p:selectOneMenu>
                                             <p:message for="perfilProvinciaReal" styleClass="alert alert-danger"/>
 
                                             <p:outputLabel for="perfilDptoReal"
                                                            value="#{msgs['form.departamento']}"/>
                                             <p:selectOneMenu id="perfilDptoReal"
-                                                             value="#{perfilBean.departamentoSeleccionadoReal}"
-                                                             converter="#{perfilBean.deptoConvert}" required="true"
+                                                             value="#{ClienteBean.departamentoSeleccionadoReal}"
+                                                             converter="#{ClienteBean.deptoConvert}" required="true"
                                                              requiredMessage="#{msgs['validationRequired']}">
                                                 <f:selectItem itemLabel="--Seleccione un departamento--"
                                                               itemValue="-1"/>
-                                                <f:selectItems value="#{perfilBean.dtosReal}" var="d"
+                                                <f:selectItems value="#{ClienteBean.dtosReal}" var="d"
                                                                itemLabel="#{d.nombre}" itemValue="#{d}"/>
                                                 <f:ajax event="change" render="perfilCiudadReal"
-                                                        listener="#{perfilBean.cargaListaCiudadesReal}"/>
+                                                        listener="#{ClienteBean.cargaListaCiudadesReal}"/>
                                             </p:selectOneMenu>
                                             <p:message for="perfilDptoReal" styleClass="alert alert-danger"/>
                                             <p:outputLabel for="perfilCiudadReal"
                                                            value="#{msgs['form.ciudad']}"/>
                                             <p:selectOneMenu id="perfilCiudadReal"
-                                                             value="#{perfilBean.ciudadSeleccionadaReal}"
-                                                             converter="#{perfilBean.ciudadConvert}" required="true"
+                                                             value="#{ClienteBean.ciudadSeleccionadaReal}"
+                                                             converter="#{ClienteBean.ciudadConvert}" required="true"
                                                              requiredMessage="#{msgs['validationRequired']}">
                                                 <f:selectItem itemLabel="--Seleccione una ciudad--"
                                                               itemValue="-1"/>
-                                                <f:selectItems value="#{perfilBean.ciudadesReal}" var="c"
+                                                <f:selectItems value="#{ClienteBean.ciudadesReal}" var="c"
                                                                itemLabel="#{c.nombre}" itemValue="#{c}"/>
                                             </p:selectOneMenu>
                                             <p:message for="perfilCiudadReal" styleClass="alert alert-danger"/>
@@ -198,7 +198,7 @@
                                                            value="#{msgs['form.domicilio']}:"/>
                                             <p:inputText id="perfilDomicilioReal" required="true"
                                                          requiredMessage="#{msgs['validationRequired']}"
-                                                         value="#{perfilBean.entity.domicilioReal}"/>
+                                                         value="#{ClienteBean.entity.domicilioReal}"/>
                                             <p:message for="perfilDomicilioReal"/>
                                         </h:panelGroup>
 
@@ -207,42 +207,42 @@
                                             <p:outputLabel for="perfilProvinciaLegal"
                                                            value="#{msgs['form.provincia']}:"/>
                                             <p:selectOneMenu id="perfilProvinciaLegal"
-                                                             value="#{perfilBean.provinciaSeleccionadaLegal}"
+                                                             value="#{ClienteBean.provinciaSeleccionadaLegal}"
                                                              converter="provinciaLegalConverter"
                                                              required="true"
                                                              requiredMessage="#{msgs['validationRequired']}">
                                                 <f:selectItem itemLabel="--Seleccione una Provincia--"
                                                               itemValue="-1"/>
-                                                <f:selectItems value="#{perfilBean.listProvinciasLegal}" var="p"
+                                                <f:selectItems value="#{ClienteBean.listProvinciasLegal}" var="p"
                                                                itemLabel="#{p.nombre}" itemValue="#{p}"/>
                                                 <f:ajax event="change" render="perfilDptoLegal"
-                                                        listener="#{perfilBean.cargaListaDeptosLegal}"/>
+                                                        listener="#{ClienteBean.cargaListaDeptosLegal}"/>
                                             </p:selectOneMenu>
                                             <p:message for="perfilProvinciaLegal" styleClass="alert alert-danger"/>
 
                                             <p:outputLabel for="perfilDptoLegal"
                                                            value="#{msgs['form.departamento']}"/>
                                             <p:selectOneMenu id="perfilDptoLegal"
-                                                             value="#{perfilBean.departamentoSeleccionadoLegal}"
-                                                             converter="#{perfilBean.deptoConvert}" required="true"
+                                                             value="#{ClienteBean.departamentoSeleccionadoLegal}"
+                                                             converter="#{ClienteBean.deptoConvert}" required="true"
                                                              requiredMessage="#{msgs['validationRequired']}">
                                                 <f:selectItem itemLabel="--Seleccione un departamento--"
                                                               itemValue="-1"/>
-                                                <f:selectItems value="#{perfilBean.dtosLegal}" var="d"
+                                                <f:selectItems value="#{ClienteBean.dtosLegal}" var="d"
                                                                itemLabel="#{d.nombre}" itemValue="#{d}"/>
                                                 <f:ajax event="change" render="perfilCiudadLegal"
-                                                        listener="#{perfilBean.cargaListaCiudadesLegal}"/>
+                                                        listener="#{ClienteBean.cargaListaCiudadesLegal}"/>
                                             </p:selectOneMenu>
                                             <p:message for="perfilDptoLegal" styleClass="alert alert-danger"/>
                                             <p:outputLabel for="perfilCiudadLegal"
                                                            value="#{msgs['form.ciudad']}"/>
                                             <p:selectOneMenu id="perfilCiudadLegal"
-                                                             value="#{perfilBean.ciudadSeleccionadaLegal}"
-                                                             converter="#{perfilBean.ciudadConvert}" required="true"
+                                                             value="#{ClienteBean.ciudadSeleccionadaLegal}"
+                                                             converter="#{ClienteBean.ciudadConvert}" required="true"
                                                              requiredMessage="#{msgs['validationRequired']}">
                                                 <f:selectItem itemLabel="--Seleccione una ciudad--"
                                                               itemValue="-1"/>
-                                                <f:selectItems value="#{perfilBean.ciudadesLegal}" var="c"
+                                                <f:selectItems value="#{ClienteBean.ciudadesLegal}" var="c"
                                                                itemLabel="#{c.nombre}" itemValue="#{c}"/>
                                             </p:selectOneMenu>
                                             <p:message for="perfilCiudadLegal" styleClass="alert alert-danger"/>
@@ -251,13 +251,13 @@
                                                            value="#{msgs['form.domicilio']}:"/>
                                             <p:inputText id="perfilDomicilioLegal" required="true"
                                                          requiredMessage="#{msgs['validationRequired']}"
-                                                         value="#{perfilBean.entity.domicilioLegal}"/>
+                                                         value="#{ClienteBean.entity.domicilioLegal}"/>
                                             <p:message for="perfilDomicilioLegal"/>
                                         </h:panelGroup>
                                     </p:panelGrid>
                                     <div class="Card ShadowEffect BoldGray TexAlCenter HoverEffect MarRight10 Wid70 MarTop20" style="margin-left: 13%;background-color: gainsboro;">
                                         <div class="EmptyBox10"></div>
-                                        <div class="FontRobotoLight Fs18 DispBlock ClearBoth TexAlCenter">#{perfilBean.leyenda}</div>
+                                        <div class="FontRobotoLight Fs18 DispBlock ClearBoth TexAlCenter">#{ClienteBean.leyenda}</div>
                                     </div>
                                     <div class="EmptyBox30"></div>
                                     <div class="Fright">
@@ -272,7 +272,7 @@
                                             <p:commandButton id="linksave" value="#{msgs['btn.modificar']}"
                                                              icon="fa fa-sign-in"
                                                              styleClass="GreenButton Fs16 White RaisedButton FloatNoneOnMobile"
-                                                             action="#{perfilBean.update}" update="panelCrear"/>
+                                                             action="#{ClienteBean.update}" update="panelCrear"/>
                                         </div>
                                     </div>
                                 </p:panel>

@@ -7,7 +7,6 @@ import ar.edu.unrn.lia.bean.util.ParameterBean;
 import ar.edu.unrn.lia.bean.util.ParameterSendMail;
 import ar.edu.unrn.lia.exception.BusinessException;
 import ar.edu.unrn.lia.logger.Log;
-import ar.edu.unrn.lia.model.PerfilAGR;
 import ar.edu.unrn.lia.model.Role;
 import ar.edu.unrn.lia.model.User;
 import ar.edu.unrn.lia.seguridad.AuthenticationService;
@@ -64,8 +63,6 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
     private User user;
 
-    private PerfilAGR perfilAGR;
-
     private String email;
 
     private boolean register = false;
@@ -87,9 +84,8 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
             if (authenticationService.login(username, password)) {
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 setUser((User) authentication.getPrincipal());
-                boolean isUserSecretario = false;
+                boolean isPrestamista = false;
                 boolean isAdmin = false;
-                boolean isAGR = false;
                 boolean active = getUser().isActive();
                 if (active == false)
                     super.agregarMensaje(FacesMessage.SEVERITY_INFO, bundleMessage("usuario.no.activo"), bundleMessage("revise.mail"));
@@ -98,34 +94,18 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
                     //TODO: deberiamos apicar un Filter para direccionar segun el role
                     for (final GrantedAuthority grantedAuthority : authorities) {
-                        if (grantedAuthority.getAuthority().equals(Role.ROLE_SECRETARIO.name())) {
-                            setBienvenido(getUser().getUsername());
-                            isUserSecretario = true;
-                            break;
-                        } else if (grantedAuthority.getAuthority().equals(Role.ROLE_ADMIN.name())) {
+                        if (grantedAuthority.getAuthority().equals(Role.ROLE_ADMIN.name())) {
                             setBienvenido(getUser().getUsername());
                             isAdmin = true;
                             break;
-                        } else if (grantedAuthority.getAuthority().equals(Role.ROLE_AGR.name())) {
-                            isAGR = true;
-                            setPerfilAGR(getUser().getPerfilAGR());
-                            setBienvenido(getPerfilAGR().getNombre() + " " + getPerfilAGR().getApellido());
+                        } else if (grantedAuthority.getAuthority().equals(Role.ROLE_PRESTAMISTA.name())) {
+                            setBienvenido(getUser().getUsername());
+                            isPrestamista = true;
                             break;
                         }
                     }
 
-                    try {
-                        if (isAGR)
-                            getPerfilAGR().validar();
-                    } catch (BusinessException b) {
-
-                           mensajeFlash(bundleMessage("advertencia"),
-                                   bundleMessage("completar.perfil") + ". "+ bundleMessage("verifique.complete"), FacesMessage.SEVERITY_FATAL);
-
-                        return UtilsBean.REDIRECT_PERFIL;
-                    }
-
-                    if (isAdmin || isAGR || isUserSecretario)
+                    if (isAdmin || isPrestamista)
                         return UtilsBean.REDIRECT_HOME;
                     else
                         super.agregarMensaje(FacesMessage.SEVERITY_INFO,
@@ -284,14 +264,6 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
     public void setAuthenticationService(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
-    }
-
-    public PerfilAGR getPerfilAGR() {
-        return perfilAGR;
-    }
-
-    public void setPerfilAGR(PerfilAGR perfilAGR) {
-        this.perfilAGR = perfilAGR;
     }
 
     public void changeRegister() {

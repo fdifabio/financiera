@@ -18,13 +18,12 @@ public class User extends BaseEntity implements Serializable, UserDetails {
 
     public static final short MAX_FAILED_LOGIN_ATTEMPTS = 5;
 
-
     private String username;
     private String password;
     private String email;
     private boolean active = false;
     private Role role;
-    private PerfilAGR perfilAGR;
+    private List<Cliente> clientes;
     private int failedLoginAttempts;
 
 
@@ -34,7 +33,7 @@ public class User extends BaseEntity implements Serializable, UserDetails {
         this.password = password;
         this.active = active;
         this.role = role;
-        this.perfilAGR = new PerfilAGR();
+        this.clientes = new ArrayList<>();
     }
 
     public User(Role role) {
@@ -134,14 +133,13 @@ public class User extends BaseEntity implements Serializable, UserDetails {
         this.active = active;
     }
 
-
-    @OneToOne(mappedBy = "user", optional = true)
-    public PerfilAGR getPerfilAGR() {
-        return perfilAGR;
+    @OneToMany(cascade = CascadeType.ALL)
+    public List<Cliente> getClientes() {
+        return clientes;
     }
 
-    public void setPerfilAGR(PerfilAGR perfilAGR) {
-        this.perfilAGR = perfilAGR;
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
     }
 
     @Override
@@ -178,10 +176,5 @@ public class User extends BaseEntity implements Serializable, UserDetails {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return "User [id=" + id + ", username=" + username + ", active=" + active + ", role="
-                + role + ", perfilAGR=" + perfilAGR + "]";
-    }
 
 }

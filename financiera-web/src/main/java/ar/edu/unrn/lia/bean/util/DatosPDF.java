@@ -1,9 +1,6 @@
 package ar.edu.unrn.lia.bean.util;
 
 import ar.edu.unrn.lia.config.ParamValue;
-import ar.edu.unrn.lia.model.Comitente;
-import ar.edu.unrn.lia.model.EProfesional;
-import ar.edu.unrn.lia.model.PerfilAGR;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BarcodeQRCode;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -18,7 +15,7 @@ import java.io.IOException;
 @Configuration
 public class DatosPDF {
 
-    @ParamValue(key = "pdf.imagen.width")
+   /* @ParamValue(key = "pdf.imagen.width")
     private static Float imagenWidth;
 
     @ParamValue(key = "pdf.imagen.height")
@@ -385,5 +382,5 @@ public class DatosPDF {
             document.add(table);
         }
         return document;
-    }
+    }*/
 }

@@ -47,7 +47,7 @@ public class DataModel<T> extends LazyDataModel<T> {
 		try {
 			try {
 				// Filtros Avanzados
-				filters.putAll(getUserLogged().getRole().eprofesionalFilter(getUserLogged()));
+				/*filters.putAll(getUserLogged().getRole().eprofesionalFilter(getUserLogged()));*/
 
 				list = getEntityService().getList(startingAt, maxPerPage, filters,
 						(sortField == null ? ORDER_DEFAULT : sortField),

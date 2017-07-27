@@ -18,7 +18,6 @@ public class UserDTO implements Serializable {
     private String email;
     private boolean active = false;
     private Role role;
-    private PerfilAGRDTO perfilAGR;
 
 
 
@@ -96,15 +95,6 @@ public class UserDTO implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-
-    public PerfilAGRDTO getPerfilAGR() {
-        return perfilAGR;
-    }
-
-    public void setPerfilAGR(PerfilAGRDTO perfilAGR) {
-        this.perfilAGR = perfilAGR;
     }
 
     public String getEmail() {

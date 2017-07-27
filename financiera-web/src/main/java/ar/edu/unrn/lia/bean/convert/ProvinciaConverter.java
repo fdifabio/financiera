@@ -1,6 +1,5 @@
 package ar.edu.unrn.lia.bean.convert;
 
-import ar.edu.unrn.lia.bean.PerfilBean;
 import ar.edu.unrn.lia.bean.util.UISelectOneMenuBean;
 import ar.edu.unrn.lia.model.GenericEntity;
 import ar.edu.unrn.lia.model.Provincia;
