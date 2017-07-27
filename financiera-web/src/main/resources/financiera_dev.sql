@@ -174,7 +174,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `active`, `email`, `enabled`, `intentos_de_login`, `password`, `rol`, `username`) VALUES
-(1, b'1', 'fdifabio@unrn.edu.ar', b'1', NULL, '$2a$10$LsoUFkOYQJhyNjrk.LGA.em49O/cSQWwGWEEzG.x7UcYxmVKvvI9m', 'ROLE_PRESTAMISTA', 'fdifabio@unrn.edu.ar');
+(1, b'1', 'fdifabio@unrn.edu.ar', b'1', 0, '$2a$10$LsoUFkOYQJhyNjrk.LGA.em49O/cSQWwGWEEzG.x7UcYxmVKvvI9m', 'ROLE_PRESTAMISTA', 'fdifabio@unrn.edu.ar');
 
 --
 -- Índices para tablas volcadas

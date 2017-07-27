@@ -20,8 +20,8 @@ import ar.edu.unrn.lia.model.User;
 public class UserDAOImpl extends GenericDaoJpaImpl<User, Long> implements
 		UserDAO, Serializable {
 	
-	private static final String QUERY_GET_USER_BY_USERNAME = "select u from User u left join fetch u.perfilAGR p left join fetch p.ciudadLegal cl left join fetch cl.departamento dl left join fetch p.ciudadReal cr left join fetch cr.departamento dr where u.username = :username";
-	private static final String QUERY_GET_USER_BY_EMAIL = "select u from User u left join fetch u.perfilAGR where u.email = :email";
+	private static final String QUERY_GET_USER_BY_USERNAME = "select u from User u where u.username = :username";
+	private static final String QUERY_GET_USER_BY_EMAIL = "select u from User u where u.email = :email";
 
 	public Predicate[] getSearchPredicates(Root<User> root,
 			Map<String, String> filters) {

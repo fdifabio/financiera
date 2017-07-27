@@ -43,29 +43,11 @@
             "security:http" y el pattern debe tener el formato q se ve abajo. -->
 
         <security:intercept-url pattern="/pages/home.jsf"
-                                access="hasAnyRole('ROLE_ADMIN','ROLE_AGR', 'ROLE_SECRETARIO')"/>
+                                access="hasAnyRole('ROLE_ADMIN','ROLE_PRESTAMISTA')"/>
 
 
         <security:intercept-url pattern="/pages/eprofesional/create.jsf"
-                                access="hasRole('ROLE_AGR')"/>
-
-        <security:intercept-url pattern="/pages/eprofesional/view.jsf"
-                                access="hasAnyRole('ROLE_AGR', 'ROLE_SECRETARIO')"/>
-
-        <security:intercept-url pattern="/pages/eprofesional/comprobante.jsf"
-                                access="hasRole('ROLE_AGR')"/>
-
-        <security:intercept-url pattern="/pages/eprofesional/search.jsf"
-                                access="hasAnyRole('ROLE_AGR', 'ROLE_SECRETARIO')" />
-
-        <security:intercept-url pattern="/pages/perfil/**"
-                                access="hasRole('ROLE_AGR')"/>
-
-        <security:intercept-url pattern="/pages/comitente/**"
-                                access="hasRole('ROLE_AGR')"/>
-
-        <security:intercept-url pattern="/pages/eprofesional/odsList.jsf"
-                                access="hasRole('ROLE_SECRETARIO')"/>
+                                access="hasRole('ROLE_PRESTAMISTA')"/>
 
         <security:intercept-url pattern="/pages/tasa/**"
                                 access="hasRole('ROLE_ADMIN')"/>
