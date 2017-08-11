@@ -33,8 +33,7 @@
                                 <p:growl showDetail="true" id="msgGrwl"/>
                                 <!-- insertar usuario -->
                                 <p:dataTable id="list" var="item" value="#{userBean.list}"
-                                             reflow="true" rowKey="#{item.username}" lazy="true"
-                                             selection="#{userBean.entity}" paginator="true" paginatorPosition="bottom"
+                                             reflow="true" rowKey="#{item.username}" lazy="true" paginator="true" paginatorPosition="bottom"
                                              resizableColumns="false" rows="10"
                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                              rowsPerPageTemplate="10,20,30,50">

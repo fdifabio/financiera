@@ -8,23 +8,24 @@ import javax.persistence.Enumerated;
 import java.io.Serializable;
 
 
-public class UserDTO implements Serializable {
+public class UserDTO extends AbstractDTO<Long> implements Serializable {
 
     private static final long serialVersionUID = 327336392782096608L;
 
-    private Long id;
     private String username;
     private String password;
     private String email;
     private boolean active = false;
     private Role role;
 
+    public UserDTO(Long id) {
+        this.id = id;
+    }
 
-
-    public UserDTO(String username, String password, boolean active, Role role) {
-        super();
+    public UserDTO(Long id,String username, String email, boolean active, Role role) {
+        this.id = id;
         this.username = username;
-        this.password = password;
+        this.email = email;
         this.active = active;
         this.role = role;
     }

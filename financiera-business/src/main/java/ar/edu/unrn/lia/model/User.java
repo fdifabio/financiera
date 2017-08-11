@@ -26,6 +26,14 @@ public class User extends BaseEntity implements Serializable, UserDetails {
     private List<Cliente> clientes;
     private int failedLoginAttempts;
 
+    public User(Long id, String username, String email, boolean active, Role role) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.active = active;
+        this.role = role;
+    }
+
 
     public User(String username, String password, boolean active, Role role) {
         super();
@@ -33,7 +41,6 @@ public class User extends BaseEntity implements Serializable, UserDetails {
         this.password = password;
         this.active = active;
         this.role = role;
-        this.clientes = new ArrayList<>();
     }
 
     public User(Role role) {
@@ -42,7 +49,6 @@ public class User extends BaseEntity implements Serializable, UserDetails {
     }
 
     public User() {
-        // TODO Auto-generated constructor stub
     }
 
     @NotNull(message = "{name.notnull}")
@@ -133,7 +139,7 @@ public class User extends BaseEntity implements Serializable, UserDetails {
         this.active = active;
     }
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     public List<Cliente> getClientes() {
         return clientes;
     }
@@ -167,6 +173,7 @@ public class User extends BaseEntity implements Serializable, UserDetails {
             return false;
         return true;
     }
+
     @NotNull(message = "{name.notnull}")
     public String getEmail() {
         return email;

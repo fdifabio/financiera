@@ -1,5 +1,6 @@
 package ar.edu.unrn.lia.service;
 
+import ar.edu.unrn.lia.dto.UserDTO;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

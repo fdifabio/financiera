@@ -5,23 +5,16 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import ar.edu.unrn.lia.model.GenericEntity;
+import ar.edu.unrn.lia.service.IGenericService;
 import org.primefaces.component.api.UIColumn;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 import org.primefaces.model.SortOrder;
-import org.slf4j.Logger;
 import org.springframework.dao.DataAccessException;
-
-import com.sun.faces.context.flash.ELFlash;
-
-import ar.edu.unrn.lia.bean.util.BundleMessagei18;
-import ar.edu.unrn.lia.logger.Log;
-import ar.edu.unrn.lia.service.IGenericService;
 
 public class GenericBean<T extends GenericEntity> extends Bean  {
 
