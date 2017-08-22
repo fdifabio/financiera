@@ -8,7 +8,7 @@
     <div class="Animated05" id="layout-menu-cover">
         <h:form id="menuform">
             <pm:menu>
-                <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_SECRETARIO, ROLE_AGR">
+                <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PRESTAMISTA">
                 <p:menuitem id="rm_dashboard" value="Inicio"
                             icon="icon-dashboard"
                             outcome="/pages/home?faces-redirect=true"/>
@@ -27,10 +27,10 @@
                                 icon="icon-paper"
                                 outcome="/pages/eprofesional/search?faces-redirect=true"/>
                 </sec:ifAnyGranted>
-                <sec:ifAnyGranted roles="ROLE_AGR">
-                    <p:menuitem id="rm_comitente" value="#{msgs['menuComitente']}"
+                <sec:ifAnyGranted roles="ROLE_PRESTAMISTA">
+                    <p:menuitem id="rm_comitente" value="#{msgs['menu.cliente']}"
                                 icon="fa fa-users "
-                                outcome="/pages/comitente/search?faces-redirect=true"/>
+                                outcome="/pages/cliente/search?faces-redirect=true"/>
                 </sec:ifAnyGranted>
                 <sec:ifAnyGranted roles="ROLE_AGR">
                     <p:menuitem id="rm_formularioDP" value="#{msgs['descargarFormDatosPersonales']}"

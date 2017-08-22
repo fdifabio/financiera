@@ -32,6 +32,14 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
         super();
     }
 
+    public Cliente(Long id, String dni, String nombre, String apellido, String celular) {
+        this.id = id;
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.celular = celular;
+    }
+
     public String getNombre() {
         return nombre;
     }

@@ -1,0 +1,91 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+
+<ui:composition template="/templates/template.xhtml">
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{clienteBean.vermensaje()}"/>
+    </f:metadata>
+
+    <ui:define name="actions">
+        <a href="create.jsf"
+           class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                class="icon-person_add"></i> #{msgs['btnNuevo']}</a>
+    </ui:define>
+
+    <ui:define name="subheader">
+        #{msgs['tituloGrillaCliente']}
+    </ui:define>
+
+
+    <ui:define name="content">
+
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect  ">
+                    <div class="Container100">
+                        <div class="ContainerIndent">
+                            <h:form id="formentity" class="TexAlCenter">
+                                <p:growl showDetail="true" id="msgGrwl"/>
+                                <!-- insertar cliente -->
+                                <p:dataTable id="list" var="item" value="#{clienteBean.list}"
+                                             reflow="true"  lazy="true" paginator="true" paginatorPosition="bottom"
+                                             resizableColumns="false" rows="10"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="10,20,30,50">
+                                    <p:ajax event="rowSelect" listener="#{clienteBean.onRowSelect}"
+                                            update=":formentity:msgGrwl"/>
+                                    <p:column headerText="#{msgs['form.id']}" sortBy="#{item.id}"
+                                              rendered="false">
+                                        <h:outputText value="#{item.id}"/>
+                                    </p:column>
+                                    <p:column headerText="Codigo"
+                                              filterBy="#{item.dni}" sortBy="#{item.dni}">
+                                        <h:outputText value="#{item.dni}"/>
+                                    </p:column>
+                                    <p:column headerText="Nombre"
+                                              filterBy="#{item.nombre}" sortBy="#{item.nombre}">
+                                        <h:outputText value="#{item.nombre}"/>
+                                    </p:column>
+                                    <p:column headerText="Apellido" sortBy="#{item.apellido}">
+                                        <h:outputText value="#{item.apellido}"/>
+                                    </p:column>
+                                    <p:column headerText="Celular" sortBy="#{item.celular}">
+                                        <h:outputText value="#{item.celular}"/>
+                                    </p:column>
+                                    <p:column headerText="Opciones" footerText="Opciones">
+                                        <h:link outcome="create" title="#{msgs['btnEditar']}">
+                                            <i class="icon-edit Fs20"></i>
+                                            <f:param name="id" value="#{item.id}"/>
+                                        </h:link>
+                                        <h:link outcome="view" title="#{msgs['btn.ver']}">
+                                            <i class="icon-zoom-in Fs20"></i>
+                                            <f:param name="id" value="#{item.id}"/>
+                                        </h:link>
+                                        <p:commandLink id="nonAjax" title="#{msgs['btnEliminar']}"
+                                                       actionListener="#{clienteBean.delete(item)}" update="list">
+                                            <p:confirm header="#{msgs['confirmacion']}"
+                                                       message="#{msgs['confirmarEliminar']}" icon="ui-icon-alert"/>
+                                            <i class="icon-delete2 BoldGray Fs20"></i>
+                                        </p:commandLink>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:confirmDialog global="true" showEffect="fade">
+                                    <p:commandButton value="Si" type="button"
+                                                     styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                                    <p:commandButton value="No" type="button"
+                                                     styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                                </p:confirmDialog>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

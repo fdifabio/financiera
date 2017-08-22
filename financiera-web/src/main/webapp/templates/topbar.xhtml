@@ -24,7 +24,7 @@
                     class="ShowOnMobile">#{msgs['miPerfil']}</span></a>
                 <ul>
                     <li><h:form>
-                        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SECRETARIO,ROLE_AGR">
+                        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_PRESTAMISTA">
                             <h:commandLink
                                     action="/pages/user/cambioclave?faces-redirect=true" ajax="false">
                                 <i class="icon-vpn_key"></i>

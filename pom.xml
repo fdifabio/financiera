@@ -12,7 +12,6 @@
 	</modules>
 	
 	<properties>
-		
 	<!-- Modulo business -->
 		<spring.version>4.2.3.RELEASE</spring.version>
 		<org.springsecurity-version>4.0.3.RELEASE</org.springsecurity-version>
