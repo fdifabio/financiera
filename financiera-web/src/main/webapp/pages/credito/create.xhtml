@@ -1,0 +1,112 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:sec="http://www.springframework.org/security/facelets/tags">
+<ui:composition template="/templates/template.xhtml">
+
+    <ui:define name="subheader">
+        <h:outputText class="BigTopic" value="#{msgs['formUsuarioModificar']}"
+                      rendered="#{creditoBean.entity.id != null}"/>
+
+        <h:outputText class="BigTopic" value="#{msgs['formCreditoCrear']}"
+                      rendered="#{creditoBean.entity.id == null}"/>
+    </ui:define>
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{creditoBean.id}"/>
+        <f:event type="preRenderView" listener="#{creditoBean.inicio()}"/>
+    </f:metadata>
+
+    <ui:define name="actions">
+        <sec:ifAnyGranted roles="ROLE_ADMIN">
+            <a href="search.jsf"
+               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                    class="icon-list"></i> #{msgs['listar']}</a>
+        </sec:ifAnyGranted>
+        <h:panelGroup rendered="#{creditoBean.entity.id != null}" id="hello">
+            <a href="view.jsf?id=#{creditoBean.entity.id}"
+               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                    class="icon-zoom-in"></i> #{msgs['detalle']} </a>
+            <sec:ifAnyGranted roles="ROLE_ADMIN">
+                <a href="create.jsf"
+                   class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                        class="icon-person_add"></i> #{msgs['btnNuevo']}</a>
+            </sec:ifAnyGranted>
+        </h:panelGroup>
+    </ui:define>
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect ui-fluid">
+                    <div class="MarAuto WidAutoOnMobile">
+                        <div class="ContainerIndent">
+                            <div class="EmptyBox20"></div>
+                            <h:form id="crear">
+                                <p:panel id="panelCrear">
+                                    <p:growl autoUpdate="true" showDetail="true" life="3000"
+                                             globalOnly="true"/>
+                                    <p:messages globalOnly="true" styleClass="error"
+                                                showSummary="true" showDetail="true"/>
+                                    <p:panelGrid columns="3"
+                                                 columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4" layout="grid"
+                                                 styleClass="ui-panelgrid-blank">
+                                        <h:outputText value="#{msgs['formCapital']}:" styleClass="FontBold"/>
+                                        <h:outputText value="#{msgs['formCuotas']}:" styleClass="FontBold"/>
+                                        <h:outputText value="#{msgs['formInteres']}" styleClass="FontBold"/>
+                                        <h:panelGroup layout="block">
+                                            <p:inputText id="capital"
+                                                         required="true"
+                                                         requiredMessage="#{msgs['validationRequired']}"
+                                                         value="#{creditoBean.entity.capital}">
+                                            </p:inputText>
+                                            <p:message for="capital"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup layout="block">
+                                            <p:inputText id="cuotas"
+                                                         required="true"
+                                                         requiredMessage="#{msgs['validationRequired']}"
+                                                         value="#{creditoBean.entity.cuotas}">
+                                            </p:inputText>
+                                            <p:message for="cuotas"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup layout="block">
+                                            <p:inputText id="interes"
+                                                         required="true"
+                                                         requiredMessage="#{msgs['validationRequired']}"
+                                                         value="#{creditoBean.entity.interes.valor}">
+                                            </p:inputText>
+                                            <p:message for="interes"/>
+                                        </h:panelGroup>
+                                    </p:panelGrid>
+                                    <div class="EmptyBox30"></div>
+                                    <div class="Fright">
+                                        <div class="Wid45 Fleft Responsive45 MarRight10">
+                                            <p:commandButton value="#{msgs['btnCancelar']}"
+                                                             icon="fa fa-close"
+                                                             styleClass="RedButton Fs16 White RaisedButton Fleft FloatNoneOnMobile"
+                                                             action="search?faces-redirect=true"
+                                                             title="#{msgs['btnCancelar']}" immediate="true"/>
+                                        </div>
+                                        <div class="Wid45 Fleft Responsive45">
+                                            <p:commandButton id="linksave" value="#{msgs['btnGuardar']}"
+                                                             icon="fa fa-sign-in"
+                                                             styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
+                                                             action="#{creditoBean.update}" title="Grabar"
+                                                             update="crear" validateClient="true"/>
+                                        </div>
+                                    </div>
+                                </p:panel>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+
+</ui:composition>
+</html>

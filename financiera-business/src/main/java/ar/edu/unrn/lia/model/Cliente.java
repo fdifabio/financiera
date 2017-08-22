@@ -4,6 +4,7 @@ import ar.edu.unrn.lia.exception.BusinessException;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Federico on 27/07/2017.
@@ -27,6 +28,7 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
     private Boolean garantia;
     private String observacion;
     private User user;
+    private List<Credito> creditos;
 
     public Cliente() {
         super();
@@ -118,6 +120,15 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
         this.user = user;
     }
 
+    @OneToMany(mappedBy = "cliente")
+    public List<Credito> getCreditos() {
+        return creditos;
+    }
+
+    public void setCreditos(List<Credito> creditos) {
+        this.creditos = creditos;
+    }
+
     @Column(name = "trabajo_lugar")
     public String getTrabajoLugar() {
         return trabajoLugar;
@@ -162,6 +173,7 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
         return "Cliente{" +
                 "nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
+                ", id=" + id +
                 ", dni='" + dni + '\'' +
                 ", fechaNacimiento=" + fechaNacimiento +
                 ", telefono='" + telefono + '\'' +
@@ -173,6 +185,7 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
                 ", garantia=" + garantia +
                 ", observacion='" + observacion + '\'' +
                 ", user=" + user +
+                ", creditos=" + creditos +
                 '}';
     }
 

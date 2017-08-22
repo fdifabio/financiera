@@ -17,6 +17,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     private Date fecha;
     private Date fechaVencimiento;
     private Estado estado;
+    private Cliente cliente;
 
     public Double getCapital() {
         return capital;
@@ -69,5 +70,15 @@ public class Credito extends BaseEntity implements java.io.Serializable {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id")
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }
