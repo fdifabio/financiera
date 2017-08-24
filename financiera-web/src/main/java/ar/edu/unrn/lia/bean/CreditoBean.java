@@ -1,7 +1,9 @@
 package ar.edu.unrn.lia.bean;
 
 import ar.edu.unrn.lia.bean.datamodel.DataModel;
+import ar.edu.unrn.lia.model.Cliente;
 import ar.edu.unrn.lia.model.Credito;
+import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CreditoService;
 import org.springframework.context.annotation.Scope;
 
@@ -10,6 +12,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Lucas on 22/08/2017.
@@ -19,11 +23,14 @@ import java.io.Serializable;
 public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     private static final long serialVersionUID = 1L;
-//    private Credito cliente;
+    private List<Cliente> clientes = new ArrayList<Cliente>(0);
 
 
     @Inject
     private CreditoService entityService;
+
+    @Inject
+    private ClienteService clienteService;
 
     @PostConstruct
     public void init() {
@@ -36,8 +43,10 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
         if (!FacesContext.getCurrentInstance().isPostback()) {
             if (getId() != null)
                 setEntity(entityService.getEntityById(getId()));
-            else
+            else {
                 setEntity(new Credito());
+                clientes.addAll(clienteService.getAll());
+            }
             super.setUrlDesde(getRequestURL());
         }
     }
@@ -53,5 +62,21 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     public void setEntityService(CreditoService entityService) {
         this.entityService = entityService;
+    }
+
+    public ClienteService getClienteService() {
+        return clienteService;
+    }
+
+    public void setClienteService(ClienteService clienteService) {
+        this.clienteService = clienteService;
+    }
+
+    public List<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
     }
 }

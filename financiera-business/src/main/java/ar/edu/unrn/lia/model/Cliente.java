@@ -167,6 +167,10 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
         return serialVersionUID;
     }
 
+    @Transient
+    public String getApellidoNombre() {
+        return getApellido() + " " + getNombre();
+    }
 
     @Override
     public String toString() {

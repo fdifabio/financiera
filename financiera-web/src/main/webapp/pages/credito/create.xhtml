@@ -49,12 +49,40 @@
                                              globalOnly="true"/>
                                     <p:messages globalOnly="true" styleClass="error"
                                                 showSummary="true" showDetail="true"/>
-                                    <p:panelGrid columns="3"
+                                    <p:panelGrid columns="4"
                                                  columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4" layout="grid"
                                                  styleClass="ui-panelgrid-blank">
-                                        <h:outputText value="#{msgs['formCapital']}:" styleClass="FontBold"/>
-                                        <h:outputText value="#{msgs['formCuotas']}:" styleClass="FontBold"/>
-                                        <h:outputText value="#{msgs['formInteres']}" styleClass="FontBold"/>
+
+                                        <h:outputLabel value="#{msgs['formCliente']}:" styleClass="FontBold"
+                                                       for="clientes"/>
+                                        <h:outputLabel value="#{msgs['formCapital']}:" styleClass="FontBold"
+                                                       for="capital"/>
+                                        <h:outputLabel value="#{msgs['formCuotas']}:" styleClass="FontBold"
+                                                       for="cuotas"/>
+                                        <h:outputLabel value="#{msgs['formInteres']}" styleClass="FontBold"
+                                                       for="interes"/>
+
+                                        <h:panelGroup layout="block">
+
+                                            <p:selectOneMenu id="clientes" value="#{creditoBean.entity.cliente}"
+                                                             panelStyle="width:180px"
+                                                             converter="clienteConverter"
+                                                             effect="fade" var="c" style="width:160px" filter="true"
+                                                             filterMatchMode="contains">
+                                                <f:selectItem itemLabel="Seleccionar cliente" itemValue=""/>
+                                                <f:selectItems value="#{creditoBean.clientes}" var="cli"
+                                                               itemLabel="#{cli.apellidoNombre}" itemValue="#{cli}"/>
+
+                                                <p:column style="width:10%">
+                                                    <h:outputText value="#{c.id}"/>
+                                                </p:column>
+
+                                                <p:column>
+                                                    <h:outputText value="#{c.apellidoNombre}"/>
+                                                </p:column>
+                                            </p:selectOneMenu>
+                                            <p:message for="clientes"/>
+                                        </h:panelGroup>
                                         <h:panelGroup layout="block">
                                             <p:inputText id="capital"
                                                          required="true"
