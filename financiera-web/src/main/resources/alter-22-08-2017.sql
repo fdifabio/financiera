@@ -23,3 +23,7 @@ ALTER TABLE `credito` ADD FOREIGN KEY (`interes_id`) REFERENCES `interes`(`id`) 
 ALTER TABLE `credito` ADD `cliente_id` BIGINT(20) NOT NULL AFTER `interes_id`, ADD INDEX (`cliente_id`);
 ALTER TABLE `cliente` ENGINE = INNODB;
 ALTER TABLE `credito` ADD FOREIGN KEY (`cliente_id`) REFERENCES `cliente`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+/*ULTIMO*/
+ALTER TABLE credito DROP FOREIGN KEY credito_ibfk_1;
+ALTER TABLE `credito` CHANGE `interes_id` `interes` DOUBLE NOT NULL;

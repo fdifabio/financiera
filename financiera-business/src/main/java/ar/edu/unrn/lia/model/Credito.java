@@ -13,7 +13,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
 
     private Double capital;
     private Integer cuotas;
-    private Interes interes;
+    private Double interes;
     private Date fecha;
     private Date fechaVencimiento;
     private Estado estado;
@@ -35,13 +35,11 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         this.cuotas = cuotas;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "interes_id")
-    public Interes getInteres() {
+    public Double getInteres() {
         return interes;
     }
 
-    public void setInteres(Interes interes) {
+    public void setInteres(Double interes) {
         this.interes = interes;
     }
 
