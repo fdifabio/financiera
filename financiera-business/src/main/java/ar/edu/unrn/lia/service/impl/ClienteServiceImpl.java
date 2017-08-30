@@ -2,13 +2,11 @@ package ar.edu.unrn.lia.service.impl;
 
 import ar.edu.unrn.lia.dao.ClienteDAO;
 import ar.edu.unrn.lia.model.Cliente;
-import ar.edu.unrn.lia.model.User;
 import ar.edu.unrn.lia.service.ClienteService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.Map;
 
@@ -67,5 +65,10 @@ public class ClienteServiceImpl implements ClienteService {
 
     public List<Cliente> getAll() {
         return getEntityDAO().findAll();
+    }
+
+    @Override
+    public List<Cliente> searchByApellidoNombre(String apellidoNombre) {
+        return getEntityDAO().searchByApellidoNombre(apellidoNombre);
     }
 }

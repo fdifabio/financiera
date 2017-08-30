@@ -18,7 +18,7 @@
     </ui:define>
 
     <ui:define name="subheader">
-        #{msgs['tituloGrillaUsuario']}
+        #{msgs['tituloGrillaCredito']}
     </ui:define>
 
 
@@ -42,19 +42,23 @@
 
                                     <p:column headerText="#{msgs['formFecha']}"
                                               sortBy="#{item.fecha}">
-                                        <h:outputText value="#{item.fecha}"/>
+                                        <h:outputText value="#{item.fecha}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
                                     </p:column>
                                     <p:column headerText="#{msgs['formCapital']}"
                                               sortBy="#{item.capital}">
-                                        <h:outputText value="#{item.capital}"/>
+                                        <h:outputText value="#{item.capital}">
+                                            <f:convertNumber type="currency" currencySymbol="$"/>
+                                        </h:outputText>
                                     </p:column>
                                     <p:column headerText="#{msgs['formCuotas']}">
                                         <h:outputText value="#{item.cuotas}"/>
                                     </p:column>
                                     <p:column headerText="#{msgs['formInteres']}">
-                                        <h:outputText value="#{item.interes.valor}"/>
+                                        <h:outputText value="#{item.interes}"/>
                                     </p:column>
-                                    <p:column headerText="Opciones" >
+                                    <p:column headerText="Opciones">
                                         <h:link outcome="create" title="#{msgs['btnEditar']}">
                                             <i class="icon-edit Fs20"></i>
                                             <f:param name="id" value="#{item.id}"/>

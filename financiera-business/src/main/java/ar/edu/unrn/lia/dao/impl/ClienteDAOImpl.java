@@ -1,13 +1,10 @@
 package ar.edu.unrn.lia.dao.impl;
 
 import ar.edu.unrn.lia.dao.ClienteDAO;
-import ar.edu.unrn.lia.dao.UserDAO;
 import ar.edu.unrn.lia.generic.GenericDaoJpaImpl;
 import ar.edu.unrn.lia.model.Cliente;
-import ar.edu.unrn.lia.model.User;
 
 import javax.inject.Named;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
@@ -83,4 +80,8 @@ public class ClienteDAOImpl extends GenericDaoJpaImpl<Cliente, Long> implements
         return resultList;
     }
 
+    @Override
+    public List<Cliente> searchByApellidoNombre(String query) {
+        return this.entityManager.createQuery("FROM Cliente WHERE  apellido LIKE '%" + query + "%' OR nombre LIKE '%" + query + "%' OR id LIKE '%" + query + "%' OR dni LIKE '%" + query + "%'").getResultList();
+    }
 }
