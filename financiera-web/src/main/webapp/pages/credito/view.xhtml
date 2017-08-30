@@ -8,7 +8,7 @@
 <ui:composition template="/templates/template.xhtml">
 
     <ui:define name="subheader">
-        #{msgs['formUsuarioDetalle']}
+        #{msgs['formCreditoDetalle']}
     </ui:define>
 
     <f:metadata>
@@ -36,7 +36,7 @@
         <div class="Container100 ui-fluid">
             <div class="ContainerIndent">
                 <div class="Card ShadowEffect">
-                    <p:panel header="Usuario" footer="#{msgs['formUsuarioDetalle']}"
+                    <p:panel header="Crédito" footer="#{msgs['formCreditoDetalle']}"
                              style="margin-top:20px">
                         <p:panelGrid columns="2"
                                      columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid"
@@ -46,7 +46,7 @@
                             <h:outputText value="#{msgs['formCuotas']}:" styleClass="FontBold"/>
                             <h:outputText value="#{creditoBean.entity.cuotas}"/>
                             <h:outputText value="#{msgs['formInteres']}:" styleClass="FontBold"/>
-                            <h:outputText value="#{creditoBean.entity.interes.valor}"/>
+                            <h:outputText value="#{creditoBean.entity.interes}"/>
                         </p:panelGrid>
                     </p:panel>
                     <div class="EmptyBox20"></div>

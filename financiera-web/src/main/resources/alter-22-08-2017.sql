@@ -27,3 +27,7 @@ ALTER TABLE `credito` ADD FOREIGN KEY (`cliente_id`) REFERENCES `cliente`(`id`) 
 /*ULTIMO*/
 ALTER TABLE credito DROP FOREIGN KEY credito_ibfk_1;
 ALTER TABLE `credito` CHANGE `interes_id` `interes` DOUBLE NOT NULL;
+
+
+ALTER TABLE credito DROP INDEX interes_id;
+ALTER TABLE `credito` CHANGE `fecha_vencimiento` `fecha_vencimiento` DATE NULL;

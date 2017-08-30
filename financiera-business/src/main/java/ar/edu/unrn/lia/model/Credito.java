@@ -14,9 +14,9 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     private Double capital;
     private Integer cuotas;
     private Double interes;
-    private Date fecha;
+    private Date fecha=new Date();
     private Date fechaVencimiento;
-    private Estado estado;
+    private Estado estado = Estado.ACTIVO;
     private Cliente cliente;
 
     public Double getCapital() {

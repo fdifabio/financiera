@@ -45,10 +45,14 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
                 setEntity(entityService.getEntityById(getId()));
             else {
                 setEntity(new Credito());
-                clientes.addAll(clienteService.getAll());
+//                clientes.addAll(clienteService.getAll());
             }
             super.setUrlDesde(getRequestURL());
         }
+    }
+
+    public List<Cliente> completeCliente(String apellidoNombre) {
+        return clienteService.searchByApellidoNombre(apellidoNombre);
     }
 
     @Override
