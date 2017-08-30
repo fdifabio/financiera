@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:sec="http://www.springframework.org/security/facelets/tags">
+<ui:composition template="/templates/template.xhtml">
+
+    <ui:define name="subheader">
+        #{msgs['formUsuarioDetalle']}
+    </ui:define>
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{creditoBean.id}"/>
+        <f:event type="preRenderView" listener="#{creditoBean.inicio()}"/>
+    </f:metadata>
+
+    <ui:define name="actions">
+        <sec:ifAnyGranted roles="ROLE_ADMIN">
+            <a href="search.jsf"
+               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                    class="icon-list"></i> #{msgs['listar']}</a>
+        </sec:ifAnyGranted>
+        <a href="create.jsf?id=#{creditoBean.entity.id}"
+           class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                class="icon-edit"></i> #{msgs['btn.modificar']}</a>
+        <sec:ifAnyGranted roles="ROLE_ADMIN">
+            <a href="create.jsf"
+               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                    class="icon-add"></i> #{msgs['btnNuevo']}</a>
+        </sec:ifAnyGranted>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="Container100 ui-fluid">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect">
+                    <p:panel header="Usuario" footer="#{msgs['formUsuarioDetalle']}"
+                             style="margin-top:20px">
+                        <p:panelGrid columns="2"
+                                     columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid"
+                                     styleClass="ui-panelgrid-blank">
+                            <h:outputText value="#{msgs['formCapital']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{creditoBean.entity.capital}"/>
+                            <h:outputText value="#{msgs['formCuotas']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{creditoBean.entity.cuotas}"/>
+                            <h:outputText value="#{msgs['formInteres']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{creditoBean.entity.interes.valor}"/>
+                        </p:panelGrid>
+                    </p:panel>
+                    <div class="EmptyBox20"></div>
+
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+</ui:composition>
+</html>
+
