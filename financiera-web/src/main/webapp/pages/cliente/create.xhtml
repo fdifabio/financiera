@@ -111,13 +111,13 @@
                                             </h:panelGroup>
                                             <h:panelGroup layout="block">
                                                 <p:selectOneMenu id="ciudades"
-                                                                 value="#{clienteBean.ciudadSelecionada}"
+                                                                 value="#{clienteBean.ciudadSelecionada.id}"
                                                                  converter="#{ciudadConverter}" required="true"
                                                                  requiredMessage="#{msgs['validationRequired']}">
                                                     <f:selectItem itemLabel="--Seleccione una Ciudad--"
                                                                   itemValue="" noSelectionOption="true"/>
                                                     <f:selectItems value="#{clienteBean.ciudades}" var="c"
-                                                                   itemLabel="#{c.nombre}" itemValue="#{c}"/>
+                                                                   itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
 
                                                 </p:selectOneMenu>
                                                 <p:message for="ciudades" styleClass="alert alert-danger"/>
@@ -167,7 +167,7 @@
                                             <p:commandButton id="linksave" value="#{msgs['btnGuardar']}"
                                                              icon="fa fa-sign-in"
                                                              styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
-                                                             action="#{userBean.update}" title="Grabar"
+                                                             action="#{clienteBean.update}" title="Grabar"
                                                              update="crear" validateClient="true"/>
                                         </div>
                                     </div>

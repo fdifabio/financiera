@@ -64,6 +64,7 @@ public class ClienteBean extends GenericBean<Cliente> implements Serializable {
                 setEntity(entityService.getEntityById(getId()));
                 setCiudadSelecionada(getEntity().getCiudad());
                 setProvinciaSelecionada(getEntity().getCiudad().getProvincia());
+                ciudades = listCiudades();
             } else {
                 setEntity(new Cliente());
                 getEntity().setCiudad(new Ciudad());
@@ -78,6 +79,8 @@ public class ClienteBean extends GenericBean<Cliente> implements Serializable {
 
     @Override
     public String update() {
+        this.ciudadSelecionada.setProvincia(provinciaSelecionada);
+        getEntity().setCiudad(ciudadSelecionada);
         return super.update();
     }
 
