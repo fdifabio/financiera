@@ -15,7 +15,6 @@ import javax.persistence.criteria.Root;
 import ar.edu.unrn.lia.dao.CiudadDAO;
 import ar.edu.unrn.lia.generic.GenericDaoJpaImpl;
 import ar.edu.unrn.lia.model.Ciudad;
-import ar.edu.unrn.lia.model.Departamento;
 
 @Named("ciudadDao")
 public class CiudadDAOImpl extends GenericDaoJpaImpl<Ciudad, Long> implements
@@ -48,7 +47,7 @@ public class CiudadDAOImpl extends GenericDaoJpaImpl<Ciudad, Long> implements
 	@Override
 	public List<Ciudad> getList(Long id) {
 
-		Query query = this.entityManager.createQuery("from Ciudad c where c.departamento.id = :id");
+		Query query = this.entityManager.createQuery("from Ciudad c where c.provincia.id = :id");
 		query.setParameter("id", id);
 
 		return (List <Ciudad>)query.getResultList();

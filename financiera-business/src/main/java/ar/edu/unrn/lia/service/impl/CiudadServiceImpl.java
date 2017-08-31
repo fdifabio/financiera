@@ -2,7 +2,6 @@ package ar.edu.unrn.lia.service.impl;
 
 import ar.edu.unrn.lia.dao.CiudadDAO;
 import ar.edu.unrn.lia.model.Ciudad;
-import ar.edu.unrn.lia.model.Departamento;
 import ar.edu.unrn.lia.service.CiudadService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;

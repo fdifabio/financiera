@@ -11,7 +11,7 @@ public class Ciudad extends BaseEntity implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
     private String nombre;
-    private Departamento departamento;
+    private Provincia provincia;
 
     public Ciudad() {
     }
@@ -34,13 +34,14 @@ public class Ciudad extends BaseEntity implements java.io.Serializable {
     }
 
     @ManyToOne
-    public Departamento getDepartamento() {
-        return departamento;
+    public Provincia getProvincia() {
+        return provincia;
     }
 
-    public void setDepartamento(Departamento departamento) {
-        this.departamento = departamento;
+    public void setProvincia(Provincia provincia) {
+        this.provincia = provincia;
     }
+
 
     @Override
     public String toString() {

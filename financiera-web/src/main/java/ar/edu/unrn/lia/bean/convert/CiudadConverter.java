@@ -2,7 +2,6 @@ package ar.edu.unrn.lia.bean.convert;
 
 import ar.edu.unrn.lia.bean.util.UISelectOneMenuBean;
 import ar.edu.unrn.lia.model.Ciudad;
-import ar.edu.unrn.lia.model.Departamento;
 import ar.edu.unrn.lia.model.GenericEntity;
 
 import javax.el.ELContext;

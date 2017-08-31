@@ -1,10 +1,8 @@
 package ar.edu.unrn.lia.bean.util;
 
 import ar.edu.unrn.lia.model.Ciudad;
-import ar.edu.unrn.lia.model.Departamento;
 import ar.edu.unrn.lia.model.Provincia;
 import ar.edu.unrn.lia.service.CiudadService;
-import ar.edu.unrn.lia.service.DepartamentoService;
 import ar.edu.unrn.lia.service.ProvinciaService;
 import org.springframework.context.annotation.Scope;
 
@@ -26,10 +24,6 @@ public class UISelectOneMenuBean implements Serializable {
     @Inject
     private CiudadService ciudadService;
 
-    @Inject
-    private DepartamentoService departamentoService;
-
-    List<Departamento> listDepartamentos = new ArrayList<Departamento>();
 
     List<Provincia> listProvincias = new ArrayList<>();
 
@@ -40,8 +34,6 @@ public class UISelectOneMenuBean implements Serializable {
         List<Provincia> provincias = provinciaService.getAll();
         setListProvincias(provincias);
 
-        List<Departamento> dtos = departamentoService.getAll();
-        setListDepartamentos(dtos);
 
         List<Ciudad> ciudades = ciudadService.getAll();
         setListCiudades(ciudades);
@@ -60,20 +52,6 @@ public class UISelectOneMenuBean implements Serializable {
         return new Provincia();
     }
 
-    public Departamento getDepartamento(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("no id provided");
-        }
-        if (id.equals(-1l)) {
-            return new Departamento();
-        }
-        for (Departamento departamento : getListDepartamentos()) {
-            if (id.equals(departamento.getId())) {
-                return departamento;
-            }
-        }
-        return null;
-    }
 
     public Ciudad getCiudad(Long id) {
         if (id == null) {
@@ -109,23 +87,6 @@ public class UISelectOneMenuBean implements Serializable {
 
     public void setCiudadService(CiudadService ciudadService) {
         this.ciudadService = ciudadService;
-    }
-
-    public DepartamentoService getDepartamentoService() {
-        return departamentoService;
-    }
-
-    public void setDepartamentoService(DepartamentoService departamentoService) {
-        this.departamentoService = departamentoService;
-    }
-
-
-    public List<Departamento> getListDepartamentos() {
-        return listDepartamentos;
-    }
-
-    private void setListDepartamentos(List<Departamento> listDepartamentos) {
-        this.listDepartamentos = listDepartamentos;
     }
 
     public List<Provincia> getListProvincias() {

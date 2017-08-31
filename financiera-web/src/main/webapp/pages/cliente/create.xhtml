@@ -21,20 +21,16 @@
     </f:metadata>
 
     <ui:define name="actions">
-        <sec:ifAnyGranted roles="ROLE_ADMIN">
-            <a href="search.jsf"
-               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
-                    class="icon-list"></i> #{msgs['listar']}</a>
-        </sec:ifAnyGranted>
-        <h:panelGroup rendered="#{userBean.entity.id != null}" id="hello">
-            <a href="view.jsf?id=#{userBean.entity.id}"
+        <a href="search.jsf"
+           class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                class="icon-list"></i> #{msgs['listar']}</a>
+        <h:panelGroup rendered="#{clienteBean.entity.id != null}" id="hello">
+            <a href="view.jsf?id=#{clienteBean.entity.id}"
                class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
                     class="icon-zoom-in"></i> #{msgs['detalle']} </a>
-            <sec:ifAnyGranted roles="ROLE_ADMIN">
-                <a href="create.jsf"
-                   class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
-                        class="icon-person_add"></i> #{msgs['btnNuevo']}</a>
-            </sec:ifAnyGranted>
+            <a href="create.jsf"
+               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                    class="icon-person_add"></i> #{msgs['btnNuevo']}</a>
         </h:panelGroup>
     </ui:define>
     <ui:define name="content">
@@ -61,7 +57,7 @@
                                                 <p:inputText id="nombre"
                                                              required="true"
                                                              requiredMessage="#{msgs['validationRequired']}"
-                                                             value="#{userBean.entity.username}">
+                                                             value="#{clienteBean.entity.nombre}">
                                                 </p:inputText>
                                                 <p:message for="nombre"/>
                                             </h:panelGroup>
@@ -70,44 +66,62 @@
                                                              required="true"
                                                              requiredMessage="#{msgs['validationRequired']}"
                                                              validatorMessage="Formato invalido"
-                                                             value="#{userBean.entity.email}">
+                                                             value="#{clienteBean.entity.apellido}">
                                                 </p:inputText>
                                                 <p:message for="apellido"/>
                                             </h:panelGroup>
                                             <h:outputText value="#{msgs['formDni']}:" styleClass="FontBold"/>
-                                            <h:outputText value="#{msgs['formMail']}:" styleClass="FontBold"/>
-                                            <h:panelGroup layout="block">
-                                                <p:inputText id="username"
-                                                             required="true"
-                                                             requiredMessage="#{msgs['validationRequired']}"
-                                                             value="#{userBean.entity.username}">
-                                                </p:inputText>
-                                                <p:message for="username"/>
-                                            </h:panelGroup>
-                                            <h:panelGroup layout="block">
-                                                <p:inputText id="userBeanEmail"
-                                                             required="true"
-                                                             requiredMessage="#{msgs['validationRequired']}"
-                                                             validatorMessage="Formato invalido"
-                                                             value="#{userBean.entity.email}">
-                                                    <f:validateRegex
-                                                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
-                                                </p:inputText>
-                                                <p:message for="userBeanEmail"/>
-                                            </h:panelGroup>
                                             <h:outputText value="#{msgs['formTelefono']}:" styleClass="FontBold"/>
-                                            <div class="EmptyBox5"></div>
+                                            <h:panelGroup layout="block">
+                                                <p:inputText id="dni"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{clienteBean.entity.dni}">
+                                                </p:inputText>
+                                                <p:message for="dni"/>
+                                            </h:panelGroup>
                                             <h:panelGroup layout="block">
                                                 <p:inputText id="telefono"
                                                              required="true"
                                                              requiredMessage="#{msgs['validationRequired']}"
-                                                             value="#{userBean.entity.username}">
+                                                             value="#{clienteBean.entity.telefono}">
                                                 </p:inputText>
                                                 <p:message for="telefono"/>
                                             </h:panelGroup>
-                                            <div class="EmptyBox5"></div>
                                             <h:outputText value="#{msgs['formDireccion']}:" styleClass="FontBold"/>
                                             <div class="EmptyBox5"></div>
+                                            <p:outputLabel for="provincia"
+                                                           value="#{msgs['form.provincia']}:"/>
+                                            <p:outputLabel for="ciudades"
+                                                           value="#{msgs['form.ciudad']}"/>
+                                            <h:panelGroup layout="block">
+                                                <p:selectOneMenu id="provincia"
+                                                                 value="#{clienteBean.provinciaSelecionada}"
+                                                                 converter="#{provinciaConverter}"
+                                                                 required="true"
+                                                                 requiredMessage="#{msgs['validationRequired']}">
+                                                    <f:selectItem itemLabel="--Seleccione una Provincia--"
+                                                                  itemValue="-1"/>
+                                                    <f:selectItems value="#{clienteBean.listProvincias}" var="p"
+                                                                   itemLabel="#{p.nombre}" itemValue="#{p}"/>
+                                                    <p:ajax event="change" render="ciudades"
+                                                            listener="#{clienteBean.cargaListCiudades()}"/>
+                                                </p:selectOneMenu>
+                                                <p:message for="provincia" styleClass="alert alert-danger"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block">
+                                                <p:selectOneMenu id="ciudades"
+                                                                 value="#{clienteBean.ciudadSelecionada}"
+                                                                 converter="#{ciudadConverter}" required="true"
+                                                                 requiredMessage="#{msgs['validationRequired']}">
+                                                    <f:selectItem itemLabel="--Seleccione una Ciudad--"
+                                                                  itemValue="-1"/>
+                                                    <f:selectItems value="#{clienteBean.listCiudades}" var="c"
+                                                                   itemLabel="#{c.nombre}" itemValue="#{c}"/>
+
+                                                </p:selectOneMenu>
+                                                <p:message for="ciudades" styleClass="alert alert-danger"/>
+                                            </h:panelGroup>
                                         </p:panelGrid>
                                     </p:fieldset>
                                     <p:fieldset legend="#{msgs['formDatosLaborales']}:" style="margin-bottom:20px">
