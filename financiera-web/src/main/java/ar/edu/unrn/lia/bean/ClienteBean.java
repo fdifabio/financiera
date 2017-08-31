@@ -1,6 +1,5 @@
 package ar.edu.unrn.lia.bean;
 
-import ar.edu.unrn.lia.bean.convert.GenericConvert;
 import ar.edu.unrn.lia.bean.datamodel.DataModel;
 import ar.edu.unrn.lia.model.Ciudad;
 import ar.edu.unrn.lia.model.Cliente;
@@ -11,10 +10,7 @@ import ar.edu.unrn.lia.service.ProvinciaService;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -38,27 +34,27 @@ public class ClienteBean extends GenericBean<Cliente> implements Serializable {
     @Inject
     private CiudadService ciudadService;
 
-    private Ciudad ciudadSelecionada = null;
+    private Ciudad ciudadSelecionada = new Ciudad();
 
-   // GenericConvert<Ciudad> ciudadConvert = new GenericConvert<Ciudad>();
+    // GenericConvert<Ciudad> ciudadConvert = new GenericConvert<Ciudad>();
 
     @Inject
     private ProvinciaService provinciaService;
 
-    private Provincia provinciaSelecionada = null;
+    private Provincia provinciaSelecionada = new Provincia();
 
 
-  //  GenericConvert<Provincia> provinciaConvert = new GenericConvert<Provincia>();
+    //  GenericConvert<Provincia> provinciaConvert = new GenericConvert<Provincia>();
 
-    List<Provincia> listProvincias = new ArrayList<>();
+    List<Provincia> provincias = new ArrayList<>();
 
-    List<Ciudad> listCiudades = new ArrayList<>();
+    List<Ciudad> ciudades = new ArrayList<>(0);
 
     @PostConstruct
     public void init() {
         setModelLazy(new DataModel<Cliente>(entityService));
         setServices(entityService);
-        listProvincias = provinciaService.getAll();
+        this.provincias = provinciaService.getAll();
         LOG.debug("init.. " + this.getClass().getName());
     }
 
@@ -73,8 +69,8 @@ public class ClienteBean extends GenericBean<Cliente> implements Serializable {
                 getEntity().setCiudad(new Ciudad());
                 getEntity().getCiudad().setProvincia(new Provincia());
             }
-           // getCiudadConvert().setService(ciudadService);
-           // getProvinciaConvert().setService(provinciaService);
+            // getCiudadConvert().setService(ciudadService);
+            // getProvinciaConvert().setService(provinciaService);
             super.setUrlDesde(getRequestURL());
 
         }
@@ -120,7 +116,6 @@ public class ClienteBean extends GenericBean<Cliente> implements Serializable {
     }
 
 
-
     public CiudadService getCiudadService() {
         return ciudadService;
     }
@@ -137,23 +132,31 @@ public class ClienteBean extends GenericBean<Cliente> implements Serializable {
         this.provinciaService = provinciaService;
     }
 
-    public List<Provincia> getListProvincias() {
-        return listProvincias;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setListProvincias(List<Provincia> listProvincias) {
-        this.listProvincias = listProvincias;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public List<Ciudad> getListCiudades() {
-        return listCiudades;
+    public List<Provincia> getProvincias() {
+        return provincias;
     }
 
-    public void setListCiudades(List<Ciudad> listCiudades) {
-        this.listCiudades = listCiudades;
+    public void setProvincias(List<Provincia> provincias) {
+        this.provincias = provincias;
     }
 
-    public void cargaListCiudades() {
-        this.listCiudades = listCiudades();
+    public List<Ciudad> getCiudades() {
+        return ciudades;
+    }
+
+    public void setCiudades(List<Ciudad> ciudades) {
+        this.ciudades = ciudades;
+    }
+
+    public void onProvinciaChange() {
+        this.ciudades = listCiudades();
     }
 }
