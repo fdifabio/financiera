@@ -20,21 +20,9 @@
     </f:metadata>
 
     <ui:define name="actions">
-        <sec:ifAnyGranted roles="ROLE_ADMIN">
             <a href="search.jsf"
                class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
                     class="icon-list"></i> #{msgs['listar']}</a>
-        </sec:ifAnyGranted>
-        <h:panelGroup rendered="#{creditoBean.entity.id != null}" id="hello">
-            <a href="view.jsf?id=#{creditoBean.entity.id}"
-               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
-                    class="icon-zoom-in"></i> #{msgs['detalle']} </a>
-            <sec:ifAnyGranted roles="ROLE_ADMIN">
-                <a href="create.jsf"
-                   class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
-                        class="icon-person_add"></i> #{msgs['btnNuevo']}</a>
-            </sec:ifAnyGranted>
-        </h:panelGroup>
     </ui:define>
     <ui:define name="content">
         <div class="Container100">
@@ -49,13 +37,14 @@
                                              globalOnly="true"/>
                                     <p:messages globalOnly="true" styleClass="error"
                                                 showSummary="true" showDetail="true"/>
-                                    <p:panelGrid columns="2"
-                                                 columnClasses="ui-grid-col-1,ui-grid-col-4"
-                                                 layout="grid"
-                                                 styleClass="ui-panelgrid-blank">
-                                        <h:outputLabel value="#{msgs['formCliente']}:" styleClass="FontBold"
-                                                       for="clientes"/>
-                                        <h:panelGroup>
+                                    <p:fieldset legend="#{msgs['formCliente']}" style="margin-bottom:20px">
+                                        <p:panelGrid columns="3"
+                                                     columnClasses="ui-grid-col-2,ui-grid-col-4"
+                                                     layout="grid"
+                                                     styleClass="ui-panelgrid-blank">
+                                            <h:outputLabel value="#{msgs['formBuscarCliente']}:" styleClass="FontBold"
+                                                           for="clientes"/>
+
                                             <p:autoComplete id="clientes" value="#{creditoBean.entity.cliente}"
                                                             placeholder="Ingrese código, nombre, apellido o DNI del cliente"
                                                             completeMethod="#{creditoBean.completeCliente}"
@@ -74,58 +63,68 @@
                                                 </p:column>
                                             </p:autoComplete>
                                             <p:message for="clientes"/>
-                                        </h:panelGroup>
-                                    </p:panelGrid>
+                                        </p:panelGrid>
+                                    </p:fieldset>
 
-                                    <p:panelGrid columns="4"
-                                                 columnClasses="ui-grid-col-1,ui-grid-col-4,ui-grid-col-1,ui-grid-col-4"
-                                                 layout="grid"
-                                                 styleClass="ui-panelgrid-blank">
+                                    <p:fieldset legend="#{msgs['formDatosCredito']}" style="margin-bottom:20px">
+                                        <p:panelGrid columns="4"
+                                                     columnClasses="ui-grid-col-1,ui-grid-col-4,ui-grid-col-1,ui-grid-col-4"
+                                                     layout="grid"
+                                                     styleClass="ui-panelgrid-blank">
 
-                                        <h:outputLabel value="#{msgs['formFecha']}:" styleClass="FontBold"
-                                                       for="fecha"/>
-                                        <h:panelGroup>
-                                            <p:calendar id="fecha" value="#{creditoBean.entity.fecha}" required="true"
-                                                        requiredMessage="#{msgs['validationRequired']}"/>
-                                            <p:message for="fecha"/>
-                                        </h:panelGroup>
+                                            <h:outputLabel value="#{msgs['formFecha']}:" styleClass="FontBold"
+                                                           for="fecha"/>
+                                            <h:panelGroup>
+                                                <p:calendar id="fecha" value="#{creditoBean.entity.fecha}"
+                                                            required="true"
+                                                            requiredMessage="#{msgs['validationRequired']}"/>
+                                                <p:message for="fecha"/>
+                                            </h:panelGroup>
 
-                                        <h:outputLabel value="#{msgs['formCapital']}:" styleClass="FontBold"
-                                                       for="capital"/>
-                                        <h:panelGroup>
-                                            <p:inputNumber id="capital"
-                                                           required="true"
-                                                           requiredMessage="#{msgs['validationRequired']}"
-                                                           value="#{creditoBean.entity.capital}" symbol="$ "
-                                                           decimalSeparator="," thousandSeparator=".">
-                                            </p:inputNumber>
-                                            <p:message for="capital"/>
-                                        </h:panelGroup>
+                                            <h:outputLabel value="#{msgs['formEstado']}:" styleClass="FontBold"
+                                                           for="estado"/>
+                                            <h:panelGroup>
+                                                <p:outputLabel id="estado" value="#{creditoBean.entity.estado}"
+                                                               styleClass="#{creditoBean.entity.estado.backgroundColor} White"/>
+                                            </h:panelGroup>
 
-                                        <h:outputLabel value="#{msgs['formCuotas']}:" styleClass="FontBold"
-                                                       for="cuotas"/>
-                                        <h:panelGroup>
-                                            <p:inputText id="cuotas"
-                                                         required="true"
-                                                         requiredMessage="#{msgs['validationRequired']}"
-                                                         value="#{creditoBean.entity.cuotas}">
-                                            </p:inputText>
-                                            <p:message for="cuotas"/>
-                                        </h:panelGroup>
+                                            <h:outputLabel value="#{msgs['formCapital']}:" styleClass="FontBold"
+                                                           for="capital"/>
+                                            <h:panelGroup>
+                                                <p:inputNumber id="capital"
+                                                               required="true"
+                                                               requiredMessage="#{msgs['validationRequired']}"
+                                                               value="#{creditoBean.entity.capital}" symbol="$ "
+                                                               decimalSeparator="," thousandSeparator=".">
+                                                </p:inputNumber>
+                                                <p:message for="capital"/>
+                                            </h:panelGroup>
 
-                                        <h:outputLabel value="#{msgs['formInteres']}" styleClass="FontBold"
-                                                       for="interes"/>
-                                        <h:panelGroup>
-                                            <p:inputText id="interes"
-                                                         required="true"
-                                                         requiredMessage="#{msgs['validationRequired']}"
-                                                         value="#{creditoBean.entity.interes}">
-                                            </p:inputText>
-                                            <p:message for="interes"/>
-                                        </h:panelGroup>
+                                            <h:outputLabel value="#{msgs['formCuotas']}:" styleClass="FontBold"
+                                                           for="cuotas"/>
+                                            <h:panelGroup>
+                                                <p:inputText id="cuotas"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{creditoBean.entity.cuotas}">
+                                                </p:inputText>
+                                                <p:message for="cuotas"/>
+                                            </h:panelGroup>
 
+                                            <h:outputLabel value="#{msgs['formInteres']}" styleClass="FontBold"
+                                                           for="interes"/>
+                                            <h:panelGroup>
+                                                <p:inputText id="interes"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{creditoBean.entity.interes}">
+                                                </p:inputText>
+                                                <p:message for="interes"/>
+                                            </h:panelGroup>
 
-                                    </p:panelGrid>
+                                        </p:panelGrid>
+                                    </p:fieldset>
+
                                     <div class="EmptyBox30"></div>
                                     <div class="Fright">
                                         <div class="Wid45 Fleft Responsive45 MarRight10">

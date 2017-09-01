@@ -9,14 +9,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "interes")
 public class Interes extends BaseEntity {
-    private Double valor;
+    private Float valor;
     private Integer orden;// esto representa el orden en que se muestran en la vista
 
-    public Double getValor() {
+    public Float getValor() {
         return valor;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(Float valor) {
         this.valor = valor;
     }
 

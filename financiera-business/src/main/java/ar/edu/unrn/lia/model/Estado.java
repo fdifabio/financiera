@@ -4,13 +4,14 @@ import java.io.Serializable;
 
 public enum Estado implements Serializable {
 
-    ACTIVO("Activo", "BlueBack"), CANCELADO("Cancelado", "GreenBack"), LEGALES("Legales", "RedBack");
+    ACTIVO("Activo", "Blue"), CANCELADO("Cancelado", "Green"), LEGALES("Legales", "Red");
 
     private String descripcion;
     private String color;
 
     Estado(String descripcion, String color) {
         this.descripcion = descripcion;
+        this.color=color;
     }
 
     public String getEstado() {
@@ -29,6 +30,9 @@ public enum Estado implements Serializable {
         return color;
     }
 
+    public String getBackgroundColor() {
+        return color + "Back";
+    }
 
     @Override
     public String toString() {

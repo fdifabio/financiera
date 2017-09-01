@@ -11,19 +11,19 @@ import java.util.Date;
 public class Credito extends BaseEntity implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Double capital;
+    private Float capital;
     private Integer cuotas;
-    private Double interes;
+    private Float interes;
     private Date fecha=new Date();
     private Date fechaVencimiento;
     private Estado estado = Estado.ACTIVO;
     private Cliente cliente;
 
-    public Double getCapital() {
+    public Float getCapital() {
         return capital;
     }
 
-    public void setCapital(Double capital) {
+    public void setCapital(Float capital) {
         this.capital = capital;
     }
 
@@ -35,11 +35,11 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         this.cuotas = cuotas;
     }
 
-    public Double getInteres() {
+    public Float getInteres() {
         return interes;
     }
 
-    public void setInteres(Double interes) {
+    public void setInteres(Float interes) {
         this.interes = interes;
     }
 
