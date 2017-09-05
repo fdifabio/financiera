@@ -1,6 +1,8 @@
 package ar.edu.unrn.lia.model;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 
 /**
@@ -90,6 +92,8 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         te dará el mismo resultado que esta otra: =PAGO(A1;B1;-C1)*/
 
         float monto_cuota = (float) ((interes * Math.pow(((1 + interes)), cuotas)) * capital / ((Math.pow((1 + interes), cuotas)) - 1));
-        return monto_cuota;
+        BigDecimal big = new BigDecimal(monto_cuota);
+        big = big.setScale(2, RoundingMode.HALF_UP);
+        return big.floatValue();
     }
 }
