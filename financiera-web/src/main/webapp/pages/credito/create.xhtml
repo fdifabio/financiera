@@ -20,9 +20,9 @@
     </f:metadata>
 
     <ui:define name="actions">
-            <a href="search.jsf"
-               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
-                    class="icon-list"></i> #{msgs['listar']}</a>
+        <a href="search.jsf"
+           class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                class="icon-list"></i> #{msgs['listar']}</a>
     </ui:define>
     <ui:define name="content">
         <div class="Container100">
@@ -120,6 +120,19 @@
                                                              value="#{creditoBean.entity.interes}">
                                                 </p:inputText>
                                                 <p:message for="interes"/>
+                                            </h:panelGroup>
+
+                                            <h:outputLabel value="Monto de cuotas" styleClass="FontBold"
+                                                           for="montoCuota"/>
+                                            <h:panelGroup>
+                                                <p:commandButton title="calcular" update="crear" icon="ui-icon-check"
+                                                                 actionListener="#{creditoBean.calcularMontoCuotas}" />
+                                                <p:inputText id="montoCuota"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{creditoBean.montoCuota}">
+                                                </p:inputText>
+                                                <p:message for="montoCuota"/>
                                             </h:panelGroup>
 
                                         </p:panelGrid>

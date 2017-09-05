@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -24,7 +25,7 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private List<Cliente> clientes = new ArrayList<Cliente>(0);
-
+    private double montoCuota;
 
     @Inject
     private CreditoService entityService;
@@ -55,6 +56,11 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
         return clienteService.searchByApellidoNombre(apellidoNombre);
     }
 
+
+    public void calcularMontoCuotas(ActionEvent actionEvent){
+        montoCuota = entity.calcularMontoCuotas();
+    }
+
     @Override
     public String update() {
         return super.update();
@@ -82,5 +88,13 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     public void setClientes(List<Cliente> clientes) {
         this.clientes = clientes;
+    }
+
+    public double getMontoCuota() {
+        return montoCuota;
+    }
+
+    public void setMontoCuota(double montoCuota) {
+        this.montoCuota = montoCuota;
     }
 }
