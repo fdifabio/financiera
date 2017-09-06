@@ -2361,3 +2361,5 @@ INSERT INTO `ciudad` (`id`, `nombre`, `provincia_id`) VALUES
 (2071, 'Palacios', 22),
 (2072, 'Pavón', 22),
 (2073, 'Pavón Arriba', 22);
+
+ALTER TABLE `cliente` ADD `fotocopiadni`  BIT(1) NOT NULL AFTER `garantia`, ADD `recibo`  BIT(1) NOT NULL AFTER `fotocopia_dni`, ADD `servicio`  BIT(1) NOT NULL AFTER `recibo`;

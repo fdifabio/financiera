@@ -88,6 +88,17 @@
                                                 </p:inputText>
                                                 <p:message for="telefono"/>
                                             </h:panelGroup>
+                                            <h:outputText value="#{msgs['formCelular']}:" styleClass="FontBold"/>
+                                            <div class="EmptyBox20"></div>
+                                            <h:panelGroup layout="block">
+                                                <p:inputText id="celular"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{clienteBean.entity.celular}">
+                                                </p:inputText>
+                                                <p:message for="celular"/>
+                                            </h:panelGroup>
+                                            <div class="EmptyBox20"></div>
                                             <h:outputText value="#{msgs['formDireccion']}:" styleClass="FontBold"/>
                                             <div class="EmptyBox5"></div>
                                             <p:outputLabel for="provincia"
@@ -122,14 +133,41 @@
                                                 </p:selectOneMenu>
                                                 <p:message for="ciudades" styleClass="alert alert-danger"/>
                                             </h:panelGroup>
+                                            <h:outputText value="#{msgs['formObservaciones']}:" styleClass="FontBold"/>
+                                            <div class="EmptyBox20"></div>
+                                            <h:panelGroup layout="block">
+                                            <p:inputTextarea rows="5" cols="30" counter="display" maxlength="300" counterTemplate="{0} characters remaining." autoResize="false"  id="observaciones"
+                                                         required="true"
+                                                         requiredMessage="#{msgs['validationRequired']}"
+                                                         value="#{clienteBean.entity.observacion}"/>
+                                                <h:outputText id="display" />
+                                            </h:panelGroup>
+                                            <p:message for="observaciones"/>
+
                                         </p:panelGrid>
                                     </p:fieldset>
                                     <p:fieldset legend="#{msgs['formDatosLaborales']}:" style="margin-bottom:20px">
                                         <p:panelGrid columns="2"
                                                      columnClasses="ui-grid-col-4,ui-grid-col-4" layout="grid"
                                                      styleClass="ui-panelgrid-blank">
-                                            <h:outputText value="#{msgs['formDatosLaborales']}:" styleClass="FontBold"/>
-                                            <div class="EmptyBox5"></div>
+                                            <h:outputText value="#{msgs['formLugarLaboral']}:" styleClass="FontBold"/>
+                                            <h:outputText value="#{msgs['formHorarioLaboral']}:" styleClass="FontBold"/>
+                                            <h:panelGroup layout="block">
+                                                <p:inputText id="lugar"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{clienteBean.entity.trabajoLugar}">
+                                                </p:inputText>
+                                                <p:message for="lugar"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block">
+                                            <p:inputText id="horario"
+                                                         required="true"
+                                                         requiredMessage="#{msgs['validationRequired']}"
+                                                         value="#{clienteBean.entity.trabajoHorario}">
+                                            </p:inputText>
+                                            <p:message for="horario"/>
+                                            </h:panelGroup>
                                         </p:panelGrid>
                                     </p:fieldset>
                                     <p:fieldset legend="#{msgs['formDocumentos']}:" style="margin-bottom:20px">
@@ -137,11 +175,11 @@
                                                      columnClasses="ui-grid-col-4,ui-grid-col-4" layout="grid"
                                                      styleClass="ui-panelgrid-blank">
                                             <h:outputText value="#{msgs['formDNI']}:" styleClass="FontBold"/>
-                                            <p:selectBooleanCheckbox value="#{clienteBean.entity.garantia}">
+                                            <p:selectBooleanCheckbox value="#{clienteBean.entity.fotocopiaDni}">
                                                 <!--<p:ajax update="msg" listener="#{selectBooleanView.addMessage}" /> -->
                                             </p:selectBooleanCheckbox>
                                             <h:outputText value="#{msgs['formRecibo']}:" styleClass="FontBold"/>
-                                            <p:selectBooleanCheckbox value="#{clienteBean.entity.garantia}">
+                                            <p:selectBooleanCheckbox value="#{clienteBean.entity.recibo}">
                                                 <!--<p:ajax update="msg" listener="#{selectBooleanView.addMessage}" /> -->
                                             </p:selectBooleanCheckbox>
                                             <h:outputText value="#{msgs['formGarantia']}:" styleClass="FontBold"/>
@@ -149,7 +187,7 @@
                                                 <!--<p:ajax update="msg" listener="#{selectBooleanView.addMessage}" /> -->
                                             </p:selectBooleanCheckbox>
                                             <h:outputText value="#{msgs['formServicio']}:" styleClass="FontBold"/>
-                                            <p:selectBooleanCheckbox value="#{clienteBean.entity.garantia}">
+                                            <p:selectBooleanCheckbox value="#{clienteBean.entity.servicio}">
                                                 <!--<p:ajax update="msg" listener="#{selectBooleanView.addMessage}" /> -->
                                             </p:selectBooleanCheckbox>
                                         </p:panelGrid>

@@ -26,6 +26,9 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
     private String trabajoLugar;
     private String trabajoHorario;
     private Boolean garantia;
+    private Boolean fotocopiaDni;
+    private Boolean recibo;
+    private Boolean servicio;
     private String observacion;
     private User user;
     private List<Credito> creditos;
@@ -40,6 +43,30 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
         this.nombre = nombre;
         this.apellido = apellido;
         this.celular = celular;
+    }
+    @Column(name = "fotocopia_dni")
+    public Boolean getFotocopiaDni() {
+        return fotocopiaDni;
+    }
+
+    public void setFotocopiaDni(Boolean fotocopiaDni) {
+        this.fotocopiaDni = fotocopiaDni;
+    }
+
+    public Boolean getRecibo() {
+        return recibo;
+    }
+
+    public void setRecibo(Boolean recibo) {
+        this.recibo = recibo;
+    }
+
+    public Boolean getServicio() {
+        return servicio;
+    }
+
+    public void setServicio(Boolean servicio) {
+        this.servicio = servicio;
     }
 
     public String getNombre() {
