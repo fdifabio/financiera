@@ -58,6 +58,11 @@
                                     <p:column headerText="#{msgs['formInteres']}">
                                         <h:outputText value="#{item.interes}"/>
                                     </p:column>
+                                    <p:column headerText="#{msgs['formEstado']}">
+                                        <h:outputText value="#{item.estado.descripcion}"
+                                                      styleClass="#{item.estado.backgroundColor} White"
+                                                      style="padding: 0px 5px 0px 5px;border-radius: 5px;"/>
+                                    </p:column>
                                     <p:column headerText="Opciones">
                                         <h:link outcome="create" title="#{msgs['btnEditar']}">
                                             <i class="icon-edit Fs20"></i>

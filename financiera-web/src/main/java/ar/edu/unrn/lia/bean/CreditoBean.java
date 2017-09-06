@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -24,7 +25,7 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private List<Cliente> clientes = new ArrayList<Cliente>(0);
-
+    private double montoCuota;
 
     @Inject
     private CreditoService entityService;
@@ -41,9 +42,10 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     public void inicio() {
         if (!FacesContext.getCurrentInstance().isPostback()) {
-            if (getId() != null)
+            if (getId() != null) {
                 setEntity(entityService.getEntityById(getId()));
-            else {
+                calcularCuotas();
+            } else {
                 setEntity(new Credito());
 //                clientes.addAll(clienteService.getAll());
             }
@@ -53,6 +55,15 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     public List<Cliente> completeCliente(String apellidoNombre) {
         return clienteService.searchByApellidoNombre(apellidoNombre);
+    }
+
+    public void calcularCuotas() {
+//    montoCuota = entity.calcularMontoCuotas();
+        entity.calcularMontoCuotas();
+    }
+
+    public void calcularMontoCuotas(ActionEvent actionEvent) {
+        calcularCuotas();
     }
 
     @Override
@@ -82,5 +93,13 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     public void setClientes(List<Cliente> clientes) {
         this.clientes = clientes;
+    }
+
+    public double getMontoCuota() {
+        return montoCuota;
+    }
+
+    public void setMontoCuota(double montoCuota) {
+        this.montoCuota = montoCuota;
     }
 }
