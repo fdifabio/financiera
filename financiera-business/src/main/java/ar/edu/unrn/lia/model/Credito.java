@@ -112,7 +112,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         en C1 el Va (Capital inicial)
         Esta fórmula: =(A1(1+A1)^B1)C1/(((1+A1)^B1)-1)
         te dará el mismo resultado que esta otra: =PAGO(A1;B1;-C1)*/
-
+        listCuotas.clear();
         float monto_cuota = (float) ((interes * Math.pow(((1 + interes)), cuotas)) * capital / ((Math.pow((1 + interes), cuotas)) - 1));
         montoCutoas = redondear(monto_cuota);
         Float cuotaInteres = 0F;
