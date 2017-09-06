@@ -42,9 +42,10 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     public void inicio() {
         if (!FacesContext.getCurrentInstance().isPostback()) {
-            if (getId() != null)
+            if (getId() != null) {
                 setEntity(entityService.getEntityById(getId()));
-            else {
+                calcularCuotas();
+            } else {
                 setEntity(new Credito());
 //                clientes.addAll(clienteService.getAll());
             }
@@ -56,9 +57,13 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
         return clienteService.searchByApellidoNombre(apellidoNombre);
     }
 
+    public void calcularCuotas() {
+//    montoCuota = entity.calcularMontoCuotas();
+        entity.calcularMontoCuotas();
+    }
 
-    public void calcularMontoCuotas(ActionEvent actionEvent){
-        montoCuota = entity.calcularMontoCuotas();
+    public void calcularMontoCuotas(ActionEvent actionEvent) {
+        calcularCuotas();
     }
 
     @Override
