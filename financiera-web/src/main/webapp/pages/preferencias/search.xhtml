@@ -1,0 +1,175 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+
+<ui:composition template="/templates/template.xhtml">
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{interesBean.vermensaje()}"/>
+    </f:metadata>
+
+    <ui:define name="subheader">
+        Preferencias
+    </ui:define>
+
+
+    <ui:define name="content">
+        <style>
+            .fa {
+                color: white;
+            }
+            .ui-datatable .ui-datatable-header {
+                border-bottom: 0 none;
+                padding-bottom: 20px !important;
+                padding-top: 4px !important;
+            }
+
+        </style>
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect  ">
+                    <div class="Container100">
+                        <p:tabView orientation="left" id="tabs">
+                            <p:tab title="Intereses" id="tabInteres">
+                                <div class="Container100">
+                                    <h:form id="formInteres" class="TexAlCenter">
+                                        <div class="Container60">
+                                            <p:growl id="growl" sticky="true" showDetail="true" life="3000"/>
+                                            <p:dataTable var="item" value="#{interesBean.interesList}" id="list"
+                                                         draggableRows="true">
+                                                <p:ajax event="rowReorder" listener="#{interesBean.onRowReorder}"
+                                                        update="tabs:formInteres:boton"/>
+                                                <f:facet name="header">Intereses
+                                                    <p:commandButton update="tabs:formDetalle:interesDetalle"
+                                                                     oncomplete="PF('dlgCrear').show()" icon="fa fa-plus-circle "
+                                                                     title="Crear" style="float: right;background-color: #FB8C00;"/>
+                                                </f:facet>
+                                                <p:column  headerText="Valor">
+                                                    <div class="Container100 Responsive50">
+                                                        <div class="Card ShadowEffect HeiAutoOnMobile OvHidden"
+                                                             style="padding: 5px;margin-right: 15px;">
+                                                            <div class="Container100">
+                                                        <span class="Orange Fs20 FontRobotoBold"><i
+                                                                class="fa fa-calculator ">
+                                                        </i>#{item.valor}%</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </p:column>
+                                                <p:column  headerText="Opciones">
+                                                    <p:commandButton update="tabs:formDetalle:interesDetalle"
+                                                                     oncomplete="PF('dlg').show()" icon="fa fa-pencil-square-o"
+                                                                     title="Editar">
+                                                        <f:setPropertyActionListener value="#{item}"
+                                                                                     target="#{interesBean.selectedInteres}"/>
+                                                    </p:commandButton>
+                                                    <p:commandLink id="nonAjax" title="#{msgs['btnEliminar']}"
+                                                                   actionListener="#{interesBean.delete(item)}" update="tabs:formInteres:list">
+                                                        <p:confirm header="#{msgs['confirmacion']}"
+                                                                   message="#{msgs['confirmarEliminar']}" icon="ui-icon-alert"/>
+                                                        <i class="icon-delete2 BoldGray Fs20"></i>
+                                                    </p:commandLink>
+                                                </p:column>
+                                            </p:dataTable>
+                                            <p:confirmDialog global="true" showEffect="fade">
+                                                <p:commandButton value="Si" type="button"
+                                                                 styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                                                <p:commandButton value="No" type="button"
+                                                                 styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                                            </p:confirmDialog>
+                                        </div>
+                                        <div class="Container20">
+                                            <p:outputPanel id="boton">
+                                                <p:commandButton value="Guardar Orden" update="list" icon="fa fa-refresh"
+                                                                 rendered="#{interesBean.update}" actionListener="#{interesBean.guardarOrden}"/>
+                                            </p:outputPanel>
+                                        </div>
+
+                                    </h:form>
+                                    <h:form id="formDetalle">
+                                        <p:dialog header="Modificar Interés" widgetVar="dlg" resizable="false"
+                                                  modal="true">
+                                            <p:outputPanel id="interesDetalle">
+                                                <h:panelGrid columns="2">
+                                                    <h:outputText for="interes" value="Monto:"/>
+                                                    <p:inputNumber id="interes"
+                                                                   value="#{interesBean.selectedInteres.valor}"
+                                                                   required="true" symbol="%"
+                                                                   symbolPosition="s"/>
+
+                                                    <f:facet name="footer">
+                                                        <p:commandButton value="Guardar" update="tabs:formInteres:list"
+                                                                         actionListener="#{interesBean.update}"
+                                                                         oncomplete="handleLoginRequest(xhr, status, args)"
+                                                                         style="float: right;"/>
+                                                    </f:facet>
+                                                </h:panelGrid>
+                                            </p:outputPanel>
+                                        </p:dialog>
+                                    </h:form>
+                                    <h:form id="formCrear">
+                                        <p:dialog header="Crear Interés" widgetVar="dlgCrear" resizable="false"
+                                                  modal="true">
+                                            <p:outputPanel id="interesCrear">
+                                                <h:panelGrid columns="2">
+                                                    <h:outputText for="interescrear" value="Monto:"/>
+                                                    <p:inputNumber id="interescrear"
+                                                                   value="#{interesBean.entity.valor}"
+                                                                   required="true" symbol="%"
+                                                                   symbolPosition="s"/>
+
+                                                    <f:facet name="footer">
+                                                        <p:commandButton value="Guardar" update="tabs:formInteres:list"
+                                                                         actionListener="#{interesBean.create}"
+                                                                         oncomplete="handleLoginRequest2(xhr, status, args)"
+                                                                         style="float: right;"/>
+                                                    </f:facet>
+                                                </h:panelGrid>
+                                            </p:outputPanel>
+                                        </p:dialog>
+                                    </h:form>
+                                </div>
+                            </p:tab>
+                            <p:tab title="Coutas">
+                                <div class="ContainerIndent">
+                                    <h:form id="cuotas" class="TexAlCenter">
+                                        <p:orderList value="#{interesBean.interesList}" var="item"
+                                                     controlsLocation="none" itemLabel="#{item.valor}%"
+                                                     icon="fa fa-plus"
+                                                     itemValue="#{item}"/>
+
+                                    </h:form>
+                                </div>
+                            </p:tab>
+                        </p:tabView>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.validationFailed) {
+                    PF('dlg').jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    PF('dlg').hide();
+                    $('#loginLink').fadeOut();
+                }
+            }
+            function handleLoginRequest2(xhr, status, args) {
+                if (args.validationFailed) {
+                    PF('dlgCrear').jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    PF('dlgCrear').hide();
+                    $('#loginLink').fadeOut();
+                }
+            }
+        </script>
+    </ui:define>
+</ui:composition>
+</html>

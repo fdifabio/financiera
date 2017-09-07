@@ -14,6 +14,7 @@ public class UtilsBean {
 	public final static String REDIRECT_MIPERFIL = "/pages/perfil/miperfil?faces-redirect=true";
 	public final static String REDIRECT_HOME = "/pages/home?faces-redirect=true";
 	public final static String REDIRECT_DASHBOARD = "/dashboard?faces-redirect=true";
+	public final static String REDIRECT_PREFERENCIAS = "/pages/preferencias/search?faces-redirect=true";
 	public final static String REDIRECT_LOGIN = "/login?faces-redirect=true";
 
 	public final static String REDIRECT_PERFIL = "/pages/perfil/perfil?faces-redirect=true";

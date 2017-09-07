@@ -66,6 +66,21 @@
                     <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PRESTAMISTA">
                         <div class="Container20 Responsive100">
                             <div class="ContainerIndent">
+                                <div class="Card ShadowEffect TexAlCenter">
+                                    <div class="EmptyBox5"></div>
+                                    <a href="#{request.contextPath}/pages/preferencias/search.xhtml"
+                                       class="FontRobotoLight HoverEffect"> <i
+                                            class="Yellow icon-settings Fs50"></i></a>
+                                    <div class="EmptyBox5"></div>
+                                    <div class="FontRobotoLight Fs16 DispBlock ClearBoth">#{msgs['menu.preferencias']}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </sec:ifAnyGranted>
+                    <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PRESTAMISTA">
+                        <div class="Container20 Responsive100">
+                            <div class="ContainerIndent">
                                 <div class="Card ShadowEffect Cyan TexAlCenter">
                                     <div class="EmptyBox5"></div>
                                     <a href="#{request.contextPath}/pages/cliente/search.jsf"
