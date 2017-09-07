@@ -2,6 +2,7 @@ package ar.edu.unrn.lia.service;
 
 import ar.edu.unrn.lia.model.Credito;
 import ar.edu.unrn.lia.model.Interes;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ import java.util.List;
  */
 public interface InteresService extends IGenericService<Interes> {
 
-
+    void updateOrden(List<Interes> list);
 }

@@ -1,8 +1,8 @@
 package ar.edu.unrn.lia.service.impl;
 
-import ar.edu.unrn.lia.dao.InteresDAO;
-import ar.edu.unrn.lia.model.Interes;
-import ar.edu.unrn.lia.service.InteresService;
+import ar.edu.unrn.lia.dao.DescuentoDAO;
+import ar.edu.unrn.lia.model.Descuento;
+import ar.edu.unrn.lia.service.DescuentoService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -13,16 +13,16 @@ import java.util.Map;
 /**
  * Created by Lucas on 22/08/2017.
  */
-@Named("interesService")
-public class InteresServiceImpl implements InteresService {
+@Named("descuentoService")
+public class DescuentoServiceImpl implements DescuentoService {
     @Inject
-    InteresDAO entityDAO;
+    DescuentoDAO entityDAO;
 
-    public InteresDAO getEntityDAO() {
+    public DescuentoDAO getEntityDAO() {
         return entityDAO;
     }
 
-    public Interes findByName(String nombre) {
+    public Descuento findByName(String nombre) {
         return null;
         //TODO:
 
@@ -36,14 +36,14 @@ public class InteresServiceImpl implements InteresService {
     }
 
     @Transactional(readOnly = true)
-    public List<Interes> getList(Integer page, Integer pagesize, Map<String, String> filters, String sortField,
-                                 Boolean asc, boolean distinct) {
+    public List<Descuento> getList(Integer page, Integer pagesize, Map<String, String> filters, String sortField,
+                                   Boolean asc, boolean distinct) {
         return getEntityDAO().listwithPag(getEntityDAO().getSearchPredicates(getEntityDAO().rootCount(), filters), page,
                 pagesize, sortField, asc, false);
     }
 
     @Transactional
-    public void save(Interes entity) {
+    public void save(Descuento entity) {
         if (entity.getId() == null) {
 
             getEntityDAO().create(entity);
@@ -55,24 +55,24 @@ public class InteresServiceImpl implements InteresService {
     }
 
     @Transactional
-    public void delete(Interes entity) {
+    public void delete(Descuento entity) {
         getEntityDAO().delete(entity);
     }
 
-    public Interes getEntityById(Long id) {
+    public Descuento getEntityById(Long id) {
         return getEntityDAO().read(id);
     }
 
-    public List<Interes> getAll() {
+    public List<Descuento> getAll() {
         return getEntityDAO().findAll();
     }
 
     @Transactional
-    public void updateOrden(List<Interes> list) {
+    public void updateOrden(List<Descuento> list) {
         int i = 1;
-        for (Interes interes : list) {
-            interes.setOrden(i);
-            getEntityDAO().setOrden(interes);
+        for (Descuento descuento : list) {
+            descuento.setOrden(i);
+            getEntityDAO().setOrden(descuento);
             i++;
         }
     }

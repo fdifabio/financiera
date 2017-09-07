@@ -1,7 +1,9 @@
 package ar.edu.unrn.lia.dao.impl;
 
+import ar.edu.unrn.lia.dao.DescuentoDAO;
 import ar.edu.unrn.lia.dao.InteresDAO;
 import ar.edu.unrn.lia.generic.GenericDaoJpaImpl;
+import ar.edu.unrn.lia.model.Descuento;
 import ar.edu.unrn.lia.model.Interes;
 
 import javax.inject.Named;
@@ -16,12 +18,12 @@ import java.util.Map;
 /**
  * Created by Lucas on 22/08/2017.
  */
-@Named("interesDAO")
-public class InteresDAOImpl extends GenericDaoJpaImpl<Interes, Long> implements
-        InteresDAO, Serializable {
+@Named("descuentoDAO")
+public class DescuentoDAOImpl extends GenericDaoJpaImpl<Descuento, Long> implements
+        DescuentoDAO, Serializable {
 
 
-    public Predicate[] getSearchPredicates(Root<Interes> root,
+    public Predicate[] getSearchPredicates(Root<Descuento> root,
                                            Map<String, String> filters) {
 
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
@@ -38,33 +40,33 @@ public class InteresDAOImpl extends GenericDaoJpaImpl<Interes, Long> implements
 
 
     @Override
-    public List<Interes> listwithPag(Predicate[] where, Integer page, Integer pagesize, String sortField, Boolean asc, boolean distinct) {
+    public List<Descuento> listwithPag(Predicate[] where, Integer page, Integer pagesize, String sortField, Boolean asc, boolean distinct) {
 
         CriteriaBuilder criteriaBuilder = this.getEntityManager().getCriteriaBuilder();
-        CriteriaQuery<Interes> cq = criteriaBuilder
-                .createQuery(Interes.class);
-        Root<Interes> fromInteres = cq.from(Interes.class);
-        fromInteres.alias("entity");
-        Order order = orderByQuery(sortField, asc, criteriaBuilder, fromInteres);
+        CriteriaQuery<Descuento> cq = criteriaBuilder
+                .createQuery(Descuento.class);
+        Root<Descuento> fromDescuento = cq.from(Descuento.class);
+        fromDescuento.alias("entity");
+        Order order = orderByQuery(sortField, asc, criteriaBuilder, fromDescuento);
 
-        final TypedQuery<Interes> query = this.entityManager
+        final TypedQuery<Descuento> query = this.entityManager
                 .createQuery(cq.where(where).orderBy(order));
 
         query.setFirstResult(page).setMaxResults(pagesize);
-        List<Interes> resultList = query.getResultList();
+        List<Descuento> resultList = query.getResultList();
 
         return resultList;
     }
 
 
-    public List<Interes> findAll() {
-        return this.entityManager.createQuery("FROM Interes i ORDER BY i.orden ASC").getResultList();
+    public List<Descuento> findAll() {
+        return this.entityManager.createQuery("FROM Descuento d ORDER BY d.orden ASC").getResultList();
     }
 
-    public void setOrden(Interes interes){
-        Query query = this.entityManager.createQuery("UPDATE Interes i SET i.orden= :orden where i.id= :id");
-        query.setParameter("orden", interes.getOrden());
-        query.setParameter("id", interes.getId());
+    public void setOrden(Descuento descuento){
+        Query query = this.entityManager.createQuery("UPDATE Descuento d SET d.orden= :orden where d.id= :id");
+        query.setParameter("orden", descuento.getOrden());
+        query.setParameter("id", descuento.getId());
         query.executeUpdate();
     }
 

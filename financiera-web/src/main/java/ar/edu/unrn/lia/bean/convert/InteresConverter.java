@@ -1,9 +1,7 @@
 package ar.edu.unrn.lia.bean.convert;
 
-import ar.edu.unrn.lia.bean.CreditoBean;
-import ar.edu.unrn.lia.bean.InteresBean;
+import ar.edu.unrn.lia.bean.PreferenciasBean;
 import ar.edu.unrn.lia.model.GenericEntity;
-import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.InteresService;
 
 import javax.el.ELContext;
@@ -30,8 +28,8 @@ public class InteresConverter implements Converter {
                 Application application = context.getApplication();
                 ELContext elContext = context.getELContext();
 
-                InteresBean interesBean= application.evaluateExpressionGet(context, "#{interesBean}", InteresBean.class);
-                return interesBean.getEntityService().getEntityById(Long.parseLong(value));
+                PreferenciasBean interesBean= application.evaluateExpressionGet(context, "#{interesBean}", PreferenciasBean.class);
+                return interesBean.getInteresService().getEntityById(Long.parseLong(value));
             } catch (NumberFormatException e) {
                 throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
             }
