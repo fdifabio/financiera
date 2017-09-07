@@ -15,21 +15,21 @@ import java.util.List;
 public class Credito extends BaseEntity implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Float capital;
+    private BigDecimal capital;
     private Integer cuotas;
-    private Float interes;
+    private BigDecimal interes;
     private Date fecha = new Date();
     private Date fechaVencimiento;
     private Estado estado = Estado.ACTIVO;
     private Cliente cliente;
-    private Float montoCutoas;
+    private BigDecimal montoCutoas;
     private List<Cuota> listCuotas = new ArrayList<>(0);
 
-    public Float getCapital() {
+    public BigDecimal getCapital() {
         return capital;
     }
 
-    public void setCapital(Float capital) {
+    public void setCapital(BigDecimal capital) {
         this.capital = capital;
     }
 
@@ -41,11 +41,11 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         this.cuotas = cuotas;
     }
 
-    public Float getInteres() {
+    public BigDecimal getInteres() {
         return interes;
     }
 
-    public void setInteres(Float interes) {
+    public void setInteres(BigDecimal interes) {
         this.interes = interes;
     }
 
@@ -87,11 +87,11 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     }
 
     @Transient
-    public Float getMontoCutoas() {
+    public BigDecimal getMontoCutoas() {
         return montoCutoas;
     }
 
-    public void setMontoCutoas(Float montoCutoas) {
+    public void setMontoCutoas(BigDecimal montoCutoas) {
         this.montoCutoas = montoCutoas;
     }
 
@@ -113,37 +113,51 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         Esta fórmula: =(A1(1+A1)^B1)C1/(((1+A1)^B1)-1)
         te dará el mismo resultado que esta otra: =PAGO(A1;B1;-C1)*/
         listCuotas.clear();
-        float monto_cuota = (float) ((interes * Math.pow(((1 + interes)), cuotas)) * capital / ((Math.pow((1 + interes), cuotas)) - 1));
-        montoCutoas = redondear(monto_cuota);
-        Float cuotaInteres = 0F;
-        Float cuotaCapital = 0F;
-        Float saldo = capital;
+//        BigDecimal monto_cuota = (BigDecimal) ((interes * Math.pow(((1 + interes)), cuotas)) * capital / ((Math.pow((1 + interes), cuotas)) - 1));
+//        BigDecimal monto_cuota = 1112.57320662644F;
+        BigDecimal monto_cuota = (BigDecimal) ((interes.multiply(potencia(((BigDecimal.ONE.add(interes))), BigDecimal.valueOf(cuotas.doubleValue())))).multiply(capital).divide(((potencia((BigDecimal.ONE.add(interes)), BigDecimal.valueOf(cuotas.doubleValue()))).subtract(BigDecimal.ONE)), 4, RoundingMode.HALF_UP));
+        montoCutoas = monto_cuota;
+        BigDecimal cuotaInteres = BigDecimal.ZERO;
+        BigDecimal cuotaCapital = BigDecimal.ZERO;
+        BigDecimal saldo = capital;
         for (int i = 1; i <= cuotas; i++) {
-            cuotaInteres = redondear(saldo * interes);
-            cuotaCapital = redondear(montoCutoas - cuotaInteres);
-            saldo = redondear(saldo - cuotaCapital);
-            listCuotas.add(new Cuota(cuotaCapital, cuotaInteres, saldo));
+            cuotaInteres = saldo.multiply(interes);
+            cuotaCapital = montoCutoas.subtract(cuotaInteres);
+            saldo = saldo.subtract(cuotaCapital);
+            listCuotas.add(new Cuota(redondear(cuotaCapital), redondear(cuotaInteres), redondear(saldo)));
         }
     }
 
     @Transient
-    public float totalInteres() {
-        return redondear((float) listCuotas.stream().mapToDouble(Cuota::getCuotaInteres).sum());
+    public BigDecimal totalInteres() {
+//        return redondear((BigDecimal) listCuotas.stream().mapToDouble(Cuota::getCuotaInteres).sum());
+        return BigDecimal.ZERO;
     }
 
     @Transient
-    public float totalCapital() {
-        return redondear((float) listCuotas.stream().mapToDouble(Cuota::getCuotaCapital).sum());
+    public BigDecimal totalCapital() {
+//        return redondear((BigDecimal) listCuotas.stream().mapToDouble(Cuota::getCuotaCapital).sum());
+        return BigDecimal.ZERO;
     }
 
     @Transient
-    public float totalSaldo() {
-        return redondear((float) listCuotas.stream().mapToDouble(Cuota::getSaldo).sum());
+    public BigDecimal totalSaldo() {
+//        return redondear((BigDecimal) listCuotas.stream().mapToDouble(Cuota::getSaldo).sum());
+        return BigDecimal.ZERO;
     }
 
-    private float redondear(float value) {
-        BigDecimal big = new BigDecimal(value);
-        big = big.setScale(2, RoundingMode.HALF_UP);
-        return big.floatValue();
+    private BigDecimal redondear(BigDecimal value) {
+//        BigDecimal big = new BigDecimal(value);
+//        big = big.setScale(2, RoundingMode.HALF_UP);
+//        return big.BigDecimalValue();
+        return value.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private BigDecimal potencia(BigDecimal base, BigDecimal potencia) {
+        BigDecimal acumulador = base;
+        for (int i = 1; i < potencia.intValue(); i++) {
+            acumulador = acumulador.multiply(base);
+        }
+        return acumulador;
     }
 }
