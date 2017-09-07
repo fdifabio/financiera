@@ -1,8 +1,11 @@
 package ar.edu.unrn.lia.model;
 
 import ar.edu.unrn.lia.exception.BusinessException;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +34,7 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
     private Boolean servicio;
     private String observacion;
     private User user;
-    private List<Credito> creditos;
+    private List<Credito> creditos=new ArrayList<Credito>(0);
 
     public Cliente() {
         super();
@@ -148,6 +151,7 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
     }
 
     @OneToMany(mappedBy = "cliente")
+    @Fetch(FetchMode.JOIN)
     public List<Credito> getCreditos() {
         return creditos;
     }
