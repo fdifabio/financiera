@@ -36,6 +36,12 @@ public class CreditoServiceImpl implements CreditoService {
     }
 
     @Transactional(readOnly = true)
+    public List<Credito> listByClienteId(Long idcliente) {
+        return getEntityDAO().listByIdCliente(idcliente);
+
+    }
+
+    @Transactional(readOnly = true)
     public List<Credito> getList(Integer page, Integer pagesize, Map<String, String> filters, String sortField,
                                  Boolean asc, boolean distinct) {
         return getEntityDAO().listwithPag(getEntityDAO().getSearchPredicates(getEntityDAO().rootCount(), filters), page,

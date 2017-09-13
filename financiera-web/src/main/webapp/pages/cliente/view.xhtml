@@ -8,49 +8,118 @@
 <ui:composition template="/templates/template.xhtml">
 
     <ui:define name="subheader">
-        #{msgs['formUsuarioDetalle']}
+        #{msgs['formClienteDetalle']}
     </ui:define>
 
     <f:metadata>
-        <f:viewParam name="id" value="#{userBean.id}"/>
-        <f:event type="preRenderView" listener="#{userBean.inicio()}"/>
+        <f:viewParam name="id" value="#{clienteBean.id}"/>
+        <f:event type="preRenderView" listener="#{clienteBean.inicio()}"/>
     </f:metadata>
 
     <ui:define name="actions">
         <sec:ifAnyGranted roles="ROLE_ADMIN">
-        <a href="search.jsf"
-           class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
-                class="icon-list"></i> #{msgs['listar']}</a>
+            <a href="search.jsf"
+               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                    class="icon-list"></i> #{msgs['listar']}</a>
         </sec:ifAnyGranted>
-        <a href="create.jsf?id=#{userBean.entity.id}"
+        <a href="create.jsf?id=#{clienteBean.entity.id}"
            class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
                 class="icon-edit"></i> #{msgs['btn.modificar']}</a>
         <sec:ifAnyGranted roles="ROLE_ADMIN">
-        <a href="create.jsf"
-           class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
-                class="icon-person_add"></i> #{msgs['btnNuevo']}</a>
+            <a href="create.jsf"
+               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                    class="icon-person_add"></i> #{msgs['btnNuevo']}</a>
         </sec:ifAnyGranted>
     </ui:define>
 
     <ui:define name="content">
-        <div class="Container100 ui-fluid">
+        <div class="Container50 ui-fluid">
             <div class="ContainerIndent">
                 <div class="Card ShadowEffect">
-                    <p:panel header="Usuario" footer="#{msgs['formUsuarioDetalle']}"
+                    <p:panel header="Usuario" footer="#{msgs['formClienteDetalle']}"
                              style="margin-top:20px">
                         <p:panelGrid columns="2"
                                      columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid"
                                      styleClass="ui-panelgrid-blank">
-                            <h:outputText value="#{msgs['formUsuario']}:" styleClass="FontBold"/>
-                            <h:outputText value="#{userBean.entity.username}"/>
-                            <h:outputText value="#{msgs['formMail']}:" styleClass="FontBold"/>
-                            <h:outputText value="#{userBean.entity.email}"/>
-                            <h:outputText value="#{msgs['formRol']}:" styleClass="FontBold"/>
-                            <h:outputText value="#{userBean.entity.role.rol}"/>
+                            <h:outputText value="#{msgs['formNombre']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{clienteBean.entity.nombre}"/>
+                            <h:outputText value="#{msgs['formApellido']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{clienteBean.entity.apellido}"/>
+                            <h:outputText value="#{msgs['formDni']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{clienteBean.entity.dni}"/>
+                            <h:outputText value="#{msgs['formTelefono']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{clienteBean.entity.telefono}"/>
+                            <h:outputText value="#{msgs['formCelular']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{clienteBean.entity.celular}"/>
+                            <h:outputText value="#{msgs['formDireccion']}:" styleClass="FontBold"/>
+                            <h:outputText
+                                    value="#{clienteBean.entity.domicilio} , #{clienteBean.entity.ciudad.nombre}, #{clienteBean.entity.ciudad.provincia.nombre}"/>
+                            <h:outputText value="#{msgs['formLugarLaboral']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{clienteBean.entity.trabajoLugar}"/>
+                            <h:outputText value="#{msgs['formHorarioLaboral']}:" styleClass="FontBold"/>
+                            <h:outputText value="#{clienteBean.entity.trabajoHorario}"/>
                         </p:panelGrid>
                     </p:panel>
                     <div class="EmptyBox20"></div>
 
+                </div>
+            </div>
+        </div>
+        <div class="Container50">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect  ">
+                    <div class="Container100">
+                        <div class="ContainerIndent">
+                            <h:form id="formentity" class="TexAlCenter">
+                                <p:growl showDetail="true" id="msgGrwl"/>
+                                <!-- insertar usuario -->
+                                <p:dataTable id="list" var="item" value="#{clienteBean.listCreditos()}"
+                                             emptyMessage="No hay créditos para mostrar"
+                                             reflow="true" rowKey="#{item.id}" lazy="true" paginator="true"
+                                             paginatorPosition="bottom"
+                                             resizableColumns="false" rows="10"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="10,20,30,50">
+
+                                    <p:column headerText="#{msgs['formFecha']}"
+                                              sortBy="#{item.fecha}">
+                                        <h:outputText value="#{item.fecha}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="#{msgs['formCapital']}"
+                                              sortBy="#{item.capital}">
+                                        <h:outputText value="#{item.capital}">
+                                            <f:convertNumber type="currency" currencySymbol="$"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="#{msgs['formCuotas']}">
+                                        <h:outputText value="#{item.cuotas}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msgs['formInteres']}">
+                                        <h:outputText value="#{item.interes}"/>
+                                    </p:column>
+                                    <p:column headerText="#{msgs['formEstado']}">
+                                        <h:outputText value="#{item.estado.descripcion}"
+                                                      styleClass="#{item.estado.backgroundColor} White"
+                                                      style="padding: 0px 5px 0px 5px;border-radius: 5px;"/>
+                                    </p:column>
+                                    <p:column headerText="Opciones">
+                                        <h:link outcome="/pages/credito/view" title="#{msgs['btn.ver']}">
+                                            <i class="icon-zoom-in Fs20"></i>
+                                            <f:param name="id" value="#{item.id}"/>
+                                        </h:link>
+                                    </p:column>
+                                </p:dataTable>
+                                <p:confirmDialog global="true" showEffect="fade">
+                                    <p:commandButton value="Si" type="button"
+                                                     styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                                    <p:commandButton value="No" type="button"
+                                                     styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                                </p:confirmDialog>
+                            </h:form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

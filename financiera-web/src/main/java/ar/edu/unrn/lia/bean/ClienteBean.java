@@ -3,9 +3,11 @@ package ar.edu.unrn.lia.bean;
 import ar.edu.unrn.lia.bean.datamodel.DataModel;
 import ar.edu.unrn.lia.model.Ciudad;
 import ar.edu.unrn.lia.model.Cliente;
+import ar.edu.unrn.lia.model.Credito;
 import ar.edu.unrn.lia.model.Provincia;
 import ar.edu.unrn.lia.service.CiudadService;
 import ar.edu.unrn.lia.service.ClienteService;
+import ar.edu.unrn.lia.service.CreditoService;
 import ar.edu.unrn.lia.service.ProvinciaService;
 import org.springframework.context.annotation.Scope;
 
@@ -43,6 +45,8 @@ public class ClienteBean extends GenericBean<Cliente> implements Serializable {
 
     private Provincia provinciaSelecionada = new Provincia();
 
+    @Inject
+    private CreditoService creditoService;
 
     //  GenericConvert<Provincia> provinciaConvert = new GenericConvert<Provincia>();
 
@@ -82,6 +86,10 @@ public class ClienteBean extends GenericBean<Cliente> implements Serializable {
         this.ciudadSelecionada.setProvincia(provinciaSelecionada);
         getEntity().setCiudad(ciudadSelecionada);
         return super.update();
+    }
+
+    public List<Credito> listCreditos() {
+        return creditoService.listByClienteId(getId());
     }
 
     public List<Ciudad> listCiudades() {
@@ -161,5 +169,13 @@ public class ClienteBean extends GenericBean<Cliente> implements Serializable {
 
     public void onProvinciaChange() {
         this.ciudades = listCiudades();
+    }
+
+    public CreditoService getCreditoService() {
+        return creditoService;
+    }
+
+    public void setCreditoService(CreditoService creditoService) {
+        this.creditoService = creditoService;
     }
 }

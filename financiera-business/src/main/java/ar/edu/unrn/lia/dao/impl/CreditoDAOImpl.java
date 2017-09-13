@@ -5,6 +5,7 @@ import ar.edu.unrn.lia.generic.GenericDaoJpaImpl;
 import ar.edu.unrn.lia.model.Credito;
 
 import javax.inject.Named;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
@@ -80,4 +81,10 @@ public class CreditoDAOImpl extends GenericDaoJpaImpl<Credito, Long> implements
         return resultList;
     }
 
+    public List<Credito> listByIdCliente(Long idcliente) {
+
+        Query query = this.entityManager.createQuery("FROM Credito c  where c.cliente.id= :idcliente");
+        query.setParameter("idcliente", idcliente);
+        return (List<Credito>) query.getResultList();
+    }
 }
