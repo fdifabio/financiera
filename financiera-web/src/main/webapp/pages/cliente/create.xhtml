@@ -161,11 +161,8 @@
                                                 <p:message for="lugar"/>
                                             </h:panelGroup>
                                             <h:panelGroup layout="block">
-                                            <p:inputText id="horario"
-                                                         required="true"
-                                                         requiredMessage="#{msgs['validationRequired']}"
-                                                         value="#{clienteBean.entity.trabajoHorario}">
-                                            </p:inputText>
+                                                <p:inputMask id="horario" value="#{clienteBean.entity.trabajoHorario}" mask="99:99--99:99"/>
+
                                             <p:message for="horario"/>
                                             </h:panelGroup>
                                         </p:panelGrid>
