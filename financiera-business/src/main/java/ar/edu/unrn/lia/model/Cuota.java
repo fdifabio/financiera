@@ -1,40 +1,42 @@
 package ar.edu.unrn.lia.model;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Lucas on 05/09/2017.
  */
 public class Cuota {
-    private Float cuotaCapital;
-    private Float cuotaInteres;
-    private Float saldo;
+    private BigDecimal cuotaCapital;
+    private BigDecimal cuotaInteres;
+    private BigDecimal saldo;
 
-    public Cuota(Float cuotaCapital, Float cuotaInteres, Float saldo) {
+    public Cuota(BigDecimal cuotaCapital, BigDecimal cuotaInteres, BigDecimal saldo) {
         this.cuotaCapital = cuotaCapital;
         this.cuotaInteres = cuotaInteres;
         this.saldo = saldo;
     }
 
-    public Float getCuotaCapital() {
+    public BigDecimal getCuotaCapital() {
         return cuotaCapital;
     }
 
-    public void setCuotaCapital(Float cuotaCapital) {
+    public void setCuotaCapital(BigDecimal cuotaCapital) {
         this.cuotaCapital = cuotaCapital;
     }
 
-    public Float getCuotaInteres() {
+    public BigDecimal getCuotaInteres() {
         return cuotaInteres;
     }
 
-    public void setCuotaInteres(Float cuotaInteres) {
+    public void setCuotaInteres(BigDecimal cuotaInteres) {
         this.cuotaInteres = cuotaInteres;
     }
 
-    public Float getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(Float saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 }

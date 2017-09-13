@@ -45,6 +45,8 @@
         <security:intercept-url pattern="/pages/home.jsf"
                                 access="hasAnyRole('ROLE_ADMIN','ROLE_PRESTAMISTA')"/>
 
+        <security:intercept-url pattern="/pages/preferencias/**"
+                                access="hasAnyRole('ROLE_ADMIN','ROLE_PRESTAMISTA')"/>
 
         <security:intercept-url pattern="/pages/eprofesional/create.jsf"
                                 access="hasRole('ROLE_PRESTAMISTA')"/>

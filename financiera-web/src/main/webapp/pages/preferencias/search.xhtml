@@ -1,0 +1,272 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/templates/template.xhtml">
+    <ui:define name="subheader">
+        Preferencias
+    </ui:define>
+    <ui:define name="content">
+        <style>
+            .fa {
+                color: white;
+            }
+            .ui-datatable .ui-datatable-header {
+                border-bottom: 0 none;
+                padding-bottom: 20px !important;
+                padding-top: 4px !important;
+            }
+        </style>
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect  ">
+                    <div class="Container100">
+                        <p:tabView orientation="left" id="tabs">
+                            <p:tab title="Intereses" id="tabInteres">
+                                <div class="Container100">
+                                    <h:form id="formInteres" class="TexAlCenter">
+                                        <div class="Container60">
+                                            <p:growl id="growl" showDetail="true" life="3000"/>
+                                            <p:dataTable var="item" value="#{preferenciasBean.interesList}" id="list"
+                                                         draggableRows="true">
+                                                <p:ajax event="rowReorder" listener="#{preferenciasBean.onRowReorderInteres}"
+                                                        update="tabs:formInteres:boton"/>
+                                                <f:facet name="header">Intereses
+                                                    <p:commandButton update="tabs:formDetalle:interesDetalle"
+                                                                     oncomplete="PF('dlgCrear').show()" icon="fa fa-plus-circle "
+                                                                     title="Crear" style="float: right;background-color: #FB8C00;"/>
+                                                </f:facet>
+                                                <p:column  headerText="Valor">
+                                                    <div class="Container100 Responsive50">
+                                                        <div class="Card ShadowEffect HeiAutoOnMobile OvHidden"
+                                                             style="padding: 5px;margin-right: 15px;">
+                                                            <div class="Container100">
+                                                        <span class="Orange Fs20 FontRobotoBold"><i
+                                                                class="fa fa-calculator ">
+                                                        </i>#{item.valor}%</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </p:column>
+                                                <p:column  headerText="Opciones">
+                                                    <p:commandButton update="tabs:formDetalle:interesDetalle"
+                                                                     oncomplete="PF('dlg').show()" icon="fa fa-pencil-square-o"
+                                                                     title="Editar">
+                                                        <f:setPropertyActionListener value="#{item}"
+                                                                                     target="#{preferenciasBean.selectedInteres}"/>
+                                                    </p:commandButton>
+                                                    <p:commandLink id="nonAjax" title="#{msgs['btnEliminar']}"
+                                                                   actionListener="#{preferenciasBean.deleteInteres(item)}" update="tabs:formInteres:list">
+                                                        <p:confirm header="#{msgs['confirmacion']}"
+                                                                   message="#{msgs['confirmarEliminar']}" icon="ui-icon-alert"/>
+                                                        <i class="icon-delete2 BoldGray Fs20"></i>
+                                                    </p:commandLink>
+                                                </p:column>
+                                            </p:dataTable>
+                                            <p:confirmDialog global="true" showEffect="fade">
+                                                <p:commandButton value="Si" type="button"
+                                                                 styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                                                <p:commandButton value="No" type="button"
+                                                                 styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                                            </p:confirmDialog>
+                                        </div>
+                                        <div class="Container20">
+                                            <p:outputPanel id="boton">
+                                                <p:commandButton value="Guardar Orden" update="list" icon="fa fa-refresh"
+                                                                 rendered="#{preferenciasBean.updateInteres}" actionListener="#{preferenciasBean.guardarOrdenInteres}"/>
+                                            </p:outputPanel>
+                                        </div>
+
+                                    </h:form>
+                                    <h:form id="formDetalle">
+                                        <p:dialog header="Modificar Interés" widgetVar="dlg" resizable="false"
+                                                  modal="true">
+                                            <p:outputPanel id="interesDetalle">
+                                                <h:panelGrid columns="2">
+                                                    <h:outputText for="interes" value="Monto:"/>
+                                                    <p:inputNumber id="interes"
+                                                                   value="#{preferenciasBean.selectedInteres.valor}"
+                                                                   required="true" symbol="%"
+                                                                   symbolPosition="s"/>
+
+                                                    <f:facet name="footer">
+                                                        <p:commandButton value="Guardar" update="tabs:formInteres:list"
+                                                                         actionListener="#{preferenciasBean.updateInteres}"
+                                                                         oncomplete="handleLoginRequest(xhr, status, args)"
+                                                                         style="float: right;"/>
+                                                    </f:facet>
+                                                </h:panelGrid>
+                                            </p:outputPanel>
+                                        </p:dialog>
+                                    </h:form>
+                                    <h:form id="formCrear">
+                                        <p:dialog header="Crear Interés" widgetVar="dlgCrear" resizable="false"
+                                                  modal="true">
+                                            <p:outputPanel id="interesCrear">
+                                                <h:panelGrid columns="2">
+                                                    <h:outputText for="interescrear" value="Monto:"/>
+                                                    <p:inputNumber id="interescrear"
+                                                                   value="#{preferenciasBean.newInteres.valor}"
+                                                                   required="true" symbol="%"
+                                                                   symbolPosition="s"/>
+
+                                                    <f:facet name="footer">
+                                                        <p:commandButton value="Guardar" update="tabs:formInteres:list tabs:formCrear:interescrear"
+                                                                         actionListener="#{preferenciasBean.createInteres}"
+                                                                         oncomplete="handleLoginRequest2(xhr, status, args)"
+                                                                         style="float: right;"/>
+                                                    </f:facet>
+                                                </h:panelGrid>
+                                            </p:outputPanel>
+                                        </p:dialog>
+                                    </h:form>
+                                </div>
+                            </p:tab>
+                            <p:tab title="Descuentos">
+                                <div class="ContainerIndent">
+                                    <h:form id="formDescuento" class="TexAlCenter">
+                                        <div class="Container60">
+                                            <p:dataTable var="descuento" value="#{preferenciasBean.descuentoList}" id="listDescuento"
+                                                         draggableRows="true">
+                                                <p:ajax event="rowReorder" listener="#{preferenciasBean.onRowReorderDescuento}"
+                                                        update="tabs:formDescuento:botonDescuento"/>
+                                                <f:facet name="header">Descuentos
+                                                    <p:commandButton update="tabs:formDetalleDescuento:descuentoDetalle"
+                                                                     oncomplete="PF('dlgCrearDescuento').show()" icon="fa fa-plus-circle "
+                                                                     title="Crear" style="float: right;background-color: #FB8C00;"/>
+                                                </f:facet>
+                                                <p:column  headerText="Valor">
+                                                    <div class="Container100 Responsive50">
+                                                        <div class="Card ShadowEffect HeiAutoOnMobile OvHidden"
+                                                             style="padding: 5px;margin-right: 15px;">
+                                                            <div class="Container100">
+                                                        <span class="Orange Fs20 FontRobotoBold"><i
+                                                                class="fa fa-calculator ">
+                                                        </i>#{descuento.valor}%</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </p:column>
+                                                <p:column  headerText="Opciones">
+                                                    <p:commandButton update="tabs:formDetalleDescuento:descuentoDetalle"
+                                                                     oncomplete="PF('dlgDescuento').show()" icon="fa fa-pencil-square-o"
+                                                                     title="Editar">
+                                                        <f:setPropertyActionListener value="#{descuento}"
+                                                                                     target="#{preferenciasBean.selectedDescuento}"/>
+                                                    </p:commandButton>
+                                                    <p:commandLink id="nonAjaxDescuento" title="#{msgs['btnEliminar']}"
+                                                                   actionListener="#{preferenciasBean.deleteDescuento(descuento)}" update="tabs:formDescuento:listDescuento">
+                                                        <p:confirm header="#{msgs['confirmacion']}"
+                                                                   message="#{msgs['confirmarEliminar']}" icon="ui-icon-alert"/>
+                                                        <i class="icon-delete2 BoldGray Fs20"></i>
+                                                    </p:commandLink>
+                                                </p:column>
+                                            </p:dataTable>
+                                            <p:confirmDialog global="true" showEffect="fade">
+                                                <p:commandButton value="Si" type="button"
+                                                                 styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                                                <p:commandButton value="No" type="button"
+                                                                 styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
+                                            </p:confirmDialog>
+                                        </div>
+                                        <div class="Container20">
+                                            <p:outputPanel id="botonDescuento">
+                                                <p:commandButton value="Guardar Orden" update="listDescuento" icon="fa fa-refresh"
+                                                                 rendered="#{preferenciasBean.updateDescuento}" actionListener="#{preferenciasBean.guardarOrdenDescuento}"/>
+                                            </p:outputPanel>
+                                        </div>
+
+                                    </h:form>
+                                    <h:form id="formDetalleDescuento">
+                                        <p:dialog header="Modificar Descuento" widgetVar="dlgDescuento" resizable="false"
+                                                  modal="true">
+                                            <p:outputPanel id="descuentoDetalle">
+                                                <h:panelGrid columns="2">
+                                                    <h:outputText for="descuento" value="Monto:"/>
+                                                    <p:inputNumber id="descuento"
+                                                                   value="#{preferenciasBean.selectedDescuento.valor}"
+                                                                   required="true" symbol="%"
+                                                                   symbolPosition="s"/>
+
+                                                    <f:facet name="footer">
+                                                        <p:commandButton value="Guardar" update="tabs:formDescuento:listDescuento"
+                                                                         actionListener="#{preferenciasBean.updateDescuento}"
+                                                                         oncomplete="handleLoginRequestD(xhr, status, args)"
+                                                                         style="float: right;"/>
+                                                    </f:facet>
+                                                </h:panelGrid>
+                                            </p:outputPanel>
+                                        </p:dialog>
+                                    </h:form>
+                                    <h:form id="formCrearDescuento">
+                                        <p:dialog header="Crear Descuento" widgetVar="dlgCrearDescuento" resizable="false"
+                                                  modal="true">
+                                            <p:outputPanel id="descuentoCrear">
+                                                <h:panelGrid columns="2">
+                                                    <h:outputText for="descuentocrear" value="Monto:"/>
+                                                    <p:inputNumber id="descuentocrear"
+                                                                   value="#{preferenciasBean.newDescuento.valor}"
+                                                                   required="true" symbol="%"
+                                                                   symbolPosition="s"/>
+
+                                                    <f:facet name="footer">
+                                                        <p:commandButton value="Guardar" update="tabs:formDescuento:listDescuento tabs:formCrearDescuento:descuentoCrear"
+                                                                         actionListener="#{preferenciasBean.createDescuento}"
+                                                                         oncomplete="handleLoginRequestD2(xhr, status, args)"
+                                                                         style="float: right;"/>
+                                                    </f:facet>
+                                                </h:panelGrid>
+                                            </p:outputPanel>
+                                        </p:dialog>
+                                    </h:form>
+                                </div>
+                            </p:tab>
+                        </p:tabView>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.validationFailed) {
+                    PF('dlg').jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    PF('dlg').hide();
+                    $('#loginLink').fadeOut();
+                }
+            }
+            function handleLoginRequest2(xhr, status, args) {
+                if (args.validationFailed) {
+                    PF('dlgCrear').jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    PF('dlgCrear').hide();
+                    $('#loginLink').fadeOut();
+                }
+            }
+            function handleLoginRequestD(xhr, status, args) {
+                if (args.validationFailed) {
+                    PF('dlgDescuento').jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    PF('dlgDescuento').hide();
+                    $('#loginLink').fadeOut();
+                }
+            }
+            function handleLoginRequestD2(xhr, status, args) {
+                if (args.validationFailed) {
+                    PF('dlgCrearDescuento').jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    PF('dlgCrearDescuento').hide();
+                    $('#loginLink').fadeOut();
+                }
+            }
+        </script>
+    </ui:define>
+</ui:composition>
+</html>
