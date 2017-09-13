@@ -29,8 +29,9 @@ public class ClienteDAOImpl extends GenericDaoJpaImpl<Cliente, Long> implements
 
         String id = filters.get("id");
         if (id != null && !"".equals(id)) {
-            predicatesList.add(builder.like(root.<String>get("id"),
-                    '%' + id + '%'));
+          Long idaux= Long.valueOf(id);
+            predicatesList.add(builder.equal(root.<Long>get("id"),
+                    idaux));
         }
         String dni = filters.get("dni");
         if (dni != null && !"".equals(dni)) {
@@ -38,12 +39,12 @@ public class ClienteDAOImpl extends GenericDaoJpaImpl<Cliente, Long> implements
                     '%' + dni + '%'));
         }
         String nombre = filters.get("nombre");
-        if (id != null && !"".equals(nombre)) {
+        if (nombre != null && !"".equals(nombre)) {
             predicatesList.add(builder.like(root.<String>get("nombre"),
                     '%' + nombre + '%'));
         }
         String apellido = filters.get("apellido");
-        if (dni != null && !"".equals(apellido)) {
+        if (apellido != null && !"".equals(apellido)) {
             predicatesList.add(builder.like(root.<String>get("apellido"),
                     '%' + apellido + '%'));
         }
