@@ -46,6 +46,12 @@
                                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                                         </h:outputText>
                                     </p:column>
+                                    <p:column headerText="#{msgs['formCliente']}"
+                                              sortBy="#{item.cliente.apellido}">
+                                        <h:outputText value="#{item.cliente.apellidoNombre}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
                                     <p:column headerText="#{msgs['formCapital']}"
                                               sortBy="#{item.capital}">
                                         <h:outputText value="#{item.capital}">
