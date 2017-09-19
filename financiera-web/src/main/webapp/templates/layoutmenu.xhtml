@@ -12,36 +12,18 @@
                 <p:menuitem id="rm_dashboard" value="Inicio"
                             icon="icon-dashboard"
                             outcome="/pages/home?faces-redirect=true"/>
-                </sec:ifAnyGranted>
-                <sec:ifAnyGranted roles="ROLE_ADMIN">
                     <p:menuitem id="rm_usuarios" value="#{msgs['menu.user']}"
                                 icon="icon-people"
                                 outcome="/pages/user/search?faces-redirect=true"/>
-
-                    <p:menuitem id="rm_tasas" value="#{msgs['menu.tasa']}"
-                                icon="icon-attach_money"
-                                outcome="/pages/tasa/search?faces-redirect=true"/>
-                </sec:ifAnyGranted>
-                <sec:ifAnyGranted roles="ROLE_AGR, ROLE_SECRETARIO">
-                    <p:menuitem id="rm_eprofesional" value="#{msgs['menuEProfesional']}"
-                                icon="icon-paper"
-                                outcome="/pages/eprofesional/search?faces-redirect=true"/>
-                </sec:ifAnyGranted>
-                <sec:ifAnyGranted roles="ROLE_PRESTAMISTA">
-                    <p:menuitem id="rm_comitente" value="#{msgs['menu.cliente']}"
-                                icon="fa fa-users "
+                    <p:menuitem id="rm_preferencias" value="#{msgs['menu.preferencias']}"
+                                icon="icon-settings"
+                                outcome="/pages/preferencias/search?faces-redirect=true"/>
+                    <p:menuitem id="rm_cliente" value="#{msgs['menu.cliente']}"
+                                icon="fa fa-users"
                                 outcome="/pages/cliente/search?faces-redirect=true"/>
-                </sec:ifAnyGranted>
-                <sec:ifAnyGranted roles="ROLE_AGR">
-                    <p:menuitem id="rm_formularioDP" value="#{msgs['descargarFormDatosPersonales']}"
-                                icon="fa fa-download"
-                                url="http://www.cparn.com.ar/planilla/datosPersonales.pdf"
-                    target="_blank"/>
-                </sec:ifAnyGranted>
-                <sec:ifAnyGranted roles="ROLE_SECRETARIO">
-                    <p:menuitem id="rm_ods" value="#{msgs['menuODS']}"
-                                icon="icon-paper"
-                                outcome="/pages/eprofesional/odsList?faces-redirect=true"/>
+                    <p:menuitem id="rm_credito" value="#{msgs['menu.credito']}"
+                                icon="fa fa-money"
+                                outcome="/pages/credito/search?faces-redirect=true"/>
                 </sec:ifAnyGranted>
                 <p:separator/>
             </pm:menu>

@@ -6,57 +6,61 @@
 
     <!-- TOPBAR START -->
 
-    <div id="layout-topbar"> <a id="show-top-menu" class="ShowOnMobile ripplelink"><i
+    <div id="layout-topbar">
+        <a id="mobile-menu-button"> <span class="ButtonLine"
+                                          id="ButtonLine1"></span> <span class="ButtonLine" id="ButtonLine2"></span>
+            <span class="ButtonLine" id="ButtonLine3"></span>
+        </a> <a id="show-top-menu" class="ShowOnMobile ripplelink"><i
             class="icon-more_vert" id="active"></i><i class="icon-close DispNone"
                                                       id="passive"></i> </a>
 
-<ul id="top-menu-left">
-    <li><h:form>
-        <h:commandLink id="home"
-                       action="/pages/home.jsf?faces-redirect=true" ajax="false">
-            <i class="icon-home Fs40 White"></i>
-        </h:commandLink>
-        <p:tooltip id="toolTip-home" for="home" value="Inicio"
-                   trackMouse="true"/>
-    </h:form>
-    </li>
-    <li><h:form>
-        <h:commandLink id="preferencias"
-                       action="/pages/preferencias/search.jsf?faces-redirect=true" ajax="false">
-            <i class="icon-settings Fs40 White"></i>
-        </h:commandLink>
-        <p:tooltip id="toolTip-preferencias" for="preferencias" value="#{msgs['menu.preferencias']}"
-                   trackMouse="true"/>
-    </h:form>
-    </li>
-    <li><h:form>
-        <h:commandLink id="cliente"
-                       action="/pages/cliente/search.jsf?faces-redirect=true" ajax="false">
-            <i class="fa fa-users Fs40 White"></i>
-        </h:commandLink>
-        <p:tooltip id="toolTip-cliente" for="cliente" value="#{msgs['menu.cliente']}"
-                   trackMouse="true"/>
-    </h:form>
-    </li>
-    <li><h:form>
-        <h:commandLink id="credito"
-                       action="/pages/credito/search.jsf?faces-redirect=true" ajax="false">
-            <i class="fa fa-money Fs40 White"></i>
-        </h:commandLink>
-        <p:tooltip id="toolTip-credito" for="credito" value="#{msgs['menu.credito']}"
-                   trackMouse="true"/>
-    </h:form>
-    </li>
-    <li><h:form>
-        <h:commandLink id="cambio-clave"
-                       action="/pages/user/search.jsf?faces-redirect=true" ajax="false">
-            <i class="icon-people Fs40 White"></i>
-        </h:commandLink>
-        <p:tooltip id="toolTip-cambio-clave" for="cambio-clave" value="#{msgs['menu.cambio.clave']}"
-                   trackMouse="true"/>
-    </h:form>
-    </li>
-</ul>
+        <ul id="top-menu-left">
+            <li><h:form>
+                <h:commandLink id="home"
+                               action="/pages/home.jsf?faces-redirect=true" ajax="false">
+                    <i class="icon-home Fs40 White"></i>
+                </h:commandLink>
+                <p:tooltip id="toolTip-home" for="home" value="Inicio"
+                           trackMouse="true"/>
+            </h:form>
+            </li>
+            <li><h:form>
+                <h:commandLink id="preferencias"
+                               action="/pages/preferencias/search.jsf?faces-redirect=true" ajax="false">
+                    <i class="icon-settings Fs40 White"></i>
+                </h:commandLink>
+                <p:tooltip id="toolTip-preferencias" for="preferencias" value="#{msgs['menu.preferencias']}"
+                           trackMouse="true"/>
+            </h:form>
+            </li>
+            <li><h:form>
+                <h:commandLink id="cliente"
+                               action="/pages/cliente/search.jsf?faces-redirect=true" ajax="false">
+                    <i class="fa fa-users Fs40 White"></i>
+                </h:commandLink>
+                <p:tooltip id="toolTip-cliente" for="cliente" value="#{msgs['menu.cliente']}"
+                           trackMouse="true"/>
+            </h:form>
+            </li>
+            <li><h:form>
+                <h:commandLink id="credito"
+                               action="/pages/credito/search.jsf?faces-redirect=true" ajax="false">
+                    <i class="fa fa-money Fs40 White"></i>
+                </h:commandLink>
+                <p:tooltip id="toolTip-credito" for="credito" value="#{msgs['menu.credito']}"
+                           trackMouse="true"/>
+            </h:form>
+            </li>
+            <li><h:form>
+                <h:commandLink id="cambio-clave"
+                               action="/pages/user/search.jsf?faces-redirect=true" ajax="false">
+                    <i class="icon-people Fs40 White"></i>
+                </h:commandLink>
+                <p:tooltip id="toolTip-cambio-clave" for="cambio-clave" value="#{msgs['menu.cambio.clave']}"
+                           trackMouse="true"/>
+            </h:form>
+            </li>
+        </ul>
         <ul id="top-menu">
             <li><a class="ripplelink"><i class="icon-cog"></i> <span
                     class="ShowOnMobile">#{msgs['miPerfil']}</span></a>
