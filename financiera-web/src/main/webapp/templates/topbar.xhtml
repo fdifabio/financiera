@@ -5,6 +5,12 @@
                 xmlns:sec="http://www.springframework.org/security/facelets/tags">
 
     <!-- TOPBAR START -->
+<style>
+    #top-menu-left > li{
+        margin-top: 5px;
+        width: 10%;
+    }
+</style>
 
     <div id="layout-topbar">
         <a id="mobile-menu-button"> <span class="ButtonLine"
@@ -18,7 +24,7 @@
             <li><h:form>
                 <h:commandLink id="home"
                                action="/pages/home.jsf?faces-redirect=true" ajax="false">
-                    <i class="icon-home Fs40 White"></i>
+                    <i class="icon-home Fs30 White"></i>
                 </h:commandLink>
                 <p:tooltip id="toolTip-home" for="home" value="Inicio"
                            trackMouse="true"/>
@@ -27,7 +33,7 @@
             <li><h:form>
                 <h:commandLink id="preferencias"
                                action="/pages/preferencias/search.jsf?faces-redirect=true" ajax="false">
-                    <i class="icon-settings Fs40 White"></i>
+                    <i class="icon-settings Fs30 White"></i>
                 </h:commandLink>
                 <p:tooltip id="toolTip-preferencias" for="preferencias" value="#{msgs['menu.preferencias']}"
                            trackMouse="true"/>
@@ -36,7 +42,7 @@
             <li><h:form>
                 <h:commandLink id="cliente"
                                action="/pages/cliente/search.jsf?faces-redirect=true" ajax="false">
-                    <i class="fa fa-users Fs40 White"></i>
+                    <i class="fa fa-users Fs30 White"></i>
                 </h:commandLink>
                 <p:tooltip id="toolTip-cliente" for="cliente" value="#{msgs['menu.cliente']}"
                            trackMouse="true"/>
@@ -45,7 +51,7 @@
             <li><h:form>
                 <h:commandLink id="credito"
                                action="/pages/credito/search.jsf?faces-redirect=true" ajax="false">
-                    <i class="fa fa-money Fs40 White"></i>
+                    <i class="fa fa-money Fs30 White"></i>
                 </h:commandLink>
                 <p:tooltip id="toolTip-credito" for="credito" value="#{msgs['menu.credito']}"
                            trackMouse="true"/>
@@ -54,7 +60,7 @@
             <li><h:form>
                 <h:commandLink id="cambio-clave"
                                action="/pages/user/search.jsf?faces-redirect=true" ajax="false">
-                    <i class="icon-people Fs40 White"></i>
+                    <i class="icon-people Fs30 White"></i>
                 </h:commandLink>
                 <p:tooltip id="toolTip-cambio-clave" for="cambio-clave" value="#{msgs['menu.cambio.clave']}"
                            trackMouse="true"/>
