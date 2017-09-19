@@ -1,7 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:sec="http://www.springframework.org/security/facelets/tags">
 <ui:composition template="/templates/template.xhtml">
@@ -28,86 +27,12 @@
         <p:panel styleClass="TexAlCenter">
             <h1 class="TexAlCenter Fs24">#{msgs['title']}</h1>
             <div class="EmptyBox20"></div>
-            <div class="Container100 DispBlock MarAuto  TexAlCenter">
+            <div class="Container50 DispBlock MarAuto  TexAlCenter">
+
+            </div>
+            <div class="Container50 DispBlock MarAuto  TexAlCenter">
                 <div class="ContainerIndent TexAlCenter">
-                    <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PRESTAMISTA">
-                        <div class="Container20 Responsive100">
-                            <div class="ContainerIndent">
-                                <div class="Card ShadowEffect TexAlCenter">
-                                    <div class="EmptyBox5"></div>
 
-                                    <a href="#{request.contextPath}/pages/user/cambioclave.jsf"
-                                       class="FontRobotoLight HoverEffect"> <i
-                                            class="Orange icon-vpn_key Fs50"></i></a>
-                                    <div class="EmptyBox5"></div>
-                                    <div class="FontRobotoLight Fs16 DispBlock ClearBoth">#{msgs['menu.cambio.clave']}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </sec:ifAnyGranted>
-
-
-                    <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PRESTAMISTA">
-                        <div class="Container20 Responsive100">
-                            <div class="ContainerIndent">
-                                <div class="Card ShadowEffect Cyan TexAlCenter">
-                                    <div class="EmptyBox5"></div>
-                                    <a href="#{request.contextPath}/pages/user/search.jsf"
-                                       class="FontRobotoLight HoverEffect"> <i
-                                            class="Cyan icon-people Fs50"></i></a>
-                                    <div class="EmptyBox5"></div>
-                                    <div class="FontRobotoLight Fs16 DispBlock ClearBoth">#{msgs['menu.user']}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </sec:ifAnyGranted>
-                    <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PRESTAMISTA">
-                        <div class="Container20 Responsive100">
-                            <div class="ContainerIndent">
-                                <div class="Card ShadowEffect TexAlCenter">
-                                    <div class="EmptyBox5"></div>
-                                    <a href="#{request.contextPath}/pages/preferencias/search.xhtml"
-                                       class="FontRobotoLight HoverEffect"> <i
-                                            class="Yellow icon-settings Fs50"></i></a>
-                                    <div class="EmptyBox5"></div>
-                                    <div class="FontRobotoLight Fs16 DispBlock ClearBoth">#{msgs['menu.preferencias']}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </sec:ifAnyGranted>
-                    <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PRESTAMISTA">
-                        <div class="Container20 Responsive100">
-                            <div class="ContainerIndent">
-                                <div class="Card ShadowEffect Cyan TexAlCenter">
-                                    <div class="EmptyBox5"></div>
-                                    <a href="#{request.contextPath}/pages/cliente/search.jsf"
-                                       class="FontRobotoLight HoverEffect"> <i
-                                            class="Green fa fa-dollar Fs50"></i></a>
-                                    <div class="EmptyBox5"></div>
-                                    <div class="FontRobotoLight Fs16 DispBlock ClearBoth">#{msgs['menu.caja']}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </sec:ifAnyGranted>
-                    <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PRESTAMISTA">
-                        <div class="Container20 Responsive100">
-                            <div class="ContainerIndent">
-                                <div class="Card ShadowEffect Cyan TexAlCenter">
-                                    <div class="EmptyBox5"></div>
-                                    <a href="#{request.contextPath}/pages/credito/search.jsf"
-                                       class="FontRobotoLight HoverEffect"> <i
-                                            class="Blue fa fa-money  Fs50"></i></a>
-                                    <div class="EmptyBox5"></div>
-                                    <div class="FontRobotoLight Fs16 DispBlock ClearBoth">#{msgs['menu.credito']}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </sec:ifAnyGranted>
                 </div>
             </div>
             <div class="EmptyBox20"></div>

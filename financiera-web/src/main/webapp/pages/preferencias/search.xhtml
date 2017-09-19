@@ -36,7 +36,7 @@
                                                 <f:facet name="header">Intereses
                                                     <p:commandButton update="tabs:formDetalle:interesDetalle"
                                                                      oncomplete="PF('dlgCrear').show()" icon="fa fa-plus-circle "
-                                                                     title="Crear" style="float: right;background-color: #FB8C00;"/>
+                                                                     title="Crear" style="float: right;background-color: #f50057;border: 0px;"/>
                                                 </f:facet>
                                                 <p:column  headerText="Valor">
                                                     <div class="Container100 Responsive50">
@@ -125,7 +125,7 @@
                                 </div>
                             </p:tab>
                             <p:tab title="Descuentos">
-                                <div class="ContainerIndent">
+                                <div class="Container100">
                                     <h:form id="formDescuento" class="TexAlCenter">
                                         <div class="Container60">
                                             <p:dataTable var="descuento" value="#{preferenciasBean.descuentoList}" id="listDescuento"
@@ -135,7 +135,7 @@
                                                 <f:facet name="header">Descuentos
                                                     <p:commandButton update="tabs:formDetalleDescuento:descuentoDetalle"
                                                                      oncomplete="PF('dlgCrearDescuento').show()" icon="fa fa-plus-circle "
-                                                                     title="Crear" style="float: right;background-color: #FB8C00;"/>
+                                                                     title="Crear" style="float: right;background-color: #f50057;border: 0px;"/>
                                                 </f:facet>
                                                 <p:column  headerText="Valor">
                                                     <div class="Container100 Responsive50">
