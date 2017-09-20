@@ -53,3 +53,6 @@ CREATE TABLE `financiera_dev`.`cobro` ( `id` BIGINT(11) NOT NULL AUTO_INCREMENT 
 CREATE TABLE `financiera_dev`.`caja` ( `id` BIGINT(11) NOT NULL AUTO_INCREMENT , `fecha_apertura` DATE NOT NULL , `fecha_cierre` DATE NOT NULL , PRIMARY KEY (`id`)) ENGINE = MyISAM;
 
 CREATE TABLE `financiera_dev`.`movimiento` ( `id` BIGINT(11) NOT NULL AUTO_INCREMENT , `monto` DOUBLE NOT NULL , `fecha` DATE NOT NULL , `descripcion` VARCHAR(255) NOT NULL , `tipo` VARCHAR(255) NOT NULL , `caja_id` BIGINT(11) NOT NULL , PRIMARY KEY (`id`), INDEX `caja_id` (`caja_id`)) ENGINE = MyISAM;
+
+/*20/09/2017*/
+ALTER TABLE `cuota` CHANGE `fecha_cierra` `fecha_cierre` DATE NOT NULL;

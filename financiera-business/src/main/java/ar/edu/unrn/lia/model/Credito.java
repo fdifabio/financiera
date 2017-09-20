@@ -70,7 +70,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         this.fechaVencimiento = fechaVencimiento;
     }
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "credito")
     @Fetch(FetchMode.JOIN)
     public List<Cuota> getCoutas() {
         return coutas;
