@@ -79,13 +79,13 @@
                                                          layout="grid"
                                                          styleClass="ui-panelgrid-blank">
 
-                                                <h:outputLabel value="#{msgs['formFecha']}:" styleClass="FontBold"
-                                                               for="fecha"/>
+                                                <h:outputLabel value="#{msgs['formFechaInicio']}:" styleClass="FontBold"
+                                                               for="fechaInicio"/>
                                                 <h:panelGroup>
-                                                    <p:calendar id="fecha" value="#{creditoBean.entity.fecha}"
+                                                    <p:calendar id="fechaInicio" value="#{creditoBean.entity.fechaInicio}"
                                                                 required="true"
                                                                 requiredMessage="#{msgs['validationRequired']}"/>
-                                                    <p:message for="fecha"/>
+                                                    <p:message for="fechaInicio"/>
                                                 </h:panelGroup>
 
                                                 <h:outputLabel value="#{msgs['formEstado']}:" styleClass="FontBold"
@@ -178,14 +178,17 @@
                                                 </p:column>
                                                 <p:column headerText="Cuota capital">
                                                     <h:outputText value="#{item.cuotaCapital}">
+                                                        <f:convertNumber type="currency" currencySymbol="$"/>
                                                     </h:outputText>
                                                 </p:column>
                                                 <p:column headerText="Cuota interes">
                                                     <h:outputText value="#{item.cuotaInteres}">
+                                                        <f:convertNumber type="currency" currencySymbol="$"/>
                                                     </h:outputText>
                                                 </p:column>
                                                 <p:column headerText="Saldo">
                                                     <h:outputText value="#{item.saldo}">
+                                                        <f:convertNumber type="currency" currencySymbol="$"/>
                                                     </h:outputText>
                                                 </p:column>
 

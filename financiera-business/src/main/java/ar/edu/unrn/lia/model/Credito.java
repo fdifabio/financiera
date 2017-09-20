@@ -21,13 +21,13 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     private BigDecimal capital;
     private Integer cuotas;
     private BigDecimal interes;
-    private Date fecha = new Date();
+    private Date fechaCreacion = new Date();
+    private Date fechaInicio = new Date();
     private Date fechaVencimiento;
     private Estado estado = Estado.ACTIVO;
     private Cliente cliente;
     private BigDecimal montoCutoas;
     private List<Cuota> listCuotas = new ArrayList<>(0);
-    private List<Cuota> coutas;
 
     public BigDecimal getCapital() {
         return capital;
@@ -53,12 +53,22 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         this.interes = interes;
     }
 
-    public Date getFecha() {
-        return fecha;
+    @Column(name = "fecha_creacion")
+    public Date getFechaCreacion() {
+        return fechaCreacion;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    @Column(name = "fecha_inicio")
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
     @Column(name = "fecha_vencimiento")
@@ -70,15 +80,6 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         this.fechaVencimiento = fechaVencimiento;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "credito")
-    @Fetch(FetchMode.JOIN)
-    public List<Cuota> getCoutas() {
-        return coutas;
-    }
-
-    public void setCoutas(List<Cuota> coutas) {
-        this.coutas = coutas;
-    }
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")
@@ -109,7 +110,8 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         this.montoCutoas = montoCutoas;
     }
 
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "credito")
+    @Fetch(FetchMode.JOIN)
     public List<Cuota> getListCuotas() {
         return listCuotas;
     }
@@ -138,7 +140,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
             cuotaInteres = saldo.multiply(interes);
             cuotaCapital = montoCutoas.subtract(cuotaInteres);
             saldo = saldo.subtract(cuotaCapital);
-            listCuotas.add(new Cuota(redondear(cuotaCapital), redondear(cuotaInteres), redondear(saldo)));
+            listCuotas.add(new Cuota(this, redondear(cuotaCapital), redondear(cuotaInteres), redondear(saldo)));
         }
     }
 
