@@ -43,3 +43,13 @@ CREATE TABLE `financiera_dev`.`descuento` (
   ENGINE = InnoDB;
 
 INSERT INTO `descuento` (`id`, `valor`, `orden`) VALUES (NULL, '5', '1'), (NULL, '7', '2');
+
+
+/*19/09/2017*/
+CREATE TABLE `financiera_dev`.`cuota` (  `id` BIGINT(11) NOT NULL AUTO_INCREMENT, `cuota_capital` DOUBLE NOT NULL , `cuota_interes` DOUBLE NOT NULL , `saldo` DOUBLE NOT NULL , `fecha_inicio` DATE NOT NULL , `fecha_cierra` DATE NOT NULL , `estado` VARCHAR(255) NOT NULL , `credito_id` BIGINT(11) NOT NULL , PRIMARY KEY (`id`), INDEX `credito_id` (`credito_id`)) ENGINE = MyISAM;
+
+CREATE TABLE `financiera_dev`.`cobro` ( `id` BIGINT(11) NOT NULL AUTO_INCREMENT , `monto` DOUBLE NOT NULL , `fecha` DATE NOT NULL , `descripcion` VARCHAR(255) NOT NULL , `cuota_id` INT NOT NULL , PRIMARY KEY (`id`), INDEX `cuota_id` (`cuota_id`)) ENGINE = MyISAM;
+
+CREATE TABLE `financiera_dev`.`caja` ( `id` BIGINT(11) NOT NULL AUTO_INCREMENT , `fecha_apertura` DATE NOT NULL , `fecha_cierre` DATE NOT NULL , PRIMARY KEY (`id`)) ENGINE = MyISAM;
+
+CREATE TABLE `financiera_dev`.`movimiento` ( `id` BIGINT(11) NOT NULL AUTO_INCREMENT , `monto` DOUBLE NOT NULL , `fecha` DATE NOT NULL , `descripcion` VARCHAR(255) NOT NULL , `tipo` VARCHAR(255) NOT NULL , `caja_id` BIGINT(11) NOT NULL , PRIMARY KEY (`id`), INDEX `caja_id` (`caja_id`)) ENGINE = MyISAM;

@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/templates/template.xhtml">
+    <ui:define name="subheader">
+        Reportes
+    </ui:define>
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect  ">
+                    <div class="Container100">
+                        <p:tabView orientation="left" id="tabs">
+                            <p:tab title="Morosos">
+
+                            </p:tab>
+                            <p:tab title="Proyecciones">
+                            </p:tab>
+                        </p:tabView>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.validationFailed) {
+                    PF('dlg').jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    PF('dlg').hide();
+                    $('#loginLink').fadeOut();
+                }
+            }
+            function handleLoginRequest2(xhr, status, args) {
+                if (args.validationFailed) {
+                    PF('dlgCrear').jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    PF('dlgCrear').hide();
+                    $('#loginLink').fadeOut();
+                }
+            }
+            function handleLoginRequestD(xhr, status, args) {
+                if (args.validationFailed) {
+                    PF('dlgDescuento').jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    PF('dlgDescuento').hide();
+                    $('#loginLink').fadeOut();
+                }
+            }
+            function handleLoginRequestD2(xhr, status, args) {
+                if (args.validationFailed) {
+                    PF('dlgCrearDescuento').jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    PF('dlgCrearDescuento').hide();
+                    $('#loginLink').fadeOut();
+                }
+            }
+        </script>
+    </ui:define>
+</ui:composition>
+</html>

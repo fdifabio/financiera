@@ -1,5 +1,8 @@
 package ar.edu.unrn.lia.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -24,6 +27,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     private Cliente cliente;
     private BigDecimal montoCutoas;
     private List<Cuota> listCuotas = new ArrayList<>(0);
+    private List<Cuota> coutas;
 
     public BigDecimal getCapital() {
         return capital;
@@ -64,6 +68,16 @@ public class Credito extends BaseEntity implements java.io.Serializable {
 
     public void setFechaVencimiento(Date fechaVencimiento) {
         this.fechaVencimiento = fechaVencimiento;
+    }
+
+    @OneToMany
+    @Fetch(FetchMode.JOIN)
+    public List<Cuota> getCoutas() {
+        return coutas;
+    }
+
+    public void setCoutas(List<Cuota> coutas) {
+        this.coutas = coutas;
     }
 
     @Enumerated(EnumType.STRING)
