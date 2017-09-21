@@ -30,12 +30,14 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
         super();
     }
 
-    public Cuota(Credito credito, BigDecimal cuotaCapital, BigDecimal cuotaInteres, BigDecimal saldo) {
+    public Cuota(Credito credito, BigDecimal cuotaCapital, BigDecimal cuotaInteres, BigDecimal saldo, Date fechaInicio, Date fechaCierre) {
         super();
         this.cuotaCapital = cuotaCapital;
         this.cuotaInteres = cuotaInteres;
         this.saldo = saldo;
         this.credito = credito;
+        this.fechaInicio = fechaInicio;
+        this.fechaCierre = fechaCierre;
     }
 
 

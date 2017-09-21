@@ -6,6 +6,8 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -140,8 +142,14 @@ public class Credito extends BaseEntity implements java.io.Serializable {
             cuotaInteres = saldo.multiply(interes);
             cuotaCapital = montoCutoas.subtract(cuotaInteres);
             saldo = saldo.subtract(cuotaCapital);
-            listCuotas.add(new Cuota(this, redondear(cuotaCapital), redondear(cuotaInteres), redondear(saldo)));
+            Date fechaInicio =
+                    Date.from(LocalDate.now().plusMonths(i).atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Date fechaCierre =
+                    Date.from(LocalDate.now().plusMonths(i + 1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+            listCuotas.add(new Cuota(this, redondear(cuotaCapital), redondear(cuotaInteres), redondear(saldo), fechaInicio, fechaCierre));
         }
+        fechaVencimiento =
+                Date.from(LocalDate.now().plusMonths(cuotas.longValue()).atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
     @Transient

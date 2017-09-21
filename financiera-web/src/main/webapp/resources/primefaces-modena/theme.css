@@ -1084,7 +1084,7 @@ label {
     -webkit-border-radius: 1px !important;
     -moz-border-radius: 1px !important;
     font-size: 14px;
-    padding: 15px 10px !important;
+    padding: 10px 10px !important;/*padding: 15px 10px !important;*/
     font-weight: normal;
     font-family: 'robotolight';
 }
@@ -1536,7 +1536,7 @@ label {
 .ui-paginator .ui-paginator-last,
 .ui-paginator .ui-paginator-rpp-options {
     font-size: 20px;
-    padding: 10px 3px !important;
+    /*padding: 10px 3px !important;*/
     font-weight: bold;
     border: solid 3px transparent;
     color: #a6defd;
@@ -1589,7 +1589,7 @@ label {
     color: #ffffff !important;
     background-repeat: no-repeat;
     border-bottom: solid 3px #ffffff;
-    font-size: 20px;
+    font-size: 14px;/*font-size: 20px;*/
     border-radius: 0px !important;
 }
 
@@ -1597,7 +1597,7 @@ label {
     outline: none;
     color: #ffffff !important;
     font-family: 'robotoregular';
-    font-size: 18px !important;
+    font-size: 14px !important;/*font-size: 18px !important;*/
     background-color: #0277bd;
     border: solid 1px transparent;
 }

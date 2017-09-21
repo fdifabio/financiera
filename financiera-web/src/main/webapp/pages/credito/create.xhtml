@@ -82,19 +82,21 @@
                                                 <h:outputLabel value="#{msgs['formFechaInicio']}:" styleClass="FontBold"
                                                                for="fechaInicio"/>
                                                 <h:panelGroup>
-                                                    <p:calendar id="fechaInicio" value="#{creditoBean.entity.fechaInicio}"
+                                                    <p:calendar id="fechaInicio"
+                                                                value="#{creditoBean.entity.fechaInicio}"
                                                                 required="true"
                                                                 requiredMessage="#{msgs['validationRequired']}"/>
                                                     <p:message for="fechaInicio"/>
                                                 </h:panelGroup>
 
-                                                <h:outputLabel value="#{msgs['formEstado']}:" styleClass="FontBold"
-                                                               for="estado"/>
+                                                <h:outputLabel value="#{msgs['formFechaVencimiento']}:"
+                                                               styleClass="FontBold"
+                                                               for="fechaVencimiento"/>
                                                 <h:panelGroup>
-                                                    <p:outputLabel id="estado"
-                                                                   value="#{creditoBean.entity.estado.descripcion}"
-                                                                   style="padding: 0px 5px 0px 5px;border-radius: 5px;"
-                                                                   styleClass="#{creditoBean.entity.estado.backgroundColor} White"/>
+                                                    <h:outputText id="fechaVencimiento"
+                                                                  value="#{creditoBean.entity.fechaVencimiento}">
+                                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                    </h:outputText>
                                                 </h:panelGroup>
 
                                                 <h:outputLabel value="#{msgs['formCapital']}:" styleClass="FontBold"
@@ -109,6 +111,15 @@
                                                     <p:message for="capital"/>
                                                 </h:panelGroup>
 
+                                                <h:outputLabel value="#{msgs['formEstado']}:" styleClass="FontBold"
+                                                               for="estado"/>
+                                                <h:panelGroup>
+                                                    <p:outputLabel id="estado"
+                                                                   value="#{creditoBean.entity.estado.descripcion}"
+                                                                   style="padding: 0px 5px 0px 5px;border-radius: 5px;"
+                                                                   styleClass="#{creditoBean.entity.estado.backgroundColor} White"/>
+                                                </h:panelGroup>
+
                                                 <h:outputLabel value="#{msgs['formCuotas']}:" styleClass="FontBold"
                                                                for="cuotas"/>
                                                 <h:panelGroup>
@@ -119,6 +130,13 @@
                                                     </p:inputText>
                                                     <p:message for="cuotas"/>
                                                 </h:panelGroup>
+
+
+                                                <h:outputLabel value="#{msgs['formCuota']}:" styleClass="FontBold"/>
+                                                <h:outputText value="#{creditoBean.entity.montoCutoas}"
+                                                              styleClass="FontBold">
+                                                    <f:convertNumber type="currency" currencySymbol="$"/>
+                                                </h:outputText>
 
                                                 <h:outputLabel value="#{msgs['formInteres']}:" styleClass="FontBold"
                                                                for="interes"/>
@@ -135,11 +153,6 @@
                                                 <p:commandButton value="Calcular cuotas" update="crear list"
                                                                  icon="fa fa-calculator"
                                                                  actionListener="#{creditoBean.calcularMontoCuotas}"/>
-
-                                                <h:outputLabel value="#{msgs['formCuota']}:" styleClass="FontBold"/>
-                                                <h:outputText value="#{creditoBean.entity.montoCutoas}" styleClass="FontBold">
-                                                    <f:convertNumber type="currency" currencySymbol="$"/>
-                                                </h:outputText>
                                             </p:panelGrid>
 
 
@@ -175,6 +188,18 @@
                                                 <p:column headerText="Período">
                                                     <h:outputText value="#{index + 1}"/>
 
+                                                </p:column>
+                                                <p:column headerText="#{msgs['formFechaInicio']}"
+                                                          sortBy="#{item.fechaInicio}">
+                                                    <h:outputText value="#{item.fechaInicio}">
+                                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                    </h:outputText>
+                                                </p:column>
+                                                <p:column headerText="#{msgs['formFechaVencimiento']}"
+                                                          sortBy="#{item.fechaCierre}">
+                                                    <h:outputText value="#{item.fechaCierre}">
+                                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                    </h:outputText>
                                                 </p:column>
                                                 <p:column headerText="Cuota capital">
                                                     <h:outputText value="#{item.cuotaCapital}">
