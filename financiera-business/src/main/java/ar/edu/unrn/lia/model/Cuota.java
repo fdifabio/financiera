@@ -21,15 +21,23 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     private BigDecimal saldo;
     private Date fechaInicio;
     private Date fechaCierre;
-    private Estado estado;
+    private Estado estado = Estado.ADEUDADO;
     private List<Cobro> cobros;
 
     private Credito credito;
 
-    public Cuota(BigDecimal cuotaCapital, BigDecimal cuotaInteres, BigDecimal saldo) {
+    public Cuota() {
+        super();
+    }
+
+    public Cuota(Credito credito, BigDecimal cuotaCapital, BigDecimal cuotaInteres, BigDecimal saldo, Date fechaInicio, Date fechaCierre) {
+        super();
         this.cuotaCapital = cuotaCapital;
         this.cuotaInteres = cuotaInteres;
         this.saldo = saldo;
+        this.credito = credito;
+        this.fechaInicio = fechaInicio;
+        this.fechaCierre = fechaCierre;
     }
 
 
@@ -88,7 +96,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
         this.credito = credito;
     }
 
-    @OneToMany
+    @OneToMany(mappedBy = "cuota")
     @Fetch(FetchMode.JOIN)
     public List<Cobro> getCobros() {
         return cobros;

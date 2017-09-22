@@ -6,6 +6,8 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,13 +23,13 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     private BigDecimal capital;
     private Integer cuotas;
     private BigDecimal interes;
-    private Date fecha = new Date();
+    private Date fechaCreacion = new Date();
+    private Date fechaInicio = new Date();
     private Date fechaVencimiento;
     private Estado estado = Estado.ACTIVO;
     private Cliente cliente;
     private BigDecimal montoCutoas;
     private List<Cuota> listCuotas = new ArrayList<>(0);
-    private List<Cuota> coutas;
 
     public BigDecimal getCapital() {
         return capital;
@@ -53,12 +55,22 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         this.interes = interes;
     }
 
-    public Date getFecha() {
-        return fecha;
+    @Column(name = "fecha_creacion")
+    public Date getFechaCreacion() {
+        return fechaCreacion;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    @Column(name = "fecha_inicio")
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
     @Column(name = "fecha_vencimiento")
@@ -70,15 +82,6 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         this.fechaVencimiento = fechaVencimiento;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "credito")
-    @Fetch(FetchMode.JOIN)
-    public List<Cuota> getCoutas() {
-        return coutas;
-    }
-
-    public void setCoutas(List<Cuota> coutas) {
-        this.coutas = coutas;
-    }
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")
@@ -109,7 +112,8 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         this.montoCutoas = montoCutoas;
     }
 
-    @Transient
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "credito")
+    @Fetch(FetchMode.JOIN)
     public List<Cuota> getListCuotas() {
         return listCuotas;
     }
@@ -138,8 +142,14 @@ public class Credito extends BaseEntity implements java.io.Serializable {
             cuotaInteres = saldo.multiply(interes);
             cuotaCapital = montoCutoas.subtract(cuotaInteres);
             saldo = saldo.subtract(cuotaCapital);
-            listCuotas.add(new Cuota(redondear(cuotaCapital), redondear(cuotaInteres), redondear(saldo)));
+            Date fechaInicio =
+                    Date.from(LocalDate.now().plusMonths(i).atStartOfDay(ZoneId.systemDefault()).toInstant());
+            Date fechaCierre =
+                    Date.from(LocalDate.now().plusMonths(i + 1).atStartOfDay(ZoneId.systemDefault()).toInstant());
+            listCuotas.add(new Cuota(this, redondear(cuotaCapital), redondear(cuotaInteres), redondear(saldo), fechaInicio, fechaCierre));
         }
+        fechaVencimiento =
+                Date.from(LocalDate.now().plusMonths(cuotas.longValue()).atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 
     @Transient
