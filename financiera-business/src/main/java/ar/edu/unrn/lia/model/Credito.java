@@ -111,7 +111,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         this.montoCutoas = montoCutoas;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "credito")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "credito",orphanRemoval = true)
     @Fetch(FetchMode.JOIN)
     public List<Cuota> getListCuotas() {
         return listCuotas;
