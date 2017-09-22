@@ -62,3 +62,4 @@ ALTER TABLE `credito` ADD `fecha_inicio` DATE NOT NULL AFTER `fecha_creacion`;
 /*22/09/2017*/
 ALTER TABLE `cuota` CHANGE `fecha_inicio` `fecha_vencimiento` DATE NOT NULL;
 ALTER TABLE `cuota` CHANGE `fecha_cierre` `fecha_cierre` DATE NULL;
+ALTER TABLE `cuota` ADD `nro` INT NOT NULL AFTER `id`;

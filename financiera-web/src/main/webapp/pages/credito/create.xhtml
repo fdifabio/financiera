@@ -165,7 +165,7 @@
                                                          rowIndexVar="index" paginator="true" rows="12"
                                                          paginatorPosition="bottom"
                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                         rowsPerPageTemplate="6,12,24,36,48">
+                                                         rowsPerPageTemplate="6,12,24,36,48" sortBy="#{item.nro}">
                                                 <f:facet name="header">
                                                     <h:outputText value="#{msgs['cuotas']}"/>
                                                     <h:commandLink styleClass="Inline GreenBack"
@@ -186,7 +186,7 @@
 
                                                 </f:facet>
                                                 <p:column headerText="Período">
-                                                    <h:outputText value="#{index + 1}"/>
+                                                    <h:outputText value="#{item.nro}"/>
 
                                                 </p:column>
                                                 <p:column headerText="#{msgs['formFechaVencimiento']}">
