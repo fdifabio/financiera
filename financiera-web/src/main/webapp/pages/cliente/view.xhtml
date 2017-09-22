@@ -151,7 +151,7 @@
                                                 <h:outputText value="Fecha:" style="font-weight: bold;"/>
 
                                                 <p:outputLabel
-                                                        value="#{creditoBean.creditoSeleccionado.fecha}">
+                                                        value="#{creditoBean.creditoSeleccionado.fechaVencimiento}">
                                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                                                 </p:outputLabel>
                                                 <h:outputText value="Estado:" style="font-weight: bold;"/>
@@ -172,7 +172,7 @@
                                                                  paginator="false" rowIndexVar="index"
                                                                  emptyMessage="El credito no posee cuotas"
                                                                  summary="true"
-                                                                 resizableColumns="false" rows="10"
+                                                                 resizableColumns="false"
                                                                  paginatorPosition="bottom"
                                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                                  currentPageReportTemplate="({currentPage} de {totalPages})"
@@ -206,49 +206,49 @@
                                                         </p:column>
 
                                                         <p:column headerText="Estado">
-                                                            <div class="#{item.estado.backgroundColor}"
+                                                            <div
                                                                  style="border-radius: 5px; padding: 2px 0px 2px 0px;">
                                                                 <h:outputText value="#{item.estado.descripcion}"/>
                                                             </div>
                                                         </p:column>
+                                <!--
+                                                                                        <p:column headerText="Comprobante">
+                                                                                            <p:commandLink id="imgComprobante"
+                                                                                                           update=":formentity:dlgImgComprobante"
+                                                                                                           onclick="PF('dlgImgComprobante').show();">
+                                                                                                <p:graphicImage
+                                                                                                        value="#{comprobanteBean.getUrl(item.comprobante)}"
+                                                                                                        rendered="#{item.comprobante.imagen()}"
+                                                                                                        width="50"
+                                                                                                        height="50"/>
+                                                                                                <f:setPropertyActionListener value="#{item.comprobante}"
+                                                                                                                             target="#{gastoBean.selectedComprobante}"/>
+                                                                                            </p:commandLink>
 
-                                                        <p:column headerText="Comprobante">
-                                                            <p:commandLink id="imgComprobante"
-                                                                           update=":form:dlgImgComprobante"
-                                                                           onclick="PF('dlgImgComprobante').show();">
-                                                                <p:graphicImage
-                                                                        value="#{comprobanteBean.getUrl(item.comprobante)}"
-                                                                        rendered="#{item.comprobante.imagen()}"
-                                                                        width="50"
-                                                                        height="50"/>
-                                                                <f:setPropertyActionListener value="#{item.comprobante}"
-                                                                                             target="#{gastoBean.selectedComprobante}"/>
-                                                            </p:commandLink>
+                                                                                            <p:commandLink update=":form:dlgImgComprobante"
+                                                                                                           onclick="PF('dlgImgComprobante').show();"
+                                                                                                           rendered="#{item.comprobante.pdf()}">
+                                                                                                <i class="icon-picture_as_pdf BoldGray Fs50"></i>
+                                                                                                <f:setPropertyActionListener value="#{item.comprobante}"
+                                                                                                                             target="#{gastoBean.selectedComprobante}"/>
+                                                                                            </p:commandLink>
+                                                                                            <p:tooltip for="imgComprobante"
+                                                                                                       value="#{msgs['ampliar.comprobante']}"
+                                                                                                       trackMouse="true"/>
+                                                                                        </p:column>
+                                -->
+                                                                                    </p:dataTable>
 
-                                                            <p:commandLink update=":form:dlgImgComprobante"
-                                                                           onclick="PF('dlgImgComprobante').show();"
-                                                                           rendered="#{item.comprobante.pdf()}">
-                                                                <i class="icon-picture_as_pdf BoldGray Fs50"></i>
-                                                                <f:setPropertyActionListener value="#{item.comprobante}"
-                                                                                             target="#{gastoBean.selectedComprobante}"/>
-                                                            </p:commandLink>
-                                                            <p:tooltip for="imgComprobante"
-                                                                       value="#{msgs['ampliar.comprobante']}"
-                                                                       trackMouse="true"/>
-                                                        </p:column>
+                                                                                </p:panel>
+                                                                            </h:panelGroup>
 
-                                                    </p:dataTable>
-
-                                                </p:panel>
-                                            </h:panelGroup>
-
-                                        </h:panelGroup>
+                                                                        </h:panelGroup>
 
 
-                                    </p:outputPanel>
+                                                                    </p:outputPanel>
 
-                                </p:dialog>
-                                <!-- FIN PANEL DETALLE RENDICION -->
+                                                                </p:dialog>
+                                                                <!-- FIN PANEL DETALLE RENDICION -->
                             </h:form>
                         </div>
                     </div>
