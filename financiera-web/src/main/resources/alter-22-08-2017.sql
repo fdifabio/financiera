@@ -58,3 +58,7 @@ CREATE TABLE `financiera_dev`.`movimiento` ( `id` BIGINT(11) NOT NULL AUTO_INCRE
 ALTER TABLE `cuota` CHANGE `fecha_cierra` `fecha_cierre` DATE NOT NULL;
 ALTER TABLE `credito` CHANGE `fecha` `fecha_creacion` DATE NOT NULL;
 ALTER TABLE `credito` ADD `fecha_inicio` DATE NOT NULL AFTER `fecha_creacion`;
+
+/*22/09/2017*/
+ALTER TABLE `cuota` CHANGE `fecha_inicio` `fecha_vencimiento` DATE NOT NULL;
+ALTER TABLE `cuota` CHANGE `fecha_cierre` `fecha_cierre` DATE NULL;

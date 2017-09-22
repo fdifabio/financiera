@@ -189,15 +189,8 @@
                                                     <h:outputText value="#{index + 1}"/>
 
                                                 </p:column>
-                                                <p:column headerText="#{msgs['formFechaInicio']}"
-                                                          sortBy="#{item.fechaInicio}">
-                                                    <h:outputText value="#{item.fechaInicio}">
-                                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                                    </h:outputText>
-                                                </p:column>
-                                                <p:column headerText="#{msgs['formFechaVencimiento']}"
-                                                          sortBy="#{item.fechaCierre}">
-                                                    <h:outputText value="#{item.fechaCierre}">
+                                                <p:column headerText="#{msgs['formFechaVencimiento']}">
+                                                    <h:outputText value="#{item.fechaVencimiento}">
                                                         <f:convertDateTime pattern="dd/MM/yyyy"/>
                                                     </h:outputText>
                                                 </p:column>

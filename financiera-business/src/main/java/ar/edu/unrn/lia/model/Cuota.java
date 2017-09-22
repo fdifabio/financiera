@@ -19,7 +19,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     private BigDecimal cuotaCapital;
     private BigDecimal cuotaInteres;
     private BigDecimal saldo;
-    private Date fechaInicio;
+    private Date fechaVencimiento;
     private Date fechaCierre;
     private Estado estado = Estado.ADEUDADO;
     private List<Cobro> cobros;
@@ -30,14 +30,13 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
         super();
     }
 
-    public Cuota(Credito credito, BigDecimal cuotaCapital, BigDecimal cuotaInteres, BigDecimal saldo, Date fechaInicio, Date fechaCierre) {
+    public Cuota(Credito credito, BigDecimal cuotaCapital, BigDecimal cuotaInteres, BigDecimal saldo, Date fechaVencimiento) {
         super();
         this.cuotaCapital = cuotaCapital;
         this.cuotaInteres = cuotaInteres;
         this.saldo = saldo;
         this.credito = credito;
-        this.fechaInicio = fechaInicio;
-        this.fechaCierre = fechaCierre;
+        this.fechaVencimiento = fechaVencimiento;
     }
 
 
@@ -67,13 +66,13 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
         this.saldo = saldo;
     }
 
-    @Column(name = "fecha_inicio")
-    public Date getFechaInicio() {
-        return fechaInicio;
+    @Column(name = "fecha_vencimiento")
+    public Date getFechaVencimiento() {
+        return fechaVencimiento;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
+    public void setFechaVencimiento(Date fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
     }
 
     @Column(name = "fecha_cierre")
