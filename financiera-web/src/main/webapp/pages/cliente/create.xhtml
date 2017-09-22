@@ -89,7 +89,7 @@
                                                 <p:message for="telefono"/>
                                             </h:panelGroup>
                                             <h:outputText value="#{msgs['formCelular']}:" styleClass="FontBold"/>
-                                            <div class="EmptyBox20"></div>
+                                            <h:outputText value="#{msgs['formDireccion']}:" styleClass="FontBold"/>
                                             <h:panelGroup layout="block">
                                                 <p:inputText id="celular"
                                                              required="true"
@@ -98,9 +98,14 @@
                                                 </p:inputText>
                                                 <p:message for="celular"/>
                                             </h:panelGroup>
-                                            <div class="EmptyBox20"></div>
-                                            <h:outputText value="#{msgs['formDireccion']}:" styleClass="FontBold"/>
-                                            <div class="EmptyBox5"></div>
+                                            <h:panelGroup layout="block">
+                                                <p:inputText id="direccion"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{clienteBean.entity.domicilio}">
+                                                </p:inputText>
+                                                <p:message for="celular"/>
+                                            </h:panelGroup>
                                             <p:outputLabel for="provincia"
                                                            value="#{msgs['form.provincia']}:"/>
                                             <p:outputLabel for="ciudades"

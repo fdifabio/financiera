@@ -26,6 +26,7 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
     private static final long serialVersionUID = 1L;
     private List<Cliente> clientes = new ArrayList<Cliente>(0);
     private double montoCuota;
+    private Credito creditoSeleccionado;
 
     @Inject
     private CreditoService entityService;
@@ -66,6 +67,10 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
         calcularCuotas();
     }
 
+    public void cargarCredito(Credito credito) {
+        this.setCreditoSeleccionado(getEntityService().getEntityById(credito.getId()));
+    }
+
     @Override
     public String update() {
         return super.update();
@@ -101,5 +106,13 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     public void setMontoCuota(double montoCuota) {
         this.montoCuota = montoCuota;
+    }
+
+    public Credito getCreditoSeleccionado() {
+        return creditoSeleccionado;
+    }
+
+    public void setCreditoSeleccionado(Credito creditoSeleccionado) {
+        this.creditoSeleccionado = creditoSeleccionado;
     }
 }
