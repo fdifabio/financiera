@@ -16,6 +16,7 @@ import java.util.List;
 @Table(name = "cuota")
 public class Cuota extends BaseEntity implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
+    private Integer nro;
     private BigDecimal cuotaCapital;
     private BigDecimal cuotaInteres;
     private BigDecimal saldo;
@@ -30,8 +31,9 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
         super();
     }
 
-    public Cuota(Credito credito, BigDecimal cuotaCapital, BigDecimal cuotaInteres, BigDecimal saldo, Date fechaVencimiento) {
+    public Cuota(Integer nro, Credito credito, BigDecimal cuotaCapital, BigDecimal cuotaInteres, BigDecimal saldo, Date fechaVencimiento) {
         super();
+        this.nro = nro;
         this.cuotaCapital = cuotaCapital;
         this.cuotaInteres = cuotaInteres;
         this.saldo = saldo;
@@ -39,6 +41,13 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
         this.fechaVencimiento = fechaVencimiento;
     }
 
+    public Integer getNro() {
+        return nro;
+    }
+
+    public void setNro(Integer nro) {
+        this.nro = nro;
+    }
 
     @Column(name = "cuota_capital")
     public BigDecimal getCuotaCapital() {
