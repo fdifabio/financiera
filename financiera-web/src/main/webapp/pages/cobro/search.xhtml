@@ -76,37 +76,20 @@
                                                       style="padding: 0px 5px 0px 5px;border-radius: 5px;"/>
                                     </p:column>
                                     <p:column headerText="Opciones">
-                                        <h:link id="btnEditar" outcome="create" title="#{msgs['btnEditar']}">
+                                        <h:link outcome="create" title="#{msgs['btnEditar']}">
                                             <i class="icon-edit Fs20"></i>
                                             <f:param name="id" value="#{item.id}"/>
                                         </h:link>
-                                        <p:tooltip id="toolTip-editar" for="btnEditar" value="#{msgs['btnEditar']}"
-                                                   trackMouse="true"/>
-
-                                        <h:link id="btnVer" outcome="view">
+                                        <h:link outcome="view" title="#{msgs['btn.ver']}">
                                             <i class="icon-zoom-in Fs20"></i>
                                             <f:param name="id" value="#{item.id}"/>
                                         </h:link>
-                                        <p:tooltip id="toolTip-ver" for="btnVer" value="#{msgs['btn.ver']}"
-                                                   trackMouse="true"/>
-
-                                        <h:outputLink id="btnCobro" value="/pages/cobro/create.jsf">
-                                            <f:param name="credito_id" value="#{item.id}"/>
-                                            <i class="fa fa-briefcase Fs20"></i>
-                                        </h:outputLink>
-                                        <p:tooltip id="toolTip-cobro" for="btnCobro" value="#{msgs['registarCobro']}"
-                                                   trackMouse="true"/>
-
-                                        <p:commandLink id="btnEliminar" title="#{msgs['btnEliminar']}"
+                                        <p:commandLink id="nonAjax" title="#{msgs['btnEliminar']}"
                                                        actionListener="#{creditoBean.delete(item)}" update="list">
                                             <p:confirm header="#{msgs['confirmacion']}"
                                                        message="#{msgs['confirmarEliminar']}" icon="ui-icon-alert"/>
                                             <i class="icon-delete2 BoldGray Fs20"></i>
                                         </p:commandLink>
-                                        <p:tooltip id="toolTip-eliminar" for="btnEliminar"
-                                                   value="#{msgs['btnEliminar']}"
-                                                   trackMouse="true"/>
-
                                     </p:column>
                                 </p:dataTable>
                                 <p:confirmDialog global="true" showEffect="fade">

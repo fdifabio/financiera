@@ -1,0 +1,136 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:sec="http://www.springframework.org/security/facelets/tags">
+<ui:composition template="/templates/template.xhtml">
+
+    <ui:define name="subheader">
+        <h:outputText class="BigTopic" value="#{msgs['formCobroModificar']}"
+                      rendered="#{cobroBean.entity.id != null}"/>
+
+        <h:outputText class="BigTopic" value="#{msgs['formCobroCrear']}"
+                      rendered="#{cobroBean.entity.id == null}"/>
+    </ui:define>
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{cobroBean.id}"/>
+        <f:viewParam name="credito_id" value="#{cobroBean.credito.id}"/>
+        <f:event type="preRenderView" listener="#{cobroBean.inicio()}"/>
+    </f:metadata>
+
+    <ui:define name="actions">
+        <a href="search.jsf"
+           class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                class="icon-list"></i> #{msgs['listar']}</a>
+    </ui:define>
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <!--<div class="Card ShadowEffect ui-fluid">-->
+                <div class="MarAuto WidAutoOnMobile">
+                    <div class="Container50 Responsive50">
+                        <div class="ContainerIndent">
+                            <div class="Card ShadowEffect ui-fluid">
+                                <h:form id="crear">
+                                    <p:fieldset legend="#{msgs['formDatosCobro']}" style="margin-bottom:20px">
+                                        <p:panelGrid columns="3" layout="grid"
+                                                     columnClasses="ui-grid-col-2,ui-grid-col-3,ui-grid-col-6"
+                                                     style="border:0px !important; background:none;"
+                                                     styleClass="ui-panelgrid-blank">
+                                            <h:outputLabel value="#{msgs['form.monto']}:" styleClass="FontBold"
+                                                           for="monto"/>
+                                            <p:inputNumber id="monto"
+                                                           required="true"
+                                                           requiredMessage="#{msgs['validationRequired']}"
+                                                           value="#{cobroBean.entity.monto}" symbol="$ "
+                                                           decimalSeparator="," thousandSeparator=".">
+                                            </p:inputNumber>
+                                            <p:message for="monto"/>
+
+                                        </p:panelGrid>
+                                    </p:fieldset>
+                                    <div class="EmptyBox30"></div>
+                                    <div class="Fright">
+                                        <div class="Wid45 Fleft Responsive45 MarRight10">
+                                            <p:commandButton value="#{msgs['btnCancelar']}"
+                                                             icon="fa fa-close"
+                                                             styleClass="RedButton Fs16 White RaisedButton Fleft FloatNoneOnMobile"
+                                                             action="search?faces-redirect=true"
+                                                             title="#{msgs['btnCancelar']}" immediate="true"/>
+                                        </div>
+                                        <div class="Wid45 Fleft Responsive45">
+                                            <p:commandButton id="linksave" value="#{msgs['btnGuardar']}"
+                                                             icon="fa fa-sign-in"
+                                                             styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
+                                                             action="#{cobroBean.update}" title="Grabar"
+                                                             update="crear" validateClient="true"/>
+                                        </div>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Container50 Responsive50">
+                        <div class="ContainerIndent">
+                            <div class="Card ShadowEffect ui-fluid">
+                                <h2 class="BigTopic">#{msgs['formDatosCliente']}</h2>
+                                <p:panelGrid columns="4"
+                                             columnClasses="ui-grid-col-2,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+                                             style="padding: 10px;"
+                                             layout="grid">
+                                    <h:outputText value="#{msgs['form.codigo']}:" styleClass="FontBold"/>
+                                    <h:outputText value="#{cobroBean.credito.cliente.id}"/>
+                                    <h:outputText value="#{msgs['form.nombre.apellido']}:" styleClass="FontBold"/>
+                                    <h:outputText value="#{cobroBean.credito.cliente.apellidoNombre}"/>
+                                    <h:outputText value="#{msgs['formDni']}:" styleClass="FontBold"/>
+                                    <h:outputText value="#{cobroBean.credito.cliente.dni}"/>
+                                </p:panelGrid>
+
+                                <div class="EmptyBox10"></div>
+
+                                <h2 class="BigTopic">#{msgs['formDatosCredito']}</h2>
+                                <p:panelGrid columns="4"
+                                             columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+                                             style="padding: 10px;"
+                                             layout="grid">
+                                    <h:outputText value="#{msgs['formCapital']}:" styleClass="FontBold"/>
+                                    <h:outputText value="#{cobroBean.credito.capital}">
+                                        <f:convertNumber type="currency" currencySymbol="$"/>
+                                    </h:outputText>
+                                    <h:outputText value="#{msgs['formEstado']}:" styleClass="FontBold"/>
+                                    <p:outputLabel value="#{cobroBean.credito.estado.descripcion}"
+                                                   style="padding: 0px 5px 0px 5px;border-radius: 5px;"
+                                                   styleClass="#{cobroBean.credito.estado.backgroundColor} White"/>
+                                    <h:outputText value="#{msgs['formCuota']}:" styleClass="FontBold"/>
+                                    <h:outputText value="#{cobroBean.credito.montoCutoas}">
+                                        <f:convertNumber type="currency" currencySymbol="$"/>
+                                    </h:outputText>
+                                    <h:outputText value="#{msgs['formFechaInicio']}:" styleClass="FontBold"/>
+                                    <h:outputText value="#{cobroBean.credito.fechaInicio}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                    <h:outputText value="#{msgs['formCuotas']}:" styleClass="FontBold"/>
+                                    <h:outputText value="#{cobroBean.credito.cuotas}"/>
+                                    <h:outputText value="#{msgs['formFechaVencimiento']}:" styleClass="FontBold"/>
+                                    <h:outputText value="#{cobroBean.credito.fechaVencimiento}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                    <h:outputText value="#{msgs['formInteres']}:" styleClass="FontBold"/>
+                                    <h:outputText value="#{cobroBean.credito.interes}"/>
+
+                                </p:panelGrid>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--</div>-->
+            </div>
+        </div>
+
+    </ui:define>
+
+
+</ui:composition>
+</html>

@@ -43,27 +43,27 @@
                                               rendered="false">
                                         <h:outputText value="#{item.id}"/>
                                     </p:column>
-                                    <p:column headerText="Codigo"
+                                    <p:column headerText="#{msgs['form.codigo']}"
                                               filterBy="#{item.id}" sortBy="#{item.id}">
                                         <h:outputText value="#{item.id}"/>
                                     </p:column>
-                                    <p:column headerText="DNI"
+                                    <p:column headerText="#{msgs['formDni']}"
                                               filterBy="#{item.dni}" sortBy="#{item.dni}">
                                         <h:outputText value="#{item.dni}"/>
                                     </p:column>
 
-                                    <p:column headerText="Apellido" filterBy="#{item.apellido}"
+                                    <p:column headerText="#{msgs['formApellido']}" filterBy="#{item.apellido}"
                                               sortBy="#{item.apellido}">
                                         <h:outputText value="#{item.apellido}"/>
                                     </p:column>
-                                    <p:column headerText="Nombre"
+                                    <p:column headerText="#{msgs['formNombre']}"
                                               filterBy="#{item.nombre}" sortBy="#{item.nombre}">
                                         <h:outputText value="#{item.nombre}"/>
                                     </p:column>
-                                    <p:column headerText="Celular" sortBy="#{item.celular}">
+                                    <p:column headerText="#{msgs['formCelular']}" sortBy="#{item.celular}">
                                         <h:outputText value="#{item.celular}"/>
                                     </p:column>
-                                    <p:column headerText="Opciones" footerText="Opciones">
+                                    <p:column headerText="#{msgs['formOpciones']}" footerText="Opciones">
                                         <h:link outcome="create" title="#{msgs['btnEditar']}">
                                             <i class="icon-edit Fs20"></i>
                                             <f:param name="id" value="#{item.id}"/>
