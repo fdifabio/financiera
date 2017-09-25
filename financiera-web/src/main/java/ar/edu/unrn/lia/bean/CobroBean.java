@@ -4,6 +4,7 @@ import ar.edu.unrn.lia.bean.datamodel.DataModel;
 import ar.edu.unrn.lia.model.Cliente;
 import ar.edu.unrn.lia.model.Cobro;
 import ar.edu.unrn.lia.model.Credito;
+import ar.edu.unrn.lia.model.Cuota;
 import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CobroService;
 import ar.edu.unrn.lia.service.CreditoService;
@@ -14,6 +15,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,6 +36,8 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
 
     @Inject
     private CreditoService creditoService;
+
+    private List<Cuota> selectedCuotas=new ArrayList<>(0);
 
     @PostConstruct
     public void init() {
@@ -91,5 +95,13 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
 
     public void setCredito(Credito credito) {
         this.credito = credito;
+    }
+
+    public List<Cuota> getSelectedCuotas() {
+        return selectedCuotas;
+    }
+
+    public void setSelectedCuotas(List<Cuota> selectedCuotas) {
+        this.selectedCuotas = selectedCuotas;
     }
 }

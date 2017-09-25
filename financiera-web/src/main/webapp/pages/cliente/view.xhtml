@@ -8,7 +8,8 @@
 <ui:composition template="/templates/template.xhtml">
 
     <ui:define name="subheader">
-        #{msgs['formClienteDetalle']}
+
+        <h2 class="BigTopic">#{msgs['formClienteDetalle']}</h2>
     </ui:define>
 
     <f:metadata>
@@ -112,6 +113,13 @@
                                                          actionListener="#{creditoBean.cargarCredito(item)}">
 
                                         </p:commandButton>
+
+                                        <h:outputLink id="btnCobro" value="/pages/cobro/create.jsf">
+                                            <f:param name="credito_id" value="#{item.id}"/>
+                                            <i class="fa fa-briefcase Fs20"></i>
+                                        </h:outputLink>
+                                        <p:tooltip id="toolTip-cobro" for="btnCobro" value="#{msgs['registarCobro']}"
+                                                   trackMouse="true"/>
 
                                     </p:column>
                                 </p:dataTable>

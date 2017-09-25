@@ -126,7 +126,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
 
     public enum Estado implements Serializable {
 
-        ADEUDADO("Adeudado", "Red"), SALDADO("Saldado", "Green"), PARCIALMENTE_SALDADO("Paracialmente saldado", "Orange");
+        ADEUDADO("Adeudado", "Orange"), VENCIDO("Vencido", "Red"), SALDADO("Saldado", "Green"), PARCIALMENTE_SALDADO("Paracialmente saldado", "Orange");
 
         private String descripcion;
         private String color;
@@ -152,6 +152,9 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
             return color;
         }
 
+        public String getBackgroundColor() {
+            return color + "Back";
+        }
 
         @Override
         public String toString() {

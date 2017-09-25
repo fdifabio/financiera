@@ -168,21 +168,11 @@
                                                          rowsPerPageTemplate="6,12,24,36,48" sortBy="#{item.nro}">
                                                 <f:facet name="header">
                                                     <h:outputText value="#{msgs['cuotas']}"/>
-                                                    <h:commandLink styleClass="Inline GreenBack"
-                                                                   title="#{msgs['descargaExcel']}"
-                                                                   style="float:right;width: auto;    border-top-right-radius: 10px;">
-                                                        <i class="fa fa-file-excel-o Fs25 White"></i>
-                                                        <p:dataExporter type="xls" target="list"
-                                                                        fileName="cuotas"/>
-                                                    </h:commandLink>
-
-                                                    <h:commandLink styleClass="Inline RedBack"
-                                                                   title="#{msgs['descargaPdf']}"
-                                                                   style="float:right;width: auto;border-top-right-radius: 10px;margin-right: 5px;">
-                                                        <i class=" fa fa-file-pdf-o Fs25 White"> </i>
-                                                        <p:dataExporter type="pdf" target="list"
-                                                                        fileName="cuotas"/>
-                                                    </h:commandLink>
+                                                    <ui:include src="/pages/includes/exporterButtons.xhtml">
+                                                        <ui:param name="target" value="list" />
+                                                        <ui:param name="fileName"
+                                                                  value="Reporte cuotas" />
+                                                    </ui:include>
 
                                                 </f:facet>
                                                 <p:column headerText="Período">
@@ -253,7 +243,7 @@
                                         </div>
                                         <div class="Wid45 Fleft Responsive45">
                                             <p:commandButton id="linksave" value="#{msgs['btnGuardar']}"
-                                                             icon="fa fa-sign-in"
+                                                             icon="fa fa-save"
                                                              styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
                                                              action="#{creditoBean.update}" title="Grabar"
                                                              update="crear" validateClient="true"/>
