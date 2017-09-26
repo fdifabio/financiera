@@ -11,4 +11,6 @@ public interface CajaDAO extends GenericDao<Caja, Long> {
     List<Caja> findAll();
 
     void cerrarCaja(Caja caja);
+
+    Caja getLast();
 }

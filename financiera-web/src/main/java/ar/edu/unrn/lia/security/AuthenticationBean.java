@@ -5,15 +5,20 @@ import ar.edu.unrn.lia.bean.UtilsBean;
 import ar.edu.unrn.lia.bean.util.BundleMessagei18;
 import ar.edu.unrn.lia.bean.util.ParameterBean;
 import ar.edu.unrn.lia.bean.util.ParameterSendMail;
-import ar.edu.unrn.lia.exception.BusinessException;
 import ar.edu.unrn.lia.logger.Log;
+import ar.edu.unrn.lia.model.Caja;
+import ar.edu.unrn.lia.model.Movimiento;
 import ar.edu.unrn.lia.model.Role;
 import ar.edu.unrn.lia.model.User;
 import ar.edu.unrn.lia.seguridad.AuthenticationService;
+import ar.edu.unrn.lia.service.CajaService;
 import ar.edu.unrn.lia.service.EmailService;
+import ar.edu.unrn.lia.service.MovimientoService;
 import ar.edu.unrn.lia.service.UserService;
 import ar.edu.unrn.lia.util.Constantes;
 import org.hibernate.validator.constraints.Email;
+import org.primefaces.model.timeline.TimelineEvent;
+import org.primefaces.model.timeline.TimelineModel;
 import org.slf4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
@@ -32,7 +37,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 
 
 @Component
@@ -46,6 +54,9 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
     @Inject
     EmailService mailService;
+
+    @Inject
+    CajaService cajaService;
 
     @NotNull(message = "{userNotNull}")
     private String username;
@@ -65,6 +76,10 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
     private String email;
 
+    private Caja caja;
+
+    private Double monto;
+
     private boolean register = false;
 
     @Inject
@@ -73,6 +88,11 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
     @Inject
     UserService userService;
 
+
+    @Inject
+    MovimientoService movimientoService;
+
+    private TimelineModel timelineMovimientos;
 
     private String patternDate;
 
@@ -104,6 +124,17 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
                             break;
                         }
                     }
+                    setCaja(getCajaService().getLast());
+                    timelineMovimientos = new TimelineModel();
+                    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                    for (Movimiento movimiento : getMovimientoService().getAll()
+                            ) {
+                        timelineMovimientos.add(new TimelineEvent(new Task(df.format(movimiento.getFecha()) +" $" + movimiento.getMonto().toString(), movimiento.getTipo().getIcon(), movimiento.getTipo().getBackgroundColor(), false), movimiento.getFecha(), false, movimiento.getTipo().getDescripcion(), movimiento.getTipo().getDescripcion()));
+                    }
+                    setTimelineMovimientos(
+                            timelineMovimientos
+                    );
+
 
                     if (isAdmin || isPrestamista)
                         return UtilsBean.REDIRECT_HOME;
@@ -297,6 +328,22 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
         session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
     }
 
+    public MovimientoService getMovimientoService() {
+        return movimientoService;
+    }
+
+    public void setMovimientoService(MovimientoService movimientoService) {
+        this.movimientoService = movimientoService;
+    }
+
+    public TimelineModel getTimelineMovimientos() {
+        return timelineMovimientos;
+    }
+
+    public void setTimelineMovimientos(TimelineModel timelineMovimientos) {
+        this.timelineMovimientos = timelineMovimientos;
+    }
+
     public EmailService getMailService() {
         return mailService;
     }
@@ -308,4 +355,73 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
     public String getPatternDate() {
         return ParameterBean.patternDate;
     }
+
+    public CajaService getCajaService() {
+        return cajaService;
+    }
+
+    public void setCajaService(CajaService cajaService) {
+        this.cajaService = cajaService;
+    }
+
+    public Caja getCaja() {
+        return caja;
+    }
+
+    public void setCaja(Caja caja) {
+        this.caja = caja;
+    }
+
+    public Double getMonto() {
+        return monto;
+    }
+
+    public void setMonto(Double monto) {
+        this.monto = monto;
+    }
+
+    public void habilitarCaja() {
+        setCaja(new Caja(new Date()));
+        getCajaService().habilitarCaja(getCaja(), new Movimiento(BigDecimal.valueOf(monto), new Date(), "", Movimiento.Tipo.INGRESO));
+        agregarMensaje(FacesMessage.SEVERITY_INFO, "Caja habilitada", "Monto habilitado: $" + monto);
+    }
+
+    public void deshabilitarCaja() {
+        getCajaService().cerrarCaja(getCaja());
+        setCaja(null);
+        agregarMensaje(FacesMessage.SEVERITY_INFO, "Caja deshabilitada", "Caja deshabilitada con exito!");
+    }
+
+    public class Task implements Serializable {
+
+        private String monto;
+        private String icon;
+        private String backgroundColor;
+        private boolean period;
+
+        public Task(String monto, String icon, String backgroundColor, boolean period) {
+            this.monto = monto;
+            this.icon = icon;
+            this.backgroundColor = backgroundColor;
+            this.period = period;
+        }
+
+        public String getMonto() {
+            return monto;
+        }
+
+        public String getBackgroundColor() {
+            return backgroundColor;
+        }
+
+        public String getIcon() {
+            return icon;
+        }
+
+        public boolean isPeriod() {
+            return period;
+        }
+    }
+
+
 }

@@ -2,6 +2,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:sec="http://www.springframework.org/security/facelets/tags">
 <ui:composition template="/templates/template.xhtml">
     <f:metadata>
@@ -24,19 +25,131 @@
     </ui:define>
 
     <ui:define name="content">
-        <p:panel styleClass="TexAlCenter">
+        <p:panel>
             <h1 class="TexAlCenter Fs24">#{msgs['title']}</h1>
             <div class="EmptyBox20"></div>
-            <div class="Container50 DispBlock MarAuto  TexAlCenter">
+            <div class="Container50 DispBlock MarAuto">
+                <div class="ContainerIndent">
+                    <div class="ContainerIndent">
+                        <div class="Card ShadowEffect">
+                            <h2 class="BigTopic"> <i class="fa fa-balance-scale  Fs30"></i>Caja</h2>
+                            <p:panelGrid columns="4"
+                                         columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-2,ui-grid-col-3" layout="grid"
+                                         styleClass="ui-panelgrid-blank">
+                                <h:outputText value="Fecha apertura:" styleClass="FontBold"/>
+                                <h:outputText value="#{authenticationBean.caja.fechaApertura}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                                <h:outputText value="Saldo:" styleClass="FontBold"/>
+                                <h:outputText value="#{authenticationBean.caja.saldo()}">
+                                    <f:convertNumber type="currency" currencySymbol="$"/>
+                                </h:outputText>
+                            </p:panelGrid>
+                            <p:dataTable id="list" var="item" value="#{authenticationBean.caja.movimientos}"
+                                         emptyMessage="No hay movimientos para mostrar"
+                                         reflow="true" rowKey="#{item.id}" lazy="true" paginator="true"
+                                         paginatorPosition="bottom" styleClass="TexAlCenter"
+                                         resizableColumns="false" rows="10"
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="10,20,30,50">
 
-            </div>
-            <div class="Container50 DispBlock MarAuto  TexAlCenter">
-                <div class="ContainerIndent TexAlCenter">
+                                <p:column headerText="Fecha Creación">
+                                    <h:outputText value="#{item.fecha}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Monto">
+                                    <h:outputText value="#{item.monto}">
+                                        <f:convertNumber type="currency" currencySymbol="$"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Tipo">
+                                    <i class=" #{item.tipo.icon} #{item.tipo.color}"></i>
+                                    <h:outputText value="#{item.tipo.descripcion}"
+                                                  styleClass="#{item.tipo.color} FontBold"
+                                                  style="padding: 0px 5px 0px 5px;border-radius: 5px;">
+                                    </h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                            <div class="EmptyBox20"></div>
 
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="Container50 DispBlock MarAuto  TexAlCenter">
+                <h3 style="margin-top: 0">Movimientos</h3>
+                <p:timeline id="timelineFirst" value="#{authenticationBean.timelineMovimientos}" var="movimiento"
+                            height="300px" widgetVar="timelineMovimientos" selectable="true" zoomable="true" moveable="true"
+                            stackEvents="true" showNavigation="true" locale="es">
+                    <h:outputText value="#{movimiento.monto}" class="#{movimiento.backgroundColor} #{movimiento.icon} Fs18"/>
+                </p:timeline>
+                <script>
+                    function onrangechange1() {
+                        var range = PF('timelineMovimientos').getVisibleRange();
+                    }
+                </script>
+            </div>
+
             <div class="EmptyBox20"></div>
         </p:panel>
+
+        <style type="text/css">
+
+            /* Custom styles for the Timeline */
+            div.timeline-frame {
+                border-color: #5D99C3;
+                border-radius: 5px;
+            }
+
+            div.timeline-axis {
+                border-color: #5D99C3;
+                background-color: #5D99C3;
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5D99C3', endColorstr='#3A6DA0') alpha(opacity = 100);
+                background: -webkit-gradient(linear, left top, left bottom, from(#5D99C3), to(#3A6DA0));
+                background: -moz-linear-gradient(top,  #5D99C3,  #3A6DA0);
+                -khtml-opacity: 1;
+                -moz-opacity: 1;
+                opacity: 1;
+            }
+
+            div.timeline-groups-axis {
+                border-color: #5D99C3;
+            }
+
+            div.timeline-groups-axis-onleft {
+                border-style: none solid none none;
+            }
+
+            div.timeline-axis-text {
+                color: white;
+            }
+
+            div.timeline-event {
+                color: white !important;
+                border-radius: 5px !important;
+            }
+
+            div.timeline-event-content {
+                text-shadow: none;
+            }
+
+            div.Ingreso {
+                background: #43A047 none !important;  /* Green */
+                border-color: #43A047 !important;     /* Green */
+            }
+
+            div.Egreso {
+                background: #E53935 none !important;  /* red */
+                border-color: #E53935 !important;     /* red */
+            }
+
+
+            div.timeline-event-selected {
+                background: #BECEFE none !important;
+                border-color: #97B0F8 !important;
+            }
+        </style>
     </ui:define>
 </ui:composition>
 </html>

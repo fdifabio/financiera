@@ -18,6 +18,9 @@ public class Movimiento extends BaseEntity implements java.io.Serializable {
     private Tipo tipo;
     private Caja caja;
 
+    public Movimiento() {
+    }
+
     public Movimiento(BigDecimal monto, Date fecha, String descripcion, Tipo tipo) {
         this.monto = monto;
         this.fecha = fecha;
@@ -72,14 +75,16 @@ public class Movimiento extends BaseEntity implements java.io.Serializable {
 
     public enum Tipo implements Serializable {
 
-        EGRESO("Egreso", "Red"), INGRESO("Ingreso", "Green");
+        EGRESO("Egreso", "Red", "fa fa-arrow-down"), INGRESO("Ingreso", "Green", "fa fa-arrow-up");
 
         private String descripcion;
         private String color;
+        private String icon;
 
-        Tipo(String descripcion, String color) {
+        Tipo(String descripcion, String color, String icon) {
             this.descripcion = descripcion;
             this.color = color;
+            this.icon = icon;
         }
 
         public String getTipo() {
@@ -98,6 +103,17 @@ public class Movimiento extends BaseEntity implements java.io.Serializable {
             return color;
         }
 
+        public String getIcon() {
+            return icon;
+        }
+
+        public void setIcon(String icon) {
+            this.icon = icon;
+        }
+
+        public String getBackgroundColor() {
+            return color + "Back";
+        }
 
         @Override
         public String toString() {

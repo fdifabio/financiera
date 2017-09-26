@@ -2,15 +2,27 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:sec="http://www.springframework.org/security/facelets/tags">
 
     <!-- TOPBAR START -->
-<style>
-    #top-menu-left > li{
-        margin-top: 5px;
-        width: 10%;
-    }
-</style>
+    <style>
+        #top-menu-left > li {
+            margin-top: 5px;
+            width: 10%;
+        }
+
+        .caja {
+            margin-top: 12px;
+            border-radius: 30px;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            padding: 2px 4px 3px;
+            position: absolute;
+            font-family: 'robotoregular';
+            background-color: #e53935
+        }
+    </style>
 
     <div id="layout-topbar">
         <a id="mobile-menu-button"> <span class="ButtonLine"
@@ -20,53 +32,104 @@
             class="icon-more_vert" id="active"></i><i class="icon-close DispNone"
                                                       id="passive"></i> </a>
 
-        <ul id="top-menu-left">
-            <li><h:form>
-                <h:commandLink id="home"
-                               action="/pages/home.jsf?faces-redirect=true" ajax="false">
-                    <i class="icon-home Fs30 White"></i>
-                </h:commandLink>
-                <p:tooltip id="toolTip-home" for="home" value="Inicio"
-                           trackMouse="true"/>
-            </h:form>
+        <ul class="top-menu" style="float: left;">
+            <li>
+                <a href="/pages/home.jsf" data-toggle="tooltip" title="Inicio">
+                    <i class="icon-home"></i>
+                    <span class="ShowOnMobile"></span>
+                </a>
             </li>
-            <li><h:form>
-                <h:commandLink id="preferencias"
-                               action="/pages/preferencias/search.jsf?faces-redirect=true" ajax="false">
-                    <i class="icon-settings Fs30 White"></i>
-                </h:commandLink>
-                <p:tooltip id="toolTip-preferencias" for="preferencias" value="#{msgs['menu.preferencias']}"
-                           trackMouse="true"/>
-            </h:form>
+            <li>
+                <a href="/pages/preferencias/search.jsf" data-toggle="tooltip" title="#{msgs['menu.preferencias']}">
+                    <i class="icon-settings"></i>
+                    <span class="ShowOnMobile"></span>
+                </a>
             </li>
-            <li><h:form>
-                <h:commandLink id="cliente"
-                               action="/pages/cliente/search.jsf?faces-redirect=true" ajax="false">
-                    <i class="fa fa-users Fs30 White"></i>
-                </h:commandLink>
-                <p:tooltip id="toolTip-cliente" for="cliente" value="#{msgs['menu.cliente']}"
-                           trackMouse="true"/>
-            </h:form>
+            <li>
+                <a href="/pages/cliente/search.jsf" data-toggle="tooltip" title="#{msgs['menu.cliente']}">
+                    <i class="fa fa-users"></i>
+                    <span class="ShowOnMobile"></span>
+                </a>
             </li>
-            <li><h:form>
-                <h:commandLink id="credito"
-                               action="/pages/credito/search.jsf?faces-redirect=true" ajax="false">
-                    <i class="icon-local_atm Fs30 White"></i>
-                </h:commandLink>
-                <p:tooltip id="toolTip-credito" for="credito" value="#{msgs['menu.credito']}"
-                           trackMouse="true"/>
-            </h:form>
+            <li>
+                <a href="/pages/credito/search.jsf" data-toggle="tooltip" title="#{msgs['menu.credito']}">
+                    <i class="fa fa-money"></i>
+                    <span class="ShowOnMobile"></span>
+                </a>
             </li>
-            <li><h:form>
-                <h:commandLink id="reportes"
-                               action="/pages/reportes/search.jsf?faces-redirect=true" ajax="false">
-                    <i class="fa fa-bar-chart Fs30 White"></i>
-                </h:commandLink>
-                <p:tooltip id="toolTip-reportes" for="reportes" value="#{msgs['menu.reportes']}"
-                           trackMouse="true"/>
-            </h:form>
+            <li>
+                <a href="/pages/reportes/search.jsf" data-toggle="tooltip" title="#{msgs['menu.reportes']}">
+                    <i class="fa fa-bar-chart"></i>
+                    <span class="ShowOnMobile"></span>
+                </a>
+            </li>
+            <li>
+                <a href="/pages/caja/search.jsf" data-toggle="tooltip" title="#{msgs['menu.caja']}">
+                    <i class="fa fa-balance-scale "></i>
+                    <span class="ShowOnMobile"></span>
+                </a>
+            </li>
+            <li>
+                <h:panelGroup id="txt_count">
+                    <h:panelGroup rendered="#{authenticationBean.caja.habilitada()}">
+                        <h:form>
+                            <p:growl id="growlhabilitar" sticky="true" showDetail="true" life="3000"/>
+                            <h:commandButton styleClass="caja White" value="Caja Deshabilitada"  style="    border-style: none;"
+                                             onclick="PF('habilitar').show(); return false;"/>
+                            <p:dialog header="Esta seguro que desea habilitar la caja?" widgetVar="habilitar"
+                                      resizable="false">
+                                <h:panelGrid columns="3" cellpadding="5">
+                                    <h:outputLabel for="monto" value="Monto:"/>
+                                    <p:inputText id="monto" value="#{authenticationBean.monto}" required="true"
+                                                 label="monto" requiredMessage="Ingrese un valor"/>
+
+                                    <p:commandButton value="Habilitar" style="float:right;"
+                                                     update="growlhabilitar txt_count"
+                                                     actionListener="#{authenticationBean.habilitarCaja()}"
+                                                     oncomplete="habilitar(xhr, status, args)"/>
+
+                                </h:panelGrid>
+                            </p:dialog>
+                        </h:form>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{!authenticationBean.caja.habilitada()}">
+                        <h:form>
+                            <p:growl id="growldeshabilitar" sticky="true" showDetail="true" life="3000"/>
+                            <h:commandButton styleClass="caja White" value="Caja Habilitada" style="    border-style: none;"
+                                             onclick="PF('deshabilitar').show(); return false;"/>
+                            <p:dialog header="Esta seguro que desea deshabilitar la caja?" widgetVar="deshabilitar"
+                                      resizable="false">
+                                <h:panelGrid columns="1" cellpadding="5" style="float: right;">
+                                        <p:commandButton value="Deshabilitar" update="growldeshabilitar txt_count" class="RedButton"
+                                                         actionListener="#{authenticationBean.deshabilitarCaja()}"
+                                                         oncomplete="deshabilitar(xhr, status, args)"/>
+
+                                </h:panelGrid>
+                            </p:dialog>
+                        </h:form>
+                    </h:panelGroup>
+                </h:panelGroup>
+
             </li>
         </ul>
+        <script type="text/javascript">
+            function habilitar(xhr, status, args) {
+                if (args.validationFailed) {
+                    PF('habilitar').jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    PF('habilitar').hide();
+                }
+            }
+            function deshabilitar(xhr, status, args) {
+                if (args.validationFailed) {
+                    PF('deshabilitar').jq.effect("shake", {times: 5}, 100);
+                }
+                else {
+                    PF('deshabilitar').hide();
+                }
+            }
+        </script>
         <ul id="top-menu">
             <li><a class="ripplelink"><i class="icon-cog"></i> <span
                     class="ShowOnMobile">#{msgs['miPerfil']}</span></a>
@@ -98,6 +161,7 @@
             </li>
         </ul>
     </div>
+
     <!-- TOPBAR END -->
 
 </ui:composition>

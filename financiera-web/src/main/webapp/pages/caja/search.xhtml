@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+>
+
+<ui:composition template="/templates/template.xhtml">
+
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{clienteBean.vermensaje()}"/>
+    </f:metadata>
+
+    <ui:define name="actions">
+    </ui:define>
+
+    <ui:define name="subheader">
+        #{msgs['tituloGrillaCaja']}
+    </ui:define>
+
+
+    <ui:define name="content">
+
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect  ">
+                    <div class="Container100">
+                        <div class="ContainerIndent">
+                            <h:form id="formentity" class="TexAlCenter">
+                                <p:growl showDetail="true" id="msgGrwl"/>
+                                <p:dataTable id="list" var="item" value="#{cajaBean.list}"
+                                             reflow="true" lazy="true" paginator="true" paginatorPosition="bottom"
+                                             resizableColumns="false" rows="10"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="10,20,30,50">
+                                    <p:ajax event="rowSelect" listener="#{cajaBean.onRowSelect}"
+                                            update=":formentity:msgGrwl"/>
+                                    <p:column headerText="#{msgs['form.id']}" sortBy="#{item.id}"
+                                              rendered="false">
+                                        <h:outputText value="#{item.id}"/>
+                                    </p:column>
+                                    <p:column headerText="Fecha Apertura"
+                                              sortBy="#{item.fechaApertura}">
+                                        <h:outputText value="#{item.fechaApertura}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Fecha Cierre"
+                                              sortBy="#{item.fechaCierre}">
+                                        <h:outputText value="#{item.fechaCierre}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Opciones" footerText="Opciones">
+                                        <h:link outcome="view" title="#{msgs['btn.ver']}">
+                                            <i class="icon-zoom-in Fs20"></i>
+                                            <f:param name="id" value="#{item.id}"/>
+                                        </h:link>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

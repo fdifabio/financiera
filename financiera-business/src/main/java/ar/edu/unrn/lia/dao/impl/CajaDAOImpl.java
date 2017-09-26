@@ -1,10 +1,8 @@
 package ar.edu.unrn.lia.dao.impl;
 
 import ar.edu.unrn.lia.dao.CajaDAO;
-import ar.edu.unrn.lia.dao.InteresDAO;
 import ar.edu.unrn.lia.generic.GenericDaoJpaImpl;
 import ar.edu.unrn.lia.model.Caja;
-import ar.edu.unrn.lia.model.Interes;
 
 import javax.inject.Named;
 import javax.persistence.Query;
@@ -64,11 +62,21 @@ public class CajaDAOImpl extends GenericDaoJpaImpl<Caja, Long> implements
         return this.entityManager.createQuery("FROM Caja c ORDER BY c.fechaApertura ASC").getResultList();
     }
 
-    public void cerrarCaja(Caja caja){
+    public void cerrarCaja(Caja caja) {
         Query query = this.entityManager.createQuery("UPDATE Caja c SET c.fechaCierre= :fechaCierre where c.id= :id");
         query.setParameter("fechaCierre", new Date());
         query.setParameter("id", caja.getId());
         query.executeUpdate();
+    }
+
+    public Caja getLast() {
+        Query query = this.entityManager.createQuery("FROM Caja c where c.fechaCierre is null");
+        List<Caja> cajas = (List<Caja>) query.getResultList();
+        if (cajas == null || cajas.isEmpty()) {
+            return null;
+        }
+        Caja caja= cajas.get(0);
+        return caja;
     }
 
 }

@@ -62,14 +62,19 @@ public class CajaServiceImpl implements CajaService {
     }
 
     @Transactional
-    public void habilitarCaja(Caja caja, Movimiento movimiento){
+    public void habilitarCaja(Caja caja, Movimiento movimiento) {
         this.save(caja);
+        movimiento.setCaja(caja);
         getMovimientoDAO().create(movimiento);
     }
 
     @Transactional
-    public void cerrarCaja(Caja caja){
+    public void cerrarCaja(Caja caja) {
         getEntityDAO().cerrarCaja(caja);
+    }
+
+    public Caja getLast() {
+        return getEntityDAO().getLast();
     }
 
     @Transactional

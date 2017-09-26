@@ -14,4 +14,6 @@ public interface CajaService extends IGenericService<Caja> {
     void habilitarCaja(Caja caja, Movimiento movimiento);
 
     void cerrarCaja(Caja caja);
+
+    Caja getLast();
 }
