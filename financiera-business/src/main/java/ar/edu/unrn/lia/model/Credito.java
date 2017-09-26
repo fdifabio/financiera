@@ -28,6 +28,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     private Estado estado = Estado.ACTIVO;
     private Cliente cliente;
     private BigDecimal montoCutoas;
+    private BigDecimal saldoCuenta;
     private List<Cuota> listCuotas = new ArrayList<>(0);
 
     public BigDecimal getCapital() {
@@ -109,6 +110,15 @@ public class Credito extends BaseEntity implements java.io.Serializable {
 
     public void setMontoCutoas(BigDecimal montoCutoas) {
         this.montoCutoas = montoCutoas;
+    }
+
+    @Column(name = "saldo_cuenta")
+    public BigDecimal getSaldoCuenta() {
+        return saldoCuenta;
+    }
+
+    public void setSaldoCuenta(BigDecimal saldoCuenta) {
+        this.saldoCuenta = saldoCuenta;
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "credito", orphanRemoval = true)
