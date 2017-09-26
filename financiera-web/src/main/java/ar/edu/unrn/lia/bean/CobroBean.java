@@ -8,13 +8,17 @@ import ar.edu.unrn.lia.model.Cuota;
 import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CobroService;
 import ar.edu.unrn.lia.service.CreditoService;
+import org.primefaces.event.SelectEvent;
+import org.primefaces.event.UnselectEvent;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +31,8 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private Credito credito = new Credito();
+    private BigDecimal saldoCuenta;
+    private boolean usaSaldoCuenta = false;
 
     @Inject
     private CobroService entityService;
@@ -37,7 +43,7 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     @Inject
     private CreditoService creditoService;
 
-    private List<Cuota> selectedCuotas=new ArrayList<>(0);
+    private List<Cuota> selectedCuotas = new ArrayList<>(0);
 
     @PostConstruct
     public void init() {
@@ -67,6 +73,26 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         return clienteService.searchByApellidoNombre(apellidoNombre);
     }
 
+    public void onRowSelect(SelectEvent event) {
+        FacesMessage msg = new FacesMessage("Cuota seleccionada Nro.: ", ((Cuota) event.getObject()).getNro().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onRowUnselect(UnselectEvent event) {
+        FacesMessage msg = new FacesMessage("Cuota deseleccionada Nro.: ", ((Cuota) event.getObject()).getNro().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void onToggleSelect() {
+    }
+
+    public BigDecimal montoAcumulado() {
+        return selectedCuotas.stream().map(Cuota::monto).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public BigDecimal total() {
+        return montoAcumulado().add(saldoCuenta == null ? BigDecimal.ZERO : saldoCuenta).subtract(usaSaldoCuenta ? credito.getSaldoCuenta() : BigDecimal.ZERO);
+    }
 
     @Override
     public String update() {
@@ -103,5 +129,21 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
 
     public void setSelectedCuotas(List<Cuota> selectedCuotas) {
         this.selectedCuotas = selectedCuotas;
+    }
+
+    public BigDecimal getSaldoCuenta() {
+        return saldoCuenta;
+    }
+
+    public void setSaldoCuenta(BigDecimal saldoCuenta) {
+        this.saldoCuenta = saldoCuenta;
+    }
+
+    public boolean isUsaSaldoCuenta() {
+        return usaSaldoCuenta;
+    }
+
+    public void setUsaSaldoCuenta(boolean usaSaldoCuenta) {
+        this.usaSaldoCuenta = usaSaldoCuenta;
     }
 }

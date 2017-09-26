@@ -34,15 +34,33 @@
                         <div class="ContainerIndent">
                             <div class="Card ShadowEffect ui-fluid">
                                 <h:form id="crear">
+                                    <p:growl id="msgs" showDetail="true"/>
+
                                     <p:fieldset legend="#{msgs['formDatosCobro']}" style="margin-bottom:20px">
                                         <h2 class="BigTopic">#{msgs['cuotas']} adeudadas</h2>
                                         <p:dataTable id="list" var="item" value="#{cobroBean.credito.listCuotas}"
                                                      selection="#{cobroBean.selectedCuotas}"
                                                      rowKey="#{item.id}"
                                                      emptyMessage="No hay cuotas para mostrar" stickyHeader="true"
-                                                     sortBy="#{item.nro}">
+                                                     sortBy="#{item.nro}" paginator="true" rows="6"
+                                                     paginatorPosition="bottom"
+                                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                     rowsPerPageTemplate="6,12,24,36,48">
+
+                                            <p:ajax event="toggleSelect" listener="#{cobroBean.onToggleSelect}"
+                                                    update=":crear:msgs :crear:totales"/>
+                                            <p:ajax event="rowSelectCheckbox" listener="#{cobroBean.onRowSelect}"
+                                                    update=":crear:msgs :crear:totales"/>
+                                            <p:ajax event="rowUnselectCheckbox" listener="#{cobroBean.onRowUnselect}"
+                                                    update=":crear:msgs :crear:totales"/>
+                                            <p:ajax event="rowSelect" listener="#{cobroBean.onRowSelect}"
+                                                    update=":crear:msgs :crear:totales"/>
+                                            <p:ajax event="rowUnselect" listener="#{cobroBean.onRowUnselect}"
+                                                    update=":crear:msgs :crear:totales"/>
+
+
                                             <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
-                                            <p:column headerText="Nro./Período">
+                                            <p:column headerText="Nro." width="8%">
                                                 <h:outputText value="#{item.nro}"/>
 
                                             </p:column>
@@ -52,47 +70,77 @@
                                                 </h:outputText>
                                             </p:column>
                                             <p:column headerText="Monto">
-                                                <h:outputText value="#{item.cuotaCapital}">
+                                                <h:outputText value="#{item.credito.montoCutoas}">
                                                     <f:convertNumber type="currency" currencySymbol="$"/>
                                                 </h:outputText>
                                             </p:column>
                                             <p:column headerText="Monto interes">
-                                                <h:outputText value="#{item.cuotaCapital}">
+                                                <h:outputText value="#{item.monto()}">
                                                     <f:convertNumber type="currency" currencySymbol="$"/>
                                                 </h:outputText>
+                                            </p:column>
+                                            <p:column headerText="#{msgs['diasVencidos']}" width="14%">
+                                                <h:outputText value="#{item.diasVencidos()}"/>
                                             </p:column>
                                             <p:column headerText="#{msgs['formEstado']}">
                                                 <h:outputText value="#{item.estado.descripcion}"
                                                               styleClass="#{item.estado.backgroundColor} White"
                                                               style="padding: 0px 5px 0px 5px;border-radius: 5px;"/>
                                             </p:column>
-                                            <!-- <p:column headerText="Cuota capital">
-                                                <h:outputText value="#{item.cuotaCapital}">
-                                                    <f:convertNumber type="currency" currencySymbol="$"/>
-                                                </h:outputText>
-                                            </p:column>
-                                           <p:column headerText="Cuota interes">
-                                                <h:outputText value="#{item.cuotaInteres}">
-                                                    <f:convertNumber type="currency" currencySymbol="$"/>
-                                                </h:outputText>
-                                            </p:column>
-                                            <p:column headerText="Saldo">
-                                                <h:outputText value="#{item.saldo}">
-                                                    <f:convertNumber type="currency" currencySymbol="$"/>
-                                                </h:outputText>
-                                            </p:column>-->
                                         </p:dataTable>
+
+                                        <p:panelGrid id="totales" columns="3"
+                                                     columnClasses="ui-grid-col-6,ui-grid-col-3,ui-grid-col-3"
+                                                     style="padding: 10px;"
+                                                     layout="grid" styleClass="ui-panelgrid-blank">
+                                            <div class="EmptyBox10"></div>
+                                            <h:outputText value="#{msgs['subtotal']}:" styleClass="FontBold"/>
+                                            <h:outputText value="#{cobroBean.montoAcumulado()}">
+                                                <f:convertNumber type="currency" currencySymbol="$"/>
+                                            </h:outputText>
+
+                                            <div class="EmptyBox10"></div>
+                                            <h:outputText value="#{msgs['saldoCuenta']} anterior:"
+                                                          styleClass="FontBold"/>
+                                            <h:panelGroup>
+                                                <h:outputText value="#{cobroBean.credito.saldoCuenta}">
+                                                    <f:convertNumber type="currency" currencySymbol="$"/>
+                                                </h:outputText>
+                                                <p:selectBooleanCheckbox value="#{cobroBean.usaSaldoCuenta}"
+                                                                         title="Usar saldo cuenta">
+                                                    <p:ajax update="total"/>
+                                                </p:selectBooleanCheckbox>
+                                            </h:panelGroup>
+
+                                            <div class="EmptyBox10"></div>
+                                            <h:outputText value="#{msgs['saldoCuenta']}:" styleClass="FontBold"/>
+                                            <h:panelGroup>
+                                                <p:inputNumber id="saldoCuenta"
+                                                               value="#{cobroBean.saldoCuenta}" symbol="$ "
+                                                               decimalSeparator="," thousandSeparator=".">
+                                                    <p:ajax update="total"/>
+                                                </p:inputNumber>
+                                                <p:message for="saldoCuenta"/>
+                                            </h:panelGroup>
+
+                                            <div class="EmptyBox10"></div>
+                                            <h:outputText value="#{msgs['total']}:" styleClass="FontBold"/>
+                                            <h:outputText id="total" value="#{cobroBean.total()}">
+                                                <f:convertNumber type="currency" currencySymbol="$"/>
+                                            </h:outputText>
+                                        </p:panelGrid>
                                     </p:fieldset>
+
                                     <div class="EmptyBox30"></div>
                                     <div class="Fright">
-                                        <div class="Wid45 Fleft Responsive45 MarRight10">
+                                        <div class="Wid35 Fleft Responsive45 MarRight10">
                                             <p:commandButton value="#{msgs['btnCancelar']}"
                                                              icon="fa fa-close"
                                                              styleClass="RedButton Fs16 White RaisedButton Fleft FloatNoneOnMobile"
                                                              action="search?faces-redirect=true"
                                                              title="#{msgs['btnCancelar']}" immediate="true"/>
                                         </div>
-                                        <div class="Wid45 Fleft Responsive45">
+                                        <div class="Wid55 Fleft Responsive45">
                                             <p:commandButton id="linksave" value="#{msgs['btnRegistarCobro']}"
                                                              icon="fa fa-save"
                                                              styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"

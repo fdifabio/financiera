@@ -6,6 +6,9 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -122,6 +125,32 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
 
     public void setEstado(Estado estado) {
         this.estado = estado;
+    }
+
+
+    @Transient
+    public BigDecimal monto() {
+        //TODO: Ver si dejo esta logica aca
+        if (diasVencidos() > 0) {
+            this.setEstado(Estado.VENCIDO);
+            return credito.getMontoCutoas().add(calcularCuotaInteres());
+        }
+        return credito.getMontoCutoas();
+    }
+
+    @Transient
+    private BigDecimal calcularCuotaInteres() {
+        BigDecimal interesVencido = new BigDecimal(0.33);//TODO: Ver de parametrizarlo!!
+        BigDecimal value = credito.getMontoCutoas().multiply(interesVencido).divide(new BigDecimal(100));
+        value = value.multiply(new BigDecimal(diasVencidos()));
+        return value;
+    }
+
+    @Transient
+    public long diasVencidos() {
+        LocalDate date = fechaVencimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        long dias = Duration.between(date.atStartOfDay(), LocalDate.now().atStartOfDay()).toDays();
+        return dias > 0 ? dias : 0;
     }
 
     public enum Estado implements Serializable {
