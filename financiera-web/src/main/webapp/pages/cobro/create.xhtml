@@ -3,7 +3,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:sec="http://www.springframework.org/security/facelets/tags">
+>
 <ui:composition template="/templates/template.xhtml">
 
     <ui:define name="subheader">
@@ -107,7 +107,8 @@
                                                     <f:convertNumber type="currency" currencySymbol="$"/>
                                                 </h:outputText>
                                                 <p:selectBooleanCheckbox value="#{cobroBean.usaSaldoCuenta}"
-                                                                         title="Usar saldo cuenta">
+                                                                         title="Usar saldo cuenta"
+                                                                         style="margin-left: 10px;">
                                                     <p:ajax update="total"/>
                                                 </p:selectBooleanCheckbox>
                                             </h:panelGroup>
@@ -156,12 +157,23 @@
                         <div class="ContainerIndent">
                             <div class="Card ShadowEffect ui-fluid">
                                 <h2 class="BigTopic">#{msgs['formDatosCliente']}</h2>
+
                                 <p:panelGrid columns="4"
                                              columnClasses="ui-grid-col-2,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
                                              style="padding: 10px;"
                                              layout="grid">
                                     <h:outputText value="#{msgs['form.codigo']}:" styleClass="FontBold"/>
                                     <h:outputText value="#{cobroBean.credito.cliente.id}"/>
+
+                                    <h:outputText value="Porcentaje de cuotas pagas:" styleClass="FontBold"/>
+                                    <h:panelGroup>
+                                        <div class="knob-container ui-corner-all">
+                                            <p:knob disabled="true" foregroundColor="#283593" backgroundColor="#808080"
+                                                    value="#{cobroBean.credito.porcentajeCuotasPagas()}"
+                                                    labelTemplate="{value}%" width="70%"/>
+                                        </div>
+                                    </h:panelGroup>
+
                                     <h:outputText value="#{msgs['form.nombre.apellido']}:" styleClass="FontBold"/>
                                     <h:outputText value="#{cobroBean.credito.cliente.apellidoNombre}"/>
                                     <h:outputText value="#{msgs['formDni']}:" styleClass="FontBold"/>

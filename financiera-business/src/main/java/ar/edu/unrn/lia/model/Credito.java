@@ -177,6 +177,17 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         return BigDecimal.ZERO;
     }
 
+    @Transient
+    public Long totalCuotasPagas() {
+        return listCuotas.stream().filter(c -> c.getEstado().equals(Cuota.Estado.SALDADO)).count();
+    }
+
+    @Transient
+    public Long porcentajeCuotasPagas() {
+        //totalCuotasPagas*100/capital
+        return totalCuotasPagas() * 100 / cuotas;
+    }
+
     private BigDecimal redondear(BigDecimal value) {
 //        BigDecimal big = new BigDecimal(value);
 //        big = big.setScale(2, RoundingMode.HALF_UP);

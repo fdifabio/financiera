@@ -131,7 +131,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     @Transient
     public BigDecimal monto() {
         //TODO: Ver si dejo esta logica aca
-        if (diasVencidos() > 0) {
+        if (diasVencidos() > 0 && !this.estado.equals(Estado.SALDADO)) {
             this.setEstado(Estado.VENCIDO);
             return credito.getMontoCutoas().add(calcularCuotaInteres());
         }
