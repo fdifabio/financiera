@@ -75,6 +75,15 @@
                                                       styleClass="#{item.estado.backgroundColor} White"
                                                       style="padding: 0px 5px 0px 5px;border-radius: 5px;"/>
                                     </p:column>
+
+                                   <!-- <p:column headerText="Cuotas pagas (%)" style="padding: 1px !important;" >
+                                        <div class="knob-container ui-corner-all">
+                                            <p:knob disabled="true" foregroundColor="#283593" backgroundColor="#808080"
+                                                    value="#{item.porcentajeCuotasPagas()}"
+                                                    labelTemplate="{value}%" width="45%"/>
+                                        </div>
+                                    </p:column>-->
+
                                     <p:column headerText="Opciones">
                                         <h:link id="btnEditar" outcome="create" title="#{msgs['btnEditar']}">
                                             <i class="icon-edit Fs20"></i>

@@ -13,14 +13,15 @@ import org.primefaces.event.UnselectEvent;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Lucas on 22/08/2017.
@@ -43,6 +44,7 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     @Inject
     private CreditoService creditoService;
 
+    private List<Cuota> cuotasPendientes = new ArrayList<>(0);
     private List<Cuota> selectedCuotas = new ArrayList<>(0);
 
     @PostConstruct
@@ -65,8 +67,10 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     }
 
     private void cargarCredito() {
-        if (credito.getId() != null)
+        if (credito.getId() != null) {
             credito = creditoService.getEntityById(credito.getId());
+            cuotasPendientes = credito.getListCuotas().stream().filter(c -> c.getEstado().equals(Cuota.Estado.ADEUDADO) || c.getEstado().equals(Cuota.Estado.PARCIALMENTE_SALDADO)).collect(Collectors.toList());
+        }
     }
 
     public List<Cliente> completeCliente(String apellidoNombre) {
@@ -74,13 +78,13 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     }
 
     public void onRowSelect(SelectEvent event) {
-        FacesMessage msg = new FacesMessage("Cuota seleccionada Nro.: ", ((Cuota) event.getObject()).getNro().toString());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+       /* FacesMessage msg = new FacesMessage("Cuota seleccionada Nro.: ", ((Cuota) event.getObject()).getNro().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);*/
     }
 
     public void onRowUnselect(UnselectEvent event) {
-        FacesMessage msg = new FacesMessage("Cuota deseleccionada Nro.: ", ((Cuota) event.getObject()).getNro().toString());
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+       /* FacesMessage msg = new FacesMessage("Cuota deseleccionada Nro.: ", ((Cuota) event.getObject()).getNro().toString());
+        FacesContext.getCurrentInstance().addMessage(null, msg);*/
     }
 
     public void onToggleSelect() {
@@ -94,8 +98,20 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         return montoAcumulado().add(saldoCuenta == null ? BigDecimal.ZERO : saldoCuenta).subtract(usaSaldoCuenta ? credito.getSaldoCuenta() : BigDecimal.ZERO);
     }
 
+    public void onCuotaSelect(Cuota c) {
+        c.getCobros().add(new Cobro(c.monto(), new Date(), "", c));
+        selectedCuotas.add(c);
+        cuotasPendientes.remove(c);
+    }
+
+    public void onCuotaUnSelect(Cuota c) {
+        selectedCuotas.remove(c);
+        cuotasPendientes.add(credito.getListCuotas().stream().filter(cu -> cu.getId() == c.getId()).findFirst().get());
+    }
+
     @Override
     public String update() {
+        //TODO:Deberia iterar sobre las cuotas seleccionadas y generar 1 cobro x cada una
         return super.update();
     }
 
@@ -145,5 +161,13 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
 
     public void setUsaSaldoCuenta(boolean usaSaldoCuenta) {
         this.usaSaldoCuenta = usaSaldoCuenta;
+    }
+
+    public List<Cuota> getCuotasPendientes() {
+        return cuotasPendientes;
+    }
+
+    public void setCuotasPendientes(List<Cuota> cuotasPendientes) {
+        this.cuotasPendientes = cuotasPendientes;
     }
 }

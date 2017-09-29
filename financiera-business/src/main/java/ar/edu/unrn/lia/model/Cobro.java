@@ -27,6 +27,12 @@ public class Cobro extends BaseEntity implements Serializable {
         this.descripcion = descripcion;
     }
 
+    public Cobro(BigDecimal monto, Date fecha, String descripcion, Cuota cuota) {
+        this.monto = monto;
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+        this.cuota = cuota;
+    }
 
     public BigDecimal getMonto() {
         return monto;

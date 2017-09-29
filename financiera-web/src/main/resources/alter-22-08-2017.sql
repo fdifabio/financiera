@@ -69,3 +69,6 @@ ALTER TABLE `credito` ADD `monto_cuotas` DOUBLE NOT NULL AFTER `cuotas`;
 
 /*26/09/2017*/
 ALTER TABLE `credito` ADD `saldo_cuenta` DOUBLE NOT NULL AFTER `monto_cuotas`;
+
+/*29/09/2017*/
+ALTER TABLE `cuota` ADD `interes_vencido` DOUBLE NOT NULL AFTER `saldo`, ADD `interes_descuento` DOUBLE NOT NULL AFTER `interes_vencido`;
