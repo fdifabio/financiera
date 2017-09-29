@@ -106,7 +106,8 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
 
     public void onCuotaUnSelect(Cuota c) {
         selectedCuotas.remove(c);
-        cuotasPendientes.add(credito.getListCuotas().stream().filter(cu -> cu.getId() == c.getId()).findFirst().get());
+        c.setInteresDescuento(BigDecimal.ZERO);
+        cuotasPendientes.add(c);
     }
 
     @Override

@@ -56,18 +56,13 @@
 
 
                                      <p:column selectionMode="multiple" style="width:16px;text-align:center"/>-->
-                                    <p:column headerText="Nro." width="8%">
+                                    <p:column headerText="Nro." width="20">
                                         <h:outputText value="#{item.nro}"/>
 
                                     </p:column>
                                     <p:column headerText="#{msgs['formFechaVencimiento']}">
                                         <h:outputText value="#{item.fechaVencimiento}">
                                             <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                        </h:outputText>
-                                    </p:column>
-                                    <p:column headerText="Monto">
-                                        <h:outputText value="#{item.monto()}">
-                                            <f:convertNumber type="currency" currencySymbol="$"/>
                                         </h:outputText>
                                     </p:column>
                                     <p:column headerText="#{msgs['diasVencidos']}" width="14%">
@@ -78,13 +73,20 @@
                                                       styleClass="#{item.estado.backgroundColor} White"
                                                       style="padding: 0px 5px 0px 5px;border-radius: 5px;"/>
                                     </p:column>
-                                    <p:column >
+                                    <p:column headerText="Monto">
+                                        <h:outputText value="#{item.monto()}">
+                                            <f:convertNumber type="currency" currencySymbol="$"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column width="30">
                                         <!--headerText="#{msgs['formOpciones']}"-->
-                                        <p:commandButton
-                                                actionListener="#{cobroBean.onCuotaSelect(item)}"
-                                                update=":crear:msgs :crear:totales :crear:listSelected list"
-                                                icon="fa fa-arrow-down" styleClass="Blue" style="font-size: 0px;background-color: transparent;"
-                                                title="Seleccionar"/>
+                                        <p:commandButton id="buttonSeleccionar"
+                                                         actionListener="#{cobroBean.onCuotaSelect(item)}"
+                                                         update=":crear:msgs :crear:totales :crear:listSelected list"
+                                                         icon="fa fa-arrow-down" styleClass="Blue"
+                                                         style="font-size: 0px;background-color: transparent;"/>
+                                        <p:tooltip id="toolTipButtonSeleccionar" for="buttonSeleccionar"
+                                                   value="Seleccionar" trackMouse="true"/>
                                     </p:column>
                                 </p:dataTable>
 
@@ -171,10 +173,10 @@
 
                                 <p:fieldset legend="#{msgs['formDatosCobro']}" style="margin-bottom:20px">
                                     <p:dataTable id="listSelected" var="item" value="#{cobroBean.selectedCuotas}"
-                                                 rowKey="#{item.id}"
+                                                 rowKey="#{item.id}" rowIndexVar="index"
                                                  emptyMessage="No hay cuotas seleccionadas"
                                                  sortBy="#{item.nro}">
-                                        <p:column headerText="Nro." width="8%">
+                                        <p:column headerText="Nro." width="20">
                                             <h:outputText value="#{item.nro}"/>
 
                                         </p:column>
@@ -183,34 +185,44 @@
                                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Monto">
-                                            <h:outputText value="#{item.monto()}">
-                                                <f:convertNumber type="currency" currencySymbol="$"/>
-                                            </h:outputText>
-                                        </p:column>
                                         <p:column headerText="#{msgs['diasVencidos']}" width="14%">
                                             <h:outputText value="#{item.diasVencidos()}"/>
                                         </p:column>
+                                        <p:column headerText="#{msgs['formEstado']}">
+                                            <h:outputText value="#{item.estado.descripcion}"
+                                                          styleClass="#{item.estado.backgroundColor} White"
+                                                          style="padding: 0px 5px 0px 5px;border-radius: 5px;"/>
+                                        </p:column>
 
-                                        <p:column headerText="Interes" width="25%">
+                                        <p:column headerText="Interes" width="150">
                                             <h:panelGroup
                                                     rendered="#{item.isVencido() or item.isParcialmenteSaldado()}">
                                                 <h:outputText value="#{item.interesVencido}">
                                                     <f:convertNumber pattern="#0.00"/>
                                                 </h:outputText>%
                                             </h:panelGroup>
-                                            <p:spinner id="porcentaje" suffix="%" min="0" max="100" stepFactor="0.1"
-                                                       rendered="#{!item.isVencido() and !item.isParcialmenteSaldado()}"
-                                                       value="#{item.interesDescuento}">
-                                                <f:convertNumber maxFractionDigits="2"/>
-                                            </p:spinner>
+                                            <h:panelGroup
+                                                    rendered="#{!item.isVencido() and !item.isParcialmenteSaldado()}">
+                                                <p:spinner id="porcentaje" suffix="%" min="0" max="100" stepFactor="0.1"
+                                                           value="#{item.interesDescuento}">
+                                                    <p:ajax event="keyup" process="@this" update=":crear:listSelected :crear:msgs :crear:totales"/>
+                                                    <f:convertNumber maxFractionDigits="2"/>
+                                                </p:spinner>
+                                            </h:panelGroup>
                                         </p:column>
-                                        <p:column headerText="#{msgs['formOpciones']}">
-                                            <p:commandButton
-                                                    actionListener="#{cobroBean.onCuotaUnSelect(item)}"
-                                                    update=":crear:msgs :crear:totales crear:list listSelected"
-                                                    icon="fa fa-arrow-up" styleClass="BlueTextButton"
-                                                    title="Quitar"/>
+                                        <p:column headerText="Monto">
+                                            <h:outputText id="monto" value="#{item.monto()}">
+                                                <f:convertNumber type="currency" currencySymbol="$"/>
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column width="30">
+                                            <p:commandButton id="buttonQuitar"
+                                                             actionListener="#{cobroBean.onCuotaUnSelect(item)}"
+                                                             update=":crear:msgs :crear:totales :list listSelected"
+                                                             icon="fa fa-arrow-up" styleClass="Blue"
+                                                             style="font-size: 0px;background-color: transparent;"/>
+                                            <p:tooltip id="toolTipButtonQuitar" for="buttonQuitar"
+                                                       value="Quitar" trackMouse="true"/>
                                         </p:column>
                                     </p:dataTable>
 
@@ -255,25 +267,27 @@
                                             <f:convertNumber type="currency" currencySymbol="$"/>
                                         </h:outputText>
                                     </p:panelGrid>
+
+                                    <div class="EmptyBox30"></div>
+                                    <div class="Fright">
+                                        <div class="Wid35 Fleft Responsive45 MarRight10">
+                                            <p:commandButton value="#{msgs['btnCancelar']}"
+                                                             icon="fa fa-close"
+                                                             styleClass="RedButton Fs16 White RaisedButton Fleft FloatNoneOnMobile"
+                                                             action="search?faces-redirect=true"
+                                                             title="#{msgs['btnCancelar']}" immediate="true"/>
+                                        </div>
+                                        <div class="Wid55 Fleft Responsive45">
+                                            <p:commandButton id="linksave" value="#{msgs['btnRegistarCobro']}"
+                                                             icon="fa fa-save"
+                                                             styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
+                                                             action="#{cobroBean.update}" title="Grabar"
+                                                             update="crear" validateClient="true"/>
+                                        </div>
+                                    </div>
                                 </p:fieldset>
 
-                                <div class="EmptyBox30"></div>
-                                <div class="Fright">
-                                    <div class="Wid35 Fleft Responsive45 MarRight10">
-                                        <p:commandButton value="#{msgs['btnCancelar']}"
-                                                         icon="fa fa-close"
-                                                         styleClass="RedButton Fs16 White RaisedButton Fleft FloatNoneOnMobile"
-                                                         action="search?faces-redirect=true"
-                                                         title="#{msgs['btnCancelar']}" immediate="true"/>
-                                    </div>
-                                    <div class="Wid55 Fleft Responsive45">
-                                        <p:commandButton id="linksave" value="#{msgs['btnRegistarCobro']}"
-                                                         icon="fa fa-save"
-                                                         styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
-                                                         action="#{cobroBean.update}" title="Grabar"
-                                                         update="crear" validateClient="true"/>
-                                    </div>
-                                </div>
+
                             </h:form>
                         </div>
                     </div>
