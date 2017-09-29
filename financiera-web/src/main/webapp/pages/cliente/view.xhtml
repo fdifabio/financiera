@@ -81,7 +81,15 @@
                                              resizableColumns="false" rows="10"
                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                              rowsPerPageTemplate="10,20,30,50">
+                                    <f:facet name="header">
+                                        <h:outputText value="#{msgs['creditos']}"/>
+                                        <ui:include src="/pages/includes/exporterButtons.xhtml">
+                                            <ui:param name="target" value="list" />
+                                            <ui:param name="fileName"
+                                                      value="Reporte cuotas" />
+                                        </ui:include>
 
+                                    </f:facet>
                                     <p:column headerText="#{msgs['formFechaInicio']}"
                                               sortBy="#{item.fechaInicio}">
                                         <h:outputText value="#{item.fechaInicio}">
@@ -136,6 +144,15 @@
                                           fitViewport="true" height="700px" closeOnEscape="true"
                                           draggable="false" header="Detalle de credito">
                                     <p:outputPanel id="creditoDetalle" style="text-align:center;">
+                                        <f:facet name="header">
+                                            <h:outputText value="#{msgs['cuotas']}"/>
+                                            <ui:include src="/pages/includes/exporterButtons.xhtml">
+                                                <ui:param name="target" value="list" />
+                                                <ui:param name="fileName"
+                                                          value="Reporte credito" />
+                                            </ui:include>
+
+                                        </f:facet>
                                         <h:panelGroup id="detalleCredito">
                                             <p:panelGrid columns="8"
                                                          columnClasses="ui-grid-col-1,ui-grid-col-3,ui-grid-col-1,ui-grid-col-3,ui-grid-col-1,ui-grid-col-3"
@@ -185,6 +202,15 @@
                                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                                  currentPageReportTemplate="({currentPage} de {totalPages})"
                                                                  filterEvent="enter" class="TexAlCenter" sortBy="#{item.nro}">
+                                                        <f:facet name="header">
+                                                            <h:outputText value="#{msgs['cuotas']}"/>
+                                                            <ui:include src="/pages/includes/exporterButtons.xhtml">
+                                                                <ui:param name="target" value="gastos" />
+                                                                <ui:param name="fileName"
+                                                                          value="Reporte cuotas" />
+                                                            </ui:include>
+
+                                                        </f:facet>
 
                                                         <p:column headerText="Fecha de venciminento">
                                                             <h:outputText value="#{item.fechaVencimiento}">
@@ -214,10 +240,10 @@
                                                         </p:column>
 
                                                         <p:column headerText="Estado">
-                                                            <div
-                                                                 style="border-radius: 5px; padding: 2px 0px 2px 0px;">
-                                                                <h:outputText value="#{item.estado.descripcion}"/>
-                                                            </div>
+                                                            <p:outputLabel id="estado"
+                                                                           value="#{item.estado.descripcion}"
+                                                                           style="padding: 0px 5px 0px 5px;border-radius: 5px;"
+                                                                           styleClass="#{item.estado.backgroundColor} White"/>
                                                         </p:column>
                                 <!--
                                                                                         <p:column headerText="Comprobante">
