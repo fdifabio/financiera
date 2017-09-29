@@ -28,6 +28,11 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     private Estado estado = Estado.ADEUDADO;
     private List<Cobro> cobros;
 
+    //TODO: Ver de parametrizarlos!!
+    private BigDecimal interesDescuento = BigDecimal.ZERO;//Se utiliza cuando la cuota se paga por adelantado
+    private BigDecimal interesVencido = BigDecimal.ZERO;//Se utiliza cuando la cuota esta vencida
+
+
     private Credito credito;
 
     public Cuota() {
@@ -127,22 +132,46 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
         this.estado = estado;
     }
 
+    @Column(name = "interes_vencido")
+    public BigDecimal getInteresVencido() {
+        return interesVencido;
+    }
+
+    public void setInteresVencido(BigDecimal interesVencido) {
+        this.interesVencido = interesVencido;
+    }
+
+    @Column(name = "interes_descuento")
+    public BigDecimal getInteresDescuento() {
+        return interesDescuento;
+    }
+
+    public void setInteresDescuento(BigDecimal interesDescuento) {
+        this.interesDescuento = interesDescuento;
+    }
 
     @Transient
     public BigDecimal monto() {
         //TODO: Ver si dejo esta logica aca
         if (diasVencidos() > 0 && !this.estado.equals(Estado.SALDADO)) {
             this.setEstado(Estado.VENCIDO);
-            return credito.getMontoCutoas().add(calcularCuotaInteres());
-        }
+            this.interesVencido = new BigDecimal(0.33);
+            return credito.getMontoCutoas().add(calcularCuotaInteresVencido());
+        } else if (diasVencidos() < 0)//TODO: Ver esta logica
+            return credito.getMontoCutoas().subtract(calcularCuotaInteresDescuento());
         return credito.getMontoCutoas();
     }
 
     @Transient
-    private BigDecimal calcularCuotaInteres() {
-        BigDecimal interesVencido = new BigDecimal(0.33);//TODO: Ver de parametrizarlo!!
+    private BigDecimal calcularCuotaInteresVencido() {
         BigDecimal value = credito.getMontoCutoas().multiply(interesVencido).divide(new BigDecimal(100));
         value = value.multiply(new BigDecimal(diasVencidos()));
+        return value;
+    }
+
+    @Transient
+    private BigDecimal calcularCuotaInteresDescuento() {
+        BigDecimal value = credito.getMontoCutoas().multiply(interesDescuento).divide(new BigDecimal(100));
         return value;
     }
 
@@ -151,6 +180,21 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
         LocalDate date = fechaVencimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         long dias = Duration.between(date.atStartOfDay(), LocalDate.now().atStartOfDay()).toDays();
         return dias > 0 ? dias : 0;
+    }
+
+    @Transient
+    public boolean isVencido() {
+        return this.estado.equals(Estado.VENCIDO);
+    }
+
+    @Transient
+    public boolean isParcialmenteSaldado() {
+        return this.estado.equals(Estado.PARCIALMENTE_SALDADO);
+    }
+
+    @Transient
+    public boolean isSaldado() {
+        return this.estado.equals(Estado.SALDADO);
     }
 
     public enum Estado implements Serializable {

@@ -28,7 +28,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     private Estado estado = Estado.ACTIVO;
     private Cliente cliente;
     private BigDecimal montoCutoas;
-    private BigDecimal saldoCuenta;
+    private BigDecimal saldoCuenta = BigDecimal.ZERO;
     private List<Cuota> listCuotas = new ArrayList<>(0);
 
     public BigDecimal getCapital() {
