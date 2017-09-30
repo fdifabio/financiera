@@ -69,7 +69,7 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     private void cargarCredito() {
         if (credito.getId() != null) {
             credito = creditoService.getEntityById(credito.getId());
-            cuotasPendientes = credito.getListCuotas().stream().filter(c -> c.getEstado().equals(Cuota.Estado.ADEUDADO) || c.getEstado().equals(Cuota.Estado.PARCIALMENTE_SALDADO)).collect(Collectors.toList());
+            cuotasPendientes = credito.getListCuotas().stream().filter(c -> !c.getEstado().equals(Cuota.Estado.SALDADO)).collect(Collectors.toList());
         }
     }
 

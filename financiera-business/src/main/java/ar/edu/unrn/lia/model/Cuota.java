@@ -125,6 +125,12 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")
     public Estado getEstado() {
+        //TODO: Revisar
+        if (diasVencidos() > 0 && this.estado.equals(Estado.ADEUDADO))
+            this.setEstado(Estado.VENCIDO);
+        if (this.estado.equals(Estado.VENCIDO) || this.estado.equals(Estado.PARCIALMENTE_SALDADO))
+            this.interesVencido = new BigDecimal(0.33);
+
         return estado;
     }
 
@@ -152,14 +158,9 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
 
     @Transient
     public BigDecimal monto() {
-        //TODO: Ver si dejo esta logica aca
-        if (diasVencidos() > 0 && !this.estado.equals(Estado.SALDADO)) {
-            this.setEstado(Estado.VENCIDO);
-            this.interesVencido = new BigDecimal(0.33);
+        if (this.getEstado().equals(Estado.VENCIDO) || this.getEstado().equals(Estado.PARCIALMENTE_SALDADO))
             return credito.getMontoCutoas().add(calcularCuotaInteresVencido());
-        }  //TODO: Ver esta logica
         return credito.getMontoCutoas().subtract(calcularCuotaInteresDescuento());
-//        return credito.getMontoCutoas();
     }
 
     @Transient
