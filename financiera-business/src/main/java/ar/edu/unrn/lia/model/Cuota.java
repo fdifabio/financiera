@@ -25,6 +25,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     private BigDecimal saldo;
     private Date fechaVencimiento;
     private Date fechaCierre;
+
     private Estado estado = Estado.ADEUDADO;
     private List<Cobro> cobros;
 
@@ -32,8 +33,11 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     private BigDecimal interesDescuento = BigDecimal.ZERO;//Se utiliza cuando la cuota se paga por adelantado
     private BigDecimal interesVencido = BigDecimal.ZERO;//Se utiliza cuando la cuota esta vencida
 
-
     private Credito credito;
+
+    /*Transients*/
+    private Estado estadoAnterior;
+    private BigDecimal montoAPagar;
 
     public Cuota() {
         super();
@@ -112,7 +116,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
         this.credito = credito;
     }
 
-    @OneToMany(mappedBy = "cuota")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuota")
     @Fetch(FetchMode.JOIN)
     public List<Cobro> getCobros() {
         return cobros;
@@ -126,10 +130,12 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     @Column(name = "estado")
     public Estado getEstado() {
         //TODO: Revisar
+
         if (diasVencidos() > 0 && this.estado.equals(Estado.ADEUDADO))
             this.setEstado(Estado.VENCIDO);
         if (this.estado.equals(Estado.VENCIDO) || this.estado.equals(Estado.PARCIALMENTE_SALDADO))
             this.interesVencido = new BigDecimal(0.33);
+
 
         return estado;
     }
@@ -177,6 +183,11 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     }
 
     @Transient
+    private BigDecimal calcularCobros() {
+        return cobros.stream().map(Cobro::getMonto).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    @Transient
     public long diasVencidos() {
         LocalDate date = fechaVencimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         long dias = Duration.between(date.atStartOfDay(), LocalDate.now().atStartOfDay()).toDays();
@@ -194,13 +205,41 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     }
 
     @Transient
+    public boolean isEstadoAnteriorVencido() {
+        return this.estadoAnterior.equals(Estado.VENCIDO);
+    }
+
+    @Transient
+    public boolean isEstadoAnteriorParcialmenteSaldado() {
+        return this.estadoAnterior.equals(Estado.PARCIALMENTE_SALDADO);
+    }
+
+    @Transient
     public boolean isSaldado() {
         return this.estado.equals(Estado.SALDADO);
     }
 
+    @Transient
+    public Estado getEstadoAnterior() {
+        return estadoAnterior;
+    }
+
+    public void setEstadoAnterior(Estado estadoAnterior) {
+        this.estadoAnterior = estadoAnterior;
+    }
+
+    @Transient
+    public BigDecimal getMontoAPagar() {
+        return montoAPagar;
+    }
+
+    public void setMontoAPagar(BigDecimal montoAPagar) {
+        this.montoAPagar = montoAPagar;
+    }
+
     public enum Estado implements Serializable {
 
-        ADEUDADO("Adeudado", "Orange"), VENCIDO("Vencido", "Red"), SALDADO("Saldado", "Green"), PARCIALMENTE_SALDADO("Paracialmente saldado", "Orange");
+        ADEUDADO("Adeudado", "Orange"), VENCIDO("Vencido", "Red"), SALDADO("Saldado", "Green"), PARCIALMENTE_SALDADO("Paracialmente saldado", "SoftRed");
 
         private String descripcion;
         private String color;

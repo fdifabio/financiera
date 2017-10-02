@@ -188,6 +188,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         return totalCuotasPagas() * 100 / cuotas;
     }
 
+    @Transient
     private BigDecimal redondear(BigDecimal value) {
 //        BigDecimal big = new BigDecimal(value);
 //        big = big.setScale(2, RoundingMode.HALF_UP);
@@ -195,6 +196,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         return value.setScale(2, RoundingMode.HALF_UP);
     }
 
+    @Transient
     private BigDecimal potencia(BigDecimal base, BigDecimal potencia) {
         BigDecimal acumulador = base;
         for (int i = 1; i < potencia.intValue(); i++) {
