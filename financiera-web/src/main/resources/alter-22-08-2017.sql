@@ -74,4 +74,4 @@ ALTER TABLE `credito` ADD `saldo_cuenta` DOUBLE NOT NULL AFTER `monto_cuotas`;
 ALTER TABLE `cuota` ADD `interes_vencido` DOUBLE NOT NULL AFTER `saldo`, ADD `interes_descuento` DOUBLE NOT NULL AFTER `interes_vencido`;
 
 /*02/10/2017*/
-ALTER TABLE `cliente` ADD `ejemplo` INT NOT NULL AFTER `trabajo_dia_cobro`;
+ALTER TABLE `cliente` ADD `trabajo_dia_cobro` INT NOT NULL AFTER `trabajo_lugar`;

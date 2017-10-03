@@ -39,8 +39,8 @@
 		<com.lowagie-version>2.1.7</com.lowagie-version>
 		<org.apache.poi-version>3.9</org.apache.poi-version>
 		<javax.mail-version>1.4.7</javax.mail-version>
-		<org.primefaces-version>6.0</org.primefaces-version>
-		<org.primefaces.extensions-version>6.0.0</org.primefaces.extensions-version>
+		<org.primefaces-version>6.1</org.primefaces-version>
+		<org.primefaces.extensions-version>6.1.1</org.primefaces.extensions-version>
 		<javax.inject-version>1</javax.inject-version>
 		<org.apache.tomcat.maven-version>2.0-beta-1</org.apache.tomcat.maven-version>
 		<maven.eclipse.plugin-version>2.9</maven.eclipse.plugin-version>
