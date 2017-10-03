@@ -28,6 +28,7 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
     private Ciudad ciudad;
     private String trabajoLugar;
     private String trabajoHorario;
+    private int trabajoDiaCobro;
     private Boolean garantia;
     private Boolean fotocopiaDni;
     private Boolean recibo;
@@ -176,6 +177,14 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
 
     public void setTrabajoHorario(String trabajoHorario) {
         this.trabajoHorario = trabajoHorario;
+    }
+    @Column(name = "trabajo_dia_cobro")
+    public int getTrabajoDiaCobro() {
+        return trabajoDiaCobro;
+    }
+
+    public void setTrabajoDiaCobro(int trabajoDiaCobro) {
+        this.trabajoDiaCobro = trabajoDiaCobro;
     }
 
     public Boolean getGarantia() {
