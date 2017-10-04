@@ -3,8 +3,10 @@ package ar.edu.unrn.lia.bean;
 import ar.edu.unrn.lia.bean.datamodel.DataModel;
 import ar.edu.unrn.lia.model.Cliente;
 import ar.edu.unrn.lia.model.Credito;
+import ar.edu.unrn.lia.model.Interes;
 import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CreditoService;
+import ar.edu.unrn.lia.service.InteresService;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
@@ -34,10 +36,17 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
     @Inject
     private ClienteService clienteService;
 
+    @Inject
+    private InteresService interesService;
+
+
+    List<Interes> intereses = new ArrayList<>();
+
     @PostConstruct
     public void init() {
         setModelLazy(new DataModel<Credito>(entityService));
         setServices(entityService);
+        this.intereses = interesService.getAll();
         LOG.debug("init.. " + this.getClass().getName());
     }
 
@@ -116,5 +125,21 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     public void setCreditoSeleccionado(Credito creditoSeleccionado) {
         this.creditoSeleccionado = creditoSeleccionado;
+    }
+
+    public InteresService getInteresService() {
+        return interesService;
+    }
+
+    public void setInteresService(InteresService interesService) {
+        this.interesService = interesService;
+    }
+
+    public List<Interes> getIntereses() {
+        return intereses;
+    }
+
+    public void setIntereses(List<Interes> intereses) {
+        this.intereses = intereses;
     }
 }
