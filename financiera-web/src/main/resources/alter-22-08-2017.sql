@@ -75,3 +75,6 @@ ALTER TABLE `cuota` ADD `interes_vencido` DOUBLE NOT NULL AFTER `saldo`, ADD `in
 
 /*02/10/2017*/
 ALTER TABLE `cliente` ADD `trabajo_dia_cobro` INT NOT NULL AFTER `trabajo_lugar`;
+
+/*03/10/2017*/
+ALTER TABLE `cuota` ADD `saldo_pagar` DOUBLE NOT NULL AFTER `saldo`;
