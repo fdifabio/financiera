@@ -1,8 +1,5 @@
 package ar.edu.unrn.lia.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -122,7 +119,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "credito", orphanRemoval = true)
-    @Fetch(FetchMode.JOIN)
+//    @Fetch(FetchMode.JOIN)
     public List<Cuota> getListCuotas() {
         return listCuotas;
     }

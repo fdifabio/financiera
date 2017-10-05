@@ -1,8 +1,5 @@
 package ar.edu.unrn.lia.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -119,8 +116,8 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
         this.credito = credito;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuota")
-    @Fetch(FetchMode.JOIN)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuota",fetch = FetchType.EAGER)
+//    @Fetch(FetchMode.JOIN)
     public List<Cobro> getCobros() {
         return cobros;
     }
