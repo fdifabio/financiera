@@ -7,9 +7,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created by Lucas on 22/08/2017.
@@ -29,7 +29,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     private Cliente cliente;
     private BigDecimal montoCutoas;
     private BigDecimal saldoCuenta = BigDecimal.ZERO;
-    private Set<Cuota> listCuotas = new HashSet<>(0);
+    private List<Cuota> listCuotas = new ArrayList<>(0);
 
     public BigDecimal getCapital() {
         return capital;
@@ -123,11 +123,11 @@ public class Credito extends BaseEntity implements java.io.Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "credito", orphanRemoval = true)
     @Fetch(FetchMode.JOIN)
-    public Set<Cuota> getListCuotas() {
+    public List<Cuota> getListCuotas() {
         return listCuotas;
     }
 
-    public void setListCuotas(Set<Cuota> listCuotas) {
+    public void setListCuotas(List<Cuota> listCuotas) {
         this.listCuotas = listCuotas;
     }
 
