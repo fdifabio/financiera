@@ -192,7 +192,7 @@
                                         <p:ajax event="rowEditCancel" listener="#{cobroBean.onRowCancel}"
                                                 update="crear:listSelected :crear:msgs :crear:totales"/>
 
-                                        <p:column headerText="Nro." width="20">
+                                        <p:column headerText="Nro." width="30">
                                             <h:outputText value="#{item.nro}"/>
 
                                         </p:column>
@@ -201,10 +201,15 @@
                                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="#{msgs['diasVencidos']}" width="14%">
+                                        <p:column headerText="#{msgs['diasVencidos']}" width="50">
                                             <h:outputText value="#{item.diasVencidos()}"/>
                                         </p:column>
                                         <p:column headerText="#{msgs['formEstado']}">
+                                            <h:outputText value="#{item.estadoAnterior.descripcion}"
+                                                          styleClass="#{item.estadoAnterior.backgroundColor} White"
+                                                          style="padding: 0px 5px 0px 5px;border-radius: 5px;display: block;text-align: center;"/>
+                                        </p:column>
+                                        <p:column headerText="Nuevo #{msgs['formEstado']}" width="100">
                                             <h:outputText value="#{item.estado.descripcion}"
                                                           styleClass="#{item.estado.backgroundColor} White"
                                                           style="padding: 0px 5px 0px 5px;border-radius: 5px;display: block;text-align: center;"/>
@@ -282,11 +287,10 @@
                                                     </h:panelGroup>
                                                     <h:panelGroup
                                                             rendered="#{item.isEstadoAnteriorVencido() or item.isEstadoAnteriorParcialmenteSaldado()}">
-
-                                                        <p:spinner prefix="$" min="0" max="#{item.monto()}"
-                                                                   stepFactor="0.01"
-                                                                   value="#{item.montoAPagar}">
-                                                        </p:spinner>
+                                                        <p:inputNumber id="monto" decimalSeparator=","
+                                                                       thousandSeparator="." value="#{item.montoAPagar}"
+                                                                       validatorMessage="Ingrese un monto válido"
+                                                                       placeholder="Monto" minValue="0"/>
                                                     </h:panelGroup>
                                                 </f:facet>
                                             </p:cellEditor>
