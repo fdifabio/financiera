@@ -1249,7 +1249,7 @@ label {
 
 .ui-datatable table tbody .ui-state-highlight.ui-row-editing > td {
     background-color: #dde4ed;
-    color: #f1f6f9;
+    color: #546e7a;
 }
 
 .ui-datatable table tbody tr td .ui-icon-arrow-4 {

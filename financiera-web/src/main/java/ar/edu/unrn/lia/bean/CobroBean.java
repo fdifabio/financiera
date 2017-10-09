@@ -8,6 +8,7 @@ import ar.edu.unrn.lia.model.Cuota;
 import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CobroService;
 import ar.edu.unrn.lia.service.CreditoService;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
@@ -140,6 +141,12 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         cuota.setSaldoAPagar(cuota.monto().subtract(cuota.getMontoAPagar()));
         FacesMessage msg = new FacesMessage("Cuota editada", "Se editó la cuota Nro. " + cuota.getNro());
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void listenerUpdate(int index) {
+        selectedCuotas.get(index).setMontoAPagar(selectedCuotas.get(index).monto());
+        RequestContext.getCurrentInstance().update("crear:listSelected:" + index + ":monto");
+        RequestContext.getCurrentInstance().update("crear:listSelected:" + index + ":montoAPagar");
     }
 
     @Override
