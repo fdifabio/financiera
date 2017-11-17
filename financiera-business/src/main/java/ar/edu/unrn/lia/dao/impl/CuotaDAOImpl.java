@@ -81,12 +81,13 @@ public class CuotaDAOImpl extends GenericDaoJpaImpl<Cuota, Long> implements
         return resultList;
     }
 
-    public List<CuotaDTO> listAdeudadas(int fecha) {
+    public List<CuotaDTO> listAdeudadas(int year, int month) {
 
-        Query query = this.entityManager.createQuery("SELECT new ar.edu.unrn.lia.dto.CuotaDTO(YEAR( c.fechaVencimiento ) ,MONTH ( c.fechaVencimiento ), SUM( c.cuotaCapital + c.cuotaInteres)) FROM Cuota c WHERE c.estado= :estado and YEAR( c.fechaVencimiento ) = :anio GROUP BY 1,2");
+        Query query = this.entityManager.createQuery("SELECT new ar.edu.unrn.lia.dto.CuotaDTO(YEAR( c.fechaVencimiento ) ,MONTH ( c.fechaVencimiento ), SUM( c.cuotaCapital + c.cuotaInteres)) FROM Cuota c WHERE c.estado= :estado and YEAR( c.fechaVencimiento ) = :year and MONTH( c.fechaVencimiento ) > :month GROUP BY 1,2");
         //SELECT YEAR( c.fecha_vencimiento ) ,MONTH ( c.fecha_vencimiento ), SUM( c.cuota_capital + c.cuota_interes) FROM Cuota c WHERE c.estado= 'ADEUDADO' and YEAR( c.fecha_vencimiento ) = 2017 GROUP BY 1,2
         query.setParameter("estado", Cuota.Estado.ADEUDADO);
-        query.setParameter("anio", fecha);
+        query.setParameter("year", year);
+        query.setParameter("month", month);
         return (List<CuotaDTO>) query.getResultList();
     }
 

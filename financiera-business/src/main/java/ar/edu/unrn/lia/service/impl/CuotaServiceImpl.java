@@ -74,8 +74,8 @@ public class CuotaServiceImpl implements CuotaService {
 
 
     @Override
-    public List<CuotaDTO> listAdeudadas(int fecha) {
-        return getEntityDAO().listAdeudadas(fecha);
+    public List<CuotaDTO> listAdeudadas(int year, int month) {
+        return getEntityDAO().listAdeudadas(year, month);
     }
 
     @Override

@@ -23,6 +23,7 @@ public class ReportesBean implements Serializable {
     private BarChartModel barModel;
     private HorizontalBarChartModel horizontalBarModel;
     private int year = Calendar.getInstance().get(Calendar.YEAR);
+    private int month = Calendar.getInstance().get(Calendar.MONTH);
     private int anioSelecionado = 0;
 
     @PostConstruct
@@ -45,7 +46,7 @@ public class ReportesBean implements Serializable {
         ChartSeries adeudado = new ChartSeries();
         adeudado.setLabel("Total Adeudado");
 
-        cuotaService.listAdeudadas(year).forEach(c -> adeudado.set(c.getMes() + "/" + c.getAnio(), c.getMonto()));
+        cuotaService.listAdeudadas(year, month).forEach(c -> adeudado.set(c.getMes() + "/" + c.getAnio(), c.getMonto()));
 
 /*
         ChartSeries percibido = new ChartSeries();
@@ -82,7 +83,7 @@ public class ReportesBean implements Serializable {
         Axis yAxis = barModel.getAxis(AxisType.Y);
         yAxis.setLabel("Monto");
         yAxis.setMin(0);
-       // yAxis.setMax(2000);
+        // yAxis.setMax(2000);
     }
 
     private void createHorizontalBarModel() {
@@ -145,6 +146,10 @@ public class ReportesBean implements Serializable {
     }
 
     public void onProyeccionesChangeAnio() {
+        year = Calendar.getInstance().get(Calendar.YEAR);
+        month = Calendar.getInstance().get(Calendar.MONTH);
+        if (anioSelecionado != year)
+            month = 0;
         setYear(getAnioSelecionado());
         createBarModels();
     }

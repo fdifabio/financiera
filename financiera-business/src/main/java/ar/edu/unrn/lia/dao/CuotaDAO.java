@@ -8,6 +8,6 @@ import java.util.Date;
 import java.util.List;
 
 public interface CuotaDAO extends GenericDao<Cuota,Long> {
-    public List<CuotaDTO> listAdeudadas(int fecha);
+    public List<CuotaDTO> listAdeudadas(int year, int month);
     public List<Integer> listAniosAdeudadas();
 }
