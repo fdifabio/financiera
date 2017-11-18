@@ -14,8 +14,30 @@
                 <div class="Card ShadowEffect  ">
                     <div class="Container100">
                         <p:tabView orientation="left" id="tabs">
-                            <p:tab title="Morosos">
-                                <p:chart type="bar" model="#{reportesBean.horizontalBarModel}" style="height:300px"/>
+                            <p:tab title="Reporte general">
+                                <h:form>
+                                    <h:panelGroup layout="block">
+
+                                        <p:selectOneMenu id="aniosgeneral"
+                                                         value="#{reportesBean.anioGeneralSelecionado}"
+                                                         required="true"
+                                                         requiredMessage="#{msgs['validationRequired']}">
+                                            <f:selectItem itemLabel="--Seleccione un año--"
+                                                          itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{reportesBean.anios}" var="a"
+                                                           itemLabel="#{a}" itemValue="#{a}"/>
+
+                                            <p:ajax event="change"
+                                                    listener="#{reportesBean.onGeneralChangeAnio()}"
+                                                    update="chartgeneral"/>
+                                        </p:selectOneMenu>
+                                        <p:message for="aniosgeneral" styleClass="alert alert-danger"/>
+                                    </h:panelGroup>
+                                    <p:chart id="chartgeneral" type="bar" model="#{reportesBean.generalBarModel}"
+                                             style="height:300px"/>
+
+                                </h:form>
+
                             </p:tab>
                             <p:tab title="Proyecciones">
                                 <h:form>
@@ -27,7 +49,7 @@
                                                          requiredMessage="#{msgs['validationRequired']}">
                                             <f:selectItem itemLabel="--Seleccione un año--"
                                                           itemValue="" noSelectionOption="true"/>
-                                            <f:selectItems value="#{reportesBean.anios}" var="p"
+                                            <f:selectItems value="#{reportesBean.aniosAdeudados}" var="p"
                                                            itemLabel="#{p}" itemValue="#{p}"/>
 
                                             <p:ajax event="change"

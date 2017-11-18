@@ -82,4 +82,14 @@ public class CuotaServiceImpl implements CuotaService {
     public List<Integer> listAniosAdeudadas() {
         return getEntityDAO().listAniosAdeudadas();
     }
+
+    @Override
+    public List<Integer> listAnios() {
+        return getEntityDAO().listAnios();
+    }
+
+    @Override
+    public List<CuotaDTO> listSaldadas(int year) {
+        return getEntityDAO().listSaldadas(year);
+    }
 }

@@ -10,34 +10,41 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Named
 @Scope("view")
 public class ReportesBean implements Serializable {
 
-    private List<Integer> anios = new ArrayList<Integer>(0);
+
     @Inject
     private CuotaService cuotaService;
     private BarChartModel barModel;
-    private HorizontalBarChartModel horizontalBarModel;
+    private BarChartModel generalBarModel;
     private int year = Calendar.getInstance().get(Calendar.YEAR);
     private int month = Calendar.getInstance().get(Calendar.MONTH);
     private int anioSelecionado = 0;
+    private int anioGeneralSelecionado = 0;
+    private List<Integer> anios = new ArrayList<Integer>(0);
+    private List<Integer> aniosAdeudados = new ArrayList<Integer>(0);
 
     @PostConstruct
     public void init() {
-        createBarModels();
-        setAnios(cuotaService.listAniosAdeudadas());
+        anioGeneralSelecionado = year;
+        anioSelecionado = year;
+        setAnios(cuotaService.listAnios());
+        setAniosAdeudados(cuotaService.listAniosAdeudadas());
+
+        createBarModel();
+        createGeneralBarModel();
     }
 
     public BarChartModel getBarModel() {
         return barModel;
     }
 
-    public HorizontalBarChartModel getHorizontalBarModel() {
-        return horizontalBarModel;
+    public BarChartModel getGeneralBarModel() {
+        return generalBarModel;
     }
 
     private BarChartModel initBarModel() {
@@ -46,26 +53,16 @@ public class ReportesBean implements Serializable {
         ChartSeries adeudado = new ChartSeries();
         adeudado.setLabel("Total Adeudado");
 
-        cuotaService.listAdeudadas(year, month).forEach(c -> adeudado.set(c.getMes() + "/" + c.getAnio(), c.getMonto()));
-
-/*
-        ChartSeries percibido = new ChartSeries();
-
-        percibido.setLabel("Total Percibido");
-        cuotaService.listAdeudadas().stream().forEach(c -> percibido.set(c.getAnio() + c.getMes(), c.getMonto()));
-        model.addSeries(percibido);
-*/
+        if (anioSelecionado != year) {
+            month = 0;
+        } else month = Calendar.getInstance().get(Calendar.MONTH);
+        cuotaService.listAdeudadas(getAnioSelecionado(), month).forEach(c -> adeudado.set(c.getMes() + "/" + c.getAnio(), c.getMonto()));
 
         model.addSeries(adeudado);
-
-
+        model.setLegendPosition("se");
         return model;
     }
 
-    private void createBarModels() {
-        createBarModel();
-        createHorizontalBarModel();
-    }
 
     private void createBarModel() {
         barModel = new BarChartModel();
@@ -73,7 +70,7 @@ public class ReportesBean implements Serializable {
 
         barModel.setTitle("Proyecciones");
         barModel.setAnimate(true);
-        barModel.setLegendPosition("se");
+        //barModel.setLegendPosition("se");
 
         Axis xAxis = barModel.getAxis(AxisType.X);
         xAxis.setLabel("Año");
@@ -86,39 +83,35 @@ public class ReportesBean implements Serializable {
         // yAxis.setMax(2000);
     }
 
-    private void createHorizontalBarModel() {
-        horizontalBarModel = new HorizontalBarChartModel();
+    private void createGeneralBarModel() {
+        generalBarModel = new BarChartModel();
+        generalBarModel.setAnimate(true);
+        ChartSeries saldadas = new ChartSeries();
+        saldadas.setLabel("Saldadas");
+        cuotaService.listSaldadas(getAnioGeneralSelecionado()).forEach(c -> saldadas.set(c.getMes() + "/" + c.getAnio(), c.getMonto()));
 
-        ChartSeries boys = new ChartSeries();
-        boys.setLabel("Boys");
-        boys.set("2004", 50);
-        boys.set("2005", 96);
-        boys.set("2006", 44);
-        boys.set("2007", 55);
-        boys.set("2008", 25);
 
-        ChartSeries girls = new ChartSeries();
-        girls.setLabel("Girls");
-        girls.set("2004", 52);
-        girls.set("2005", 60);
-        girls.set("2006", 82);
-        girls.set("2007", 35);
-        girls.set("2008", 120);
+        ChartSeries adeudadas = new ChartSeries();
+        adeudadas.setLabel("Adeudadas");
+        cuotaService.listAdeudadas(getAnioGeneralSelecionado(), 0).forEach(a -> adeudadas.set(a.getMes() + "/" + a.getAnio(), a.getMonto()));
 
-        horizontalBarModel.addSeries(boys);
-        horizontalBarModel.addSeries(girls);
+        if (saldadas.getData().size() != 0)
+            generalBarModel.addSeries(saldadas);
+        if (adeudadas.getData().size() != 0)
+            generalBarModel.addSeries(adeudadas);
 
-        horizontalBarModel.setTitle("Horizontal and Stacked");
-        horizontalBarModel.setLegendPosition("e");
-        horizontalBarModel.setStacked(true);
+        generalBarModel.setTitle("Reporte General");
+        generalBarModel.setSeriesColors("58BA27,FFCC33");
+        generalBarModel.setLegendPosition("se");
+        // generalBarModel.setStacked(true);
 
-        Axis xAxis = horizontalBarModel.getAxis(AxisType.X);
-        xAxis.setLabel("Births");
-        xAxis.setMin(0);
-        xAxis.setMax(200000);
+        Axis xAxis = generalBarModel.getAxis(AxisType.X);
+        xAxis.setLabel("Periodo");
+        // xAxis.setMin(0);
+        // xAxis.setMax(200000);
 
-        Axis yAxis = horizontalBarModel.getAxis(AxisType.Y);
-        yAxis.setLabel("Gender");
+        Axis yAxis = generalBarModel.getAxis(AxisType.Y);
+        yAxis.setLabel("Monto");
     }
 
     public List<Integer> getAnios() {
@@ -129,12 +122,28 @@ public class ReportesBean implements Serializable {
         this.anios = anios;
     }
 
+    public List<Integer> getAniosAdeudados() {
+        return aniosAdeudados;
+    }
+
+    public void setAniosAdeudados(List<Integer> aniosAdeudados) {
+        this.aniosAdeudados = aniosAdeudados;
+    }
+
     public int getAnioSelecionado() {
         return anioSelecionado;
     }
 
     public void setAnioSelecionado(int anioSelecionado) {
         this.anioSelecionado = anioSelecionado;
+    }
+
+    public int getAnioGeneralSelecionado() {
+        return anioGeneralSelecionado;
+    }
+
+    public void setAnioGeneralSelecionado(int anioGeneralSelecionado) {
+        this.anioGeneralSelecionado = anioGeneralSelecionado;
     }
 
     public int getYear() {
@@ -146,11 +155,13 @@ public class ReportesBean implements Serializable {
     }
 
     public void onProyeccionesChangeAnio() {
-        year = Calendar.getInstance().get(Calendar.YEAR);
-        month = Calendar.getInstance().get(Calendar.MONTH);
-        if (anioSelecionado != year)
-            month = 0;
-        setYear(getAnioSelecionado());
-        createBarModels();
+        createBarModel();
     }
+
+    public void onGeneralChangeAnio() {
+
+        createGeneralBarModel();
+
+    }
+
 }

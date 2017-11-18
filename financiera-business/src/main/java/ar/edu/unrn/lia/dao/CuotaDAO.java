@@ -7,7 +7,12 @@ import ar.edu.unrn.lia.model.Cuota;
 import java.util.Date;
 import java.util.List;
 
-public interface CuotaDAO extends GenericDao<Cuota,Long> {
+public interface CuotaDAO extends GenericDao<Cuota, Long> {
     public List<CuotaDTO> listAdeudadas(int year, int month);
+
     public List<Integer> listAniosAdeudadas();
+
+    public List<CuotaDTO> listSaldadas(int year);
+
+    public List<Integer> listAnios();
 }

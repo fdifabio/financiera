@@ -91,6 +91,15 @@ public class CuotaDAOImpl extends GenericDaoJpaImpl<Cuota, Long> implements
         return (List<CuotaDTO>) query.getResultList();
     }
 
+    public List<CuotaDTO> listSaldadas(int year) {
+
+        Query query = this.entityManager.createQuery("SELECT new ar.edu.unrn.lia.dto.CuotaDTO(YEAR( c.fechaVencimiento ) ,MONTH ( c.fechaVencimiento ), SUM( c.cuotaCapital + c.cuotaInteres)) FROM Cuota c WHERE c.estado= :estado and YEAR( c.fechaVencimiento ) = :year GROUP BY 1,2");
+        //SELECT YEAR( c.fecha_vencimiento ) ,MONTH ( c.fecha_vencimiento ), SUM( c.cuota_capital + c.cuota_interes) FROM Cuota c WHERE c.estado= 'ADEUDADO' and YEAR( c.fecha_vencimiento ) = 2017 GROUP BY 1,2
+        query.setParameter("estado", Cuota.Estado.SALDADO);
+        query.setParameter("year", year);
+        return (List<CuotaDTO>) query.getResultList();
+    }
+
     @Override
     public List<Integer> listAniosAdeudadas() {
         Query query = this.entityManager.createQuery("SELECT DISTINCT (YEAR( c.fechaVencimiento )) FROM Cuota c WHERE c.estado= :estado and YEAR( c.fechaVencimiento ) >= YEAR(:anio) ");
@@ -100,6 +109,13 @@ public class CuotaDAOImpl extends GenericDaoJpaImpl<Cuota, Long> implements
         query.setParameter("anio", fecha);
         return (List<Integer>) query.getResultList();
 
+
+    }
+
+    @Override
+    public List<Integer> listAnios() {
+        Query query = this.entityManager.createQuery("SELECT DISTINCT (YEAR( c.fechaVencimiento )) FROM Cuota c   ");
+        return (List<Integer>) query.getResultList();
 
     }
 
