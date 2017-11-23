@@ -8,6 +8,7 @@ import ar.edu.unrn.lia.model.Cuota;
 import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CobroService;
 import ar.edu.unrn.lia.service.CreditoService;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
@@ -102,7 +103,11 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
 
     public void onCuotaSelect(Cuota c) {
         c.setEstadoAnterior(c.getEstado());
+        c.setSaldoAPagarAnterior(c.getSaldoAPagar());
         c.setEstado(Cuota.Estado.SALDADO);
+        if (c.getEstadoAnterior().equals(Cuota.Estado.VENCIDO) || c.getEstadoAnterior().equals(Cuota.Estado.PARCIALMENTE_SALDADO))
+            c.setInteresVencido(new BigDecimal(0.33));
+
         c.setMontoAPagar(c.monto());
         c.getCobros().add(new Cobro(c.monto(), new Date(), "", c));
         selectedCuotas.add(c);
@@ -112,7 +117,9 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     public void onCuotaUnSelect(Cuota c) {
         selectedCuotas.remove(c);
         c.setInteresDescuento(BigDecimal.ZERO);
+        c.setInteresVencido(BigDecimal.ZERO);
         c.setEstado(c.getEstadoAnterior());
+        c.setSaldoAPagar(c.getSaldoAPagarAnterior());
         cuotasPendientes.add(c);
     }
 
@@ -123,13 +130,23 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
 
     public void onRowEdit(RowEditEvent event) {
         Cuota cuota = (Cuota) event.getObject();
-        //Evaluo si la cuota se pagata total o parcial
+        if (cuota.getEstadoAnterior().equals(Cuota.Estado.ADEUDADO))
+            cuota.setMontoAPagar(cuota.monto());
+        cuota.getCobros().stream().reduce((first, second) -> second)
+                .get().setMonto(cuota.getMontoAPagar());
+        //Evaluo si la cuota se pagara total o parcial
         if (cuota.getMontoAPagar().equals(cuota.monto()))
             cuota.setEstado(Cuota.Estado.SALDADO);
         else cuota.setEstado(Cuota.Estado.PARCIALMENTE_SALDADO);
-
+        cuota.setSaldoAPagar(cuota.monto().subtract(cuota.getMontoAPagar()));
         FacesMessage msg = new FacesMessage("Cuota editada", "Se editó la cuota Nro. " + cuota.getNro());
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void listenerUpdate(int index) {
+        selectedCuotas.get(index).setMontoAPagar(selectedCuotas.get(index).monto());
+        RequestContext.getCurrentInstance().update("crear:listSelected:" + index + ":monto");
+        RequestContext.getCurrentInstance().update("crear:listSelected:" + index + ":montoAPagar");
     }
 
     @Override

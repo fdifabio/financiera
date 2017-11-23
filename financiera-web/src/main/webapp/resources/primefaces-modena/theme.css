@@ -1162,9 +1162,9 @@ label {
 .ui-datatable table thead tr th,
 .ui-datatable table tfoot tr td,
 .ui-datatable table thead tr th {
-    color: #546e7a;
-    background-color: #dae8ef;
-    border: solid 1px #c1d5df;
+    color: #ffffff;
+    background-color: #0387d1;
+    border: solid 1px #d8e3e8;
     outline: none;
     padding: 10px;
     font-family: 'robotolight';
@@ -1249,7 +1249,7 @@ label {
 
 .ui-datatable table tbody .ui-state-highlight.ui-row-editing > td {
     background-color: #dde4ed;
-    color: #f1f6f9;
+    color: #546e7a;
 }
 
 .ui-datatable table tbody tr td .ui-icon-arrow-4 {

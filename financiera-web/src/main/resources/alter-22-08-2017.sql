@@ -72,3 +72,24 @@ ALTER TABLE `credito` ADD `saldo_cuenta` DOUBLE NOT NULL AFTER `monto_cuotas`;
 
 /*29/09/2017*/
 ALTER TABLE `cuota` ADD `interes_vencido` DOUBLE NOT NULL AFTER `saldo`, ADD `interes_descuento` DOUBLE NOT NULL AFTER `interes_vencido`;
+
+/*02/10/2017*/
+ALTER TABLE `cliente` ADD `trabajo_dia_cobro` INT NOT NULL AFTER `trabajo_lugar`;
+
+/*03/10/2017*/
+ALTER TABLE `cuota` ADD `saldo_pagar` DOUBLE NOT NULL AFTER `saldo`;
+
+/*05/10/2017*/
+ALTER TABLE `cobro` ENGINE = INNODB;
+ALTER TABLE `cuota` ENGINE = INNODB;
+ALTER TABLE `caja` ENGINE = INNODB;
+ALTER TABLE `ciudad` ENGINE = INNODB;
+ALTER TABLE `movimiento` ENGINE = INNODB;
+ALTER TABLE `parameter` ENGINE = INNODB;
+ALTER TABLE `provincia` ENGINE = INNODB;
+ALTER TABLE `usuario` ENGINE = INNODB;
+ALTER TABLE `cuota` ADD FOREIGN KEY (`credito_id`) REFERENCES `credito`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `cobro` ADD FOREIGN KEY (`cuota_id`) REFERENCES `cuota`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE `cobro` CHANGE `cuota_id` `cuota_id` BIGINT(11) NOT NULL;
+ALTER TABLE `cobro` ADD FOREIGN KEY (`cuota_id`) REFERENCES `cuota`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;

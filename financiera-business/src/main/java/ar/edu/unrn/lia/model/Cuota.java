@@ -1,8 +1,5 @@
 package ar.edu.unrn.lia.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -23,6 +20,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     private BigDecimal cuotaCapital;
     private BigDecimal cuotaInteres;
     private BigDecimal saldo;
+    private BigDecimal saldoAPagar;// En un principio va ser igual al monto de la cuota
     private Date fechaVencimiento;
     private Date fechaCierre;
 
@@ -38,6 +36,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     /*Transients*/
     private Estado estadoAnterior;
     private BigDecimal montoAPagar;
+    private BigDecimal saldoAPagarAnterior ;
 
     public Cuota() {
         super();
@@ -49,6 +48,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
         this.cuotaCapital = cuotaCapital;
         this.cuotaInteres = cuotaInteres;
         this.saldo = saldo;
+        this.saldoAPagar = credito.getMontoCutoas();
         this.credito = credito;
         this.fechaVencimiento = fechaVencimiento;
     }
@@ -116,8 +116,8 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
         this.credito = credito;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuota")
-    @Fetch(FetchMode.JOIN)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuota",fetch = FetchType.EAGER)
+//    @Fetch(FetchMode.JOIN)
     public List<Cobro> getCobros() {
         return cobros;
     }
@@ -131,10 +131,11 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     public Estado getEstado() {
         //TODO: Revisar
 
-        if (diasVencidos() > 0 && this.estado.equals(Estado.ADEUDADO))
-            this.setEstado(Estado.VENCIDO);
-        if (this.estado.equals(Estado.VENCIDO) || this.estado.equals(Estado.PARCIALMENTE_SALDADO))
-            this.interesVencido = new BigDecimal(0.33);
+//        if (diasVencidos() > 0 && this.estado.equals(Estado.ADEUDADO))
+//            this.setEstado(Estado.VENCIDO);
+        //TODO: ¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡Revisar!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//        if (this.estado.equals(Estado.VENCIDO) || this.estado.equals(Estado.PARCIALMENTE_SALDADO))
+//            this.interesVencido = new BigDecimal(0.33);
 
 
         return estado;
@@ -162,16 +163,26 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
         this.interesDescuento = interesDescuento;
     }
 
+    @Column(name = "saldo_pagar")
+    public BigDecimal getSaldoAPagar() {
+        return saldoAPagar;
+    }
+
+    public void setSaldoAPagar(BigDecimal saldoAPagar) {
+        this.saldoAPagar = saldoAPagar;
+    }
+
     @Transient
     public BigDecimal monto() {
-        if (this.getEstado().equals(Estado.VENCIDO) || this.getEstado().equals(Estado.PARCIALMENTE_SALDADO))
-            return credito.getMontoCutoas().add(calcularCuotaInteresVencido());
-        return credito.getMontoCutoas().subtract(calcularCuotaInteresDescuento());
+        if (this.getEstadoAnterior().equals(Estado.VENCIDO) || this.getEstadoAnterior().equals(Estado.PARCIALMENTE_SALDADO))
+            return saldoAPagarAnterior.add(calcularCuotaInteresVencido());
+        return saldoAPagarAnterior.subtract(calcularCuotaInteresDescuento());
     }
 
     @Transient
     private BigDecimal calcularCuotaInteresVencido() {
-        BigDecimal value = credito.getMontoCutoas().multiply(interesVencido).divide(new BigDecimal(100));
+        //TODO: SALDO-> Ver de guardarlo cuando se genera el cobro
+        BigDecimal value = saldo.multiply(interesVencido).divide(new BigDecimal(100));
         value = value.multiply(new BigDecimal(diasVencidos()));
         return value;
     }
@@ -221,6 +232,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
 
     @Transient
     public Estado getEstadoAnterior() {
+        if (estadoAnterior == null) estadoAnterior = estado;
         return estadoAnterior;
     }
 
@@ -235,6 +247,15 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
 
     public void setMontoAPagar(BigDecimal montoAPagar) {
         this.montoAPagar = montoAPagar;
+    }
+
+    @Transient
+    public BigDecimal getSaldoAPagarAnterior() {
+        return saldoAPagarAnterior;
+    }
+
+    public void setSaldoAPagarAnterior(BigDecimal saldoAPagarAnterior) {
+        this.saldoAPagarAnterior = saldoAPagarAnterior;
     }
 
     public enum Estado implements Serializable {

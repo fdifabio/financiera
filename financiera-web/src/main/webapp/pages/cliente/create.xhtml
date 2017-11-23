@@ -141,11 +141,13 @@
                                             <h:outputText value="#{msgs['formObservaciones']}:" styleClass="FontBold"/>
                                             <div class="EmptyBox20"></div>
                                             <h:panelGroup layout="block">
-                                            <p:inputTextarea rows="5" cols="30" counter="display" maxlength="300" counterTemplate="{0} characters remaining." autoResize="false"  id="observaciones"
-                                                         required="true"
-                                                         requiredMessage="#{msgs['validationRequired']}"
-                                                         value="#{clienteBean.entity.observacion}"/>
-                                                <h:outputText id="display" />
+                                                <p:inputTextarea rows="5" cols="30" counter="display" maxlength="300"
+                                                                 counterTemplate="{0} characters remaining."
+                                                                 autoResize="false" id="observaciones"
+                                                                 required="true"
+                                                                 requiredMessage="#{msgs['validationRequired']}"
+                                                                 value="#{clienteBean.entity.observacion}"/>
+                                                <h:outputText id="display"/>
                                             </h:panelGroup>
                                             <p:message for="observaciones"/>
 
@@ -164,11 +166,22 @@
                                                              value="#{clienteBean.entity.trabajoLugar}">
                                                 </p:inputText>
                                                 <p:message for="lugar"/>
+
                                             </h:panelGroup>
                                             <h:panelGroup layout="block">
-                                                <p:inputMask id="horario" value="#{clienteBean.entity.trabajoHorario}" mask="99:99--99:99"/>
+                                                <p:inputMask id="horario" required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{clienteBean.entity.trabajoHorario}"
+                                                             mask="99:99--99:99"/>
 
-                                            <p:message for="horario"/>
+                                                <p:message for="horario"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block">
+                                                <h:outputText value="#{msgs['formFechaCobro']}:" styleClass="FontBold"/>
+                                                <p:spinner id="fechaCobro" required="true"
+                                                           requiredMessage="#{msgs['validationRequired']}"
+                                                           value="#{clienteBean.entity.trabajoDiaCobro}" min="1"
+                                                           max="31"/>
                                             </h:panelGroup>
                                         </p:panelGrid>
                                     </p:fieldset>

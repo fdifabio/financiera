@@ -73,8 +73,8 @@
                                                       styleClass="#{item.estado.backgroundColor} White"
                                                       style="padding: 0px 5px 0px 5px;border-radius: 5px; display: block;text-align: center;"/>
                                     </p:column>
-                                    <p:column headerText="Monto">
-                                        <h:outputText value="#{item.monto()}">
+                                    <p:column headerText="Saldo a pagar">
+                                        <h:outputText value="#{item.saldoAPagar}">
                                             <f:convertNumber type="currency" currencySymbol="$"/>
                                         </h:outputText>
                                     </p:column>
@@ -110,6 +110,12 @@
                                         <h:outputText value="#{cobroBean.credito.cliente.apellidoNombre}"/>
                                         <h:outputText value="#{msgs['formDni']}:" styleClass="FontBold"/>
                                         <h:outputText value="#{cobroBean.credito.cliente.dni}"/>
+                                        <h:outputText value="#{msgs['formFechaCobro']}:" styleClass="FontBold"/>
+                                        <h:outputText value="#{cobroBean.credito.cliente.trabajoDiaCobro}"/>
+                                        <h:outputText value="#{msgs['formHorarioLaboral']}:" styleClass="FontBold"/>
+                                        <h:outputText value="#{cobroBean.credito.cliente.trabajoHorario}"/>
+                                        <h:outputText value="#{msgs['formLugarLaboral']}:" styleClass="FontBold"/>
+                                        <h:outputText value="#{cobroBean.credito.cliente.trabajoLugar}"/>
                                     </p:panelGrid>
 
 
@@ -186,7 +192,7 @@
                                         <p:ajax event="rowEditCancel" listener="#{cobroBean.onRowCancel}"
                                                 update="crear:listSelected :crear:msgs :crear:totales"/>
 
-                                        <p:column headerText="Nro." width="20">
+                                        <p:column headerText="Nro." width="30">
                                             <h:outputText value="#{item.nro}"/>
 
                                         </p:column>
@@ -195,10 +201,15 @@
                                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="#{msgs['diasVencidos']}" width="14%">
+                                        <p:column headerText="#{msgs['diasVencidos']}" width="50">
                                             <h:outputText value="#{item.diasVencidos()}"/>
                                         </p:column>
-                                        <p:column headerText="#{msgs['formEstado']}">
+                                        <p:column headerText="#{msgs['formEstado']}" width="100">
+                                            <h:outputText value="#{item.estadoAnterior.descripcion}"
+                                                          styleClass="#{item.estadoAnterior.backgroundColor} White"
+                                                          style="padding: 0px 5px 0px 5px;border-radius: 5px;display: block;text-align: center;"/>
+                                        </p:column>
+                                        <p:column headerText="Nuevo #{msgs['formEstado']}" width="100">
                                             <h:outputText value="#{item.estado.descripcion}"
                                                           styleClass="#{item.estado.backgroundColor} White"
                                                           style="padding: 0px 5px 0px 5px;border-radius: 5px;display: block;text-align: center;"/>
@@ -213,9 +224,24 @@
                                                     </h:outputText>%
                                                 </f:facet>
                                                 <f:facet name="input">
-                                                    <h:outputText value="#{item.interesVencido}">
-                                                        <f:convertNumber pattern="#0.00"/>
-                                                    </h:outputText>%
+                                                    <h:panelGroup
+                                                            rendered="#{!item.isEstadoAnteriorVencido() and !item.isEstadoAnteriorParcialmenteSaldado()}">
+                                                        <h:outputText value="#{item.interesVencido}">
+                                                            <f:convertNumber pattern="#0.00"/>
+                                                        </h:outputText>%
+                                                    </h:panelGroup>
+                                                    <h:panelGroup
+                                                            rendered="#{item.isEstadoAnteriorVencido() or item.isEstadoAnteriorParcialmenteSaldado()}">
+                                                        <p:spinner suffix="%" min="0" max="100"
+                                                                   stepFactor="0.01"
+                                                                   value="#{item.interesVencido}">
+                                                            <p:ajax process="@this"
+                                                                    listener="#{cobroBean.listenerUpdate(index)}"/>
+                                                            <p:ajax event="keyup" process="@this"
+                                                                    listener="#{cobroBean.listenerUpdate(index)}"/>
+                                                            <f:convertNumber maxFractionDigits="2"/>
+                                                        </p:spinner>
+                                                    </h:panelGroup>
                                                 </f:facet>
                                             </p:cellEditor>
                                         </p:column>
@@ -240,13 +266,14 @@
                                                         <p:spinner suffix="%" min="0" max="100"
                                                                    stepFactor="0.01"
                                                                    value="#{item.interesDescuento}">
+                                                            <f:convertNumber maxFractionDigits="1"/>
                                                         </p:spinner>
                                                     </h:panelGroup>
                                                 </f:facet>
                                             </p:cellEditor>
                                         </p:column>
                                         <p:column headerText="Monto">
-                                            <h:outputText value="#{item.monto()}">
+                                            <h:outputText id="monto" value="#{item.monto()}">
                                                 <f:convertNumber type="currency" currencySymbol="$"/>
                                             </h:outputText>
                                         </p:column>
@@ -258,10 +285,19 @@
                                                     </h:outputText>
                                                 </f:facet>
                                                 <f:facet name="input">
-                                                    <p:spinner prefix="$" min="0" max="#{item.monto()}"
-                                                               stepFactor="0.01"
-                                                               value="#{item.montoAPagar}">
-                                                    </p:spinner>
+                                                    <h:panelGroup
+                                                            rendered="#{!item.isEstadoAnteriorVencido() and !item.isEstadoAnteriorParcialmenteSaldado()}">
+                                                        <h:outputText value="#{item.montoAPagar}">
+                                                            <f:convertNumber pattern="#0.00"/>
+                                                        </h:outputText>%
+                                                    </h:panelGroup>
+                                                    <h:panelGroup
+                                                            rendered="#{item.isEstadoAnteriorVencido() or item.isEstadoAnteriorParcialmenteSaldado()}">
+                                                        <p:inputNumber id="montoAPagar" decimalSeparator=","
+                                                                       thousandSeparator="." value="#{item.montoAPagar}"
+                                                                       validatorMessage="Ingrese un monto válido"
+                                                                       placeholder="Monto" minValue="0"/>
+                                                    </h:panelGroup>
                                                 </f:facet>
                                             </p:cellEditor>
                                         </p:column>

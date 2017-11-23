@@ -140,14 +140,22 @@
 
                                                 <h:outputLabel value="#{msgs['formInteres']}:" styleClass="FontBold"
                                                                for="interes"/>
-                                                <h:panelGroup>
-                                                    <p:inputText id="interes"
-                                                                 required="true"
-                                                                 requiredMessage="#{msgs['validationRequired']}"
-                                                                 value="#{creditoBean.entity.interes}">
-                                                    </p:inputText>
-                                                    <p:message for="interes"/>
+
+                                                <h:panelGroup >
+                                                    <p:selectOneMenu id="interes"
+                                                                     value="#{creditoBean.entity.interes}"
+                                                                     converter="#{interesConverter}"
+                                                                     required="true"
+                                                                     requiredMessage="#{msgs['validationRequired']}">
+                                                        <f:selectItem itemLabel="--Seleccione un Interes--"
+                                                                      itemValue="" noSelectionOption="true"/>
+                                                        <f:selectItems value="#{creditoBean.intereses}" var="i"
+                                                                       itemLabel="#{i.valor}" itemValue="#{i.valor}"/>
+
+                                                    </p:selectOneMenu>
+                                                    <p:message for="interes" />
                                                 </h:panelGroup>
+
 
                                                 <div class="EmptyBox30"></div>
                                                 <p:commandButton value="Calcular cuotas" update="crear list"
@@ -155,7 +163,15 @@
                                                                  actionListener="#{creditoBean.calcularMontoCuotas}"/>
                                             </p:panelGrid>
 
-
+                                            <!--
+                                                                                          <h:panelGroup>
+                                                                                              <p:inputText id="interes"
+                                                                                                           required="true"
+                                                                                                           requiredMessage="#{msgs['validationRequired']}"
+                                                                                                           value="#{creditoBean.entity.interes}">
+                                                                                              </p:inputText>
+                                                                                              <p:message for="interes"/>
+                                                                                          </h:panelGroup> -->
                                         </p:fieldset>
                                     </div>
                                     <div class="Container50 Responsive50" style="margin-top:10px">

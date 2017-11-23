@@ -14,12 +14,58 @@
                 <div class="Card ShadowEffect  ">
                     <div class="Container100">
                         <p:tabView orientation="left" id="tabs">
-                            <p:tab title="Morosos">
+                            <p:tab title="Reporte general">
+                                <h:form>
+                                    <h:panelGroup layout="block">
+
+                                        <p:selectOneMenu id="aniosgeneral"
+                                                         value="#{reportesBean.anioGeneralSelecionado}"
+                                                         required="true"
+                                                         requiredMessage="#{msgs['validationRequired']}">
+                                            <f:selectItem itemLabel="--Seleccione un año--"
+                                                          itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{reportesBean.anios}" var="a"
+                                                           itemLabel="#{a}" itemValue="#{a}"/>
+
+                                            <p:ajax event="change"
+                                                    listener="#{reportesBean.onGeneralChangeAnio()}"
+                                                    update="chartgeneral"/>
+                                        </p:selectOneMenu>
+                                        <p:message for="aniosgeneral" styleClass="alert alert-danger"/>
+                                    </h:panelGroup>
+                                    <p:chart id="chartgeneral" type="bar" model="#{reportesBean.generalBarModel}"
+                                             style="height:300px"/>
+
+                                </h:form>
 
                             </p:tab>
                             <p:tab title="Proyecciones">
+                                <h:form>
+                                    <h:panelGroup layout="block">
+
+                                        <p:selectOneMenu id="anios"
+                                                         value="#{reportesBean.anioSelecionado}"
+                                                         required="true"
+                                                         requiredMessage="#{msgs['validationRequired']}">
+                                            <f:selectItem itemLabel="--Seleccione un año--"
+                                                          itemValue="" noSelectionOption="true"/>
+                                            <f:selectItems value="#{reportesBean.aniosAdeudados}" var="p"
+                                                           itemLabel="#{p}" itemValue="#{p}"/>
+
+                                            <p:ajax event="change"
+                                                    listener="#{reportesBean.onProyeccionesChangeAnio()}"
+                                                    update="chartproyecciones"/>
+                                        </p:selectOneMenu>
+                                        <p:message for="anios" styleClass="alert alert-danger"/>
+                                    </h:panelGroup>
+                                    <p:chart id="chartproyecciones" type="bar" model="#{reportesBean.barModel}"
+                                             style="height:300px"/>
+                                </h:form>
+
                             </p:tab>
                         </p:tabView>
+
+
                     </div>
                 </div>
             </div>
@@ -35,6 +81,7 @@
                     $('#loginLink').fadeOut();
                 }
             }
+
             function handleLoginRequest2(xhr, status, args) {
                 if (args.validationFailed) {
                     PF('dlgCrear').jq.effect("shake", {times: 5}, 100);
@@ -44,6 +91,7 @@
                     $('#loginLink').fadeOut();
                 }
             }
+
             function handleLoginRequestD(xhr, status, args) {
                 if (args.validationFailed) {
                     PF('dlgDescuento').jq.effect("shake", {times: 5}, 100);
@@ -53,6 +101,7 @@
                     $('#loginLink').fadeOut();
                 }
             }
+
             function handleLoginRequestD2(xhr, status, args) {
                 if (args.validationFailed) {
                     PF('dlgCrearDescuento').jq.effect("shake", {times: 5}, 100);
