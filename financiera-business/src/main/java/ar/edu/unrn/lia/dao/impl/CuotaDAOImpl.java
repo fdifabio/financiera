@@ -90,6 +90,15 @@ public class CuotaDAOImpl extends GenericDaoJpaImpl<Cuota, Long> implements
         query.setParameter("month", month);
         return (List<CuotaDTO>) query.getResultList();
     }
+    public List<CuotaDTO> countAdeudadas(int year, int month) {
+
+        Query query = this.entityManager.createQuery("SELECT new ar.edu.unrn.lia.dto.CuotaDTO(YEAR( c.fechaVencimiento ) ,MONTH ( c.fechaVencimiento ), COUNT( c.cuotaCapital )) FROM Cuota c WHERE c.estado= :estado and YEAR( c.fechaVencimiento ) = :year and MONTH( c.fechaVencimiento ) > :month GROUP BY 1,2");
+        //SELECT YEAR( c.fecha_vencimiento ) ,MONTH ( c.fecha_vencimiento ), COUNT( c.cuota_capital + c.cuota_interes) FROM Cuota c WHERE c.estado= 'ADEUDADO' and YEAR( c.fecha_vencimiento ) = 2017 GROUP BY 1,2
+        query.setParameter("estado", Cuota.Estado.ADEUDADO);
+        query.setParameter("year", year);
+        query.setParameter("month", month);
+        return (List<CuotaDTO>) query.getResultList();
+    }
 
     public List<CuotaDTO> listSaldadas(int year) {
 
