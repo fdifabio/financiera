@@ -11,10 +11,7 @@ import ar.edu.unrn.lia.model.Movimiento;
 import ar.edu.unrn.lia.model.Role;
 import ar.edu.unrn.lia.model.User;
 import ar.edu.unrn.lia.seguridad.AuthenticationService;
-import ar.edu.unrn.lia.service.CajaService;
-import ar.edu.unrn.lia.service.EmailService;
-import ar.edu.unrn.lia.service.MovimientoService;
-import ar.edu.unrn.lia.service.UserService;
+import ar.edu.unrn.lia.service.*;
 import ar.edu.unrn.lia.util.Constantes;
 import org.hibernate.validator.constraints.Email;
 import org.primefaces.model.timeline.TimelineEvent;
@@ -57,6 +54,9 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
     @Inject
     CajaService cajaService;
+
+    @Inject
+    CreditoService creditoService;
 
     @NotNull(message = "{userNotNull}")
     private String username;
@@ -124,12 +124,17 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
                             break;
                         }
                     }
+
+                    // ACTUALIZACION DE LOS ESTADOS DE CUOTAS Y CREDITOS
+                    creditoService.actualizarEstadoCreditoYCuotas();
+
+                    //CAJA
                     setCaja(getCajaService().getLast());
                     timelineMovimientos = new TimelineModel();
                     SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
                     for (Movimiento movimiento : getMovimientoService().getAll()
                             ) {
-                        timelineMovimientos.add(new TimelineEvent(new Task(df.format(movimiento.getFecha()) +" $" + movimiento.getMonto().toString(), movimiento.getTipo().getIcon(), movimiento.getTipo().getBackgroundColor(), false), movimiento.getFecha(), false, movimiento.getTipo().getDescripcion(), movimiento.getTipo().getDescripcion()));
+                        timelineMovimientos.add(new TimelineEvent(new Task(df.format(movimiento.getFecha()) + " $" + movimiento.getMonto().toString(), movimiento.getTipo().getIcon(), movimiento.getTipo().getBackgroundColor(), false), movimiento.getFecha(), false, movimiento.getTipo().getDescripcion(), movimiento.getTipo().getDescripcion()));
                     }
                     setTimelineMovimientos(
                             timelineMovimientos
@@ -227,6 +232,7 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
     public String logout() {
         authenticationService.logout();
+        creditoService.actualizarEstadoCreditoYCuotas();
         return UtilsBean.REDIRECT_LOGIN;
     }
 

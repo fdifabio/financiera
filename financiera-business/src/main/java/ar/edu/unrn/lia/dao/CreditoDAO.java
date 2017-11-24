@@ -11,5 +11,7 @@ import java.util.List;
 public interface CreditoDAO extends GenericDao<Credito, Long> {
 
     List<Credito> listByIdCliente(Long idcliente);
+
+    public void actualizarEstados();
 }
 
