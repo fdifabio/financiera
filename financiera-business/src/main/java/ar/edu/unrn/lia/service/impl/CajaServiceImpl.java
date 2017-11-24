@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -62,10 +63,14 @@ public class CajaServiceImpl implements CajaService {
     }
 
     @Transactional
-    public void habilitarCaja(Caja caja, Movimiento movimiento) {
+    public Caja habilitarCaja(Caja caja, Movimiento movimiento) {
         this.save(caja);
         movimiento.setCaja(caja);
         getMovimientoDAO().create(movimiento);
+        ArrayList<Movimiento> movimientos = new ArrayList<>();
+        movimientos.add(movimiento);
+        caja.setMovimientos(movimientos);
+        return caja;
     }
 
     @Transactional

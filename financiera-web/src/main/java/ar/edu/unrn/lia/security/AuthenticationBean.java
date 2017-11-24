@@ -80,6 +80,10 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
     private Double monto;
 
+    private Double ingreso;
+
+    private Double egreso;
+
     private boolean register = false;
 
     @Inject
@@ -386,16 +390,48 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
         this.monto = monto;
     }
 
-    public void habilitarCaja() {
-        setCaja(new Caja(new Date()));
-        getCajaService().habilitarCaja(getCaja(), new Movimiento(BigDecimal.valueOf(monto), new Date(), "", Movimiento.Tipo.INGRESO));
-        agregarMensaje(FacesMessage.SEVERITY_INFO, "Caja habilitada", "Monto habilitado: $" + monto);
+    public Double getIngreso() {
+        return ingreso;
     }
 
-    public void deshabilitarCaja() {
+    public void setIngreso(Double ingreso) {
+        this.ingreso = ingreso;
+    }
+
+    public Double getEgreso() {
+        return egreso;
+    }
+
+    public void setEgreso(Double egreso) {
+        this.egreso = egreso;
+    }
+
+    public String habilitarCaja() {
+        Caja caja = getCajaService().habilitarCaja(new Caja(new Date()), new Movimiento(BigDecimal.valueOf(monto), new Date(), "", Movimiento.Tipo.INGRESO));
+        setCaja(caja);
+        agregarMensaje(FacesMessage.SEVERITY_INFO, "Caja habilitada", "Monto habilitado: $" + monto);
+        return UtilsBean.REDIRECT_HOME;
+    }
+
+    public String deshabilitarCaja() {
         getCajaService().cerrarCaja(getCaja());
         setCaja(null);
         agregarMensaje(FacesMessage.SEVERITY_INFO, "Caja deshabilitada", "Caja deshabilitada con exito!");
+        return UtilsBean.REDIRECT_HOME;
+    }
+
+    public String ingreso(){
+        getCaja().getMovimientos().add(new Movimiento(BigDecimal.valueOf(ingreso), new Date(), "", Movimiento.Tipo.INGRESO));
+        getCajaService().save(getCaja());
+        agregarMensaje(FacesMessage.SEVERITY_INFO, "Ingreso registrado", "Ingreso registrado con exito!");
+        return UtilsBean.REDIRECT_HOME;
+    }
+
+    public String egreso(){
+        getCaja().getMovimientos().add(new Movimiento(BigDecimal.valueOf(egreso), new Date(), "", Movimiento.Tipo.EGRESO));
+        getCajaService().save(getCaja());
+        agregarMensaje(FacesMessage.SEVERITY_INFO, "Egreso registrado", "Egreso registrado con exito!");
+        return UtilsBean.REDIRECT_HOME;
     }
 
     public class Task implements Serializable {
@@ -428,6 +464,7 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
             return period;
         }
     }
+
 
 
 }

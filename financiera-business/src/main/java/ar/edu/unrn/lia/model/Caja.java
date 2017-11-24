@@ -64,6 +64,7 @@ public class Caja extends BaseEntity implements java.io.Serializable {
     @Transient
     public double saldo() {
         BigDecimal monto = BigDecimal.ZERO;
+        if(this != null){
         for (Movimiento movimiento : getMovimientos()
                 ) {
             if (movimiento.getTipo() == Movimiento.Tipo.INGRESO)
@@ -71,12 +72,12 @@ public class Caja extends BaseEntity implements java.io.Serializable {
             else
                 monto = monto.subtract(movimiento.getMonto());
 
-        }
+        }}
         return monto.doubleValue();
     }
 
     @Transient
     public boolean habilitada() {
-        return (!this.equals(null) || getFechaCierre().equals(null));
+        return getFechaCierre() == null;
     }
 }

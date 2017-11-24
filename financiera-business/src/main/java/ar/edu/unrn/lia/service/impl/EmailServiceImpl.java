@@ -1,6 +1,6 @@
 package ar.edu.unrn.lia.service.impl;
 
-import ar.edu.unrn.lia.service.EmailService;
+
 import io.reactivex.Observable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -13,7 +13,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 
-@Service
+/*@Service
 public class EmailServiceImpl implements EmailService {
 
     @Autowired
@@ -53,4 +53,4 @@ public class EmailServiceImpl implements EmailService {
     }
 
 
-}
+}*/
