@@ -15,7 +15,9 @@ public interface CuotaDAO extends GenericDao<Cuota, Long> {
 
     public List<Integer> listAnios();
 
+    public void actualizarEstados();
+
     public List<CuotaDTO> countAdeudadas(int year, int month);
 
-    public void actualizarEstados();
+    
 }
