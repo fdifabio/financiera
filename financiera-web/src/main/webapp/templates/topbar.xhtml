@@ -27,14 +27,15 @@
         }
 
         .caja {
-            margin-top: 12px;
+            margin-top: 5px;
             border-radius: 30px;
             -webkit-border-radius: 30px;
             -moz-border-radius: 30px;
             padding: 2px 4px 3px;
             position: absolute;
             font-family: 'robotoregular';
-            background-color: #e53935
+            background-color: #18849c;
+            height: 35px;
         }
     </style>
 
@@ -88,7 +89,7 @@
                     <h:panelGroup rendered="#{!authenticationBean.caja.habilitada()}">
                         <h:form>
                             <p:growl id="growlhabilitar" sticky="true" showDetail="true" life="3000"/>
-                            <h:commandButton styleClass="caja White" value="Caja Deshabilitada"  style="    border-style: none;"
+                            <h:commandButton styleClass="caja White" value="Caja Deshabilitada"
                                              onclick="PF('habilitar').show(); return false;"/>
                             <p:dialog header="Esta seguro que desea habilitar la caja?" widgetVar="habilitar"
                                       resizable="false">
@@ -109,7 +110,7 @@
                     <h:panelGroup rendered="#{authenticationBean.caja.habilitada()}">
                         <h:form>
                             <p:growl id="growldeshabilitar" sticky="true" showDetail="true" life="3000"/>
-                            <h:commandButton styleClass="caja White" value="Caja Habilitada" style="    border-style: none;"
+                            <h:commandButton styleClass="caja White" value="Caja Habilitada"
                                              onclick="PF('deshabilitar').show(); return false;"/>
                             <p:dialog header="Esta seguro que desea deshabilitar la caja?" widgetVar="deshabilitar"
                                       resizable="false">

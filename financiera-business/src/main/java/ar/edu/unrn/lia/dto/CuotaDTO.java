@@ -13,6 +13,12 @@ public class CuotaDTO {
         this.monto = monto;
     }
 
+    public CuotaDTO(Integer anio, Integer mes, Long monto) {
+        this.anio = anio.toString();
+        this.mes = mes.toString();
+        this.monto = BigDecimal.valueOf(monto);
+    }
+
     public String getAnio() {
         return anio;
     }

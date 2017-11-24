@@ -51,14 +51,21 @@ public class ReportesBean implements Serializable {
         BarChartModel model = new BarChartModel();
 
         ChartSeries adeudado = new ChartSeries();
-        adeudado.setLabel("Total Adeudado");
+        adeudado.setLabel("Monto Adeudado");
+        ChartSeries countadeudado = new ChartSeries();
+        countadeudado.setLabel("Cuotas Adeudadas");
 
         if (anioSelecionado != year) {
             month = 0;
         } else month = Calendar.getInstance().get(Calendar.MONTH);
-        cuotaService.listAdeudadas(getAnioSelecionado(), month).forEach(c -> adeudado.set(c.getMes() + "/" + c.getAnio(), c.getMonto()));
+        cuotaService.listAdeudadas(getAnioSelecionado(), month).forEach(a -> adeudado.set(a.getMes() + "/" + a.getAnio(), a.getMonto()));
+      //  cuotaService.countAdeudadas(getAnioSelecionado(), month).forEach(c -> countadeudado.set(c.getMes() + "/" + c.getAnio(), c.getMonto()));
 
-        model.addSeries(adeudado);
+        if (adeudado.getData().size() != 0)
+            model.addSeries(adeudado);
+        if (countadeudado.getData().size() != 0)
+        //    model.addSeries(countadeudado);
+
         model.setLegendPosition("se");
         return model;
     }

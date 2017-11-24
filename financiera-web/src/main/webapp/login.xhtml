@@ -24,8 +24,8 @@
                         globalOnly="true"/>
             <div class="Card ShadowEffect">
                 <div class="Wid100 OvHidden BigTopic Fs24">
-                    <h3>#{msgs['financiera']}</h3>
-                    <img     style="    width: 80%;" src="resources/financiera.png"/>
+
+                    <img     style="    width: 60%;" src="resources/logo_lm.png"/>
                 </div>
                 <div class="EmptyBox10"></div>
                 <h:form id="loginForm">
@@ -48,7 +48,7 @@
                     <div>
                         <p:commandButton id="submitButton" value="#{msgs['login']}"
                                          icon="fa fa-sign-in"
-                                         styleClass=" Fs16 White RaisedButton FloatNoneOnMobile"
+                                          style="background-color:#1b849d; "
                                          action="#{authenticationBean.login}" update="loginForm"/>
                     </div>
                 </h:form>
@@ -56,7 +56,8 @@
                 <div class="EmptyBox10"></div>
                 <div class="Separator"></div>
                 <p:commandButton value="#{msgs['forgotPassword']}" onclick="PF('dlg2').show();"
-                                 icon="fa fa-lock" styleClass="RedButton"/>
+                                 style="background-color:#b02779; "
+                                 icon="fa fa-lock" />
                 <div class="Separator"></div>
                <!-- <div>
                     <p:link id="registerForm" value="#{msgs['registerLink']}"

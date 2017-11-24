@@ -19,4 +19,6 @@ public interface CuotaService extends IGenericService<Cuota> {
     public List<Integer> listAnios();
 
     public List<CuotaDTO> listSaldadas(int year);
+
+    public List<CuotaDTO> countAdeudadas(int year, int month);
 }

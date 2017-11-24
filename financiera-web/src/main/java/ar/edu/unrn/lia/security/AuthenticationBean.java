@@ -2,6 +2,7 @@ package ar.edu.unrn.lia.security;
 
 import ar.edu.unrn.lia.bean.GenericBean;
 import ar.edu.unrn.lia.bean.UtilsBean;
+import ar.edu.unrn.lia.bean.util.Backup;
 import ar.edu.unrn.lia.bean.util.BundleMessagei18;
 import ar.edu.unrn.lia.bean.util.ParameterBean;
 import ar.edu.unrn.lia.bean.util.ParameterSendMail;
@@ -48,9 +49,6 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
     @Log
     protected static Logger LOG;
-
-    @Inject
-    EmailService mailService;
 
     @Inject
     CajaService cajaService;
@@ -131,7 +129,8 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
                     // ACTUALIZACION DE LOS ESTADOS DE CUOTAS Y CREDITOS
                     creditoService.actualizarEstadoCreditoYCuotas();
-
+                    //BACKUP
+                    Backup.backup();
                     //CAJA
                     setCaja(getCajaService().getLast());
                     timelineMovimientos = new TimelineModel();
@@ -212,7 +211,7 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
     //TODO: Ver el proceso de envio, deberia estar en el servicio #UserService
     public void enviarMail() {
-        try {
+       /* try {
             User user = userService.findByMail(this.getEmail().toString());
             String password = Constantes.generate_password();
             user.setPassword(password);
@@ -226,7 +225,7 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
             super.agregarMensaje(FacesMessage.SEVERITY_ERROR,
                     bundleMessage("error"),
                     e.getMessage());
-        }
+        }*/
 
     }
 
@@ -352,14 +351,6 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
     public void setTimelineMovimientos(TimelineModel timelineMovimientos) {
         this.timelineMovimientos = timelineMovimientos;
-    }
-
-    public EmailService getMailService() {
-        return mailService;
-    }
-
-    public void setMailService(EmailService mailService) {
-        this.mailService = mailService;
     }
 
     public String getPatternDate() {
