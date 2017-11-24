@@ -1,10 +1,12 @@
 package ar.edu.unrn.lia.bean.util;
 
 import ar.edu.unrn.lia.config.ParamValue;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * Created by Federico on 24/11/2017.
  */
+@Configuration
 public class Backup {
 
         @ParamValue(key = "backup.pathSQL")
@@ -16,7 +18,7 @@ public class Backup {
         @ParamValue(key = "backup.pathBack")
         private static String pathBack;
 
-        public void backup() {
+        public static void backup() {
             Process p = null;
             try {
                 Runtime runtime = Runtime.getRuntime();
