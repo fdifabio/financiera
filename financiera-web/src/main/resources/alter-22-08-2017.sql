@@ -93,3 +93,9 @@ ALTER TABLE `cobro` ADD FOREIGN KEY (`cuota_id`) REFERENCES `cuota`(`id`) ON DEL
 
 ALTER TABLE `cobro` CHANGE `cuota_id` `cuota_id` BIGINT(11) NOT NULL;
 ALTER TABLE `cobro` ADD FOREIGN KEY (`cuota_id`) REFERENCES `cuota`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+/*24/11/2017*/
+INSERT INTO `parameter` (`id`, `key_col`, `value_col`, `description`, `uses_class`, `data_type`) VALUES
+(54, 'backup.pathSQL', 'C:\\\\wamp64\\\\bin\\\\mysql\\\\mysql5.7.14\\\\bin\\\\mysqldump ', 'path sql installer', 'backup', 'String'),
+(55, 'backup.command', '-uroot -proot --add-drop-database -B financiera_dev -r ', 'Comando con user y pass de la base', 'backup', 'String'),
+(56, 'backup.pathBack', 'C:\\\\Users\\\\Federico\\\\Desktop\\\\backup\\\\financiera.sql', 'Carpeta donde guarda el archivo', 'Backup', 'String');
