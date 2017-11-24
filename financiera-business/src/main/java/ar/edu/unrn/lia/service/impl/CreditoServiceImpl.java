@@ -1,6 +1,7 @@
 package ar.edu.unrn.lia.service.impl;
 
 import ar.edu.unrn.lia.dao.CreditoDAO;
+import ar.edu.unrn.lia.dao.CuotaDAO;
 import ar.edu.unrn.lia.model.Credito;
 import ar.edu.unrn.lia.service.CreditoService;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,9 @@ import java.util.Map;
 public class CreditoServiceImpl implements CreditoService {
     @Inject
     CreditoDAO entityDAO;
+
+    @Inject
+    CuotaDAO cuotaDAO;
 
     public CreditoDAO getEntityDAO() {
         return entityDAO;
@@ -71,5 +75,12 @@ public class CreditoServiceImpl implements CreditoService {
 
     public List<Credito> getAll() {
         return getEntityDAO().findAll();
+    }
+
+    @Override
+    @Transactional
+    public void actualizarEstadoCreditoYCuotas() {
+        cuotaDAO.actualizarEstados();
+        entityDAO.actualizarEstados();
     }
 }

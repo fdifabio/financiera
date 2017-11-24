@@ -3,6 +3,7 @@ package ar.edu.unrn.lia.dao.impl;
 import ar.edu.unrn.lia.dao.CreditoDAO;
 import ar.edu.unrn.lia.generic.GenericDaoJpaImpl;
 import ar.edu.unrn.lia.model.Credito;
+import ar.edu.unrn.lia.model.Estado;
 
 import javax.inject.Named;
 import javax.persistence.Query;
@@ -10,6 +11,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -86,5 +88,14 @@ public class CreditoDAOImpl extends GenericDaoJpaImpl<Credito, Long> implements
         Query query = this.entityManager.createQuery("FROM Credito c  where c.cliente.id= :idcliente");
         query.setParameter("idcliente", idcliente);
         return (List<Credito>) query.getResultList();
+    }
+
+    @Override
+    public void actualizarEstados() {
+        Query query = this.entityManager.createQuery("UPDATE Credito c SET c.estado= :estado1 where c.estado= :estado2 and c.fechaVencimiento> :today");
+        query.setParameter("estado1", Estado.LEGALES);
+        query.setParameter("estado2", Estado.ACTIVO);
+        query.setParameter("today", new Date());
+        query.executeUpdate();
     }
 }

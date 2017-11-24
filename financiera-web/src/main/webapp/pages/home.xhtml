@@ -33,17 +33,80 @@
                     <div class="ContainerIndent">
                         <div class="Card ShadowEffect">
                             <h2 class="BigTopic"> <i class="fa fa-balance-scale  Fs30"></i>Caja</h2>
-                            <p:panelGrid columns="4"
-                                         columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-2,ui-grid-col-3" layout="grid"
+                            <p:panelGrid columns="6"
+                                         columnClasses="ui-grid-col-3,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2" layout="grid"
                                          styleClass="ui-panelgrid-blank">
                                 <h:outputText value="Fecha apertura:" styleClass="FontBold"/>
-                                <h:outputText value="#{authenticationBean.caja.fechaApertura}">
+                                <h:outputText value="#{authenticationBean.caja.fechaApertura}" rendered="#{authenticationBean.caja != null}">
                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                                 </h:outputText>
                                 <h:outputText value="Saldo:" styleClass="FontBold"/>
-                                <h:outputText value="#{authenticationBean.caja.saldo()}">
+                                <h:outputText value="#{authenticationBean.caja.saldo()}" rendered="#{authenticationBean.caja != null}">
                                     <f:convertNumber type="currency" currencySymbol="$"/>
                                 </h:outputText>
+                                <h:panelGroup rendered="#{!authenticationBean.caja.habilitada()}">
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{authenticationBean.caja.habilitada()}">
+                                    <h:form>
+                                        <p:growl id="growlingreso" sticky="true" showDetail="true" life="3000"/>
+                                       <h:commandButton styleClass="MovimientoIngreso" value="Ingreso"
+                                                         onclick="PF('ingreso').show(); return false;">
+                                            <i class="fa fa-arrow-up Green"></i></h:commandButton>
+                                        <p:dialog header="Esta seguro que desea registrar un ingreso?" widgetVar="ingreso"
+                                                  resizable="false">
+                                            <h:panelGrid columns="3" cellpadding="5">
+                                                <h:outputLabel for="ingreso" value="Monto:"/>
+                                                <p:inputText id="ingreso" value="#{authenticationBean.ingreso}" required="true"
+                                                             label="Ingreso" requiredMessage="Ingrese un valor"/>
+
+                                                <p:commandButton value="Guardar" style="float:right;"
+                                                                 update="growlingreso"
+                                                                 action="#{authenticationBean.ingreso()}"
+                                                                 oncomplete="ingreso(xhr, status, args)"/>
+
+                                            </h:panelGrid>
+                                        </p:dialog>
+                                    </h:form>
+                                </h:panelGroup>
+                                <h:panelGroup rendered="#{authenticationBean.caja.habilitada()}">
+                                    <h:form>
+                                        <p:growl id="growlegreso" sticky="true" showDetail="true" life="3000"/>
+                                        <h:commandButton styleClass="MovimientoEgreso" value="Egreso"                                                           onclick="PF('egreso').show(); return false;">
+                                            <i class="fa fa-arrow-down Red"></i></h:commandButton>
+                                        <p:dialog header="Esta seguro que desea registrar un egreso?" widgetVar="egreso"
+                                                  resizable="false">
+                                            <h:panelGrid columns="3" cellpadding="5">
+                                                <h:outputLabel for="egreso" value="Monto:"/>
+                                                <p:inputText id="egreso" value="#{authenticationBean.egreso}" required="true"
+                                                             label="egreso" requiredMessage="Ingrese un valor"/>
+
+                                                <p:commandButton value="Guardar" style="float:right;"
+                                                                 update="growlegreso"
+                                                                 action="#{authenticationBean.egreso()}"
+                                                                 oncomplete="egreso(xhr, status, args)"/>
+
+                                            </h:panelGrid>
+                                        </p:dialog>
+                                    </h:form>
+                                    <script type="text/javascript">
+                                        function ingreso(xhr, status, args) {
+                                            if (args.validationFailed) {
+                                                PF('ingreso').jq.effect("shake", {times: 5}, 100);
+                                            }
+                                            else {
+                                                PF('ingreso').hide();
+                                            }
+                                        }
+                                        function egreso(xhr, status, args) {
+                                            if (args.validationFailed) {
+                                                PF('egreso').jq.effect("shake", {times: 5}, 100);
+                                            }
+                                            else {
+                                                PF('egreso').hide();
+                                            }
+                                        }
+                                    </script>
+                                </h:panelGroup>
                             </p:panelGrid>
                             <p:dataTable id="list" var="item" value="#{authenticationBean.caja.movimientos}"
                                          emptyMessage="No hay movimientos para mostrar"
@@ -72,7 +135,6 @@
                                 </p:column>
                             </p:dataTable>
                             <div class="EmptyBox20"></div>
-
                         </div>
                     </div>
                 </div>

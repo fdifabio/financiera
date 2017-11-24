@@ -2,6 +2,7 @@ package ar.edu.unrn.lia.security;
 
 import ar.edu.unrn.lia.bean.GenericBean;
 import ar.edu.unrn.lia.bean.UtilsBean;
+import ar.edu.unrn.lia.bean.util.Backup;
 import ar.edu.unrn.lia.bean.util.BundleMessagei18;
 import ar.edu.unrn.lia.bean.util.ParameterBean;
 import ar.edu.unrn.lia.bean.util.ParameterSendMail;
@@ -11,10 +12,7 @@ import ar.edu.unrn.lia.model.Movimiento;
 import ar.edu.unrn.lia.model.Role;
 import ar.edu.unrn.lia.model.User;
 import ar.edu.unrn.lia.seguridad.AuthenticationService;
-import ar.edu.unrn.lia.service.CajaService;
-import ar.edu.unrn.lia.service.EmailService;
-import ar.edu.unrn.lia.service.MovimientoService;
-import ar.edu.unrn.lia.service.UserService;
+import ar.edu.unrn.lia.service.*;
 import ar.edu.unrn.lia.util.Constantes;
 import org.hibernate.validator.constraints.Email;
 import org.primefaces.model.timeline.TimelineEvent;
@@ -53,10 +51,10 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
     protected static Logger LOG;
 
     @Inject
-    EmailService mailService;
+    CajaService cajaService;
 
     @Inject
-    CajaService cajaService;
+    CreditoService creditoService;
 
     @NotNull(message = "{userNotNull}")
     private String username;
@@ -79,6 +77,10 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
     private Caja caja;
 
     private Double monto;
+
+    private Double ingreso;
+
+    private Double egreso;
 
     private boolean register = false;
 
@@ -124,12 +126,18 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
                             break;
                         }
                     }
+
+                    // ACTUALIZACION DE LOS ESTADOS DE CUOTAS Y CREDITOS
+                    creditoService.actualizarEstadoCreditoYCuotas();
+                    //BACKUP
+                    Backup.backup();
+                    //CAJA
                     setCaja(getCajaService().getLast());
                     timelineMovimientos = new TimelineModel();
                     SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
                     for (Movimiento movimiento : getMovimientoService().getAll()
                             ) {
-                        timelineMovimientos.add(new TimelineEvent(new Task(df.format(movimiento.getFecha()) +" $" + movimiento.getMonto().toString(), movimiento.getTipo().getIcon(), movimiento.getTipo().getBackgroundColor(), false), movimiento.getFecha(), false, movimiento.getTipo().getDescripcion(), movimiento.getTipo().getDescripcion()));
+                        timelineMovimientos.add(new TimelineEvent(new Task(df.format(movimiento.getFecha()) + " $" + movimiento.getMonto().toString(), movimiento.getTipo().getIcon(), movimiento.getTipo().getBackgroundColor(), false), movimiento.getFecha(), false, movimiento.getTipo().getDescripcion(), movimiento.getTipo().getDescripcion()));
                     }
                     setTimelineMovimientos(
                             timelineMovimientos
@@ -203,7 +211,7 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
     //TODO: Ver el proceso de envio, deberia estar en el servicio #UserService
     public void enviarMail() {
-        try {
+       /* try {
             User user = userService.findByMail(this.getEmail().toString());
             String password = Constantes.generate_password();
             user.setPassword(password);
@@ -217,7 +225,7 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
             super.agregarMensaje(FacesMessage.SEVERITY_ERROR,
                     bundleMessage("error"),
                     e.getMessage());
-        }
+        }*/
 
     }
 
@@ -227,6 +235,7 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
     public String logout() {
         authenticationService.logout();
+        creditoService.actualizarEstadoCreditoYCuotas();
         return UtilsBean.REDIRECT_LOGIN;
     }
 
@@ -344,14 +353,6 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
         this.timelineMovimientos = timelineMovimientos;
     }
 
-    public EmailService getMailService() {
-        return mailService;
-    }
-
-    public void setMailService(EmailService mailService) {
-        this.mailService = mailService;
-    }
-
     public String getPatternDate() {
         return ParameterBean.patternDate;
     }
@@ -380,16 +381,48 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
         this.monto = monto;
     }
 
-    public void habilitarCaja() {
-        setCaja(new Caja(new Date()));
-        getCajaService().habilitarCaja(getCaja(), new Movimiento(BigDecimal.valueOf(monto), new Date(), "", Movimiento.Tipo.INGRESO));
-        agregarMensaje(FacesMessage.SEVERITY_INFO, "Caja habilitada", "Monto habilitado: $" + monto);
+    public Double getIngreso() {
+        return ingreso;
     }
 
-    public void deshabilitarCaja() {
+    public void setIngreso(Double ingreso) {
+        this.ingreso = ingreso;
+    }
+
+    public Double getEgreso() {
+        return egreso;
+    }
+
+    public void setEgreso(Double egreso) {
+        this.egreso = egreso;
+    }
+
+    public String habilitarCaja() {
+        Caja caja = getCajaService().habilitarCaja(new Caja(new Date()), new Movimiento(BigDecimal.valueOf(monto), new Date(), "", Movimiento.Tipo.INGRESO));
+        setCaja(caja);
+        agregarMensaje(FacesMessage.SEVERITY_INFO, "Caja habilitada", "Monto habilitado: $" + monto);
+        return UtilsBean.REDIRECT_HOME;
+    }
+
+    public String deshabilitarCaja() {
         getCajaService().cerrarCaja(getCaja());
         setCaja(null);
         agregarMensaje(FacesMessage.SEVERITY_INFO, "Caja deshabilitada", "Caja deshabilitada con exito!");
+        return UtilsBean.REDIRECT_HOME;
+    }
+
+    public String ingreso(){
+        getCaja().getMovimientos().add(new Movimiento(BigDecimal.valueOf(ingreso), new Date(), "", Movimiento.Tipo.INGRESO));
+        getCajaService().save(getCaja());
+        agregarMensaje(FacesMessage.SEVERITY_INFO, "Ingreso registrado", "Ingreso registrado con exito!");
+        return UtilsBean.REDIRECT_HOME;
+    }
+
+    public String egreso(){
+        getCaja().getMovimientos().add(new Movimiento(BigDecimal.valueOf(egreso), new Date(), "", Movimiento.Tipo.EGRESO));
+        getCajaService().save(getCaja());
+        agregarMensaje(FacesMessage.SEVERITY_INFO, "Egreso registrado", "Egreso registrado con exito!");
+        return UtilsBean.REDIRECT_HOME;
     }
 
     public class Task implements Serializable {
@@ -422,6 +455,7 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
             return period;
         }
     }
+
 
 
 }
