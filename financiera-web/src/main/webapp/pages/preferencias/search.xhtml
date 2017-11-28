@@ -24,12 +24,13 @@
             <div class="ContainerIndent">
                 <div class="Card ShadowEffect  ">
                     <div class="Container100">
+
+                        <p:growl id="growl" showDetail="true" life="3000"/>
                         <p:tabView orientation="left" id="tabs">
                             <p:tab title="Intereses" id="tabInteres">
                                 <div class="Container100">
                                     <h:form id="formInteres" class="TexAlCenter">
                                         <div class="Container60">
-                                            <p:growl id="growl" showDetail="true" life="3000"/>
                                             <p:dataTable var="item" value="#{preferenciasBean.interesList}" id="list"
                                                          draggableRows="true">
                                                 <p:ajax event="rowReorder"
@@ -64,7 +65,7 @@
                                                     </p:commandButton>
                                                     <p:commandLink id="nonAjax" title="#{msgs['btnEliminar']}"
                                                                    actionListener="#{preferenciasBean.deleteInteres(item)}"
-                                                                   update="tabs:formInteres:list">
+                                                                   update="tabs:formInteres:list growl">
                                                         <p:confirm header="#{msgs['confirmacion']}"
                                                                    message="#{msgs['confirmarEliminar']}"
                                                                    icon="ui-icon-alert"/>
@@ -94,7 +95,7 @@
                                                 </p:outputPanel>
                                             </p:outputPanel>
                                             <p:outputPanel id="boton">
-                                                <p:commandButton value="Guardar Orden" update="list boton"
+                                                <p:commandButton value="Guardar Orden" update="list boton growl"
                                                                  icon="fa fa-refresh"
                                                                  rendered="#{preferenciasBean.updateInteres}"
                                                                  actionListener="#{preferenciasBean.guardarOrdenInteres}"/>
@@ -116,7 +117,7 @@
                                                                    placeholder="Ej: 5%"/>
 
                                                     <f:facet name="footer">
-                                                        <p:commandButton value="Guardar" update="tabs:formInteres:list"
+                                                        <p:commandButton value="Guardar" update="tabs:formInteres:list growl"
                                                                          actionListener="#{preferenciasBean.updateInteres}"
                                                                          oncomplete="handleLoginRequest(xhr, status, args)"
                                                                          style="float: right;"/>
@@ -140,7 +141,7 @@
 
                                                     <f:facet name="footer">
                                                         <p:commandButton value="Guardar"
-                                                                         update="tabs:formInteres:list tabs:formCrear:interescrear"
+                                                                         update="tabs:formInteres:list tabs:formCrear:interescrear growl"
                                                                          actionListener="#{preferenciasBean.createInteres}"
                                                                          oncomplete="handleLoginRequest2(xhr, status, args)"
                                                                          style="float: right;"/>
@@ -190,7 +191,7 @@
                                                     </p:commandButton>
                                                     <p:commandLink id="nonAjaxDescuento" title="#{msgs['btnEliminar']}"
                                                                    actionListener="#{preferenciasBean.deleteDescuento(descuento)}"
-                                                                   update="tabs:formDescuento:listDescuento">
+                                                                   update="tabs:formDescuento:listDescuento growl">
                                                         <p:confirm header="#{msgs['confirmacion']}"
                                                                    message="#{msgs['confirmarEliminar']}"
                                                                    icon="ui-icon-alert"/>
@@ -220,7 +221,7 @@
                                                 </p:outputPanel>
                                             </p:outputPanel>
                                             <p:outputPanel id="botonDescuento">
-                                                <p:commandButton value="Guardar Orden" update="listDescuento botonDescuento"
+                                                <p:commandButton value="Guardar Orden" update="listDescuento botonDescuento growl"
                                                                  icon="fa fa-refresh"
                                                                  rendered="#{preferenciasBean.updateDescuento}"
                                                                  actionListener="#{preferenciasBean.guardarOrdenDescuento}"/>
@@ -244,7 +245,7 @@
 
                                                     <f:facet name="footer">
                                                         <p:commandButton value="Guardar"
-                                                                         update="tabs:formDescuento:listDescuento"
+                                                                         update="tabs:formDescuento:listDescuento growl"
                                                                          actionListener="#{preferenciasBean.updateDescuento}"
                                                                          oncomplete="handleLoginRequestD(xhr, status, args)"
                                                                          style="float: right;"/>
@@ -271,7 +272,7 @@
 
 
                                                         <p:commandButton value="Guardar"
-                                                                         update="tabs:formDescuento:listDescuento tabs:formCrearDescuento:descuentoCrear"
+                                                                         update="tabs:formDescuento:listDescuento tabs:formCrearDescuento:descuentoCrear growl"
                                                                          actionListener="#{preferenciasBean.createDescuento}"
                                                                          oncomplete="handleLoginRequestD2(xhr, status, args)"
                                                                          style="float: right;"/>
