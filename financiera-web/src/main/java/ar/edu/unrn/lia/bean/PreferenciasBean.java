@@ -115,6 +115,7 @@ public class PreferenciasBean implements Serializable {
     }
 
     public void guardarOrdenInteres() {
+        updateInteres = false;
         interesService.updateOrden(interesList);
     }
 
@@ -125,6 +126,7 @@ public class PreferenciasBean implements Serializable {
         this.update(getNewDescuento());
         getDescuentoList().add(getNewDescuento());
         setNewDescuento(new Descuento());
+        agregarMensaje(FacesMessage.SEVERITY_INFO,"Exito","Descuento creado con exito");
     }
 
     public void deleteDescuento(Descuento descuento) {
@@ -141,6 +143,7 @@ public class PreferenciasBean implements Serializable {
     }
 
     public void guardarOrdenDescuento() {
+        updateDescuento = false;
         descuentoService.updateOrden(descuentoList);
     }
 
