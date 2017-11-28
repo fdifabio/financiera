@@ -3,8 +3,6 @@ package ar.edu.unrn.lia.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 
 interface RoleFilter {
@@ -77,5 +75,13 @@ public enum Role implements GrantedAuthority, Serializable, RoleFilter, RoleActi
 
     public boolean isPrestamista() {
         return false;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }

@@ -99,3 +99,7 @@ INSERT INTO `parameter` (`id`, `key_col`, `value_col`, `description`, `uses_clas
 (54, 'backup.pathSQL', 'C:\\\\wamp64\\\\bin\\\\mysql\\\\mysql5.7.14\\\\bin\\\\mysqldump ', 'path sql installer', 'backup', 'String'),
 (55, 'backup.command', '-uroot -proot --add-drop-database -B financiera_dev -r ', 'Comando con user y pass de la base', 'backup', 'String'),
 (56, 'backup.pathBack', 'C:\\\\Users\\\\Federico\\\\Desktop\\\\backup\\\\financiera.sql', 'Carpeta donde guarda el archivo', 'Backup', 'String');
+
+
+/*ULTIMO - 28/11/2017*/
+ALTER TABLE `usuario` DROP ` enabled `;

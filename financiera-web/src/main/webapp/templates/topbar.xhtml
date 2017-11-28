@@ -7,20 +7,24 @@
 
     <!-- TOPBAR START -->
     <style>
-        .MovimientoIngreso{
-            border-style: none;    border-style: none;
+        .MovimientoIngreso {
+            border-style: none;
+            border-style: none;
             background-color: #43A047;
             color: white;
             padding: 5px;
             border-radius: 5px;
         }
-        .MovimientoEgreso{
-            border-style: none;    border-style: none;
+
+        .MovimientoEgreso {
+            border-style: none;
+            border-style: none;
             background-color: #E53935;
             color: white;
             padding: 5px;
             border-radius: 5px;
         }
+
         #top-menu-left > li {
             margin-top: 5px;
             width: 10%;
@@ -115,9 +119,10 @@
                             <p:dialog header="Esta seguro que desea deshabilitar la caja?" widgetVar="deshabilitar"
                                       resizable="false">
                                 <h:panelGrid columns="1" cellpadding="5" style="float: right;">
-                                        <p:commandButton value="Deshabilitar" update="growldeshabilitar txt_count" class="RedButton"
-                                                         action="#{authenticationBean.deshabilitarCaja()}"
-                                                         oncomplete="deshabilitar(xhr, status, args)"/>
+                                    <p:commandButton value="Deshabilitar" update="growldeshabilitar txt_count"
+                                                     class="RedButton"
+                                                     action="#{authenticationBean.deshabilitarCaja()}"
+                                                     oncomplete="deshabilitar(xhr, status, args)"/>
 
                                 </h:panelGrid>
                             </p:dialog>
@@ -163,11 +168,21 @@
             <li><a class="ripplelink"><i class="icon-power"></i> <span
                     class="ShowOnMobile">Salir</span></a>
                 <ul>
+                    <li>
+                        <h:form>
+                            <a href="#">
+								<span class="Blue DispBlock"> <i class="icon-person Fs30 "></i>
+									<h:outputText
+                                            value="#{authenticationBean.bienvenido}"/>
+								</span>
+                            </a>
+                        </h:form>
+                    </li>
                     <li><h:form>
                         <h:commandLink id="logout" action="#{authenticationBean.logout}">
-								<span class="Red"> <i class="icon-person Fs30 DispBlock"></i>
+								<span class="Red"> <i class="icon-exit_to_app Fs30"></i>
 									<h:outputText
-                                            value="#{msgs['salir']}: #{authenticationBean.bienvenido}"/>
+                                            value="#{msgs['salir']}"/>
 								</span>
                         </h:commandLink>
 

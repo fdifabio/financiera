@@ -22,18 +22,18 @@
 
     <ui:define name="actions">
         <sec:ifAnyGranted roles="ROLE_ADMIN">
-        <a href="search.jsf"
-           class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
-                class="icon-list"></i> #{msgs['listar']}</a>
+            <a href="search.jsf"
+               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                    class="icon-list"></i> #{msgs['listar']}</a>
         </sec:ifAnyGranted>
         <h:panelGroup rendered="#{userBean.entity.id != null}" id="hello">
             <a href="view.jsf?id=#{userBean.entity.id}"
                class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
                     class="icon-zoom-in"></i> #{msgs['detalle']} </a>
             <sec:ifAnyGranted roles="ROLE_ADMIN">
-            <a href="create.jsf"
-               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
-                    class="icon-person_add"></i> #{msgs['btnNuevo']}</a>
+                <a href="create.jsf"
+                   class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                        class="icon-person_add"></i> #{msgs['btnNuevo']}</a>
             </sec:ifAnyGranted>
         </h:panelGroup>
     </ui:define>
@@ -64,18 +64,18 @@
                                             </p:inputText>
                                             <p:message for="username"/>
                                         </h:panelGroup>
-                                       <h:panelGroup layout="block">
+                                        <h:panelGroup layout="block">
                                             <p:inputText id="userBeanEmail"
                                                          required="true"
                                                          requiredMessage="#{msgs['validationRequired']}"
                                                          validatorMessage="Formato invalido"
                                                          value="#{userBean.entity.email}">
-                                            <f:validateRegex
-                                                    pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                                <f:validateRegex
+                                                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
                                             </p:inputText>
                                             <p:message for="userBeanEmail"/>
                                         </h:panelGroup>
-                                        <h:panelGroup layout="block" rendered="#{sec:ifAllGranted('ROLE_ADMIN')}" >
+                                        <h:panelGroup layout="block">
                                             <p:selectOneMenu id="cmbRol" value="#{userBean.entity.role}"
                                                              required="true"
                                                              requiredMessage="#{msgs['validationRequired']}">
@@ -87,11 +87,20 @@
                                             </p:selectOneMenu>
                                             <p:message for="cmbRol"/>
                                         </h:panelGroup>
-                                        <h:panelGroup layout="block" rendered="#{sec:ifAllGranted('ROLE_PRESTAMISTA')}">
-                                            <p:outputLabel value="#{userBean.entity.role.rol}"/>
-                                        </h:panelGroup>
                                     </p:panelGrid>
                                     <div class="EmptyBox30"></div>
+                                    <p:outputPanel layout="block" deferred="true" style="    margin-left: 10px !important;"
+                                                   styleClass="ui-messages ui-widget">
+                                        <p:outputPanel layout="block"
+                                                       styleClass="ui-messages-info ui-corner-all">
+                                            <p:outputPanel layout="inline"
+                                                           styleClass="ui-messages-info-icon"></p:outputPanel>
+                                            <ul>
+                                                <li><span class="ui-messages-warn-summary">Importante</span>
+                                                    <span class="ui-messages-warn-detail">El usuario se creara con contraseña: "1234", la cual luego se podrá cambiar. </span></li>
+                                            </ul>
+                                        </p:outputPanel>
+                                    </p:outputPanel>
                                     <div class="Fright">
                                         <div class="Wid45 Fleft Responsive45 MarRight10">
                                             <p:commandButton value="#{msgs['btnCancelar']}"

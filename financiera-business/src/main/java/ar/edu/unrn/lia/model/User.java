@@ -21,7 +21,7 @@ public class User extends BaseEntity implements Serializable, UserDetails {
     private String username;
     private String password;
     private String email;
-    private boolean active = false;
+    private boolean active = true;
     private Role role;
     private List<Cliente> clientes;
     private int failedLoginAttempts;
@@ -86,7 +86,7 @@ public class User extends BaseEntity implements Serializable, UserDetails {
         return true;
     }
 
-    // @Transient
+     @Transient
     public boolean isEnabled() {
         return active;
     }
