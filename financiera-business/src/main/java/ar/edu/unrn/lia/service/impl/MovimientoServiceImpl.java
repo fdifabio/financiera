@@ -45,9 +45,7 @@ public class MovimientoServiceImpl implements MovimientoService {
     @Transactional
     public void save(Movimiento entity) {
         if (entity.getId() == null) {
-
             getEntityDAO().create(entity);
-
         } else {
             getEntityDAO().update(entity);
 
@@ -70,5 +68,6 @@ public class MovimientoServiceImpl implements MovimientoService {
     public List<Movimiento> findAllByCajaId(Long idCaja) {
         return getEntityDAO().findAllByCajaId(idCaja);
     }
+
 
 }
