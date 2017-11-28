@@ -27,6 +27,7 @@ public class ReportesBean implements Serializable {
     private int anioGeneralSelecionado = 0;
     private List<Integer> anios = new ArrayList<Integer>(0);
     private List<Integer> aniosAdeudados = new ArrayList<Integer>(0);
+    private Boolean isrender = true;
 
     @PostConstruct
     public void init() {
@@ -59,14 +60,14 @@ public class ReportesBean implements Serializable {
             month = 0;
         } else month = Calendar.getInstance().get(Calendar.MONTH);
         cuotaService.listAdeudadas(getAnioSelecionado(), month).forEach(a -> adeudado.set(a.getMes() + "/" + a.getAnio(), a.getMonto()));
-      //  cuotaService.countAdeudadas(getAnioSelecionado(), month).forEach(c -> countadeudado.set(c.getMes() + "/" + c.getAnio(), c.getMonto()));
+        //  cuotaService.countAdeudadas(getAnioSelecionado(), month).forEach(c -> countadeudado.set(c.getMes() + "/" + c.getAnio(), c.getMonto()));
 
         if (adeudado.getData().size() != 0)
             model.addSeries(adeudado);
         if (countadeudado.getData().size() != 0)
-        //    model.addSeries(countadeudado);
+            //    model.addSeries(countadeudado);
 
-        model.setLegendPosition("se");
+            model.setLegendPosition("se");
         return model;
     }
 
@@ -101,12 +102,15 @@ public class ReportesBean implements Serializable {
         ChartSeries adeudadas = new ChartSeries();
         adeudadas.setLabel("Adeudadas");
         cuotaService.listAdeudadas(getAnioGeneralSelecionado(), 0).forEach(a -> adeudadas.set(a.getMes() + "/" + a.getAnio(), a.getMonto()));
+        if (saldadas.getData().size() == 0 && adeudadas.getData().size() == 0)
+            setIsrender(false);
+        else {
+            if (saldadas.getData().size() != 0)
+                generalBarModel.addSeries(saldadas);
+            if (adeudadas.getData().size() != 0)
+                generalBarModel.addSeries(adeudadas);
 
-        if (saldadas.getData().size() != 0)
-            generalBarModel.addSeries(saldadas);
-        if (adeudadas.getData().size() != 0)
-            generalBarModel.addSeries(adeudadas);
-
+        }
         generalBarModel.setTitle("Reporte General");
         generalBarModel.setSeriesColors("58BA27,FFCC33");
         generalBarModel.setLegendPosition("se");
@@ -166,9 +170,17 @@ public class ReportesBean implements Serializable {
     }
 
     public void onGeneralChangeAnio() {
+        setIsrender(true);
 
         createGeneralBarModel();
 
     }
 
+    public Boolean getIsrender() {
+        return isrender;
+    }
+
+    public void setIsrender(Boolean isrender) {
+        this.isrender = isrender;
+    }
 }

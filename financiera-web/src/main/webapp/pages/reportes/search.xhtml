@@ -33,8 +33,27 @@
                                         </p:selectOneMenu>
                                         <p:message for="aniosgeneral" styleClass="alert alert-danger"/>
                                     </h:panelGroup>
-                                    <p:chart id="chartgeneral" type="bar" model="#{reportesBean.generalBarModel}"
-                                             style="height:300px"/>
+                                    <h:panelGroup id="chartgeneral">
+
+                                        <h:panelGroup rendered="#{reportesBean.isrender}">
+                                            <p:chart type="bar" model="#{reportesBean.generalBarModel}"
+                                                     style="height:300px"/>
+                                        </h:panelGroup>
+                                        <h:panelGroup rendered="#{!reportesBean.isrender}">
+                                            <p:outputPanel layout="block" deferred="true" style="    margin-left: 10px !important;"
+                                                           styleClass="ui-messages ui-widget">
+                                                <p:outputPanel layout="block"
+                                                               styleClass="ui-messages-info ui-corner-all">
+                                                    <p:outputPanel layout="inline"
+                                                                   styleClass="ui-messages-info-icon"></p:outputPanel>
+                                                    <ul>
+                                                        <li><span class="ui-messages-warn-summary">Importante</span>
+                                                            <span class="ui-messages-warn-detail">No existen reportes para el año seleccionado </span></li>
+                                                    </ul>
+                                                </p:outputPanel>
+                                            </p:outputPanel>
+                                        </h:panelGroup>
+                                    </h:panelGroup>
 
                                 </h:form>
 
