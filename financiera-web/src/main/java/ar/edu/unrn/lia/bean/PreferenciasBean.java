@@ -99,15 +99,18 @@ public class PreferenciasBean implements Serializable {
         this.update(getNewInteres());
         getInteresList().add(getNewInteres());
         setNewInteres(new Interes());
+        agregarMensaje(FacesMessage.SEVERITY_INFO,"Exito","Interes creado con exito");
     }
 
     public void deleteInteres(Interes interes) {
         interesService.delete(interes);
         getInteresList().remove(interes);
+        agregarMensaje(FacesMessage.SEVERITY_INFO,"Exito","Interes eliminado con exito");
     }
 
     public void updateInteres() {
         this.update(getSelectedInteres());
+        agregarMensaje(FacesMessage.SEVERITY_INFO,"Exito","Interes guardado con exito");
     }
 
     public void onRowReorderInteres(ReorderEvent event) {
@@ -115,7 +118,9 @@ public class PreferenciasBean implements Serializable {
     }
 
     public void guardarOrdenInteres() {
+        updateInteres = false;
         interesService.updateOrden(interesList);
+        agregarMensaje(FacesMessage.SEVERITY_INFO,"Exito","Orden guardado con exito");
     }
 
     /*----------------------- DESCUENTO ---------------------------*/
@@ -125,15 +130,18 @@ public class PreferenciasBean implements Serializable {
         this.update(getNewDescuento());
         getDescuentoList().add(getNewDescuento());
         setNewDescuento(new Descuento());
+        agregarMensaje(FacesMessage.SEVERITY_INFO,"Exito","Descuento creado con exito");
     }
 
     public void deleteDescuento(Descuento descuento) {
         descuentoService.delete(descuento);
         getDescuentoList().remove(descuento);
+        agregarMensaje(FacesMessage.SEVERITY_INFO,"Exito","Descuento eliminado con exito");
     }
 
     public void updateDescuento() {
         this.update(getSelectedDescuento());
+        agregarMensaje(FacesMessage.SEVERITY_INFO,"Exito","Descuento guardado con exito");
     }
 
     public void onRowReorderDescuento(ReorderEvent event) {
@@ -141,7 +149,9 @@ public class PreferenciasBean implements Serializable {
     }
 
     public void guardarOrdenDescuento() {
+        updateDescuento = false;
         descuentoService.updateOrden(descuentoList);
+        agregarMensaje(FacesMessage.SEVERITY_INFO,"Exito","Orden guardado con exito");
     }
 
     public InteresService getInteresService() {

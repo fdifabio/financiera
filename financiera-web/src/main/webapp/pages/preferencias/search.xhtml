@@ -13,6 +13,7 @@
             .fa {
                 color: white;
             }
+
             .ui-datatable .ui-datatable-header {
                 border-bottom: 0 none;
                 padding-bottom: 20px !important;
@@ -23,22 +24,26 @@
             <div class="ContainerIndent">
                 <div class="Card ShadowEffect  ">
                     <div class="Container100">
+
+                        <p:growl id="growl" showDetail="true" life="3000"/>
                         <p:tabView orientation="left" id="tabs">
                             <p:tab title="Intereses" id="tabInteres">
                                 <div class="Container100">
                                     <h:form id="formInteres" class="TexAlCenter">
                                         <div class="Container60">
-                                            <p:growl id="growl" showDetail="true" life="3000"/>
                                             <p:dataTable var="item" value="#{preferenciasBean.interesList}" id="list"
                                                          draggableRows="true">
-                                                <p:ajax event="rowReorder" listener="#{preferenciasBean.onRowReorderInteres}"
+                                                <p:ajax event="rowReorder"
+                                                        listener="#{preferenciasBean.onRowReorderInteres}"
                                                         update="tabs:formInteres:boton"/>
                                                 <f:facet name="header">Intereses
                                                     <p:commandButton update="tabs:formDetalle:interesDetalle"
-                                                                     oncomplete="PF('dlgCrear').show()" icon="fa fa-plus-circle "
-                                                                     title="Crear" style="float: right;background-color: #f50057;border: 0px;"/>
+                                                                     oncomplete="PF('dlgCrear').show()"
+                                                                     icon="fa fa-plus-circle "
+                                                                     title="Crear"
+                                                                     style="float: right;background-color: #f50057;border: 0px;"/>
                                                 </f:facet>
-                                                <p:column  headerText="Valor">
+                                                <p:column headerText="Valor">
                                                     <div class="Container100 Responsive50">
                                                         <div class="Card ShadowEffect HeiAutoOnMobile OvHidden"
                                                              style="padding: 5px;margin-right: 15px;">
@@ -50,32 +55,50 @@
                                                         </div>
                                                     </div>
                                                 </p:column>
-                                                <p:column  headerText="Opciones">
+                                                <p:column headerText="Opciones">
                                                     <p:commandButton update="tabs:formDetalle:interesDetalle"
-                                                                     oncomplete="PF('dlg').show()" icon="fa fa-pencil-square-o"
+                                                                     oncomplete="PF('dlg').show()"
+                                                                     icon="fa fa-pencil-square-o"
                                                                      title="Editar">
                                                         <f:setPropertyActionListener value="#{item}"
                                                                                      target="#{preferenciasBean.selectedInteres}"/>
                                                     </p:commandButton>
                                                     <p:commandLink id="nonAjax" title="#{msgs['btnEliminar']}"
-                                                                   actionListener="#{preferenciasBean.deleteInteres(item)}" update="tabs:formInteres:list">
+                                                                   actionListener="#{preferenciasBean.deleteInteres(item)}"
+                                                                   update="tabs:formInteres:list growl">
                                                         <p:confirm header="#{msgs['confirmacion']}"
-                                                                   message="#{msgs['confirmarEliminar']}" icon="ui-icon-alert"/>
+                                                                   message="#{msgs['confirmarEliminar']}"
+                                                                   icon="ui-icon-alert"/>
                                                         <i class="icon-delete2 BoldGray Fs20"></i>
                                                     </p:commandLink>
                                                 </p:column>
                                             </p:dataTable>
                                             <p:confirmDialog global="true" showEffect="fade">
                                                 <p:commandButton value="Si" type="button"
-                                                                 styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                                                                 styleClass="ui-confirmdialog-yes"
+                                                                 icon="ui-icon-check"/>
                                                 <p:commandButton value="No" type="button"
                                                                  styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
                                             </p:confirmDialog>
                                         </div>
-                                        <div class="Container20">
+                                        <div class="Container40">
+                                            <p:outputPanel layout="block" deferred="true" style="    margin-left: 10px !important;"
+                                                           styleClass="ui-messages ui-widget">
+                                                <p:outputPanel layout="block"
+                                                               styleClass="ui-messages-info ui-corner-all">
+                                                    <p:outputPanel layout="inline"
+                                                                   styleClass="ui-messages-info-icon"></p:outputPanel>
+                                                    <ul>
+                                                        <li><span class="ui-messages-warn-summary">Importante</span>
+                                                            <span class="ui-messages-warn-detail">Arrastre los intereses para dar un orden y recuerde guardar los cambios </span></li>
+                                                    </ul>
+                                                </p:outputPanel>
+                                            </p:outputPanel>
                                             <p:outputPanel id="boton">
-                                                <p:commandButton value="Guardar Orden" update="list" icon="fa fa-refresh"
-                                                                 rendered="#{preferenciasBean.updateInteres}" actionListener="#{preferenciasBean.guardarOrdenInteres}"/>
+                                                <p:commandButton value="Guardar Orden" update="list boton growl"
+                                                                 icon="fa fa-refresh"
+                                                                 rendered="#{preferenciasBean.updateInteres}"
+                                                                 actionListener="#{preferenciasBean.guardarOrdenInteres}"/>
                                             </p:outputPanel>
                                         </div>
 
@@ -89,10 +112,12 @@
                                                     <p:inputNumber id="interes"
                                                                    value="#{preferenciasBean.selectedInteres.valor}"
                                                                    required="true" symbol="%"
-                                                                   symbolPosition="s"/>
+                                                                   symbolPosition="s"
+                                                                   decimalPlaces="0"
+                                                                   placeholder="Ej: 5%"/>
 
                                                     <f:facet name="footer">
-                                                        <p:commandButton value="Guardar" update="tabs:formInteres:list"
+                                                        <p:commandButton value="Guardar" update="tabs:formInteres:list growl"
                                                                          actionListener="#{preferenciasBean.updateInteres}"
                                                                          oncomplete="handleLoginRequest(xhr, status, args)"
                                                                          style="float: right;"/>
@@ -110,10 +135,13 @@
                                                     <p:inputNumber id="interescrear"
                                                                    value="#{preferenciasBean.newInteres.valor}"
                                                                    required="true" symbol="%"
-                                                                   symbolPosition="s"/>
+                                                                   symbolPosition="s"
+                                                                   decimalPlaces="0"
+                                                                   placeholder="Ej: 5%"/>
 
                                                     <f:facet name="footer">
-                                                        <p:commandButton value="Guardar" update="tabs:formInteres:list tabs:formCrear:interescrear"
+                                                        <p:commandButton value="Guardar"
+                                                                         update="tabs:formInteres:list tabs:formCrear:interescrear growl"
                                                                          actionListener="#{preferenciasBean.createInteres}"
                                                                          oncomplete="handleLoginRequest2(xhr, status, args)"
                                                                          style="float: right;"/>
@@ -128,16 +156,20 @@
                                 <div class="Container100">
                                     <h:form id="formDescuento" class="TexAlCenter">
                                         <div class="Container60">
-                                            <p:dataTable var="descuento" value="#{preferenciasBean.descuentoList}" id="listDescuento"
+                                            <p:dataTable var="descuento" value="#{preferenciasBean.descuentoList}"
+                                                         id="listDescuento"
                                                          draggableRows="true">
-                                                <p:ajax event="rowReorder" listener="#{preferenciasBean.onRowReorderDescuento}"
+                                                <p:ajax event="rowReorder"
+                                                        listener="#{preferenciasBean.onRowReorderDescuento}"
                                                         update="tabs:formDescuento:botonDescuento"/>
                                                 <f:facet name="header">Descuentos
                                                     <p:commandButton update="tabs:formDetalleDescuento:descuentoDetalle"
-                                                                     oncomplete="PF('dlgCrearDescuento').show()" icon="fa fa-plus-circle "
-                                                                     title="Crear" style="float: right;background-color: #f50057;border: 0px;"/>
+                                                                     oncomplete="PF('dlgCrearDescuento').show()"
+                                                                     icon="fa fa-plus-circle "
+                                                                     title="Crear"
+                                                                     style="float: right;background-color: #f50057;border: 0px;"/>
                                                 </f:facet>
-                                                <p:column  headerText="Valor">
+                                                <p:column headerText="Valor">
                                                     <div class="Container100 Responsive50">
                                                         <div class="Card ShadowEffect HeiAutoOnMobile OvHidden"
                                                              style="padding: 5px;margin-right: 15px;">
@@ -149,38 +181,57 @@
                                                         </div>
                                                     </div>
                                                 </p:column>
-                                                <p:column  headerText="Opciones">
+                                                <p:column headerText="Opciones">
                                                     <p:commandButton update="tabs:formDetalleDescuento:descuentoDetalle"
-                                                                     oncomplete="PF('dlgDescuento').show()" icon="fa fa-pencil-square-o"
+                                                                     oncomplete="PF('dlgDescuento').show()"
+                                                                     icon="fa fa-pencil-square-o"
                                                                      title="Editar">
                                                         <f:setPropertyActionListener value="#{descuento}"
                                                                                      target="#{preferenciasBean.selectedDescuento}"/>
                                                     </p:commandButton>
                                                     <p:commandLink id="nonAjaxDescuento" title="#{msgs['btnEliminar']}"
-                                                                   actionListener="#{preferenciasBean.deleteDescuento(descuento)}" update="tabs:formDescuento:listDescuento">
+                                                                   actionListener="#{preferenciasBean.deleteDescuento(descuento)}"
+                                                                   update="tabs:formDescuento:listDescuento growl">
                                                         <p:confirm header="#{msgs['confirmacion']}"
-                                                                   message="#{msgs['confirmarEliminar']}" icon="ui-icon-alert"/>
+                                                                   message="#{msgs['confirmarEliminar']}"
+                                                                   icon="ui-icon-alert"/>
                                                         <i class="icon-delete2 BoldGray Fs20"></i>
                                                     </p:commandLink>
                                                 </p:column>
                                             </p:dataTable>
                                             <p:confirmDialog global="true" showEffect="fade">
                                                 <p:commandButton value="Si" type="button"
-                                                                 styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                                                                 styleClass="ui-confirmdialog-yes"
+                                                                 icon="ui-icon-check"/>
                                                 <p:commandButton value="No" type="button"
                                                                  styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
                                             </p:confirmDialog>
                                         </div>
-                                        <div class="Container20">
+                                        <div class="Container40">
+                                            <p:outputPanel layout="block" deferred="true" style="    margin-left: 10px !important;"
+                                                           styleClass="ui-messages ui-widget">
+                                                <p:outputPanel layout="block"
+                                                               styleClass="ui-messages-info ui-corner-all">
+                                                    <p:outputPanel layout="inline"
+                                                                   styleClass="ui-messages-info-icon"></p:outputPanel>
+                                                    <ul>
+                                                        <li><span class="ui-messages-warn-summary">Importante</span>
+                                                            <span class="ui-messages-warn-detail">Arrastre los descuento para dar un orden y recuerde guardar los cambios </span></li>
+                                                    </ul>
+                                                </p:outputPanel>
+                                            </p:outputPanel>
                                             <p:outputPanel id="botonDescuento">
-                                                <p:commandButton value="Guardar Orden" update="listDescuento" icon="fa fa-refresh"
-                                                                 rendered="#{preferenciasBean.updateDescuento}" actionListener="#{preferenciasBean.guardarOrdenDescuento}"/>
+                                                <p:commandButton value="Guardar Orden" update="listDescuento botonDescuento growl"
+                                                                 icon="fa fa-refresh"
+                                                                 rendered="#{preferenciasBean.updateDescuento}"
+                                                                 actionListener="#{preferenciasBean.guardarOrdenDescuento}"/>
                                             </p:outputPanel>
                                         </div>
 
                                     </h:form>
                                     <h:form id="formDetalleDescuento">
-                                        <p:dialog header="Modificar Descuento" widgetVar="dlgDescuento" resizable="false"
+                                        <p:dialog header="Modificar Descuento" widgetVar="dlgDescuento"
+                                                  resizable="false"
                                                   modal="true">
                                             <p:outputPanel id="descuentoDetalle">
                                                 <h:panelGrid columns="2">
@@ -188,10 +239,13 @@
                                                     <p:inputNumber id="descuento"
                                                                    value="#{preferenciasBean.selectedDescuento.valor}"
                                                                    required="true" symbol="%"
-                                                                   symbolPosition="s"/>
+                                                                   symbolPosition="s"
+                                                                   decimalPlaces="0"
+                                                                   placeholder="Ej: 5%"/>
 
                                                     <f:facet name="footer">
-                                                        <p:commandButton value="Guardar" update="tabs:formDescuento:listDescuento"
+                                                        <p:commandButton value="Guardar"
+                                                                         update="tabs:formDescuento:listDescuento growl"
                                                                          actionListener="#{preferenciasBean.updateDescuento}"
                                                                          oncomplete="handleLoginRequestD(xhr, status, args)"
                                                                          style="float: right;"/>
@@ -201,7 +255,8 @@
                                         </p:dialog>
                                     </h:form>
                                     <h:form id="formCrearDescuento">
-                                        <p:dialog header="Crear Descuento" widgetVar="dlgCrearDescuento" resizable="false"
+                                        <p:dialog header="Crear Descuento" widgetVar="dlgCrearDescuento"
+                                                  resizable="false"
                                                   modal="true">
                                             <p:outputPanel id="descuentoCrear">
                                                 <h:panelGrid columns="2">
@@ -209,10 +264,15 @@
                                                     <p:inputNumber id="descuentocrear"
                                                                    value="#{preferenciasBean.newDescuento.valor}"
                                                                    required="true" symbol="%"
-                                                                   symbolPosition="s"/>
+                                                                   symbolPosition="s"
+                                                                   decimalPlaces="0"
+                                                                   placeholder="Ej: 5%"/>
 
                                                     <f:facet name="footer">
-                                                        <p:commandButton value="Guardar" update="tabs:formDescuento:listDescuento tabs:formCrearDescuento:descuentoCrear"
+
+
+                                                        <p:commandButton value="Guardar"
+                                                                         update="tabs:formDescuento:listDescuento tabs:formCrearDescuento:descuentoCrear growl"
                                                                          actionListener="#{preferenciasBean.createDescuento}"
                                                                          oncomplete="handleLoginRequestD2(xhr, status, args)"
                                                                          style="float: right;"/>
