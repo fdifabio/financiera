@@ -6,11 +6,9 @@ import ar.edu.unrn.lia.model.User;
 import ar.edu.unrn.lia.service.UserService;
 import ar.edu.unrn.lia.util.Constantes;
 import org.springframework.context.annotation.Scope;
-import sun.security.validator.ValidatorException;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -49,6 +47,7 @@ public class UserBean extends GenericBean<User> implements Serializable {
 
     @Override
     public String update() {
+        getEntity().setPassword("1234");
         return super.update();
     }
 
