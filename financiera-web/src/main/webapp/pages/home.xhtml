@@ -60,7 +60,7 @@
                                                              label="Ingreso" requiredMessage="Ingrese un valor"/>
 
                                                 <p:commandButton value="Guardar" style="float:right;"
-                                                                 update="growlingreso"
+                                                                 update="growlingreso timelineFirst"
                                                                  action="#{authenticationBean.ingreso()}"
                                                                  oncomplete="ingreso(xhr, status, args)"/>
 
@@ -81,7 +81,7 @@
                                                              label="egreso" requiredMessage="Ingrese un valor"/>
 
                                                 <p:commandButton value="Guardar" style="float:right;"
-                                                                 update="growlegreso"
+                                                                 update="growlegreso timelineFirst"
                                                                  action="#{authenticationBean.egreso()}"
                                                                  oncomplete="egreso(xhr, status, args)"/>
 

@@ -11,4 +11,5 @@ public interface MovimientoDAO extends GenericDao<Movimiento, Long> {
     List<Movimiento> findAll();
 
     List<Movimiento> findAllByCajaId(Long idCaja);
+
 }

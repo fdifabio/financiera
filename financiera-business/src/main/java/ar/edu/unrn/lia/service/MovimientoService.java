@@ -11,4 +11,5 @@ public interface MovimientoService extends IGenericService<Movimiento> {
 
     List<Movimiento> findAllByCajaId(Long idCaja);
 
+
 }

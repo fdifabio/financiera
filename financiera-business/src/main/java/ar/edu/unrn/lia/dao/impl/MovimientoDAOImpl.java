@@ -67,4 +67,6 @@ public class MovimientoDAOImpl extends GenericDaoJpaImpl<Movimiento, Long> imple
         return (List<Movimiento>) query.getResultList();
     }
 
+
+
 }
