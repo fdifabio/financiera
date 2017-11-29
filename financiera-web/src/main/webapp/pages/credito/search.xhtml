@@ -38,7 +38,7 @@
                                              paginatorPosition="bottom"
                                              resizableColumns="false" rows="10"
                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                             rowsPerPageTemplate="10,20,30,50">
+                                             rowsPerPageTemplate="10,20,30,50" sortBy="#{item.fechaCreacion}">
 
                                     <p:column headerText="#{msgs['formFechaCreacion']}"
                                               sortBy="#{item.fechaCreacion}">
