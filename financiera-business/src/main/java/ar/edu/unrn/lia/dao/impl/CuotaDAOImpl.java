@@ -130,7 +130,7 @@ public class CuotaDAOImpl extends GenericDaoJpaImpl<Cuota, Long> implements
 
     @Override
     public void actualizarEstados() {
-        Query query = this.entityManager.createQuery("UPDATE Cuota c SET c.estado=:estado1 where c.fechaVencimiento> :today and (c.estado= :estado2 or c.estado= :estado3)");
+        Query query = this.entityManager.createQuery("UPDATE Cuota c SET c.estado=:estado1 where :today > c.fechaVencimiento and (c.estado= :estado2 or c.estado= :estado3)");
         query.setParameter("estado1", Cuota.Estado.VENCIDO);
         query.setParameter("today", new Date());
         query.setParameter("estado2", Cuota.Estado.PARCIALMENTE_SALDADO);

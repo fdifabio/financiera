@@ -92,7 +92,7 @@ public class CreditoDAOImpl extends GenericDaoJpaImpl<Credito, Long> implements
 
     @Override
     public void actualizarEstados() {
-        Query query = this.entityManager.createQuery("UPDATE Credito c SET c.estado= :estado1 where c.estado= :estado2 and c.fechaVencimiento> :today");
+        Query query = this.entityManager.createQuery("UPDATE Credito c SET c.estado= :estado1 where c.estado= :estado2 and :today>c.fechaVencimiento ");
         query.setParameter("estado1", Estado.LEGALES);
         query.setParameter("estado2", Estado.ACTIVO);
         query.setParameter("today", new Date());
