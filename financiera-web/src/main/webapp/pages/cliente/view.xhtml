@@ -119,9 +119,10 @@
                                     </p:column>
                                     <p:column headerText="Opciones" exportable="false">
 
-                                        <p:commandButton update=":formentity:creditoDetalle"
+                                        <p:commandButton id="btnDetalle" update=":formentity:creditoDetalle"
                                                          oncomplete="PF('dialogCredito').show('#{component.clientId}')"
-                                                         icon="icon-zoom-in Fs20" title="Detalle"
+                                                         class="fa fa-search-plus Fs20" title=""
+                                                         style="background-color: transparent; color: black; border: none"
                                                          actionListener="#{creditoBean.cargarCredito(item)}">
 
                                         </p:commandButton>
@@ -174,7 +175,7 @@
                                                               style="font-weight: bold;"/>
                                                 <p:outputLabel
                                                         value="#{creditoBean.creditoSeleccionado.cuotas}">
-                                                    <f:convertNumber type="currency" currencySymbol="$"/>
+                                                    <f:convertNumber type="number" />
                                                 </p:outputLabel>
 
                                                 <h:outputText value="Fecha:" style="font-weight: bold;"/>
