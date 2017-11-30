@@ -90,7 +90,7 @@
                                         <ui:include src="/pages/includes/exporterButtons.xhtml">
                                             <ui:param name="target" value="list"/>
                                             <ui:param name="fileName"
-                                                      value="Reporte cuotas #{clienteBean.entity.apellidoNombre}"/>
+                                                      value="Reporte creditos #{clienteBean.entity.apellidoNombre}"/>
                                         </ui:include>
 
                                     </f:facet>
@@ -175,7 +175,7 @@
                                                               style="font-weight: bold;"/>
                                                 <p:outputLabel
                                                         value="#{creditoBean.creditoSeleccionado.cuotas}">
-                                                    <f:convertNumber type="number" />
+                                                    <f:convertNumber type="number"/>
                                                 </p:outputLabel>
 
                                                 <h:outputText value="Fecha:" style="font-weight: bold;"/>
@@ -196,7 +196,7 @@
                                             <h:panelGroup id="cuotasCredito">
                                                 <p:panel style="border:0px !important;">
                                                     <h2 class="CardTopic">Periodos de Credito</h2>
-                                                    <p:dataTable id="gastos" var="item"
+                                                    <p:dataTable id="cuotasList" var="item"
                                                                  value="#{creditoBean.creditoSeleccionado.listCuotas}"
                                                                  reflow="true" rowKey="#{item}" lazy="true"
                                                                  paginator="false" rowIndexVar="index"
@@ -211,9 +211,9 @@
                                                         <f:facet name="header">
                                                             <h:outputText value="#{msgs['cuotas']}"/>
                                                             <ui:include src="/pages/includes/exporterButtons.xhtml">
-                                                                <ui:param name="target" value="gastos"/>
+                                                                <ui:param name="target" value="cuotasList"/>
                                                                 <ui:param name="fileName"
-                                                                          value="Reporte cuotas"/>
+                                                                          value="Reporte cuotas #{clienteBean.entity.apellidoNombre}"/>
                                                             </ui:include>
 
                                                         </f:facet>
