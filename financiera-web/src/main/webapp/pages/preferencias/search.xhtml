@@ -82,7 +82,8 @@
                                             </p:confirmDialog>
                                         </div>
                                         <div class="Container40">
-                                            <p:outputPanel layout="block" deferred="true" style="    margin-left: 10px !important;"
+                                            <p:outputPanel layout="block" deferred="true"
+                                                           style="    margin-left: 10px !important;"
                                                            styleClass="ui-messages ui-widget">
                                                 <p:outputPanel layout="block"
                                                                styleClass="ui-messages-info ui-corner-all">
@@ -90,7 +91,8 @@
                                                                    styleClass="ui-messages-info-icon"></p:outputPanel>
                                                     <ul>
                                                         <li><span class="ui-messages-warn-summary">Importante</span>
-                                                            <span class="ui-messages-warn-detail">Arrastre los intereses para dar un orden y recuerde guardar los cambios </span></li>
+                                                            <span class="ui-messages-warn-detail">Arrastre los intereses para dar un orden y recuerde guardar los cambios </span>
+                                                        </li>
                                                     </ul>
                                                 </p:outputPanel>
                                             </p:outputPanel>
@@ -117,7 +119,8 @@
                                                                    placeholder="Ej: 5%"/>
 
                                                     <f:facet name="footer">
-                                                        <p:commandButton value="Guardar" update="tabs:formInteres:list growl"
+                                                        <p:commandButton value="Guardar"
+                                                                         update="tabs:formInteres:list growl"
                                                                          actionListener="#{preferenciasBean.updateInteres}"
                                                                          oncomplete="handleLoginRequest(xhr, status, args)"
                                                                          style="float: right;"/>
@@ -132,7 +135,7 @@
                                             <p:outputPanel id="interesCrear">
                                                 <h:panelGrid columns="2">
                                                     <h:outputText for="interescrear" value="Monto:"/>
-                                                    <p:inputNumber id="interescrear"
+                                                    <p:inputNumber id="interescrear" minValue="0" maxValue="100"
                                                                    value="#{preferenciasBean.newInteres.valor}"
                                                                    required="true" symbol="%"
                                                                    symbolPosition="s"
@@ -208,7 +211,8 @@
                                             </p:confirmDialog>
                                         </div>
                                         <div class="Container40">
-                                            <p:outputPanel layout="block" deferred="true" style="    margin-left: 10px !important;"
+                                            <p:outputPanel layout="block" deferred="true"
+                                                           style="    margin-left: 10px !important;"
                                                            styleClass="ui-messages ui-widget">
                                                 <p:outputPanel layout="block"
                                                                styleClass="ui-messages-info ui-corner-all">
@@ -216,12 +220,14 @@
                                                                    styleClass="ui-messages-info-icon"></p:outputPanel>
                                                     <ul>
                                                         <li><span class="ui-messages-warn-summary">Importante</span>
-                                                            <span class="ui-messages-warn-detail">Arrastre los descuento para dar un orden y recuerde guardar los cambios </span></li>
+                                                            <span class="ui-messages-warn-detail">Arrastre los descuento para dar un orden y recuerde guardar los cambios </span>
+                                                        </li>
                                                     </ul>
                                                 </p:outputPanel>
                                             </p:outputPanel>
                                             <p:outputPanel id="botonDescuento">
-                                                <p:commandButton value="Guardar Orden" update="listDescuento botonDescuento growl"
+                                                <p:commandButton value="Guardar Orden"
+                                                                 update="listDescuento botonDescuento growl"
                                                                  icon="fa fa-refresh"
                                                                  rendered="#{preferenciasBean.updateDescuento}"
                                                                  actionListener="#{preferenciasBean.guardarOrdenDescuento}"/>
