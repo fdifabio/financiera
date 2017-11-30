@@ -13,7 +13,7 @@
 
     <ui:define name="actions">
         <a href="create.jsf"
-           class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+           class="BoldGray Fs18 FontRobotoLight Fright MarRight20 HoverEffect"><i
                 class="icon-add"></i> #{msgs['btnNuevo']}</a>
     </ui:define>
 
@@ -28,6 +28,7 @@
             <div class="ContainerIndent">
                 <div class="Card ShadowEffect  ">
                     <div class="Container100">
+                        <p:growl id="growl" showDetail="true" life="3000"/>
                         <div class="ContainerIndent">
                             <h:form id="formentity" class="TexAlCenter">
                                 <p:growl showDetail="true" id="msgGrwl"/>
@@ -107,7 +108,7 @@
                                                    trackMouse="true"/>
 
                                         <p:commandLink id="btnEliminar" title="#{msgs['btnEliminar']}"
-                                                       actionListener="#{creditoBean.delete(item)}" update="list">
+                                                       actionListener="#{creditoBean.deleteCredito(item)}" update="list growl">
                                             <p:confirm header="#{msgs['confirmacion']}"
                                                        message="#{msgs['confirmarEliminar']}" icon="ui-icon-alert"/>
                                             <i class="icon-delete2 BoldGray Fs20"></i>

@@ -10,8 +10,10 @@ import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CreditoService;
 import ar.edu.unrn.lia.service.ProvinciaService;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DataAccessException;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -126,6 +128,25 @@ public class ClienteBean extends GenericBean<Cliente> implements Serializable {
         this.provinciaSelecionada = provinciaSelecionada;
     }
 
+
+    public void deleteCliente(Cliente cliente) {
+        try {
+            entityService.delete(cliente);
+            agregarMensaje(FacesMessage.SEVERITY_INFO, "Exito", "Cliente eliminado con exito");
+        } catch (DataAccessException e) {
+            agregarMensaje(FacesMessage.SEVERITY_WARN, "Atención!",
+                    "No se puede eliminar Cliente, tiene creditos asociados!");
+        } catch (Exception e) {
+            agregarMensaje(FacesMessage.SEVERITY_ERROR, "Error!",
+                    e.getMessage());
+        }
+    }
+
+    public void agregarMensaje(FacesMessage.Severity severity, String summary, String detail) {
+        FacesMessage msg = new FacesMessage(severity, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
+    }
 
     public CiudadService getCiudadService() {
         return ciudadService;

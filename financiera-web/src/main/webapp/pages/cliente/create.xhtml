@@ -22,14 +22,14 @@
 
     <ui:define name="actions">
         <a href="search.jsf"
-           class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+           class="BoldGray Fs18 FontRobotoLight Fright MarRight20 HoverEffect"><i
                 class="icon-list"></i> #{msgs['listar']}</a>
         <h:panelGroup rendered="#{clienteBean.entity.id != null}" id="hello">
             <a href="view.jsf?id=#{clienteBean.entity.id}"
-               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+               class="BoldGray Fs18 FontRobotoLight Fright MarRight20 HoverEffect"><i
                     class="icon-zoom-in"></i> #{msgs['detalle']} </a>
             <a href="create.jsf"
-               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+               class="BoldGray Fs18 FontRobotoLight Fright MarRight20 HoverEffect"><i
                     class="icon-person_add"></i> #{msgs['btnNuevo']}</a>
         </h:panelGroup>
     </ui:define>

@@ -19,15 +19,15 @@
     <ui:define name="actions">
         <sec:ifAnyGranted roles="ROLE_ADMIN">
             <a href="search.jsf"
-               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+               class="BoldGray Fs18 FontRobotoLight Fright MarRight20 HoverEffect"><i
                     class="icon-list"></i> #{msgs['listar']}</a>
         </sec:ifAnyGranted>
         <a href="create.jsf?id=#{creditoBean.entity.id}"
-           class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+           class="BoldGray Fs18 FontRobotoLight Fright MarRight20 HoverEffect"><i
                 class="icon-edit"></i> #{msgs['btn.modificar']}</a>
         <sec:ifAnyGranted roles="ROLE_ADMIN">
             <a href="create.jsf"
-               class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
+               class="BoldGray Fs18 FontRobotoLight Fright MarRight20 HoverEffect"><i
                     class="icon-add"></i> #{msgs['btnNuevo']}</a>
         </sec:ifAnyGranted>
     </ui:define>

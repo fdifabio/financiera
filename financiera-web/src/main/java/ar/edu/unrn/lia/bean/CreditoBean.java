@@ -8,8 +8,10 @@ import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CreditoService;
 import ar.edu.unrn.lia.service.InteresService;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DataAccessException;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
@@ -80,6 +82,22 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     public void cargarCredito(Credito credito) {
         this.setCreditoSeleccionado(getEntityService().getEntityById(credito.getId()));
+    }
+
+    public void deleteCredito(Credito credito) {
+        try {
+            entityService.delete(credito);
+            agregarMensaje(FacesMessage.SEVERITY_INFO, "Exito", "Credito eliminado con exito");
+        } catch (Exception e) {
+            agregarMensaje(FacesMessage.SEVERITY_ERROR, "Error!",
+                    e.getMessage());
+        }
+    }
+
+    public void agregarMensaje(FacesMessage.Severity severity, String summary, String detail) {
+        FacesMessage msg = new FacesMessage(severity, summary, detail);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+
     }
 
     @Override
