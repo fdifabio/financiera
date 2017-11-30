@@ -9,21 +9,32 @@
         <h:form id="menuform">
             <pm:menu>
                 <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PRESTAMISTA">
-                <p:menuitem id="rm_dashboard" value="Inicio"
-                            icon="icon-dashboard"
-                            outcome="/pages/home?faces-redirect=true"/>
-                    <p:menuitem id="rm_usuarios" value="#{msgs['menu.user']}"
-                                icon="icon-people"
-                                outcome="/pages/user/search?faces-redirect=true"/>
+                    <p:menuitem id="rm_dashboard" value="Inicio"
+                                icon="icon-home"
+                                outcome="/pages/home?faces-redirect=true"/>
+                </sec:ifAnyGranted>
+                <sec:ifAnyGranted roles="ROLE_ADMIN">
                     <p:menuitem id="rm_preferencias" value="#{msgs['menu.preferencias']}"
                                 icon="icon-settings"
                                 outcome="/pages/preferencias/search?faces-redirect=true"/>
+                    <p:menuitem id="rm_usuarios" value="#{msgs['menu.user']}"
+                                icon="icon-people"
+                                outcome="/pages/user/search?faces-redirect=true"/>
+                </sec:ifAnyGranted>
+
+                <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PRESTAMISTA">
                     <p:menuitem id="rm_cliente" value="#{msgs['menu.cliente']}"
                                 icon="fa fa-users"
                                 outcome="/pages/cliente/search?faces-redirect=true"/>
                     <p:menuitem id="rm_credito" value="#{msgs['menu.credito']}"
-                                icon="icon-local_atm"
+                                icon="fa fa-money"
                                 outcome="/pages/credito/search?faces-redirect=true"/>
+                    <p:menuitem id="rm_reportes" value="#{msgs['menu.reportes']}"
+                                icon="fa fa-bar-chart"
+                                outcome="/pages/reportes/search?faces-redirect=true"/>
+                    <p:menuitem id="rm_caja" value="#{msgs['menu.caja']}"
+                                icon="fa fa-balance-scale"
+                                outcome="/pages/caja/search?faces-redirect=true"/>
                 </sec:ifAnyGranted>
                 <p:separator/>
             </pm:menu>

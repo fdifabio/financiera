@@ -52,85 +52,97 @@
                                                       id="passive"></i> </a>
 
         <ul class="top-menu" style="float: left;">
-            <li>
-                <a href="/pages/home.jsf" data-toggle="tooltip" title="Inicio">
-                    <i class="icon-home"></i>
-                    <span class="ShowOnMobile"></span>
-                </a>
-            </li>
-            <li>
-                <a href="/pages/preferencias/search.jsf" data-toggle="tooltip" title="#{msgs['menu.preferencias']}">
-                    <i class="icon-settings"></i>
-                    <span class="ShowOnMobile"></span>
-                </a>
-            </li>
-            <li>
-                <a href="/pages/cliente/search.jsf" data-toggle="tooltip" title="#{msgs['menu.cliente']}">
-                    <i class="fa fa-users"></i>
-                    <span class="ShowOnMobile"></span>
-                </a>
-            </li>
-            <li>
-                <a href="/pages/credito/search.jsf" data-toggle="tooltip" title="#{msgs['menu.credito']}">
-                    <i class="fa fa-money"></i>
-                    <span class="ShowOnMobile"></span>
-                </a>
-            </li>
-            <li>
-                <a href="/pages/reportes/search.jsf" data-toggle="tooltip" title="#{msgs['menu.reportes']}">
-                    <i class="fa fa-bar-chart"></i>
-                    <span class="ShowOnMobile"></span>
-                </a>
-            </li>
-            <li>
-                <a href="/pages/caja/search.jsf" data-toggle="tooltip" title="#{msgs['menu.caja']}">
-                    <i class="fa fa-balance-scale "></i>
-                    <span class="ShowOnMobile"></span>
-                </a>
-            </li>
-            <li>
-                <h:panelGroup id="txt_count">
-                    <h:panelGroup rendered="#{!authenticationBean.caja.habilitada()}">
-                        <h:form>
-                            <p:growl id="growlhabilitar" sticky="true" showDetail="true" life="3000"/>
-                            <h:commandButton styleClass="caja White" value="Caja Deshabilitada"
-                                             onclick="PF('habilitar').show(); return false;"/>
-                            <p:dialog header="Esta seguro que desea habilitar la caja?" widgetVar="habilitar"
-                                      resizable="false">
-                                <h:panelGrid columns="3" cellpadding="5">
-                                    <h:outputLabel for="monto" value="Monto:"/>
-                                    <p:inputText id="monto" value="#{authenticationBean.monto}" required="true"
-                                                 label="monto" requiredMessage="Ingrese un valor"/>
+            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PRESTAMISTA">
+                <li>
+                    <a href="/pages/home.jsf" data-toggle="tooltip" title="Inicio">
+                        <i class="icon-home"></i>
+                        <span class="ShowOnMobile"></span>
+                    </a>
+                </li>
+            </sec:ifAnyGranted>
+            <sec:ifAnyGranted roles="ROLE_ADMIN">
+                <li>
+                    <a href="/pages/preferencias/search.jsf" data-toggle="tooltip" title="#{msgs['menu.preferencias']}">
+                        <i class="icon-settings"></i>
+                        <span class="ShowOnMobile"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/user/search.jsf" data-toggle="tooltip" title="#{msgs['menu.user']}">
+                        <i class="icon-people"></i>
+                        <span class="ShowOnMobile"></span>
+                    </a>
+                </li>
+            </sec:ifAnyGranted>
+            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PRESTAMISTA">
+                <li>
+                    <a href="/pages/cliente/search.jsf" data-toggle="tooltip" title="#{msgs['menu.cliente']}">
+                        <i class="fa fa-users"></i>
+                        <span class="ShowOnMobile"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/credito/search.jsf" data-toggle="tooltip" title="#{msgs['menu.credito']}">
+                        <i class="fa fa-money"></i>
+                        <span class="ShowOnMobile"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/reportes/search.jsf" data-toggle="tooltip" title="#{msgs['menu.reportes']}">
+                        <i class="fa fa-bar-chart"></i>
+                        <span class="ShowOnMobile"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/pages/caja/search.jsf" data-toggle="tooltip" title="#{msgs['menu.caja']}">
+                        <i class="fa fa-balance-scale "></i>
+                        <span class="ShowOnMobile"></span>
+                    </a>
+                </li>
+                <li>
+                    <h:panelGroup id="txt_count">
+                        <h:panelGroup rendered="#{!authenticationBean.caja.habilitada()}">
+                            <h:form>
+                                <p:growl id="growlhabilitar" sticky="true" showDetail="true" life="3000"/>
+                                <h:commandButton styleClass="caja White" value="Caja Deshabilitada"
+                                                 onclick="PF('habilitar').show(); return false;"/>
+                                <p:dialog header="Esta seguro que desea habilitar la caja?" widgetVar="habilitar"
+                                          resizable="false">
+                                    <h:panelGrid columns="3" cellpadding="5">
+                                        <h:outputLabel for="monto" value="Monto:"/>
+                                        <p:inputText id="monto" value="#{authenticationBean.monto}" required="true"
+                                                     label="monto" requiredMessage="Ingrese un valor"/>
 
-                                    <p:commandButton value="Habilitar" style="float:right;"
-                                                     update="growlhabilitar txt_count"
-                                                     action="#{authenticationBean.habilitarCaja()}"
-                                                     oncomplete="habilitar(xhr, status, args)"/>
+                                        <p:commandButton value="Habilitar" style="float:right;"
+                                                         update="growlhabilitar txt_count"
+                                                         action="#{authenticationBean.habilitarCaja()}"
+                                                         oncomplete="habilitar(xhr, status, args)"/>
 
-                                </h:panelGrid>
-                            </p:dialog>
-                        </h:form>
+                                    </h:panelGrid>
+                                </p:dialog>
+                            </h:form>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{authenticationBean.caja.habilitada()}">
+                            <h:form>
+                                <p:growl id="growldeshabilitar" sticky="true" showDetail="true" life="3000"/>
+                                <h:commandButton styleClass="caja White" value="Caja Habilitada"
+                                                 onclick="PF('deshabilitar').show(); return false;"/>
+                                <p:dialog header="Esta seguro que desea deshabilitar la caja?" widgetVar="deshabilitar"
+                                          resizable="false">
+                                    <h:panelGrid columns="1" cellpadding="5" style="float: right;">
+                                        <p:commandButton value="Deshabilitar" update="growldeshabilitar txt_count"
+                                                         class="RedButton"
+                                                         action="#{authenticationBean.deshabilitarCaja()}"
+                                                         oncomplete="deshabilitar(xhr, status, args)"/>
+
+                                    </h:panelGrid>
+                                </p:dialog>
+                            </h:form>
+                        </h:panelGroup>
                     </h:panelGroup>
-                    <h:panelGroup rendered="#{authenticationBean.caja.habilitada()}">
-                        <h:form>
-                            <p:growl id="growldeshabilitar" sticky="true" showDetail="true" life="3000"/>
-                            <h:commandButton styleClass="caja White" value="Caja Habilitada"
-                                             onclick="PF('deshabilitar').show(); return false;"/>
-                            <p:dialog header="Esta seguro que desea deshabilitar la caja?" widgetVar="deshabilitar"
-                                      resizable="false">
-                                <h:panelGrid columns="1" cellpadding="5" style="float: right;">
-                                    <p:commandButton value="Deshabilitar" update="growldeshabilitar txt_count"
-                                                     class="RedButton"
-                                                     action="#{authenticationBean.deshabilitarCaja()}"
-                                                     oncomplete="deshabilitar(xhr, status, args)"/>
 
-                                </h:panelGrid>
-                            </p:dialog>
-                        </h:form>
-                    </h:panelGroup>
-                </h:panelGroup>
-
-            </li>
+                </li>
+            </sec:ifAnyGranted>
         </ul>
         <script type="text/javascript">
             function habilitar(xhr, status, args) {
