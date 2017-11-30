@@ -86,7 +86,7 @@ public class ReportesBean implements Serializable {
 
 
         Axis yAxis = barModel.getAxis(AxisType.Y);
-        yAxis.setLabel("Monto");
+        yAxis.setLabel("Monto ($)");
         yAxis.setMin(0);
         // yAxis.setMax(2000);
     }
@@ -122,7 +122,7 @@ public class ReportesBean implements Serializable {
         // xAxis.setMax(200000);
 
         Axis yAxis = generalBarModel.getAxis(AxisType.Y);
-        yAxis.setLabel("Monto");
+        yAxis.setLabel("Monto ($)");
     }
 
     public List<Integer> getAnios() {

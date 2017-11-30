@@ -51,8 +51,8 @@
                                                      columnClasses="ui-grid-col-4,ui-grid-col-4" layout="grid"
                                                      styleClass="ui-panelgrid-blank">
 
-                                            <h:outputText value="#{msgs['formNombre']}:" styleClass="FontBold"/>
-                                            <h:outputText value="#{msgs['formApellido']}:" styleClass="FontBold"/>
+                                            <p:outputLabel for="nombre" value="#{msgs['formNombre']}:" styleClass="FontBold"/>
+                                            <p:outputLabel for="apellido" value="#{msgs['formApellido']}:" styleClass="FontBold"/>
                                             <h:panelGroup layout="block">
                                                 <p:inputText id="nombre"
                                                              required="true"
@@ -72,8 +72,8 @@
                                                 </p:inputText>
                                                 <p:message for="apellido"/>
                                             </h:panelGroup>
-                                            <h:outputText value="#{msgs['formDni']}:" styleClass="FontBold"/>
-                                            <h:outputText value="#{msgs['formTelefono']}:" styleClass="FontBold"/>
+                                            <p:outputLabel for="dni" value="#{msgs['formDni']}:" styleClass="FontBold"/>
+                                            <p:outputLabel for="telefono" value="#{msgs['formTelefono']}:" styleClass="FontBold"/>
                                             <h:panelGroup layout="block">
                                                 <p:inputText id="dni"
                                                              type="number"
@@ -91,8 +91,8 @@
                                                              placeholder="Ej: 425865">
                                                 </p:inputText>
                                             </h:panelGroup>
-                                            <h:outputText value="#{msgs['formCelular']}:" styleClass="FontBold"/>
-                                            <h:outputText value="#{msgs['formDireccion']}:" styleClass="FontBold"/>
+                                            <p:outputLabel for="celular" value="#{msgs['formCelular']}:" styleClass="FontBold"/>
+                                            <p:outputLabel for="direccion" value="#{msgs['formDireccion']}:" styleClass="FontBold"/>
                                             <h:panelGroup layout="block">
                                                 <p:inputText id="celular"
                                                              type="number"
@@ -144,7 +144,7 @@
                                                 </p:selectOneMenu>
                                                 <p:message for="ciudades" styleClass="alert alert-danger"/>
                                             </h:panelGroup>
-                                            <h:outputText value="#{msgs['formObservaciones']}:" styleClass="FontBold"/>
+                                            <p:outputLabel for="observaciones" value="#{msgs['formObservaciones']}:" styleClass="FontBold"/>
                                             <div class="EmptyBox20"></div>
                                             <h:panelGroup layout="block">
                                                 <p:inputTextarea rows="5" cols="30" counter="display" maxlength="300"
@@ -163,8 +163,8 @@
                                         <p:panelGrid columns="2"
                                                      columnClasses="ui-grid-col-4,ui-grid-col-4" layout="grid"
                                                      styleClass="ui-panelgrid-blank">
-                                            <h:outputText value="#{msgs['formLugarLaboral']}:" styleClass="FontBold"/>
-                                            <h:outputText value="#{msgs['formHorarioLaboral']}:" styleClass="FontBold"/>
+                                            <p:outputLabel for="lugar" value="#{msgs['formLugarLaboral']}:" styleClass="FontBold"/>
+                                            <p:outputLabel for="horario" value="#{msgs['formHorarioLaboral']}:" styleClass="FontBold"/>
                                             <h:panelGroup layout="block">
                                                 <p:inputText id="lugar"
                                                              required="true"
@@ -185,7 +185,7 @@
                                                 <p:message for="horario"/>
                                             </h:panelGroup>
                                             <h:panelGroup layout="block">
-                                                <h:outputText value="#{msgs['formFechaCobro']}:" styleClass="FontBold"/>
+                                                <p:outputLabel for="fechaCobro" value="#{msgs['formFechaCobro']}:" styleClass="FontBold"/>
                                                 <p:spinner id="fechaCobro" required="true"
                                                            requiredMessage="#{msgs['validationRequired']}"
                                                            value="#{clienteBean.entity.trabajoDiaCobro}" min="1"
