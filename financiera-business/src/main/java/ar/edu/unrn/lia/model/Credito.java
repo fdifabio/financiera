@@ -130,6 +130,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
 
     @Transient
     public void calcularMontoCuotas() {
+        BigDecimal interes = this.interes.divide(BigDecimal.valueOf(100));
        /* Formula Matematica de PAGO
         Si en A1 pones Tasa (tipo de interes del periodo)
         en B1 el nPer (número de Periodos)
