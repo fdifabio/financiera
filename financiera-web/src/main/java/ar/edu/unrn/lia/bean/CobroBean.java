@@ -13,6 +13,7 @@ import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.event.UnselectEvent;
 import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DataAccessException;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -154,9 +155,29 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         //TODO:Deberia tener en cuenta el SaldoCuenta Nuevo y el Anterior!!!!.
         if (usaSaldoCuenta) credito.setSaldoCuenta(BigDecimal.ZERO);
         credito.setSaldoCuenta(credito.getSaldoCuenta().add(this.saldoCuenta));
-//        return super.update();
-        creditoService.save(credito);
-        return UtilsBean.REDIRECT_SEARCH_CREDITO;
+
+        try {
+            creditoService.save(credito);
+            LOG.debug("Guardando " + getEntity());
+            if (getIsNew()) {
+                mensajeFlash(bundleMessage("INFO.mensaje"),
+                        bundleMessage("INFO.mensajeFlash"));
+                setIsNew(false);
+            } else
+                mensajeFlash(bundleMessage("INFO.mensaje"),
+                        bundleMessage("INFO.mensajeFlash"));
+            return UtilsBean.REDIRECT_SEARCH_CREDITO;
+        } catch (DataAccessException e) {
+            agregarMensaje(FacesMessage.SEVERITY_ERROR, bundleMessage("error"),
+                    bundleMessage("error.guardar"));
+            LOG.error(" Error al actualizar " + e.getMessage());
+            return null;
+        } catch (Exception e) {
+            agregarMensaje(FacesMessage.SEVERITY_ERROR, bundleMessage("error"),
+                    e.getMessage());
+            LOG.error("Error al actualizar" + e.getMessage());
+            return null;
+        }
     }
 
 
