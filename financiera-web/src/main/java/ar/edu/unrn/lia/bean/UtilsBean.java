@@ -1,8 +1,8 @@
 package ar.edu.unrn.lia.bean;
 
-import javax.inject.Named;
-
 import org.springframework.context.annotation.Scope;
+
+import javax.inject.Named;
 
 @Named("utilsBean")
 @Scope
@@ -18,6 +18,7 @@ public class UtilsBean {
 	public final static String REDIRECT_LOGIN = "/login?faces-redirect=true";
 
 	public final static String REDIRECT_PERFIL = "/pages/perfil/perfil?faces-redirect=true";
+	public final static String REDIRECT_SEARCH_CREDITO = "/pages/credito/search?faces-redirect=true";
 	
 
 }

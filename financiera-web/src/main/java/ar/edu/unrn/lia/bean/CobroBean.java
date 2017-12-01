@@ -156,7 +156,7 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         credito.setSaldoCuenta(credito.getSaldoCuenta().add(this.saldoCuenta));
 //        return super.update();
         creditoService.save(credito);
-        return UtilsBean.REDIRECT_SEARCH;
+        return UtilsBean.REDIRECT_SEARCH_CREDITO;
     }
 
 

@@ -46,16 +46,26 @@
                                 access="hasAnyRole('ROLE_ADMIN','ROLE_PRESTAMISTA')"/>
 
         <security:intercept-url pattern="/pages/preferencias/**"
-                                access="hasAnyRole('ROLE_ADMIN','ROLE_PRESTAMISTA')"/>
-
-        <security:intercept-url pattern="/pages/eprofesional/create.jsf"
-                                access="hasRole('ROLE_PRESTAMISTA')"/>
-
-        <security:intercept-url pattern="/pages/tasa/**"
                                 access="hasRole('ROLE_ADMIN')"/>
 
-        <security:intercept-url pattern="/pages/user**"
+        <security:intercept-url pattern="/pages/user/**"
                                 access="hasAnyRole('ROLE_ADMIN')"/>
+
+        <security:intercept-url pattern="/pages/caja/**"
+                                access="hasAnyRole('ROLE_ADMIN','ROLE_PRESTAMISTA')"/>
+
+        <security:intercept-url pattern="/pages/cliente/**"
+                                access="hasAnyRole('ROLE_ADMIN','ROLE_PRESTAMISTA')"/>
+
+        <security:intercept-url pattern="/pages/cobro/**"
+                                access="hasAnyRole('ROLE_ADMIN','ROLE_PRESTAMISTA')"/>
+
+        <security:intercept-url pattern="/pages/credito/**"
+                                access="hasAnyRole('ROLE_ADMIN','ROLE_PRESTAMISTA')"/>
+
+        <security:intercept-url pattern="/pages/reportes/**"
+                                access="hasAnyRole('ROLE_ADMIN','ROLE_PRESTAMISTA')"/>
+
 
 
 
