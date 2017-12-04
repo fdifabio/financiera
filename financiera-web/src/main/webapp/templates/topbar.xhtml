@@ -102,7 +102,7 @@
                 <li>
                     <h:panelGroup id="txt_count">
                         <h:panelGroup rendered="#{!authenticationBean.caja.habilitada()}">
-                            <h:form id="formCaja">
+                            <h:form>
                                 <p:growl id="growlhabilitar" sticky="true" showDetail="true" life="3000"/>
                                 <h:commandButton styleClass="caja White" value="Caja Deshabilitada"
                                                  onclick="PF('habilitar').show(); return false;"/>
