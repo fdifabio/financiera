@@ -2,6 +2,7 @@ package ar.edu.unrn.lia.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 
 /**
  * Created by Lucas on 22/08/2017.
@@ -9,14 +10,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "descuento")
 public class Descuento extends BaseEntity {
-    private Float valor;
+    private BigDecimal valor;
     private Integer orden;// esto representa el orden en que se muestran en la vista
 
-    public Float getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(Float valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
     }
 
