@@ -1,10 +1,8 @@
 package ar.edu.unrn.lia.bean;
 
 import ar.edu.unrn.lia.bean.datamodel.DataModel;
-import ar.edu.unrn.lia.model.Cliente;
-import ar.edu.unrn.lia.model.Cobro;
-import ar.edu.unrn.lia.model.Credito;
-import ar.edu.unrn.lia.model.Cuota;
+import ar.edu.unrn.lia.model.*;
+import ar.edu.unrn.lia.service.CajaService;
 import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CobroService;
 import ar.edu.unrn.lia.service.CreditoService;
@@ -39,6 +37,8 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     private BigDecimal saldoCuenta = BigDecimal.ZERO;
     private boolean usaSaldoCuenta = false;
 
+    private Caja caja;
+
     @Inject
     private CobroService entityService;
 
@@ -48,6 +48,8 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     @Inject
     private CreditoService creditoService;
 
+    @Inject
+    CajaService cajaService;
     private List<Cuota> cuotasPendientes = new ArrayList<>(0);
     private List<Cuota> selectedCuotas = new ArrayList<>(0);
 
@@ -61,6 +63,7 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     public void inicio() {
         if (!FacesContext.getCurrentInstance().isPostback()) {
             cargarCredito();
+            setCaja(getCajaService().getLast());
             if (getId() != null) {
                 setEntity(entityService.getEntityById(getId()));
             } else {
@@ -103,16 +106,22 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     }
 
     public void onCuotaSelect(Cuota c) {
-        c.setEstadoAnterior(c.getEstado());
-        c.setSaldoAPagarAnterior(c.getSaldoAPagar());
-        c.setEstado(Cuota.Estado.SALDADO);
-        if (c.getEstadoAnterior().equals(Cuota.Estado.VENCIDO) || c.getEstadoAnterior().equals(Cuota.Estado.PARCIALMENTE_SALDADO))
-            c.setInteresVencido(new BigDecimal(0.33));
+        if (caja != null && caja.habilitada()) {
+            c.setEstadoAnterior(c.getEstado());
+            c.setSaldoAPagarAnterior(c.getSaldoAPagar());
+            c.setEstado(Cuota.Estado.SALDADO);
+            if (c.getEstadoAnterior().equals(Cuota.Estado.VENCIDO) || c.getEstadoAnterior().equals(Cuota.Estado.PARCIALMENTE_SALDADO))
+                c.setInteresVencido(new BigDecimal(0.33));
 
-        c.setMontoAPagar(c.monto());
-        c.getCobros().add(new Cobro(c.monto(), new Date(), "", c));
-        selectedCuotas.add(c);
-        cuotasPendientes.remove(c);
+            c.setMontoAPagar(c.monto());
+            c.getCobros().add(new Cobro(c.monto(), new Date(), "", c));
+            selectedCuotas.add(c);
+            cuotasPendientes.remove(c);
+        } else {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Caja deshabilitada!", "Para poder registar un cobro deberá habilitar la caja.");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+
     }
 
     public void onCuotaUnSelect(Cuota c) {
@@ -235,5 +244,21 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
 
     public void setCuotasPendientes(List<Cuota> cuotasPendientes) {
         this.cuotasPendientes = cuotasPendientes;
+    }
+
+    public Caja getCaja() {
+        return caja;
+    }
+
+    public void setCaja(Caja caja) {
+        this.caja = caja;
+    }
+
+    public CajaService getCajaService() {
+        return cajaService;
+    }
+
+    public void setCajaService(CajaService cajaService) {
+        this.cajaService = cajaService;
     }
 }
