@@ -38,7 +38,7 @@
                                          styleClass="ui-panelgrid-blank">
                                 <h:outputText value="Fecha apertura:" styleClass="FontBold"/>
                                 <h:outputText value="#{authenticationBean.caja.fechaApertura}" rendered="#{authenticationBean.caja != null}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                                 </h:outputText>
                                 <h:outputText value="Saldo:" styleClass="FontBold"/>
                                 <h:outputText value="#{authenticationBean.caja.saldo()}" rendered="#{authenticationBean.caja != null}">
@@ -118,7 +118,7 @@
 
                                 <p:column headerText="Fecha Creación">
                                     <h:outputText value="#{item.fecha}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                                     </h:outputText>
                                 </p:column>
                                 <p:column headerText="Monto">
