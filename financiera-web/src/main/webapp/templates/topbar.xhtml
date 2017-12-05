@@ -29,7 +29,7 @@
             width: 10%;
         }
 
-        a {
+        li.menuTop > a {
             -webkit-transition: all 0.3s ease;
             -moz-transition: all 0.3s ease;
             -ms-transition: all 0.3s ease;
@@ -71,8 +71,8 @@
         <ul class="top-menu" style="float: left;">
             <h:form style="    display: inline-flex">
                 <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PRESTAMISTA">
-                    <li>
-                        <h:commandLink href="/pages/home.jsf" id="botonHome">
+                    <li  class="menuTop">
+                        <h:commandLink href="/pages/home.jsf" id="botonHome" >
                             <i class="icon-home"></i>
                             <span class="ShowOnMobile"></span>
                         </h:commandLink>
@@ -80,16 +80,16 @@
                     </li>
                 </sec:ifAnyGranted>
                 <sec:ifAnyGranted roles="ROLE_ADMIN">
-                    <li>
-                        <h:commandLink href="/pages/preferencias/search.jsf" id="botonPreferencias">
+                    <li  class="menuTop">
+                        <h:commandLink href="/pages/preferencias/search.jsf" id="botonPreferencias" >
                             <i class="icon-settings"></i>
                             <span class="ShowOnMobile"></span>
                         </h:commandLink>
                         <p:tooltip for="botonPreferencias" trackMouse="true" value="#{msgs['menu.preferencias']}"
                                    position="button"/>
                     </li>
-                    <li>
-                        <h:commandLink href="/pages/user/search.jsf" id="botonUser">
+                    <li class="menuTop" >
+                        <h:commandLink href="/pages/user/search.jsf" id="botonUser" >
                             <i class="icon-people"></i>
                             <span class="ShowOnMobile"></span>
                         </h:commandLink>
@@ -99,15 +99,15 @@
             </h:form>
             <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PRESTAMISTA">
                 <h:form style="    display: inline-flex">
-                    <li>
-                        <h:commandLink href="/pages/cliente/search.jsf" id="botonCliente" class="boton">
+                    <li  class="menuTop">
+                        <h:commandLink href="/pages/cliente/search.jsf" id="botonCliente">
                             <i class="fa fa-users"></i>
                             <span class="ShowOnMobile"></span>
                         </h:commandLink>
                         <p:tooltip for="botonCliente" trackMouse="true" value="#{msgs['menu.cliente']}"
                                    position="button"/>
                     </li>
-                    <li>
+                    <li class="menuTop" >
                         <h:commandLink href="/pages/credito/search.jsf" id="botonCreditos">
                             <i class="fa fa-money"></i>
                             <span class="ShowOnMobile"></span>
@@ -115,15 +115,15 @@
                         <p:tooltip for="botonCreditos" trackMouse="true" value="#{msgs['menu.credito']}"
                                    position="button"/>
                     </li>
-                    <li>
-                        <h:commandLink href="/pages/reportes/search.jsf" id="botonReportes">
+                    <li class="menuTop" >
+                        <h:commandLink href="/pages/reportes/search.jsf" id="botonReportes" >
                             <i class="fa fa-bar-chart"></i>
                             <span class="ShowOnMobile"></span>
                         </h:commandLink>
                         <p:tooltip for="botonReportes" trackMouse="true" value="#{msgs['menu.reportes']}"
                                    position="button"/>
                     </li>
-                    <li>
+                    <li class="menuTop" >
                         <h:commandLink href="/pages/caja/search.jsf" id="botonCaja">
                             <i class="fa fa-balance-scale "></i>
                             <span class="ShowOnMobile"></span>
