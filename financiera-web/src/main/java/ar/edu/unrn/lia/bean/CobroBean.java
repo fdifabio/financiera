@@ -2,6 +2,7 @@ package ar.edu.unrn.lia.bean;
 
 import ar.edu.unrn.lia.bean.datamodel.DataModel;
 import ar.edu.unrn.lia.model.*;
+import ar.edu.unrn.lia.security.AuthenticationBean;
 import ar.edu.unrn.lia.service.CajaService;
 import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CobroService;
@@ -36,6 +37,9 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     private Credito credito = new Credito();
     private BigDecimal saldoCuenta = BigDecimal.ZERO;
     private boolean usaSaldoCuenta = false;
+
+    @Inject
+    private AuthenticationBean authenticationBean;
 
     private Caja caja;
 
@@ -173,6 +177,8 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         try {
             creditoService.save(credito);
             cajaService.save(caja);
+            authenticationBean.getCaja().getMovimientos().addAll(caja.getMovimientos());
+            authenticationBean.updateMovimientos();
 
             LOG.debug("Guardando " + getEntity());
             if (getIsNew()) {
@@ -273,5 +279,13 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
 
     public void setCajaService(CajaService cajaService) {
         this.cajaService = cajaService;
+    }
+
+    public AuthenticationBean getAuthenticationBean() {
+        return authenticationBean;
+    }
+
+    public void setAuthenticationBean(AuthenticationBean authenticationBean) {
+        this.authenticationBean = authenticationBean;
     }
 }
