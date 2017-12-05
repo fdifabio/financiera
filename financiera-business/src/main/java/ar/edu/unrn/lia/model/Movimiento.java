@@ -28,6 +28,14 @@ public class Movimiento extends BaseEntity implements java.io.Serializable {
         this.tipo = tipo;
     }
 
+    public Movimiento(BigDecimal monto, Date fecha, String descripcion, Tipo tipo, Caja caja) {
+        this.monto = monto;
+        this.fecha = fecha;
+        this.descripcion = descripcion;
+        this.tipo = tipo;
+        this.caja = caja;
+    }
+
 
     public BigDecimal getMonto() {
         return monto;

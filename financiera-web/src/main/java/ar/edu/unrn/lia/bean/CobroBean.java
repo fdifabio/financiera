@@ -50,6 +50,8 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
 
     @Inject
     CajaService cajaService;
+
+
     private List<Cuota> cuotasPendientes = new ArrayList<>(0);
     private List<Cuota> selectedCuotas = new ArrayList<>(0);
 
@@ -165,8 +167,13 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         if (usaSaldoCuenta) credito.setSaldoCuenta(BigDecimal.ZERO);
         credito.setSaldoCuenta(credito.getSaldoCuenta().add(this.saldoCuenta));
 
+        //Refleja los cobros en movimientos de caja
+        calcularMovimientos();
+
         try {
             creditoService.save(credito);
+            cajaService.save(caja);
+
             LOG.debug("Guardando " + getEntity());
             if (getIsNew()) {
                 mensajeFlash(bundleMessage("INFO.mensaje"),
@@ -187,6 +194,12 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
             LOG.error("Error al actualizar" + e.getMessage());
             return null;
         }
+    }
+
+    private void calcularMovimientos() {
+        List<Movimiento> movimientos = new ArrayList<>(0);
+        credito.getListCuotas().stream().forEach(c -> c.getCobros().stream().filter(co -> co.getId() == null).forEach(co -> movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro", Movimiento.Tipo.INGRESO, caja))));
+        caja.getMovimientos().addAll(movimientos);
     }
 
 

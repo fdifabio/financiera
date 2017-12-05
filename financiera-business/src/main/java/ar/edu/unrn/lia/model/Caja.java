@@ -5,6 +5,7 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public class Caja extends BaseEntity implements java.io.Serializable {
     private static final long serialVersionUID = 1L;
 
-    private List<Movimiento> movimientos;
+    private List<Movimiento> movimientos = new ArrayList<>(0);
     private Date fechaApertura;
     private Date fechaCierre;
 
@@ -51,7 +52,7 @@ public class Caja extends BaseEntity implements java.io.Serializable {
         this.fechaCierre = fechaCierre;
     }
 
-    @OneToMany(mappedBy = "caja")
+    @OneToMany(mappedBy = "caja",cascade = CascadeType.ALL,orphanRemoval = true)
     @Fetch(FetchMode.JOIN)
     public List<Movimiento> getMovimientos() {
         return movimientos;
@@ -64,15 +65,16 @@ public class Caja extends BaseEntity implements java.io.Serializable {
     @Transient
     public double saldo() {
         BigDecimal monto = BigDecimal.ZERO;
-        if(this != null){
-        for (Movimiento movimiento : getMovimientos()
-                ) {
-            if (movimiento.getTipo() == Movimiento.Tipo.INGRESO)
-                monto = monto.add(movimiento.getMonto());
-            else
-                monto = monto.subtract(movimiento.getMonto());
+        if (this != null) {
+            for (Movimiento movimiento : getMovimientos()
+                    ) {
+                if (movimiento.getTipo() == Movimiento.Tipo.INGRESO)
+                    monto = monto.add(movimiento.getMonto());
+                else
+                    monto = monto.subtract(movimiento.getMonto());
 
-        }}
+            }
+        }
         return monto.doubleValue();
     }
 
