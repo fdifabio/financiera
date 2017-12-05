@@ -46,7 +46,7 @@ public class CajaDAOImpl extends GenericDaoJpaImpl<Caja, Long> implements
                 .createQuery(Caja.class);
         Root<Caja> fromCaja = cq.from(Caja.class);
         fromCaja.alias("entity");
-        Order order = orderByQuery(sortField, asc, criteriaBuilder, fromCaja);
+        Order order = orderByQuery(sortField, false , criteriaBuilder, fromCaja);
 
         final TypedQuery<Caja> query = this.entityManager
                 .createQuery(cq.where(where).orderBy(order));

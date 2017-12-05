@@ -42,13 +42,13 @@
                                     <p:column headerText="Fecha Apertura"
                                               sortBy="#{item.fechaApertura}">
                                         <h:outputText value="#{item.fechaApertura}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                                         </h:outputText>
                                     </p:column>
                                     <p:column headerText="Fecha Cierre"
                                               sortBy="#{item.fechaCierre}">
                                         <h:outputText value="#{item.fechaCierre}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                                         </h:outputText>
                                     </p:column>
                                     <p:column headerText="Opciones">
