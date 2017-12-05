@@ -8,7 +8,6 @@ import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CreditoService;
 import ar.edu.unrn.lia.service.InteresService;
 import org.springframework.context.annotation.Scope;
-import org.springframework.dao.DataAccessException;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -102,6 +101,7 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     @Override
     public String update() {
+        calcularCuotas();
         return super.update();
     }
 
