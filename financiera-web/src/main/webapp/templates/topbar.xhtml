@@ -135,7 +135,7 @@
                     <h:panelGroup id="txt_count">
                         <h:panelGroup rendered="#{!authenticationBean.caja.habilitada()}">
                             <h:form >
-                                <p:growl id="growlhabilitar" sticky="true" showDetail="true" life="3000"/>
+                                <p:growl id="growlhabilitar" showDetail="true" life="3000" globalOnly="false"/>
                                 <h:commandButton styleClass="caja White" value="Caja cerrada" id="botonCerrada"
                                                  onclick="PF('habilitar').show(); return false;"/>
                                 <p:tooltip for="botonCerrada" trackMouse="true" value="Habilitar caja"
@@ -158,7 +158,7 @@
                         </h:panelGroup>
                         <h:panelGroup rendered="#{authenticationBean.caja.habilitada()}">
                             <h:form>
-                                <p:growl id="growldeshabilitar" sticky="true" showDetail="true" life="3000"/>
+                                <p:growl id="growldeshabilitar"  showDetail="true" life="3000" globalOnly="false"/>
                                 <h:commandButton styleClass="caja White" value="Caja Habilitada" id="botonHabilitado"
                                                  onclick="PF('deshabilitar').show(); return false;"/>
                                 <p:tooltip for="botonHabilitado" trackMouse="true" value="Cerrar caja"

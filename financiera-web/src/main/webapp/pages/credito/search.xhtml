@@ -28,10 +28,10 @@
             <div class="ContainerIndent">
                 <div class="Card ShadowEffect  ">
                     <div class="Container100">
-                        <p:growl id="growl" showDetail="true" life="3000"/>
+
                         <div class="ContainerIndent">
                             <h:form id="formentity" class="TexAlCenter">
-                                <p:growl showDetail="true" id="msgGrwl"/>
+                                <p:growl id="growl" showDetail="true" life="3000" />
                                 <!-- insertar usuario -->
                                 <p:dataTable id="list" var="item" value="#{creditoBean.list}"
                                              emptyMessage="No hay créditos para mostrar"
@@ -108,7 +108,7 @@
                                                    trackMouse="true"/>
 
                                         <p:commandLink id="btnEliminar" title="#{msgs['btnEliminar']}"
-                                                       actionListener="#{creditoBean.deleteCredito(item)}" update="list growl">
+                                                       actionListener="#{creditoBean.deleteCredito(item)}" update="list formentity:growl">
                                             <p:confirm header="#{msgs['confirmacion']}"
                                                        message="#{msgs['confirmarEliminar']}" icon="ui-icon-alert"/>
                                             <i class="icon-delete2 BoldGray Fs20"></i>
