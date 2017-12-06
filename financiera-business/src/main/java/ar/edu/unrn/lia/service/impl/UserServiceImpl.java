@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void cambiarClave(User user) {
         user.setPassword(encriptarClave(user.getPassword()));
-        getEntityDAO().update(user);
+        getEntityDAO().cambiarClave(user);
     }
 
     String encriptarClave(String password) {

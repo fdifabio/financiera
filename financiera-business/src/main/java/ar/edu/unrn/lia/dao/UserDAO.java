@@ -13,5 +13,6 @@ public interface UserDAO extends GenericDao<User, Long> {
 	User getEntityByName(String username);
 
 	User getEntityByMail(String mail);
-	
+
+	void cambiarClave(User user);
 }

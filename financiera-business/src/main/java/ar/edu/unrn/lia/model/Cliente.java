@@ -141,7 +141,7 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
         this.celular = celular;
     }
 
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.ALL}, optional = true)
     @JoinColumn(name = "user_id")
     public User getUser() {
         return user;
