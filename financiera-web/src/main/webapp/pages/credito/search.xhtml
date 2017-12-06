@@ -42,7 +42,7 @@
                                              rowsPerPageTemplate="10,20,30,50" sortBy="#{item.id}" sortOrder="descending">
 
                                     <p:column headerText="#{msgs['formFechaCreacion']}"
-                                              sortBy="#{item.fechaCreacion}">
+                                              sortBy="#{item.fechaCreacion}" filterBy="#{item.fechaCreacion}">
                                         <h:outputText value="#{item.fechaCreacion}">
                                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                                         </h:outputText>
@@ -71,7 +71,7 @@
                                     <p:column headerText="#{msgs['formInteres']}">
                                         <h:outputText value="#{item.interes}"/>
                                     </p:column>
-                                    <p:column headerText="#{msgs['formEstado']}">
+                                    <p:column headerText="#{msgs['formEstado']}" filterBy="#{item.estado.descripcion}">
                                         <h:outputText value="#{item.estado.descripcion}"
                                                       styleClass="#{item.estado.backgroundColor} White"
                                                       style="padding: 0px 5px 0px 5px;border-radius: 5px;"/>
