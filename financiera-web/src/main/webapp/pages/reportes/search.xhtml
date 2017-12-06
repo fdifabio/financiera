@@ -175,7 +175,7 @@
 
                                            <h:panelGroup id="cuotasCredito">
                                                <p:panel style="border:0px !important;">
-                                                   <p:dataTable id="cuotasList" var="item"
+                                                   <p:dataTable id="cuotasList" var="cuota"
                                                                 value="#{creditoBean.creditoSeleccionado.listCuotas}"
                                                                 reflow="true" rowKey="#{item}" lazy="true"
                                                                 paginator="false" rowIndexVar="index"
@@ -186,7 +186,7 @@
                                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                                 currentPageReportTemplate="({currentPage} de {totalPages})"
                                                                 filterEvent="enter" class="TexAlCenter"
-                                                                sortBy="#{item.nro}">
+                                                                sortBy="#{cuota.nro}">
                                                        <f:facet name="header">
                                                            <h:outputText value="#{msgs['cuotas']}"/>
                                                            <ui:include src="/pages/includes/exporterButtons.xhtml">
@@ -198,37 +198,37 @@
                                                        </f:facet>
 
                                                        <p:column headerText="Fecha de venciminento">
-                                                           <h:outputText value="#{item.fechaVencimiento}">
+                                                           <h:outputText value="#{cuota.fechaVencimiento}">
                                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
                                                            </h:outputText>
                                                        </p:column>
 
                                                        <p:column headerText="Período">
-                                                           <h:outputText value="#{item.nro}"/>
+                                                           <h:outputText value="#{cuota.nro}"/>
                                                        </p:column>
 
-                                                       <p:column headerText="Cuota capital"
-                                                                 style="text-wrap:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                                                           <h:outputText id="otjusti" value="#{item.cuotaCapital}"/>
-                                                           <p:tooltip for="otjusti" value="#{item.cuotaCapital}"
-                                                                      trackMouse="true"
-                                                                      styleClass="BlueBack Wid20 MarAuto"/>
+                                                       <p:column headerText="Monto">
+                                                           <h:outputText id="otjusti" value="#{cuota.saldoAPagar}">
+                                                               <f:convertNumber type="currency" currencySymbol="$"/>
+                                                           </h:outputText>
                                                        </p:column>
-                                                       <p:column headerText="Cuota interes">
-                                                           <h:outputText value="#{item.cuotaInteres}"/>
+                                                       <p:column headerText="Interes percibido">
+                                                           <h:outputText value="#{cuota.interesVencido}">
+                                                           <f:convertNumber type="currency" currencySymbol="$"/>
+                                                           </h:outputText>
                                                        </p:column>
 
-                                                       <p:column headerText="Saldo">
-                                                           <h:outputText value="#{item.saldo}">
+                                                       <p:column headerText="Monto total">
+                                                           <h:outputText value="#{cuota.montoTotal()}">
                                                                <f:convertNumber type="currency" currencySymbol="$"/>
                                                            </h:outputText>
                                                        </p:column>
 
                                                        <p:column headerText="Estado">
                                                            <p:outputLabel id="estado"
-                                                                          value="#{item.estado.descripcion}"
+                                                                          value="#{cuota.estado.descripcion}"
                                                                           style="padding: 0px 5px 0px 5px;border-radius: 5px;"
-                                                                          styleClass="#{item.estado.backgroundColor} White"/>
+                                                                          styleClass="#{cuota.estado.backgroundColor} White"/>
                                                        </p:column>
                                                    </p:dataTable>
 

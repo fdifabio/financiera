@@ -256,13 +256,14 @@
 
                                                         <p:column headerText="Cuota capital"
                                                                   style="text-wrap:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                                                            <h:outputText id="otjusti" value="#{item.cuotaCapital}"/>
-                                                            <p:tooltip for="otjusti" value="#{item.cuotaCapital}"
-                                                                       trackMouse="true"
-                                                                       styleClass="BlueBack Wid20 MarAuto"/>
+                                                            <h:outputText id="otjusti" value="#{item.cuotaCapital}">
+                                                                <f:convertNumber type="currency" currencySymbol="$"/>
+                                                            </h:outputText>
                                                         </p:column>
                                                         <p:column headerText="Cuota interes">
-                                                            <h:outputText value="#{item.cuotaInteres}"/>
+                                                            <h:outputText value="#{item.cuotaInteres}">
+                                                            <f:convertNumber type="currency" currencySymbol="$"/>
+                                                            </h:outputText>
                                                         </p:column>
 
                                                         <p:column headerText="Saldo">
@@ -277,32 +278,7 @@
                                                                            style="padding: 0px 5px 0px 5px;border-radius: 5px;"
                                                                            styleClass="#{item.estado.backgroundColor} White"/>
                                                         </p:column>
-                                                        <!--
-                                                                                                                <p:column headerText="Comprobante">
-                                                                                                                    <p:commandLink id="imgComprobante"
-                                                                                                                                   update=":formentity:dlgImgComprobante"
-                                                                                                                                   onclick="PF('dlgImgComprobante').show();">
-                                                                                                                        <p:graphicImage
-                                                                                                                                value="#{comprobanteBean.getUrl(item.comprobante)}"
-                                                                                                                                rendered="#{item.comprobante.imagen()}"
-                                                                                                                                width="50"
-                                                                                                                                height="50"/>
-                                                                                                                        <f:setPropertyActionListener value="#{item.comprobante}"
-                                                                                                                                                     target="#{gastoBean.selectedComprobante}"/>
-                                                                                                                    </p:commandLink>
 
-                                                                                                                    <p:commandLink update=":form:dlgImgComprobante"
-                                                                                                                                   onclick="PF('dlgImgComprobante').show();"
-                                                                                                                                   rendered="#{item.comprobante.pdf()}">
-                                                                                                                        <i class="icon-picture_as_pdf BoldGray Fs50"></i>
-                                                                                                                        <f:setPropertyActionListener value="#{item.comprobante}"
-                                                                                                                                                     target="#{gastoBean.selectedComprobante}"/>
-                                                                                                                    </p:commandLink>
-                                                                                                                    <p:tooltip for="imgComprobante"
-                                                                                                                               value="#{msgs['ampliar.comprobante']}"
-                                                                                                                               trackMouse="true"/>
-                                                                                                                </p:column>
-                                                        -->
                                                     </p:dataTable>
 
                                                 </p:panel>
