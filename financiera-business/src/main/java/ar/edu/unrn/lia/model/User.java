@@ -139,7 +139,7 @@ public class User extends BaseEntity implements Serializable, UserDetails {
         this.active = active;
     }
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     public List<Cliente> getClientes() {
         return clientes;
     }

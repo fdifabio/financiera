@@ -20,7 +20,7 @@ public class UserDAOImpl extends GenericDaoJpaImpl<User, Long> implements
 
     private static final String QUERY_GET_USER_BY_USERNAME = "select u from User u where u.username = :username";
     private static final String QUERY_GET_USER_BY_EMAIL = "select u from User u where u.email = :email";
-    private static final String QUERY_CAMBIAR_CLAVE = "UPDATE User SET password = :password where id = :id";
+    private static final String QUERY_CAMBIAR_CLAVE = "UPDATE usuario SET password = :password where id = :id";
 
     public Predicate[] getSearchPredicates(Root<User> root,
                                            Map<String, String> filters) {
@@ -61,6 +61,14 @@ public class UserDAOImpl extends GenericDaoJpaImpl<User, Long> implements
             return null;
 
         return (User) query.getSingleResult();
+    }
+
+    public void cambiarClave(User user) {
+        Query query = this.entityManager.createNativeQuery(QUERY_CAMBIAR_CLAVE);
+        query.setParameter("password", user.getPassword());
+        query.setParameter("id", user.getId());
+
+		query.executeUpdate();
     }
 
     @Override

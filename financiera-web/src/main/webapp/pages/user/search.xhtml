@@ -77,8 +77,7 @@
 
                                         <p:commandLink title="#{msgs['claveReset']}"
                                                        update=":formentity:msgGrwl"
-                                                       actionListener="#{userBean.initCambioClave(item)}"
-                                                       action="#{userBean.cambioClave()}">
+                                                       action="#{userBean.cambioClave(item)}">
                                             <p:confirm header="#{msgs['confirmacion']}"
                                                        message="#{msgs['confirmarResetearClave']}"
                                                        icon="ui-icon-alert"/>

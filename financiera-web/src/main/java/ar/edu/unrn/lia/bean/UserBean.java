@@ -80,18 +80,12 @@ public class UserBean extends GenericBean<User> implements Serializable {
         setEntity(usuario);
     }
 
-    public void cambioClave() {
-        try {
-            getEntity().setPassword(Constantes.generate_password());
-            entityService.cambiarClave(getEntity());
-            super.agregarMensaje(FacesMessage.SEVERITY_INFO,
-                    "Cambio Clave", "Se envio la clave con exito al mail " + getEntity().getEmail());
-            setEntity(null);
-        } catch (Exception e) {
-            super.agregarMensaje(FacesMessage.SEVERITY_FATAL,
-                    bundleMessage("error"), bundleMessage("error.password")
-                            + e.getMessage());
-        }
+    public void cambioClave(User user) {
+        user.setPassword("1234");
+        entityService.cambiarClave(user);
+       FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Operacion exitosa!",
+                "Clave reseteada con exito");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void activarDesactivar(User user) {

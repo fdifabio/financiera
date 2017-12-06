@@ -40,6 +40,7 @@
 
                     <p:panel  header="#{msgs['formClienteDetalle']}"
                              style="margin-top:20px">
+                        <p:fieldset legend="Datos Personales" style="margin-bottom:20px">
                         <p:panelGrid columns="2"
                                      columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid"
                                      styleClass="ui-panelgrid-blank">
@@ -56,6 +57,12 @@
                             <h:outputText value="#{msgs['formDireccion']}:" styleClass="FontBold"/>
                             <h:outputText
                                     value="#{clienteBean.entity.domicilio} , #{clienteBean.entity.ciudad.nombre}, #{clienteBean.entity.ciudad.provincia.nombre}"/>
+                        </p:panelGrid>
+                        </p:fieldset>
+                        <p:fieldset legend="#{msgs['formDatosLaborales']}:" style="margin-bottom:20px">
+                        <p:panelGrid columns="2"
+                                     columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid"
+                                     styleClass="ui-panelgrid-blank">
                             <h:outputText value="#{msgs['formLugarLaboral']}:" styleClass="FontBold"/>
                             <h:outputText value="#{clienteBean.entity.trabajoLugar}"/>
                             <h:outputText value="#{msgs['formHorarioLaboral']}:" styleClass="FontBold"/>
@@ -64,6 +71,12 @@
                             <h:outputText value="#{clienteBean.entity.trabajoDiaCobro}"/>
                             <h:outputText value="#{msgs['formObservaciones']}:" styleClass="FontBold"/>
                             <h:outputText value="#{clienteBean.entity.observacion}"/>
+                        </p:panelGrid>
+                        </p:fieldset>
+                        <p:fieldset legend="#{msgs['formDocumentos']}:" style="margin-bottom:20px">
+                        <p:panelGrid columns="2"
+                                     columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid"
+                                     styleClass="ui-panelgrid-blank">
                             <h:outputText value="#{msgs['formDNI']}:" styleClass="FontBold"/>
                             <p:selectBooleanCheckbox value="#{clienteBean.entity.fotocopiaDni}" disabled="true">
                             </p:selectBooleanCheckbox>
@@ -77,6 +90,7 @@
                             <p:selectBooleanCheckbox value="#{clienteBean.entity.servicio}" disabled="true">
                             </p:selectBooleanCheckbox>
                         </p:panelGrid>
+                        </p:fieldset>
                     </p:panel>
                     <div class="EmptyBox20"></div>
 
