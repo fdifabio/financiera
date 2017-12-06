@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Lucas on 22/08/2017.
@@ -116,6 +117,11 @@ public class Credito extends BaseEntity implements java.io.Serializable {
 
     public void setSaldoCuenta(BigDecimal saldoCuenta) {
         this.saldoCuenta = saldoCuenta;
+    }
+
+    @Transient
+    public List<Cuota> getListCuotasVencidas() {
+        return listCuotas.stream().filter(c -> c.isVencido()).collect(Collectors.toList());
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "credito", orphanRemoval = true)

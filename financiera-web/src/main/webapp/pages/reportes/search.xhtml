@@ -176,7 +176,7 @@
                                            <h:panelGroup id="cuotasCredito">
                                                <p:panel style="border:0px !important;">
                                                    <p:dataTable id="cuotasList" var="cuota"
-                                                                value="#{creditoBean.creditoSeleccionado.listCuotas}"
+                                                                value="#{creditoBean.creditoSeleccionado.getListCuotasVencidas()}"
                                                                 reflow="true" rowKey="#{item}" lazy="true"
                                                                 paginator="false" rowIndexVar="index"
                                                                 emptyMessage="El credito no posee cuotas"
