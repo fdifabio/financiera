@@ -3,6 +3,7 @@ package ar.edu.unrn.lia.bean;
 import ar.edu.unrn.lia.bean.datamodel.DataModel;
 import ar.edu.unrn.lia.model.Cliente;
 import ar.edu.unrn.lia.model.Credito;
+import ar.edu.unrn.lia.model.Estado;
 import ar.edu.unrn.lia.model.Interes;
 import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CreditoService;
@@ -18,7 +19,9 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Lucas on 22/08/2017.
@@ -111,6 +114,10 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
     public String update() {
         calcularCuotas();
         return super.update();
+    }
+
+    public List<String> getEstados() {
+        return Arrays.asList(Estado.values()).stream().map(Estado::toString).collect(Collectors.toList());
     }
 
     public CreditoService getEntityService() {

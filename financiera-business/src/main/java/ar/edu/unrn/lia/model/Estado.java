@@ -9,17 +9,13 @@ public enum Estado implements Serializable {
     private String descripcion;
     private String color;
 
+    Estado(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     Estado(String descripcion, String color) {
         this.descripcion = descripcion;
-        this.color=color;
-    }
-
-    public String getEstado() {
-        return descripcion;
-    }
-
-    public void setEstado(String descripcion) {
-        this.descripcion = descripcion;
+        this.color = color;
     }
 
     public String getDescripcion() {
@@ -32,13 +28,5 @@ public enum Estado implements Serializable {
 
     public String getBackgroundColor() {
         return color + "Back";
-    }
-
-    @Override
-    public String toString() {
-        return "Estado{" +
-                "descripcion='" + descripcion + '\'' +
-                ", color='" + color + '\'' +
-                '}';
     }
 }

@@ -33,9 +33,9 @@
     </ui:define>
 
     <ui:define name="content">
-        <div class="Container100 ui-fluid">
-            <div class="ContainerIndent">
-                <div class="Container80 Responsive50" >
+        <div class="Container100 ui-fluid ">
+            <div class="ContainerIndent ">
+                <div class="Container80 Responsive50 MarAuto" style="float: none !important;" >
                     <div class="ContainerIndent">
                         <h:panelGroup id="panelDatos">
                             <div class="Card ShadowEffect ui-fluid">
@@ -80,7 +80,14 @@
 
                                     </h:panelGroup>
                                     <h:panelGroup></h:panelGroup>
-                                    <h:panelGroup></h:panelGroup>
+                                    <h:panelGroup>
+                                        <h:outputLink id="btnCobro" value="/pages/cobro/create.jsf">
+                                            <f:param name="credito_id" value="#{creditoBean.entity.id}"/>
+                                            <i class="fa fa-briefcase Fs20"> #{msgs['registarCobro']}</i>
+                                        </h:outputLink>
+                                        <p:tooltip id="toolTip-cobro" for="btnCobro" value="#{msgs['registarCobro']}"
+                                                   trackMouse="true"/>
+                                    </h:panelGroup>
 
                                     <h:outputText value="#{msgs['formCapital']}:" styleClass="FontBold"/>
                                     <h:outputText value="#{creditoBean.entity.capital}">
@@ -112,6 +119,8 @@
                                         <f:convertNumber type="currency" currencySymbol="$"/>
                                     </h:outputText>
                                 </p:panelGrid>
+
+
                             </div>
                         </h:panelGroup>
                         <!--<p:sticky target="panelDatos" margin="80" />-->

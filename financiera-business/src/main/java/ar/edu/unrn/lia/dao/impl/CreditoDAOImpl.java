@@ -42,14 +42,22 @@ public class CreditoDAOImpl extends GenericDaoJpaImpl<Credito, Long> implements
 //        }
         String cliente = filters.get("cliente");
         if (cliente != null && !"".equals(cliente)) {
-            predicatesList.add(builder.like(root.<String>get("cliente"),
-                    '%' + cliente + '%'));
+            predicatesList.add(builder.or(builder.like(root.get("cliente").get("nombre"),
+                    '%' + cliente + '%'), builder.like(root.get("cliente").get("apellido"),
+                    '%' + cliente + '%')));
         }
 //        String apellido = filters.get("apellido");
 //        if (dni != null && !"".equals(apellido)) {
 //            predicatesList.add(builder.like(root.<String>get("apellido"),
 //                    '%' + apellido + '%'));
 //        }
+
+        String estado = filters.get("estado");
+        if (estado != null) {
+            predicatesList.add(builder.equal(root.<Estado>get("estado"), Estado.valueOf(estado)));
+        }
+
+
         return predicatesList.toArray(new Predicate[predicatesList.size()]);
     }
 
