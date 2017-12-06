@@ -3,8 +3,10 @@ package ar.edu.unrn.lia.dao.impl;
 import ar.edu.unrn.lia.dao.ClienteDAO;
 import ar.edu.unrn.lia.generic.GenericDaoJpaImpl;
 import ar.edu.unrn.lia.model.Cliente;
+import ar.edu.unrn.lia.model.Cuota;
 
 import javax.inject.Named;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
@@ -84,5 +86,12 @@ public class ClienteDAOImpl extends GenericDaoJpaImpl<Cliente, Long> implements
     @Override
     public List<Cliente> searchByApellidoNombre(String query) {
         return this.entityManager.createQuery("FROM Cliente WHERE  apellido LIKE '%" + query + "%' OR nombre LIKE '%" + query + "%' OR id LIKE '%" + query + "%' OR dni LIKE '%" + query + "%'").getResultList();
+    }
+
+    @Override
+    public List<Cliente> searchMorosos() {
+        Query query = this.entityManager.createQuery("SELECT new ar.edu.unrn.lia.model.Cliente(c.id, c.dni, c.nombre, c.apellido, c.celular, sum(cuo.saldoAPagar), cre.id) FROM Cliente c LEFT JOIN c.creditos cre LEFT JOIN cre.listCuotas cuo WHERE  cuo.estado = :estado GROUP BY cre.id");
+        query.setParameter("estado", Cuota.Estado.VENCIDO);
+        return query.getResultList();
     }
 }

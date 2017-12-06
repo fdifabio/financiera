@@ -10,4 +10,6 @@ import java.util.List;
 public interface ClienteService extends IGenericService<Cliente> {
 
     public List<Cliente> searchByApellidoNombre(String apellidoNombre);
+
+    public List<Cliente> searchMorosos();
 }

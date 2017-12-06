@@ -5,6 +5,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,10 +36,24 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
     private Boolean servicio;
     private String observacion;
     private User user;
-    private List<Credito> creditos=new ArrayList<Credito>(0);
+    private List<Credito> creditos = new ArrayList<Credito>(0);
+
+/*TRANSIENT*/
+    private BigDecimal saldoAdeudado;
+    private Credito creditoAdeudado;
 
     public Cliente() {
         super();
+    }
+
+    public Cliente(Long id, String dni, String nombre, String apellido, String celular, BigDecimal saldoAdeudado, Long idCredito) {
+        this.id = id;
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.celular = celular;
+        this.saldoAdeudado = saldoAdeudado;
+        this.creditoAdeudado = new Credito(idCredito);
     }
 
     public Cliente(Long id, String dni, String nombre, String apellido, String celular) {
@@ -48,6 +63,7 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
         this.apellido = apellido;
         this.celular = celular;
     }
+
     @Column(name = "fotocopia_dni")
     public Boolean getFotocopiaDni() {
         return fotocopiaDni;
@@ -178,6 +194,7 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
     public void setTrabajoHorario(String trabajoHorario) {
         this.trabajoHorario = trabajoHorario;
     }
+
     @Column(name = "trabajo_dia_cobro")
     public int getTrabajoDiaCobro() {
         return trabajoDiaCobro;
@@ -246,6 +263,15 @@ public class Cliente extends BaseEntity implements java.io.Serializable {
                 (this.garantia != null) ||
                 (this.observacion != null && this.observacion.equals("")))
             throw new BusinessException("Faltan completar datos del cliente para otorgar un prestamo");
+    }
+
+    @Transient
+    public BigDecimal getSaldoAdeudado() {
+        return saldoAdeudado;
+    }
+    @Transient
+    public Credito getCreditoAdeudado() {
+        return creditoAdeudado;
     }
 }
 

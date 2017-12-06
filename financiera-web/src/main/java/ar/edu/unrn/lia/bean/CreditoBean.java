@@ -3,6 +3,7 @@ package ar.edu.unrn.lia.bean;
 import ar.edu.unrn.lia.bean.datamodel.DataModel;
 import ar.edu.unrn.lia.model.Cliente;
 import ar.edu.unrn.lia.model.Credito;
+import ar.edu.unrn.lia.model.Estado;
 import ar.edu.unrn.lia.model.Interes;
 import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CreditoService;
@@ -16,8 +17,11 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Lucas on 22/08/2017.
@@ -30,6 +34,7 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
     private List<Cliente> clientes = new ArrayList<Cliente>(0);
     private double montoCuota;
     private Credito creditoSeleccionado;
+    private BigDecimal saldoAdeudado;
 
     @Inject
     private CreditoService entityService;
@@ -83,6 +88,12 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
         this.setCreditoSeleccionado(getEntityService().getEntityById(credito.getId()));
     }
 
+    public void cargarCreditoMoroso(Credito credito, BigDecimal salgoAdeudado) {
+        this.setCreditoSeleccionado(getEntityService().getEntityById(credito.getId()));
+        this.setSaldoAdeudado(salgoAdeudado);
+    }
+
+
     public void deleteCredito(Credito credito) {
         try {
             entityService.delete(credito);
@@ -103,6 +114,10 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
     public String update() {
         calcularCuotas();
         return super.update();
+    }
+
+    public List<String> getEstados() {
+        return Arrays.asList(Estado.values()).stream().map(Estado::toString).collect(Collectors.toList());
     }
 
     public CreditoService getEntityService() {
@@ -159,5 +174,13 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     public void setIntereses(List<Interes> intereses) {
         this.intereses = intereses;
+    }
+
+    public BigDecimal getSaldoAdeudado() {
+        return saldoAdeudado;
+    }
+
+    public void setSaldoAdeudado(BigDecimal saldoAdeudado) {
+        this.saldoAdeudado = saldoAdeudado;
     }
 }

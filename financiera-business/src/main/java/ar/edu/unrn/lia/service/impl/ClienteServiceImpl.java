@@ -71,4 +71,9 @@ public class ClienteServiceImpl implements ClienteService {
     public List<Cliente> searchByApellidoNombre(String apellidoNombre) {
         return getEntityDAO().searchByApellidoNombre(apellidoNombre);
     }
+
+    @Override
+    public List<Cliente> searchMorosos() {
+        return getEntityDAO().searchMorosos();
+    }
 }
