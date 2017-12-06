@@ -75,14 +75,6 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
     private String email;
 
-    private Caja caja;
-
-    private Double monto;
-
-    private Double ingreso;
-
-    private Double egreso;
-
     private boolean register = false;
 
     @Inject
@@ -132,8 +124,6 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
                     creditoService.actualizarEstadoCreditoYCuotas();
                     //BACKUP
                     Backup.backup();
-                    //CAJA
-                    setCaja(getCajaService().getLast());
                     timelineMovimientos = new TimelineModel();
                     SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
                     for (Movimiento movimiento : getMovimientoService().getAll()
@@ -201,13 +191,6 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
             throw new ValidatorException(msg);
         }
 
-        //    userService.validarUnicidadMail((String) value);
-
-       /* }catch (BusinessException e){
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL,"Error",
-                    bundleMessage(e.getKeyMessage()));
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        }*/
     }
 
     //TODO: Ver el proceso de envio, deberia estar en el servicio #UserService
@@ -366,72 +349,6 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
         this.cajaService = cajaService;
     }
 
-    public Caja getCaja() {
-        return caja;
-    }
-
-    public void setCaja(Caja caja) {
-        this.caja = caja;
-    }
-
-    public Double getMonto() {
-        return monto;
-    }
-
-    public void setMonto(Double monto) {
-        this.monto = monto;
-    }
-
-    public Double getIngreso() {
-        return ingreso;
-    }
-
-    public void setIngreso(Double ingreso) {
-        this.ingreso = ingreso;
-    }
-
-    public Double getEgreso() {
-        return egreso;
-    }
-
-    public void setEgreso(Double egreso) {
-        this.egreso = egreso;
-    }
-
-    public String habilitarCaja() {
-        Caja caja = getCajaService().habilitarCaja(new Caja(new Date()), new Movimiento(BigDecimal.valueOf(monto), new Date(), "", Movimiento.Tipo.INGRESO));
-        setCaja(caja);
-        updateMovimientos();
-        agregarMensaje(FacesMessage.SEVERITY_INFO, "Caja habilitada", "Monto habilitado: $" + monto);
-        return UtilsBean.REDIRECT_HOME;
-    }
-
-    public String deshabilitarCaja() {
-        getCajaService().cerrarCaja(getCaja());
-        setCaja(null);
-        agregarMensaje(FacesMessage.SEVERITY_INFO, "Caja deshabilitada", "Caja deshabilitada con exito!");
-        return UtilsBean.REDIRECT_HOME;
-    }
-
-    public String ingreso() {
-        Movimiento movimiento = new Movimiento(BigDecimal.valueOf(ingreso), new Date(), "", Movimiento.Tipo.INGRESO);
-        movimiento.setCaja(getCaja());
-        getCaja().getMovimientos().add(movimiento);
-        movimientoService.save(movimiento);
-        updateMovimientos();
-        agregarMensaje(FacesMessage.SEVERITY_INFO, "Ingreso registrado", "Ingreso registrado con exito!");
-        return UtilsBean.REDIRECT_HOME;
-    }
-
-    public String egreso() {
-        Movimiento movimiento = new Movimiento(BigDecimal.valueOf(egreso), new Date(), "", Movimiento.Tipo.EGRESO);
-        movimiento.setCaja(getCaja());
-        getCaja().getMovimientos().add(movimiento);
-        movimientoService.save(movimiento);
-        updateMovimientos();
-        agregarMensaje(FacesMessage.SEVERITY_INFO, "Egreso registrado", "Egreso registrado con exito!");
-        return UtilsBean.REDIRECT_HOME;
-    }
 
     public void updateMovimientos() {
         timelineMovimientos = new TimelineModel();

@@ -137,7 +137,7 @@
                 </h:form>
                 <li style="float: right;">
                     <h:panelGroup id="txt_count">
-                        <h:panelGroup rendered="#{!authenticationBean.caja.habilitada()}">
+                        <h:panelGroup rendered="#{!cajaBean.getLast().habilitada()}">
                             <h:form >
                                 <p:growl id="growlhabilitar" showDetail="true" life="3000" globalOnly="false"/>
                                 <h:commandButton styleClass="caja White" value="Caja cerrada" id="botonCerrada"
@@ -148,19 +148,19 @@
                                           resizable="false">
                                     <h:panelGrid columns="3" cellpadding="5">
                                         <h:outputLabel for="monto" value="Monto:"/>
-                                        <p:inputText id="monto" value="#{authenticationBean.monto}" required="true"
+                                        <p:inputText id="monto" value="#{cajaBean.monto}" required="true"
                                                      label="monto" requiredMessage="Ingrese un valor"/>
 
                                         <p:commandButton value="Habilitar" style="float:right;"
                                                          update="growlhabilitar txt_count"
-                                                         action="#{authenticationBean.habilitarCaja()}"
+                                                         action="#{cajaBean.habilitarCaja()}"
                                                          oncomplete="habilitar(xhr, status, args)"/>
 
                                     </h:panelGrid>
                                 </p:dialog>
                             </h:form>
                         </h:panelGroup>
-                        <h:panelGroup rendered="#{authenticationBean.caja.habilitada()}">
+                        <h:panelGroup rendered="#{cajaBean.getLast().habilitada()}">
                             <h:form>
                                 <p:growl id="growldeshabilitar"  showDetail="true" life="3000" globalOnly="false"/>
                                 <h:commandButton styleClass="caja White" value="Caja Habilitada" id="botonHabilitado"
@@ -172,7 +172,7 @@
                                     <h:panelGrid columns="1" cellpadding="5" style="float: right;">
                                         <p:commandButton value="Cerrar Caja" update="growldeshabilitar txt_count"
                                                          class="RedButton"
-                                                         action="#{authenticationBean.deshabilitarCaja()}"
+                                                         action="#{cajaBean.deshabilitarCaja()}"
                                                          oncomplete="deshabilitar(xhr, status, args)"/>
 
                                     </h:panelGrid>

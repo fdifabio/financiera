@@ -37,18 +37,18 @@
                                      layout="grid"
                                      styleClass="ui-panelgrid-blank">
                             <h:outputText value="Fecha apertura:" styleClass="FontBold"/>
-                            <h:outputText value="#{authenticationBean.caja.fechaApertura}"
-                                          rendered="#{authenticationBean.caja != null}">
+                            <h:outputText value="#{cajaBean.getLast().fechaApertura}"
+                                          rendered="#{cajaBean.getLast() != null}">
                                 <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                             </h:outputText>
                             <h:outputText value="Saldo:" styleClass="FontBold"/>
-                            <h:outputText value="#{authenticationBean.caja.saldo()}"
-                                          rendered="#{authenticationBean.caja != null}">
+                            <h:outputText value="#{cajaBean.getLast().saldo()}"
+                                          rendered="#{cajaBean.getLast() != null}">
                                 <f:convertNumber type="currency" currencySymbol="$"/>
                             </h:outputText>
-                            <h:panelGroup rendered="#{!authenticationBean.caja.habilitada()}">
+                            <h:panelGroup rendered="#{!cajaBean.getLast().habilitada()}">
                             </h:panelGroup>
-                            <h:panelGroup rendered="#{authenticationBean.caja.habilitada()}">
+                            <h:panelGroup rendered="#{cajaBean.getLast().habilitada()}">
                                 <h:form>
                                     <p:growl id="growlingreso" sticky="true" showDetail="true" life="3000"/>
                                     <h:commandButton styleClass="MovimientoIngreso" value="Ingreso" id="botonIngreso"
@@ -60,20 +60,20 @@
                                               resizable="false">
                                         <h:panelGrid columns="3" cellpadding="5">
                                             <h:outputLabel for="ingreso" value="Monto:"/>
-                                            <p:inputText id="ingreso" value="#{authenticationBean.ingreso}"
+                                            <p:inputText id="ingreso" value="#{cajaBean.ingreso}"
                                                          required="true"
                                                          label="Ingreso" requiredMessage="Ingrese un valor"/>
 
                                             <p:commandButton value="Guardar" style="float:right;"
                                                              update="growlingreso timelineFirst"
-                                                             action="#{authenticationBean.ingreso()}"
+                                                             action="#{cajaBean.ingreso()}"
                                                              oncomplete="ingreso(xhr, status, args)"/>
 
                                         </h:panelGrid>
                                     </p:dialog>
                                 </h:form>
                             </h:panelGroup>
-                            <h:panelGroup rendered="#{authenticationBean.caja.habilitada()}">
+                            <h:panelGroup rendered="#{cajaBean.getLast().habilitada()}">
                                 <h:form>
                                     <p:growl id="growlegreso" sticky="true" showDetail="true" life="3000"/>
                                     <h:commandButton styleClass="MovimientoEgreso" value="Egreso" id="botonEgreso"
@@ -85,13 +85,13 @@
                                               resizable="false">
                                         <h:panelGrid columns="3" cellpadding="5">
                                             <h:outputLabel for="egreso" value="Monto:"/>
-                                            <p:inputText id="egreso" value="#{authenticationBean.egreso}"
+                                            <p:inputText id="egreso" value="#{cajaBean.egreso}"
                                                          required="true"
                                                          label="egreso" requiredMessage="Ingrese un valor"/>
 
                                             <p:commandButton value="Guardar" style="float:right;"
                                                              update="growlegreso timelineFirst"
-                                                             action="#{authenticationBean.egreso()}"
+                                                             action="#{cajaBean.egreso()}"
                                                              oncomplete="egreso(xhr, status, args)"/>
 
                                         </h:panelGrid>
@@ -118,7 +118,7 @@
                                 </script>
                             </h:panelGroup>
                         </p:panelGrid>
-                        <p:dataTable id="list" var="item" value="#{authenticationBean.caja.movimientos}"
+                        <p:dataTable id="list" var="item" value="#{cajaBean.getLast().movimientos}"
                                      emptyMessage="No hay movimientos para mostrar"
                                      reflow="true" rowKey="#{item.id}" lazy="true" paginator="true"
                                      paginatorPosition="bottom" styleClass="TexAlCenter"

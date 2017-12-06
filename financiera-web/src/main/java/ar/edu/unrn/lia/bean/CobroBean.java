@@ -177,7 +177,6 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         try {
             creditoService.save(credito);
             cajaService.save(caja);
-            authenticationBean.getCaja().getMovimientos().addAll(caja.getMovimientos());
             authenticationBean.updateMovimientos();
 
             LOG.debug("Guardando " + getEntity());
