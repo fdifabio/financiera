@@ -1,10 +1,7 @@
 package ar.edu.unrn.lia.bean;
 
 import ar.edu.unrn.lia.bean.datamodel.DataModel;
-import ar.edu.unrn.lia.model.Cliente;
-import ar.edu.unrn.lia.model.Credito;
-import ar.edu.unrn.lia.model.Estado;
-import ar.edu.unrn.lia.model.Interes;
+import ar.edu.unrn.lia.model.*;
 import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CreditoService;
 import ar.edu.unrn.lia.service.InteresService;
@@ -118,6 +115,10 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     public List<String> getEstados() {
         return Arrays.asList(Estado.values()).stream().map(Estado::toString).collect(Collectors.toList());
+    }
+
+    public BigDecimal interesVencido() {
+        return Cuota.INTERES_VENCIDO;
     }
 
     public CreditoService getEntityService() {

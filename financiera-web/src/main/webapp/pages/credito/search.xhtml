@@ -72,10 +72,10 @@
                                         <h:outputText value="#{item.interes}"/>
                                     </p:column>
                                     <p:column filterBy="#{item.estado}" headerText="#{msgs['formEstado']}"
-                                              filterMatchMode="exact">
+                                              filterMatchMode="exact" width="160">
                                         <f:facet name="filter">
                                             <p:selectOneMenu onchange="PF('listCreditos').filter()">
-                                                <f:selectItem itemLabel="Todos" itemValue="#{null}"
+                                                <f:selectItem itemLabel="TODOS" itemValue="#{null}"
                                                               noSelectionOption="true"/>
                                                 <f:selectItems value="#{creditoBean.estados}"
                                                 />

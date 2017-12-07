@@ -40,7 +40,8 @@
                                                      style="height:300px"/>
                                         </h:panelGroup>
                                         <h:panelGroup rendered="#{!reportesBean.isrender}">
-                                            <p:outputPanel layout="block" deferred="true" style="    margin-left: 10px !important;"
+                                            <p:outputPanel layout="block" deferred="true"
+                                                           style="    margin-left: 10px !important;"
                                                            styleClass="ui-messages ui-widget">
                                                 <p:outputPanel layout="block"
                                                                styleClass="ui-messages-info ui-corner-all">
@@ -48,7 +49,8 @@
                                                                    styleClass="ui-messages-info-icon"></p:outputPanel>
                                                     <ul>
                                                         <li><span class="ui-messages-warn-summary">Importante</span>
-                                                            <span class="ui-messages-warn-detail">No existen reportes para el año seleccionado </span></li>
+                                                            <span class="ui-messages-warn-detail">No existen reportes para el año seleccionado </span>
+                                                        </li>
                                                     </ul>
                                                 </p:outputPanel>
                                             </p:outputPanel>
@@ -82,168 +84,184 @@
                                 </h:form>
 
                             </p:tab>
-                       <p:tab title="Clientes morosos">
-                           <h:form id="tabcliente">
-                           <p:dataTable id="list" var="item" value="#{reportesBean.morosos}" styleClass="TexAlCenter"
-                                        reflow="true"  paginator="true" paginatorPosition="bottom"
-                                        resizableColumns="false" rows="10"
-                                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                        rowsPerPageTemplate="10,20,30,50">
-                               <p:column headerText="#{msgs['formDni']}">
-                                   <h:outputText value="#{item.dni}"/>
-                               </p:column>
+                            <p:tab title="Clientes morosos">
+                                <h:form id="tabcliente">
+                                    <p:dataTable id="list" var="item" value="#{reportesBean.morosos}"
+                                                 styleClass="TexAlCenter"
+                                                 reflow="true" paginator="true" paginatorPosition="bottom"
+                                                 resizableColumns="false" rows="10"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="10,20,30,50">
+                                        <p:column headerText="#{msgs['formDni']}">
+                                            <h:outputText value="#{item.dni}"/>
+                                        </p:column>
 
-                               <p:column headerText="#{msgs['formApellido']}" >
-                                   <h:outputText value="#{item.apellido}"/>
-                               </p:column>
-                               <p:column headerText="#{msgs['formNombre']}">
-                                   <h:outputText value="#{item.nombre}"/>
-                               </p:column>
-                               <p:column headerText="#{msgs['formCelular']}">
-                                   <h:outputText value="#{item.celular}"/>
-                               </p:column>
-                               <p:column headerText="Monto Adeudado">
-                                   <h:outputText value="#{item.saldoAdeudado}">
-                                       <f:convertNumber type="currency" currencySymbol="$"/>
-                                   </h:outputText>
-                               </p:column>
-                               <p:column headerText="#{msgs['formOpciones']}">
-                                   <p:commandButton id="btnDetalle" update=":tabs:tabcliente:creditoDetalle"
-                                                    oncomplete="PF('dialogCredito').show('#{component.clientId}')"
-                                                    class="fa fa-search-plus Fs20" title=""
-                                                    style="background-color: transparent; color: black; border: none"
-                                                    actionListener="#{creditoBean.cargarCreditoMoroso(item.creditoAdeudado, item.saldoAdeudado)}">
+                                        <p:column headerText="#{msgs['formApellido']}">
+                                            <h:outputText value="#{item.apellido}"/>
+                                        </p:column>
+                                        <p:column headerText="#{msgs['formNombre']}">
+                                            <h:outputText value="#{item.nombre}"/>
+                                        </p:column>
+                                        <p:column headerText="#{msgs['formCelular']}">
+                                            <h:outputText value="#{item.celular}"/>
+                                        </p:column>
+                                        <p:column headerText="Monto Adeudado">
+                                            <h:outputText value="#{item.saldoAdeudado}">
+                                                <f:convertNumber type="currency" currencySymbol="$"/>
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="#{msgs['formOpciones']}">
+                                            <p:commandButton id="btnDetalle" update=":tabs:tabcliente:creditoDetalle"
+                                                             oncomplete="PF('dialogCredito').show('#{component.clientId}')"
+                                                             class="fa fa-search-plus Fs20" title=""
+                                                             style="background-color: transparent; color: black; border: none"
+                                                             actionListener="#{creditoBean.cargarCreditoMoroso(item.creditoAdeudado, item.saldoAdeudado)}">
 
-                                   </p:commandButton>
-                               </p:column>
-                           </p:dataTable>
-                               <!-- PANEL DETALLE DE CREDITO -->
-                               <p:dialog widgetVar="dialogCredito" showEffect="slide"
-                                         dynamic="true" modal="true" hideEffect="slide" dismissable="true"
-                                         showCloseIcon="true" position="left" width="800px"
-                                         fitViewport="true" height="700px" closeOnEscape="true"
-                                         draggable="false" header="Detalle de credito">
-                                   <p:outputPanel id="creditoDetalle" style="text-align:center;">
-                                       <f:facet name="header">
-                                           <h:outputText value="#{msgs['cuotas']}"/>
-                                           <ui:include src="/pages/includes/exporterButtons.xhtml">
-                                               <ui:param name="target" value="list"/>
-                                               <ui:param name="fileName"
-                                                         value="Reporte credito"/>
-                                           </ui:include>
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable>
+                                    <!-- PANEL DETALLE DE CREDITO -->
+                                    <p:dialog widgetVar="dialogCredito" showEffect="slide"
+                                              dynamic="true" modal="true" hideEffect="slide" dismissable="true"
+                                              showCloseIcon="true" position="left" width="800px"
+                                              fitViewport="true" height="700px" closeOnEscape="true"
+                                              draggable="false" header="Detalle de credito">
+                                        <p:outputPanel id="creditoDetalle" style="text-align:center;">
+                                            <f:facet name="header">
+                                                <h:outputText value="#{msgs['cuotas']}"/>
+                                                <ui:include src="/pages/includes/exporterButtons.xhtml">
+                                                    <ui:param name="target" value="list"/>
+                                                    <ui:param name="fileName"
+                                                              value="Reporte credito"/>
+                                                </ui:include>
 
-                                       </f:facet>
-                                       <h:panelGroup id="detalleCredito">
-                                           <p:panelGrid columns="8"
-                                                        columnClasses="ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2"
-                                                        layout="grid" styleClass="ui-panelgrid-blank"
-                                                        style="border:0px none; background-color:transparent;">
-                                               <h:outputText value="Capital:"
-                                                             style="font-weight: bold;"/>
+                                            </f:facet>
+                                            <h:panelGroup id="detalleCredito">
+                                                <p:panelGrid columns="8"
+                                                             columnClasses="ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2"
+                                                             layout="grid" styleClass="ui-panelgrid-blank"
+                                                             style="border:0px none; background-color:transparent;">
+                                                    <h:outputText value="Capital:"
+                                                                  style="font-weight: bold;"/>
 
-                                               <p:outputLabel
-                                                       value="#{creditoBean.creditoSeleccionado.capital}">
-                                                   <f:convertNumber type="currency" currencySymbol="$"/>
-                                               </p:outputLabel>
-                                               <h:outputText value="Monto Adeudado:"
-                                                             style="font-weight: bold;"/>
-                                               <p:outputLabel value="#{creditoBean.saldoAdeudado}">
-                                                   <f:convertNumber type="currency" currencySymbol="$"/>
-                                               </p:outputLabel>
+                                                    <p:outputLabel
+                                                            value="#{creditoBean.creditoSeleccionado.capital}">
+                                                        <f:convertNumber type="currency" currencySymbol="$"/>
+                                                    </p:outputLabel>
+                                                    <h:outputText value="Monto Adeudado:"
+                                                                  style="font-weight: bold;"/>
+                                                    <p:outputLabel value="#{creditoBean.saldoAdeudado}">
+                                                        <f:convertNumber type="currency" currencySymbol="$"/>
+                                                    </p:outputLabel>
 
-                                               <h:outputText value="Cuotas:"
-                                                             style="font-weight: bold;"/>
-                                               <p:outputLabel
-                                                       value="#{creditoBean.creditoSeleccionado.cuotas}">
-                                                   <f:convertNumber type="number"/>
-                                               </p:outputLabel>
+                                                    <h:outputText value="Cuotas:"
+                                                                  style="font-weight: bold;"/>
+                                                    <p:outputLabel
+                                                            value="#{creditoBean.creditoSeleccionado.cuotas}">
+                                                        <f:convertNumber type="number"/>
+                                                    </p:outputLabel>
 
-                                               <h:outputText value="Fecha:" style="font-weight: bold;"/>
+                                                    <h:outputText value="Fecha:" style="font-weight: bold;"/>
+                                                    <p:outputLabel
+                                                            value="#{creditoBean.creditoSeleccionado.fechaVencimiento}">
+                                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                    </p:outputLabel>
 
-                                               <p:outputLabel
-                                                       value="#{creditoBean.creditoSeleccionado.fechaVencimiento}">
-                                                   <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                               </p:outputLabel>
-                                               <h:outputText value="Estado:" style="font-weight: bold;"/>
-                                               <p:outputLabel
-                                                       value="#{creditoBean.creditoSeleccionado.estado}"
-                                                       styleClass="#{creditoBean.creditoSeleccionado.estado.backgroundColor} White"
-                                                       style="padding: 0px 5px 0px 5px;border-radius: 5px;"/>
+                                                    <h:outputText value="Estado:" style="font-weight: bold;"/>
+                                                    <p:outputLabel
+                                                            value="#{creditoBean.creditoSeleccionado.estado}"
+                                                            styleClass="#{creditoBean.creditoSeleccionado.estado.backgroundColor} White"
+                                                            style="padding: 0px 5px 0px 5px;border-radius: 5px;"/>
 
-                                           </p:panelGrid>
-
-
-                                           <h:panelGroup id="cuotasCredito">
-                                               <p:panel style="border:0px !important;">
-                                                   <p:dataTable id="cuotasList" var="cuota"
-                                                                value="#{creditoBean.creditoSeleccionado.getListCuotasVencidas()}"
-                                                                reflow="true" rowKey="#{item}" lazy="true"
-                                                                paginator="false" rowIndexVar="index"
-                                                                emptyMessage="El credito no posee cuotas"
-                                                                summary="true"
-                                                                resizableColumns="false"
-                                                                paginatorPosition="bottom"
-                                                                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                                currentPageReportTemplate="({currentPage} de {totalPages})"
-                                                                filterEvent="enter" class="TexAlCenter"
-                                                                sortBy="#{cuota.nro}">
-                                                       <f:facet name="header">
-                                                           <h:outputText value="#{msgs['cuotas']}"/>
-                                                           <ui:include src="/pages/includes/exporterButtons.xhtml">
-                                                               <ui:param name="target" value="cuotasList"/>
-                                                               <ui:param name="fileName"
-                                                                         value="Reporte cuotas #{clienteBean.entity.apellidoNombre}"/>
-                                                           </ui:include>
-
-                                                       </f:facet>
-
-                                                       <p:column headerText="Fecha de venciminento">
-                                                           <h:outputText value="#{cuota.fechaVencimiento}">
-                                                               <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                                           </h:outputText>
-                                                       </p:column>
-
-                                                       <p:column headerText="Período">
-                                                           <h:outputText value="#{cuota.nro}"/>
-                                                       </p:column>
-
-                                                       <p:column headerText="Monto">
-                                                           <h:outputText id="otjusti" value="#{cuota.saldoAPagar}">
-                                                               <f:convertNumber type="currency" currencySymbol="$"/>
-                                                           </h:outputText>
-                                                       </p:column>
-                                                       <p:column headerText="Interes percibido">
-                                                           <h:outputText value="#{cuota.interesVencido}">
-                                                           <f:convertNumber type="currency" currencySymbol="$"/>
-                                                           </h:outputText>
-                                                       </p:column>
-
-                                                       <p:column headerText="Monto total">
-                                                           <h:outputText value="#{cuota.montoTotal()}">
-                                                               <f:convertNumber type="currency" currencySymbol="$"/>
-                                                           </h:outputText>
-                                                       </p:column>
-
-                                                       <p:column headerText="Estado">
-                                                           <p:outputLabel id="estado"
-                                                                          value="#{cuota.estado.descripcion}"
-                                                                          style="padding: 0px 5px 0px 5px;border-radius: 5px;"
-                                                                          styleClass="#{cuota.estado.backgroundColor} White"/>
-                                                       </p:column>
-                                                   </p:dataTable>
-
-                                               </p:panel>
-                                           </h:panelGroup>
-
-                                       </h:panelGroup>
+                                                    <h:outputText value="Interes:" style="font-weight: bold;"/>
+                                                    <h:panelGroup>
+                                                        <h:outputText value="#{creditoBean.interesVencido()}">
+                                                            <f:convertNumber pattern="#0.00"/>
+                                                        </h:outputText>%
+                                                    </h:panelGroup>
+                                                </p:panelGrid>
 
 
-                                   </p:outputPanel>
+                                                <h:panelGroup id="cuotasCredito">
+                                                    <p:panel style="border:0px !important;">
+                                                        <p:dataTable id="cuotasList" var="cuota"
+                                                                     value="#{creditoBean.creditoSeleccionado.getListCuotasVencidas()}"
+                                                                     reflow="true" rowKey="#{item}" lazy="true" rows="9"
+                                                                     paginator="false" rowIndexVar="index"
+                                                                     emptyMessage="El credito no posee cuotas"
+                                                                     summary="true"
+                                                                     resizableColumns="false"
+                                                                     paginatorPosition="bottom"
+                                                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                     currentPageReportTemplate="({currentPage} de {totalPages})"
+                                                                     filterEvent="enter" class="TexAlCenter"
+                                                                     sortBy="#{cuota.nro}">
+                                                            <f:facet name="header">
+                                                                <h:outputText value="#{msgs['cuotas']}"/>
+                                                                <ui:include src="/pages/includes/exporterButtons.xhtml">
+                                                                    <ui:param name="target" value="cuotasList"/>
+                                                                    <ui:param name="fileName"
+                                                                              value="Reporte cuotas #{clienteBean.entity.apellidoNombre}"/>
+                                                                </ui:include>
 
-                               </p:dialog>
-                               <!-- FIN PANEL DETALLE RENDICION -->
-                           </h:form>
-                       </p:tab>
+                                                            </f:facet>
+
+                                                            <p:column headerText="Período">
+                                                                <h:outputText value="#{cuota.nro}"/>
+                                                            </p:column>
+
+                                                            <p:column headerText="Fecha de venciminento">
+                                                                <h:outputText value="#{cuota.fechaVencimiento}">
+                                                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                                </h:outputText>
+                                                            </p:column>
+
+
+                                                            <p:column headerText="#{msgs['diasVencidos']}" width="14%">
+                                                                <h:outputText value="#{cuota.diasVencidos()}"/>
+                                                            </p:column>
+
+                                                            <p:column headerText="Monto">
+                                                                <h:outputText value="#{cuota.saldoAPagar}">
+                                                                    <f:convertNumber type="currency"
+                                                                                     currencySymbol="$"/>
+                                                                </h:outputText>
+                                                            </p:column>
+                                                            <p:column headerText="Interes percibido">
+                                                                <h:outputText
+                                                                        value="#{cuota.calcularCuotaInteresVencido()}">
+                                                                    <f:convertNumber type="currency"
+                                                                                     currencySymbol="$"/>
+                                                                </h:outputText>
+                                                            </p:column>
+
+                                                            <p:column headerText="Monto total">
+                                                                <h:outputText value="#{cuota.montoTotal()}">
+                                                                    <f:convertNumber type="currency"
+                                                                                     currencySymbol="$"/>
+                                                                </h:outputText>
+                                                            </p:column>
+
+                                                            <p:column headerText="Estado">
+                                                                <p:outputLabel id="estado"
+                                                                               value="#{cuota.estado.descripcion}"
+                                                                               style="padding: 0px 5px 0px 5px;border-radius: 5px;"
+                                                                               styleClass="#{cuota.estado.backgroundColor} White"/>
+                                                            </p:column>
+                                                        </p:dataTable>
+
+                                                    </p:panel>
+                                                </h:panelGroup>
+
+                                            </h:panelGroup>
+
+
+                                        </p:outputPanel>
+
+                                    </p:dialog>
+                                    <!-- FIN PANEL DETALLE RENDICION -->
+                                </h:form>
+                            </p:tab>
                         </p:tabView>
 
 

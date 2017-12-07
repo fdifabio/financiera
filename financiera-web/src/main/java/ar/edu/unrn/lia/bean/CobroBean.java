@@ -117,7 +117,7 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
             c.setSaldoAPagarAnterior(c.getSaldoAPagar());
             c.setEstado(Cuota.Estado.SALDADO);
             if (c.getEstadoAnterior().equals(Cuota.Estado.VENCIDO) || c.getEstadoAnterior().equals(Cuota.Estado.PARCIALMENTE_SALDADO))
-                c.setInteresVencido(new BigDecimal(0.33));
+                c.setInteresVencido(Cuota.INTERES_VENCIDO);
 
             c.setMontoAPagar(c.monto());
             c.getCobros().add(new Cobro(c.monto(), new Date(), "", c));
@@ -175,8 +175,9 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         calcularMovimientos();
 
         try {
-            creditoService.save(credito);
-            cajaService.save(caja);
+//            creditoService.save(credito);
+//            cajaService.save(caja);
+            entityService.registarCobro(credito, caja);
             authenticationBean.updateMovimientos();
 
             LOG.debug("Guardando " + getEntity());

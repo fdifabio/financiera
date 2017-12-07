@@ -1,8 +1,12 @@
 package ar.edu.unrn.lia.service.impl;
 
 import ar.edu.unrn.lia.dao.CobroDAO;
+import ar.edu.unrn.lia.model.Caja;
 import ar.edu.unrn.lia.model.Cobro;
+import ar.edu.unrn.lia.model.Credito;
+import ar.edu.unrn.lia.service.CajaService;
 import ar.edu.unrn.lia.service.CobroService;
+import ar.edu.unrn.lia.service.CreditoService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -17,6 +21,12 @@ import java.util.Map;
 public class CobroServiceImpl implements CobroService {
     @Inject
     CobroDAO entityDAO;
+
+    @Inject
+    CreditoService creditoService;
+
+    @Inject
+    CajaService cajaService;
 
     public CobroDAO getEntityDAO() {
         return entityDAO;
@@ -67,5 +77,14 @@ public class CobroServiceImpl implements CobroService {
 
     public List<Cobro> getAll() {
         return getEntityDAO().findAll();
+    }
+
+    @Override
+    @Transactional
+    public void registarCobro(Credito credito, Caja caja) {
+       credito.actualizarEstado();
+        creditoService.save(credito);
+        cajaService.save(caja);
+        creditoService.actualizarEstadoCreditoYCuotas();
     }
 }
