@@ -32,6 +32,7 @@
             <div class="ContainerIndent">
                     <div class="Card ShadowEffect ui-fluid">
                         <h3 style="margin-top: 0"><i class="fa fa-fax  Fs30"></i> Caja</h3>
+                        <div class="EmptyBox20"></div>
                         <p:panelGrid columns="6"
                                      columnClasses="ui-grid-col-2,ui-grid-col-3,ui-grid-col-1,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2"
                                      layout="grid"
@@ -153,6 +154,43 @@
 
             <div class="Card ShadowEffect ui-fluid">
                 <h3 style="margin-top: 0">Vencimientos del día</h3>
+                <div class="EmptyBox20"></div>
+                <div class="EmptyBox20"></div>
+                <p:dataTable id="listvencidas" var="itemvencidas" value="#{reportesBean.vencimientosDelDia}"
+                             rowKey="#{itemvencidas.id}"
+                             emptyMessage="No hay cuotas para mostrar"
+                             sortBy="#{itemvencidas.id}" paginator="true" rows="6"
+                             paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="6,12,24,36,48">
+
+
+                    <p:column headerText="#{msgs['formDni']}">
+                        <h:outputText value="#{itemvencidas.dni}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{msgs['formApellido']}" width="14%">
+                        <h:outputText value="#{itemvencidas.apellido}"/>
+                    </p:column>
+                    <p:column headerText="#{msgs['form.celular']}" width="14%">
+                        <h:outputText value="#{itemvencidas.celular}"/>
+                    </p:column>
+                    <p:column headerText="Saldo a pagar">
+                        <h:outputText value="#{itemvencidas.saldoAdeudado}">
+                            <f:convertNumber type="currency" currencySymbol="$"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column width="30">
+
+                        <h:outputLink id="btnCobro" value="/pages/cobro/create.jsf">
+                            <f:param name="credito_id" value="#{itemvencidas.id}"/>
+                            <i class="fa fa-briefcase Fs20"></i>
+                        </h:outputLink>
+                        <p:tooltip id="toolTip-cobro" for="btnCobro" value="#{msgs['registarCobro']}"
+                                   trackMouse="true"/>
+                    </p:column>
+                </p:dataTable>
             </div>
         </div>
         </div>

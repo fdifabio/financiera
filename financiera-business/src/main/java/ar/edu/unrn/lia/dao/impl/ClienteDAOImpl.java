@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,9 @@ import java.util.Map;
 public class ClienteDAOImpl extends GenericDaoJpaImpl<Cliente, Long> implements
         ClienteDAO, Serializable {
 
-
+    private int year = Calendar.getInstance().get(Calendar.YEAR);
+    private int month = Calendar.getInstance().get(Calendar.MONTH)+ 1;
+    private int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
     public Predicate[] getSearchPredicates(Root<Cliente> root,
                                            Map<String, String> filters) {
 
@@ -93,5 +96,17 @@ public class ClienteDAOImpl extends GenericDaoJpaImpl<Cliente, Long> implements
         Query query = this.entityManager.createQuery("SELECT new ar.edu.unrn.lia.model.Cliente(c.id, c.dni, c.nombre, c.apellido, c.celular, sum(cuo.saldoAPagar), cre.id) FROM Cliente c LEFT JOIN c.creditos cre LEFT JOIN cre.listCuotas cuo WHERE  cuo.estado = :estado GROUP BY cre.id");
         query.setParameter("estado", Cuota.Estado.VENCIDO);
         return query.getResultList();
+    }
+
+    @Override
+    public List<Cliente> searchVencimientosDelDia() {
+        Query query = this.entityManager.createQuery("SELECT new ar.edu.unrn.lia.model.Cliente(c.id, c.dni, c.nombre, c.apellido, c.celular, cre.montoCutoas, cre.id) FROM Cliente c LEFT JOIN c.creditos cre LEFT JOIN cre.listCuotas cuo WHERE YEAR(cuo.fechaVencimiento)=:anio AND DAY(cuo.fechaVencimiento)=:dia AND MONTH(cuo.fechaVencimiento)=:mes");
+        query.setParameter("dia", day);
+        query.setParameter("mes", month);
+        query.setParameter("anio", year);
+        return query.getResultList();
+        /*SELECT c.id, c.dni, c.nombre, c.apellido, c.celular, cre.monto_cuotas
+        FROM Cliente c LEFT JOIN Credito cre On c.id=cre.cliente_id LEFT JOIN cuota cu On cu.credito_id=cre.id
+        WHERE YEAR(cu.fecha_vencimiento)=2019 AND DAY(cu.fecha_vencimiento)=4 AND MONTH(cu.fecha_vencimiento)=1*/
     }
 }

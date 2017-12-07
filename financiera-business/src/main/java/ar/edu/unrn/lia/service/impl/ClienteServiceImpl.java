@@ -76,4 +76,9 @@ public class ClienteServiceImpl implements ClienteService {
     public List<Cliente> searchMorosos() {
         return getEntityDAO().searchMorosos();
     }
+
+    @Override
+    public List<Cliente> searchVencimientosDelDia() {
+        return getEntityDAO().searchVencimientosDelDia();
+    }
 }

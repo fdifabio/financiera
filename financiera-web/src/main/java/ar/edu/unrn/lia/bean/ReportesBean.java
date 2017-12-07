@@ -26,12 +26,14 @@ public class ReportesBean implements Serializable {
     private BarChartModel barModel;
     private BarChartModel generalBarModel;
     private int year = Calendar.getInstance().get(Calendar.YEAR);
-    private int month = Calendar.getInstance().get(Calendar.MONTH);
+    private int month = Calendar.getInstance().get(Calendar.MONTH)+1;
     private int anioSelecionado = 0;
     private int anioGeneralSelecionado = 0;
     private List<Integer> anios = new ArrayList<Integer>(0);
     private List<Integer> aniosAdeudados = new ArrayList<Integer>(0);
     private List<Cliente> morosos = new ArrayList<>(0);
+    private List<Cliente> vencimientosDelDia = new ArrayList<>(0);
+
     private Boolean isrender = true;
 
 
@@ -42,7 +44,7 @@ public class ReportesBean implements Serializable {
         setAnios(cuotaService.listAnios());
         setAniosAdeudados(cuotaService.listAniosAdeudadas());
         setMorosos(clienteService.searchMorosos());
-
+        setVencimientosDelDia(clienteService.searchVencimientosDelDia());
         createBarModel();
         createGeneralBarModel();
     }
@@ -198,5 +200,13 @@ public class ReportesBean implements Serializable {
 
     public void setMorosos(List<Cliente> morosos) {
         this.morosos = morosos;
+    }
+
+    public List<Cliente> getVencimientosDelDia() {
+        return vencimientosDelDia;
+    }
+
+    public void setVencimientosDelDia(List<Cliente> vencimientosDelDia) {
+        this.vencimientosDelDia = vencimientosDelDia;
     }
 }
