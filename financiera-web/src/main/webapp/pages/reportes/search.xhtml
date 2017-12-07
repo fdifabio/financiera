@@ -138,7 +138,7 @@
                                             </f:facet>
                                             <h:panelGroup id="detalleCredito">
                                                 <p:panelGrid columns="8"
-                                                             columnClasses="ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2"
+                                                             columnClasses="ui-grid-col-1,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2"
                                                              layout="grid" styleClass="ui-panelgrid-blank"
                                                              style="border:0px none; background-color:transparent;">
                                                     <h:outputText value="Capital:"
@@ -173,7 +173,7 @@
                                                             styleClass="#{creditoBean.creditoSeleccionado.estado.backgroundColor} White"
                                                             style="padding: 0px 5px 0px 5px;border-radius: 5px;"/>
 
-                                                    <h:outputText value="Interes:" style="font-weight: bold;"/>
+                                                    <h:outputText value="Interés por día:" style="font-weight: bold;"/>
                                                     <h:panelGroup>
                                                         <h:outputText value="#{creditoBean.interesVencido()}">
                                                             <f:convertNumber pattern="#0.00"/>
@@ -186,8 +186,8 @@
                                                     <p:panel style="border:0px !important;">
                                                         <p:dataTable id="cuotasList" var="cuota"
                                                                      value="#{creditoBean.creditoSeleccionado.getListCuotasVencidas()}"
-                                                                     reflow="true" rowKey="#{item}" lazy="true" rows="9"
-                                                                     paginator="false" rowIndexVar="index"
+                                                                     reflow="true" rowKey="#{item}" lazy="true" rows="6"
+                                                                     paginator="true" rowIndexVar="index"
                                                                      emptyMessage="El credito no posee cuotas"
                                                                      summary="true"
                                                                      resizableColumns="false"
@@ -227,7 +227,7 @@
                                                                                      currencySymbol="$"/>
                                                                 </h:outputText>
                                                             </p:column>
-                                                            <p:column headerText="Interes percibido">
+                                                            <p:column headerText="Interés percibido">
                                                                 <h:outputText
                                                                         value="#{cuota.calcularCuotaInteresVencido()}">
                                                                     <f:convertNumber type="currency"
