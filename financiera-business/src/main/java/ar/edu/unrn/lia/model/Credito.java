@@ -209,9 +209,36 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         return acumulador;
     }
 
+    @Transient
+    public boolean isCuotasSaldadas() {
+        return getListCuotas().stream().count() == getListCuotas().stream().filter(Cuota::isSaldado).count();
+    }
+
+    @Transient
+    public boolean existenCuotasVencidas() {
+        return getListCuotas().stream().filter(Cuota::isVencido).findAny().isPresent();
+    }
+
+    @Transient
+    public boolean existenCuotasAdeudadas() {
+        return getListCuotas().stream().filter(Cuota::isAdeudado).findAny().isPresent();
+    }
+
+    @Transient
+    public void actualizarEstado() {
+        if (this.isCuotasSaldadas())
+            this.setEstado(Estado.CANCELADO);
+        else if (existenCuotasVencidas())
+            this.setEstado(Estado.LEGALES);
+        else if (existenCuotasAdeudadas())
+            this.setEstado(Estado.ACTIVO);
+
+    }
+
     public Credito() {
         super();
     }
+
     public Credito(Long id) {
         this.setId(id);
     }
