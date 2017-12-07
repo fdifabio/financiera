@@ -102,12 +102,15 @@
                                         <p:tooltip id="toolTip-ver" for="btnVer" value="#{msgs['btn.ver']}"
                                                    trackMouse="true"/>
 
-                                        <h:outputLink id="btnCobro" value="/pages/cobro/create.jsf">
-                                            <f:param name="credito_id" value="#{item.id}"/>
-                                            <i class="fa fa-briefcase Fs20"></i>
-                                        </h:outputLink>
-                                        <p:tooltip id="toolTip-cobro" for="btnCobro" value="#{msgs['registarCobro']}"
-                                                   trackMouse="true"/>
+                                        <h:panelGroup rendered="#{!item.isCancelado()}">
+                                            <h:outputLink id="btnCobro" value="/pages/cobro/create.jsf">
+                                                <f:param name="credito_id" value="#{item.id}"/>
+                                                <i class="fa fa-briefcase Fs20"></i>
+                                            </h:outputLink>
+                                            <p:tooltip id="toolTip-cobro" for="btnCobro"
+                                                       value="#{msgs['registarCobro']}"
+                                                       trackMouse="true"/>
+                                        </h:panelGroup>
 
                                         <p:commandLink id="btnEliminar" title="#{msgs['btnEliminar']}"
                                                        actionListener="#{creditoBean.deleteCredito(item)}"

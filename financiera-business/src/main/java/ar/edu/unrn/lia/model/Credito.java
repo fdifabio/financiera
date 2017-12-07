@@ -235,6 +235,11 @@ public class Credito extends BaseEntity implements java.io.Serializable {
 
     }
 
+    @Transient
+    public boolean isCancelado() {
+       return estado.equals(Estado.CANCELADO);
+    }
+
     public Credito() {
         super();
     }
