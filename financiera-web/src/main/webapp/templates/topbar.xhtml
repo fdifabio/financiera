@@ -62,6 +62,18 @@
             background-color: #18849c;
             height: 35px;
         }
+        .cajades {
+            margin-top: 5px;
+            border-radius: 30px;
+            -webkit-border-radius: 30px;
+            -moz-border-radius: 30px;
+            padding: 2px 4px 3px;
+            position: absolute;
+            font-family: 'robotoregular';
+            background-color: #536d79;
+            height: 35px;
+        }
+
     </style>
 
     <div id="layout-topbar">
@@ -140,7 +152,7 @@
                         <h:panelGroup rendered="#{!cajaBean.getLast().habilitada()}">
                             <h:form >
                                 <p:growl id="growlhabilitar" showDetail="true" life="3000" globalOnly="false"/>
-                                <h:commandButton styleClass="caja White" value="Caja cerrada" id="botonCerrada"
+                                <h:commandButton styleClass="cajades White" value="Caja cerrada" id="botonCerrada"
                                                  onclick="PF('habilitar').show(); return false;"/>
                                 <p:tooltip for="botonCerrada" trackMouse="true" value="Habilitar caja"
                                            position="button"/>

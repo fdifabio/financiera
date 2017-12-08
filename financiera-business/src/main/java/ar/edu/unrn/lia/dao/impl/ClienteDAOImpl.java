@@ -4,6 +4,7 @@ import ar.edu.unrn.lia.dao.ClienteDAO;
 import ar.edu.unrn.lia.generic.GenericDaoJpaImpl;
 import ar.edu.unrn.lia.model.Cliente;
 import ar.edu.unrn.lia.model.Cuota;
+import ar.edu.unrn.lia.model.Estado;
 
 import javax.inject.Named;
 import javax.persistence.Query;
@@ -100,10 +101,11 @@ public class ClienteDAOImpl extends GenericDaoJpaImpl<Cliente, Long> implements
 
     @Override
     public List<Cliente> searchVencimientosDelDia() {
-        Query query = this.entityManager.createQuery("SELECT new ar.edu.unrn.lia.model.Cliente(c.id, c.dni, c.nombre, c.apellido, c.celular, cre.montoCutoas, cre.id) FROM Cliente c LEFT JOIN c.creditos cre LEFT JOIN cre.listCuotas cuo WHERE YEAR(cuo.fechaVencimiento)=:anio AND DAY(cuo.fechaVencimiento)=:dia AND MONTH(cuo.fechaVencimiento)=:mes");
+        Query query = this.entityManager.createQuery("SELECT new ar.edu.unrn.lia.model.Cliente(c.id, c.dni, c.nombre, c.apellido, c.celular, cre.montoCutoas, cre.id) FROM Cliente c LEFT JOIN c.creditos cre LEFT JOIN cre.listCuotas cuo WHERE cuo.estado = :estado AND YEAR(cuo.fechaVencimiento)=:anio AND DAY(cuo.fechaVencimiento)=:dia AND MONTH(cuo.fechaVencimiento)=:mes");
         query.setParameter("dia", day);
         query.setParameter("mes", month);
         query.setParameter("anio", year);
+        query.setParameter("estado", Cuota.Estado.ADEUDADO);
         return query.getResultList();
         /*SELECT c.id, c.dni, c.nombre, c.apellido, c.celular, cre.monto_cuotas
         FROM Cliente c LEFT JOIN Credito cre On c.id=cre.cliente_id LEFT JOIN cuota cu On cu.credito_id=cre.id

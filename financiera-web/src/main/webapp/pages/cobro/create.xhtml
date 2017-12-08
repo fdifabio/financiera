@@ -21,7 +21,7 @@
     </f:metadata>
 
     <ui:define name="actions">
-        <a href="search.jsf"
+        <a href="../credito/search.jsf"
            class="BoldGray Fs16 FontRobotoLight Fright MarRight20 HoverEffect"><i
                 class="icon-list"></i> #{msgs['listar']}</a>
     </ui:define>
@@ -128,18 +128,37 @@
                                                  style="padding: 10px;"
                                                  layout="grid">
 
-                                        <h:outputText value="Porcentaje de cuotas pagas:" styleClass="FontBold"/>
                                         <h:panelGroup>
+                                            <h:outputText value="% Cuotas pagas:" styleClass="FontBold"/>
                                             <div class="knob-container ui-corner-all">
-                                                <p:knob disabled="true" foregroundColor="#283593"
+                                                <p:knob disabled="true" thickness=".5" foregroundColor="#283593"
                                                         backgroundColor="#808080"
                                                         value="#{cobroBean.credito.porcentajeCuotasPagas()}"
-                                                        labelTemplate="{value}%" width="70%"/>
+                                                        labelTemplate="{value}%" width="60%"/>
                                             </div>
 
                                         </h:panelGroup>
-                                        <h:panelGroup></h:panelGroup>
-                                        <h:panelGroup></h:panelGroup>
+                                        <h:panelGroup>
+                                            <h:outputText value="Cuotas pagas:" styleClass="FontBold"/>
+                                            <div class="knob-container ui-corner-all">
+                                                <p:knob disabled="true" foregroundColor="#43A047"
+                                                        backgroundColor="#808080"
+                                                        max="#{cobroBean.credito.cuotas}"
+                                                        value="#{cobroBean.credito.totalCuotasPagas()}"
+                                                        labelTemplate="{value}" width="60%"/>
+                                            </div>
+                                        </h:panelGroup>
+                                        <h:panelGroup>
+                                            <h:outputText value="Cuotas restantes:" styleClass="FontBold"/>
+                                            <div class="knob-container ui-corner-all">
+                                                <p:knob disabled="true" foregroundColor="#FB8C00"
+                                                        backgroundColor="#808080"
+                                                        max="#{cobroBean.credito.cuotas}"
+                                                        value="#{cobroBean.credito.totalCuotasPorPagar()}"
+                                                        labelTemplate="{value}" width="60%"/>
+                                            </div>
+                                        </h:panelGroup>
+                                        <h:panelGroup> </h:panelGroup>
 
                                         <h:outputText value="#{msgs['formCapital']}:" styleClass="FontBold"/>
                                         <h:outputText value="#{cobroBean.credito.capital}">

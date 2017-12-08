@@ -27,7 +27,6 @@
     <ui:define name="content">
 
         <h1 class="TexAlCenter" style=" font-family: initial; color: black;">#{msgs['title']}</h1>
-        <div class="EmptyBox10"></div>
         <div class="Container50 Responsive100 ">
             <div class="ContainerIndent">
                     <div class="Card ShadowEffect ui-fluid">
@@ -170,8 +169,8 @@
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="#{msgs['formApellido']}" width="14%">
-                        <h:outputText value="#{itemvencidas.apellido}"/>
+                    <p:column headerText="Cliente" width="14%">
+                        <h:outputText value="#{itemvencidas.apellidoNombre}"/>
                     </p:column>
                     <p:column headerText="#{msgs['form.celular']}" width="14%">
                         <h:outputText value="#{itemvencidas.celular}"/>
@@ -184,7 +183,7 @@
                     <p:column width="30">
 
                         <h:outputLink id="btnCobro" value="/pages/cobro/create.jsf">
-                            <f:param name="credito_id" value="#{itemvencidas.id}"/>
+                            <f:param name="credito_id" value="#{itemvencidas.creditoAdeudado.id}"/>
                             <i class="fa fa-briefcase Fs20"></i>
                         </h:outputLink>
                         <p:tooltip id="toolTip-cobro" for="btnCobro" value="#{msgs['registarCobro']}"

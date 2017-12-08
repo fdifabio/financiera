@@ -193,6 +193,10 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     }
 
     @Transient
+    public Long totalCuotasPorPagar() {
+        return cuotas-totalCuotasPagas();
+    }
+    @Transient
     private BigDecimal redondear(BigDecimal value) {
 //        BigDecimal big = new BigDecimal(value);
 //        big = big.setScale(2, RoundingMode.HALF_UP);
