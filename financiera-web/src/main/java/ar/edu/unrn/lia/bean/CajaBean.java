@@ -49,6 +49,7 @@ public class CajaBean extends GenericBean<Caja> implements Serializable {
     private Double ingreso;
 
     private Double egreso;
+    private String descripcion;
 
     @PostConstruct
     public void init() {
@@ -68,19 +69,19 @@ public class CajaBean extends GenericBean<Caja> implements Serializable {
         }
     }
 
-    public Caja getLast(){
+    public Caja getLast() {
         return entityService.getLast();
     }
 
     public String habilitarCaja() {
-        entityService.habilitarCaja(new Caja(new Date()), new Movimiento(BigDecimal.valueOf(monto), new Date(), "", Movimiento.Tipo.INGRESO));
+        entityService.habilitarCaja(new Caja(new Date()), new Movimiento(BigDecimal.valueOf(monto), new Date(), "Saldo incial", Movimiento.Tipo.INGRESO));
         authenticationBean.updateMovimientos();
         agregarMensaje(FacesMessage.SEVERITY_INFO, "Caja habilitada", "Monto habilitado: $" + monto);
         return UtilsBean.REDIRECT_HOME;
     }
 
     public String ingreso() {
-        Movimiento movimiento = new Movimiento(BigDecimal.valueOf(ingreso), new Date(), "", Movimiento.Tipo.INGRESO);
+        Movimiento movimiento = new Movimiento(BigDecimal.valueOf(ingreso), new Date(), descripcion, Movimiento.Tipo.INGRESO);
         movimiento.setCaja(getLast());
         movimientoService.save(movimiento);
         authenticationBean.updateMovimientos();
@@ -89,7 +90,7 @@ public class CajaBean extends GenericBean<Caja> implements Serializable {
     }
 
     public String egreso() {
-        Movimiento movimiento = new Movimiento(BigDecimal.valueOf(egreso), new Date(), "", Movimiento.Tipo.EGRESO);
+        Movimiento movimiento = new Movimiento(BigDecimal.valueOf(egreso), new Date(), descripcion, Movimiento.Tipo.EGRESO);
         movimiento.setCaja(getLast());
         movimientoService.save(movimiento);
         authenticationBean.updateMovimientos();
@@ -139,6 +140,14 @@ public class CajaBean extends GenericBean<Caja> implements Serializable {
 
     public void setEgreso(Double egreso) {
         this.egreso = egreso;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public MovimientoService getMovimientoService() {

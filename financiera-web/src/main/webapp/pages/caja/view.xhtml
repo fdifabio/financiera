@@ -67,6 +67,10 @@
                                           styleClass="#{item.tipo.backgroundColor} White"
                                           style="padding: 0px 10px 0px 10px;border-radius: 5px; display: block;text-align: center;"/>
                         </p:column>
+                        <p:column headerText="Descripción">
+                            <h:outputText value="#{item.descripcion}">
+                            </h:outputText>
+                        </p:column>
                         <p:column headerText="Monto"  style="text-align: center;">
                             <h:outputText value="#{item.monto}">
                             <f:convertNumber type="currency" currencySymbol="$"/>

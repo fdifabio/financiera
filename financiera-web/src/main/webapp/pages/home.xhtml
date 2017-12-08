@@ -29,169 +29,182 @@
         <h1 class="TexAlCenter" style=" font-family: initial; color: black;">#{msgs['title']}</h1>
         <div class="Container50 Responsive100 ">
             <div class="ContainerIndent">
-                    <div class="Card ShadowEffect ui-fluid">
-                        <h3 style="margin-top: 0"><i class="fa fa-fax  Fs30"></i> Caja</h3>
-                        <div class="EmptyBox20"></div>
-                        <p:panelGrid columns="6"
-                                     columnClasses="ui-grid-col-2,ui-grid-col-3,ui-grid-col-1,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2"
-                                     layout="grid"
-                                     styleClass="ui-panelgrid-blank">
-                            <h:outputText value="Fecha apertura:" styleClass="FontBold"/>
-                            <h:outputText value="#{cajaBean.getLast().fechaApertura}"
-                                          rendered="#{cajaBean.getLast() != null}">
+                <div class="Card ShadowEffect ui-fluid">
+                    <h3 style="margin-top: 0"><i class="fa fa-fax  Fs30"></i> Caja</h3>
+                    <div class="EmptyBox20"></div>
+                    <p:panelGrid columns="6"
+                                 columnClasses="ui-grid-col-2,ui-grid-col-3,ui-grid-col-1,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2"
+                                 layout="grid"
+                                 styleClass="ui-panelgrid-blank">
+                        <h:outputText value="Fecha apertura:" styleClass="FontBold"/>
+                        <h:outputText value="#{cajaBean.getLast().fechaApertura}"
+                                      rendered="#{cajaBean.getLast() != null}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                        </h:outputText>
+                        <h:outputText value="Saldo:" styleClass="FontBold"/>
+                        <h:outputText value="#{cajaBean.getLast().saldo()}"
+                                      rendered="#{cajaBean.getLast() != null}">
+                            <f:convertNumber type="currency" currencySymbol="$"/>
+                        </h:outputText>
+                        <h:panelGroup rendered="#{!cajaBean.getLast().habilitada()}">
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{cajaBean.getLast().habilitada()}">
+                            <h:form>
+                                <p:growl id="growlingreso" sticky="true" showDetail="true" life="3000"/>
+                                <h:commandButton styleClass="MovimientoIngreso" value="Ingreso" id="botonIngreso"
+                                                 onclick="PF('ingreso').show(); return false;">
+                                    <i class="fa fa-arrow-up Green"></i></h:commandButton>
+                                <p:tooltip for="botonIngreso" trackMouse="true" value="Registrar ingreso"
+                                           position="button"/>
+                                <p:dialog header="Esta seguro que desea registrar un ingreso?" widgetVar="ingreso"
+                                          resizable="false" style="background-color: #2f3535f7;">
+                                    <h:panelGrid columns="3" cellpadding="5">
+                                        <h:outputLabel for="ingreso" value="Monto:"/>
+                                        <p:inputText id="ingreso" value="#{cajaBean.ingreso}"
+                                                     required="true"
+                                                     label="Ingreso" requiredMessage="Ingrese un valor"/>
+                                        <div class="EmptyBox10"></div>
+                                        <h:outputLabel for="desc" value="Descripción:"/>
+                                        <p:inputText id="desc" value="#{cajaBean.descripcion}"
+
+                                                     label="Descripción" />
+                                        <div class="EmptyBox10"></div>
+                                        <p:commandButton value="Guardar" style="float:right;"
+                                                         update="growlingreso timelineFirst"
+                                                         action="#{cajaBean.ingreso()}"
+                                                         oncomplete="ingreso(xhr, status, args)"/>
+
+                                    </h:panelGrid>
+                                </p:dialog>
+                            </h:form>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{cajaBean.getLast().habilitada()}">
+                            <h:form>
+                                <p:growl id="growlegreso" sticky="true" showDetail="true" life="3000"/>
+                                <h:commandButton styleClass="MovimientoEgreso" value="Egreso" id="botonEgreso"
+                                                 onclick="PF('egreso').show(); return false;">
+                                    <i class="fa fa-arrow-down Red"></i></h:commandButton>
+                                <p:tooltip for="botonEgreso" trackMouse="true" value="Registrar egreso"
+                                           position="button"/>
+                                <p:dialog header="Esta seguro que desea registrar un egreso?" widgetVar="egreso" style="background-color: #2f3535f7;"
+                                          resizable="false">
+                                    <h:panelGrid columns="3" cellpadding="5">
+                                        <h:outputLabel for="egreso" value="Monto:"/>
+                                        <p:inputText id="egreso" value="#{cajaBean.egreso}"
+                                                     required="true"
+                                                     label="egreso" requiredMessage="Ingrese un valor"/>
+                                        <div class="EmptyBox10"></div>
+                                        <h:outputLabel for="descegreso" value="Descripción:"/>
+                                        <p:inputText id="descegreso" value="#{cajaBean.descripcion}"
+                                                     label="Descripción" />
+                                        <div class="EmptyBox10"></div>
+                                        <p:commandButton value="Guardar" style="float:right;"
+                                                         update="growlegreso timelineFirst"
+                                                         action="#{cajaBean.egreso()}"
+                                                         oncomplete="egreso(xhr, status, args)"/>
+
+                                    </h:panelGrid>
+                                </p:dialog>
+                            </h:form>
+                            <script type="text/javascript">
+                                function ingreso(xhr, status, args) {
+                                    if (args.validationFailed) {
+                                        PF('ingreso').jq.effect("shake", {times: 5}, 100);
+                                    }
+                                    else {
+                                        PF('ingreso').hide();
+                                    }
+                                }
+
+                                function egreso(xhr, status, args) {
+                                    if (args.validationFailed) {
+                                        PF('egreso').jq.effect("shake", {times: 5}, 100);
+                                    }
+                                    else {
+                                        PF('egreso').hide();
+                                    }
+                                }
+                            </script>
+                        </h:panelGroup>
+                    </p:panelGrid>
+                    <p:dataTable id="list" var="item" value="#{cajaBean.getLast().movimientos}"
+                                 emptyMessage="No hay movimientos para mostrar"
+                                 reflow="true" rowKey="#{item.id}" lazy="true" paginator="true"
+                                 paginatorPosition="bottom" styleClass="TexAlCenter"
+                                 resizableColumns="false" rows="10"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="10,20,30,50">
+
+                        <p:column headerText="Fecha Creación">
+                            <h:outputText value="#{item.fecha}">
                                 <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                             </h:outputText>
-                            <h:outputText value="Saldo:" styleClass="FontBold"/>
-                            <h:outputText value="#{cajaBean.getLast().saldo()}"
-                                          rendered="#{cajaBean.getLast() != null}">
+                        </p:column>
+                        <p:column headerText="Monto">
+                            <h:outputText value="#{item.monto}">
                                 <f:convertNumber type="currency" currencySymbol="$"/>
                             </h:outputText>
-                            <h:panelGroup rendered="#{!cajaBean.getLast().habilitada()}">
-                            </h:panelGroup>
-                            <h:panelGroup rendered="#{cajaBean.getLast().habilitada()}">
-                                <h:form>
-                                    <p:growl id="growlingreso" sticky="true" showDetail="true" life="3000"/>
-                                    <h:commandButton styleClass="MovimientoIngreso" value="Ingreso" id="botonIngreso"
-                                                     onclick="PF('ingreso').show(); return false;">
-                                        <i class="fa fa-arrow-up Green"></i></h:commandButton>
-                                    <p:tooltip for="botonIngreso" trackMouse="true" value="Registrar ingreso"
-                                               position="button"/>
-                                    <p:dialog header="Esta seguro que desea registrar un ingreso?" widgetVar="ingreso"
-                                              resizable="false">
-                                        <h:panelGrid columns="3" cellpadding="5">
-                                            <h:outputLabel for="ingreso" value="Monto:"/>
-                                            <p:inputText id="ingreso" value="#{cajaBean.ingreso}"
-                                                         required="true"
-                                                         label="Ingreso" requiredMessage="Ingrese un valor"/>
-
-                                            <p:commandButton value="Guardar" style="float:right;"
-                                                             update="growlingreso timelineFirst"
-                                                             action="#{cajaBean.ingreso()}"
-                                                             oncomplete="ingreso(xhr, status, args)"/>
-
-                                        </h:panelGrid>
-                                    </p:dialog>
-                                </h:form>
-                            </h:panelGroup>
-                            <h:panelGroup rendered="#{cajaBean.getLast().habilitada()}">
-                                <h:form>
-                                    <p:growl id="growlegreso" sticky="true" showDetail="true" life="3000"/>
-                                    <h:commandButton styleClass="MovimientoEgreso" value="Egreso" id="botonEgreso"
-                                                     onclick="PF('egreso').show(); return false;">
-                                        <i class="fa fa-arrow-down Red"></i></h:commandButton>
-                                    <p:tooltip for="botonEgreso" trackMouse="true" value="Registrar egreso"
-                                               position="button"/>
-                                    <p:dialog header="Esta seguro que desea registrar un egreso?" widgetVar="egreso"
-                                              resizable="false">
-                                        <h:panelGrid columns="3" cellpadding="5">
-                                            <h:outputLabel for="egreso" value="Monto:"/>
-                                            <p:inputText id="egreso" value="#{cajaBean.egreso}"
-                                                         required="true"
-                                                         label="egreso" requiredMessage="Ingrese un valor"/>
-
-                                            <p:commandButton value="Guardar" style="float:right;"
-                                                             update="growlegreso timelineFirst"
-                                                             action="#{cajaBean.egreso()}"
-                                                             oncomplete="egreso(xhr, status, args)"/>
-
-                                        </h:panelGrid>
-                                    </p:dialog>
-                                </h:form>
-                                <script type="text/javascript">
-                                    function ingreso(xhr, status, args) {
-                                        if (args.validationFailed) {
-                                            PF('ingreso').jq.effect("shake", {times: 5}, 100);
-                                        }
-                                        else {
-                                            PF('ingreso').hide();
-                                        }
-                                    }
-
-                                    function egreso(xhr, status, args) {
-                                        if (args.validationFailed) {
-                                            PF('egreso').jq.effect("shake", {times: 5}, 100);
-                                        }
-                                        else {
-                                            PF('egreso').hide();
-                                        }
-                                    }
-                                </script>
-                            </h:panelGroup>
-                        </p:panelGrid>
-                        <p:dataTable id="list" var="item" value="#{cajaBean.getLast().movimientos}"
-                                     emptyMessage="No hay movimientos para mostrar"
-                                     reflow="true" rowKey="#{item.id}" lazy="true" paginator="true"
-                                     paginatorPosition="bottom" styleClass="TexAlCenter"
-                                     resizableColumns="false" rows="10"
-                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                     rowsPerPageTemplate="10,20,30,50">
-
-                            <p:column headerText="Fecha Creación">
-                                <h:outputText value="#{item.fecha}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="Monto">
-                                <h:outputText value="#{item.monto}">
-                                    <f:convertNumber type="currency" currencySymbol="$"/>
-                                </h:outputText>
-                            </p:column>
-                            <p:column headerText="Tipo">
-                                <i class=" #{item.tipo.icon} #{item.tipo.color}"></i>
-                                <h:outputText value="#{item.tipo.descripcion}"
-                                              styleClass="#{item.tipo.color} FontBold"
-                                              style="padding: 0px 5px 0px 5px;border-radius: 5px;">
-                                </h:outputText>
-                            </p:column>
-                        </p:dataTable>
-                    </div>
+                        </p:column>
+                        <p:column headerText="Descripción">
+                            <h:outputText value="#{item.descripcion}">
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Tipo">
+                            <i class=" #{item.tipo.icon} #{item.tipo.color}"></i>
+                            <h:outputText value="#{item.tipo.descripcion}"
+                                          styleClass="#{item.tipo.color} FontBold"
+                                          style="padding: 0px 5px 0px 5px;border-radius: 5px;">
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </div>
 
             </div>
         </div>
         <div class="Container50 Responsive100 TexAlCenter">
-        <div class="ContainerIndent">
+            <div class="ContainerIndent">
 
-            <div class="Card ShadowEffect ui-fluid">
-                <h3 style="margin-top: 0">Vencimientos del día</h3>
-                <div class="EmptyBox20"></div>
-                <div class="EmptyBox20"></div>
-                <p:dataTable id="listvencidas" var="itemvencidas" value="#{reportesBean.vencimientosDelDia}"
-                             rowKey="#{itemvencidas.id}"
-                             emptyMessage="No hay cuotas para mostrar"
-                             sortBy="#{itemvencidas.id}" paginator="true" rows="6"
-                             paginatorPosition="bottom"
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="6,12,24,36,48">
+                <div class="Card ShadowEffect ui-fluid">
+                    <h3 style="margin-top: 0">Vencimientos del día</h3>
+                    <div class="EmptyBox20"></div>
+                    <div class="EmptyBox20"></div>
+                    <p:dataTable id="listvencidas" var="itemvencidas" value="#{reportesBean.vencimientosDelDia}"
+                                 rowKey="#{itemvencidas.id}"
+                                 emptyMessage="No hay cuotas para mostrar"
+                                 sortBy="#{itemvencidas.id}" paginator="true" rows="6"
+                                 paginatorPosition="bottom"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="6,12,24,36,48">
 
 
-                    <p:column headerText="#{msgs['formDni']}">
-                        <h:outputText value="#{itemvencidas.dni}">
-                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column headerText="Cliente" width="14%">
-                        <h:outputText value="#{itemvencidas.apellidoNombre}"/>
-                    </p:column>
-                    <p:column headerText="#{msgs['form.celular']}" width="14%">
-                        <h:outputText value="#{itemvencidas.celular}"/>
-                    </p:column>
-                    <p:column headerText="Saldo a pagar">
-                        <h:outputText value="#{itemvencidas.saldoAdeudado}">
-                            <f:convertNumber type="currency" currencySymbol="$"/>
-                        </h:outputText>
-                    </p:column>
-                    <p:column width="30">
+                        <p:column headerText="#{msgs['formDni']}">
+                            <h:outputText value="#{itemvencidas.dni}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="Cliente" width="14%">
+                            <h:outputText value="#{itemvencidas.apellidoNombre}"/>
+                        </p:column>
+                        <p:column headerText="#{msgs['form.celular']}" width="14%">
+                            <h:outputText value="#{itemvencidas.celular}"/>
+                        </p:column>
+                        <p:column headerText="Saldo a pagar">
+                            <h:outputText value="#{itemvencidas.saldoAdeudado}">
+                                <f:convertNumber type="currency" currencySymbol="$"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column width="30">
 
-                        <h:outputLink id="btnCobro" value="/pages/cobro/create.jsf">
-                            <f:param name="credito_id" value="#{itemvencidas.creditoAdeudado.id}"/>
-                            <i class="fa fa-briefcase Fs20"></i>
-                        </h:outputLink>
-                        <p:tooltip id="toolTip-cobro" for="btnCobro" value="#{msgs['registarCobro']}"
-                                   trackMouse="true"/>
-                    </p:column>
-                </p:dataTable>
+                            <h:outputLink id="btnCobro" value="/pages/cobro/create.jsf">
+                                <f:param name="credito_id" value="#{itemvencidas.creditoAdeudado.id}"/>
+                                <i class="fa fa-briefcase Fs20"></i>
+                            </h:outputLink>
+                            <p:tooltip id="toolTip-cobro" for="btnCobro" value="#{msgs['registarCobro']}"
+                                       trackMouse="true"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
             </div>
-        </div>
         </div>
 
         <div class="Container100 Responsive100 TexAlCenter">

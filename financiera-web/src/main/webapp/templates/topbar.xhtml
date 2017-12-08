@@ -156,7 +156,7 @@
                                                  onclick="PF('habilitar').show(); return false;"/>
                                 <p:tooltip for="botonCerrada" trackMouse="true" value="Habilitar caja"
                                            position="button"/>
-                                <p:dialog header="Esta seguro que desea habilitar la caja?" widgetVar="habilitar"
+                                <p:dialog header="Esta seguro que desea habilitar la caja?" style="background-color: #2f3535f7;" widgetVar="habilitar"
                                           resizable="false">
                                     <h:panelGrid columns="3" cellpadding="5">
                                         <h:outputLabel for="monto" value="Monto:"/>
@@ -179,7 +179,7 @@
                                                  onclick="PF('deshabilitar').show(); return false;"/>
                                 <p:tooltip for="botonHabilitado" trackMouse="true" value="Cerrar caja"
                                            position="button"/>
-                                <p:dialog header="Esta seguro que desea cerrar la caja?" widgetVar="deshabilitar"
+                                <p:dialog header="Esta seguro que desea cerrar la caja?" widgetVar="deshabilitar" style="background-color: #2f3535f7;"
                                           resizable="false">
                                     <h:panelGrid columns="1" cellpadding="5" style="float: right;">
                                         <p:commandButton value="Cerrar Caja" update="growldeshabilitar txt_count"
