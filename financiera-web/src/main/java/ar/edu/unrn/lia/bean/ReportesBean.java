@@ -1,18 +1,25 @@
 package ar.edu.unrn.lia.bean;
 
+import ar.edu.unrn.lia.dao.CreditoDAO;
 import ar.edu.unrn.lia.model.Cliente;
+import ar.edu.unrn.lia.model.Credito;
 import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CuotaService;
-import org.primefaces.model.chart.*;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.ChartSeries;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Named
 @Scope("view")
@@ -23,19 +30,26 @@ public class ReportesBean implements Serializable {
     private CuotaService cuotaService;
     @Inject
     private ClienteService clienteService;
+    @Inject
+    private CreditoDAO creditoDAO;
+
     private BarChartModel barModel;
     private BarChartModel generalBarModel;
     private int year = Calendar.getInstance().get(Calendar.YEAR);
-    private int month = Calendar.getInstance().get(Calendar.MONTH)+1;
+    private int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
     private int anioSelecionado = 0;
     private int anioGeneralSelecionado = 0;
     private List<Integer> anios = new ArrayList<Integer>(0);
     private List<Integer> aniosAdeudados = new ArrayList<Integer>(0);
     private List<Cliente> morosos = new ArrayList<>(0);
     private List<Cliente> vencimientosDelDia = new ArrayList<>(0);
-
+    private LazyDataModel<Credito> modelCreditos;
     private Boolean isrender = true;
 
+    /*Se utilizan para filtar creditos*/
+    private Map<String, Object> filters = new HashMap<>(0);
+    private Date fechaInicio;
+    private Date fechaFin;
 
     @PostConstruct
     public void init() {
@@ -47,6 +61,7 @@ public class ReportesBean implements Serializable {
         setVencimientosDelDia(clienteService.searchVencimientosDelDia());
         createBarModel();
         createGeneralBarModel();
+        loadModels();
     }
 
     public BarChartModel getBarModel() {
@@ -134,6 +149,52 @@ public class ReportesBean implements Serializable {
         yAxis.setLabel("Monto ($)");
     }
 
+    private void loadModels() {
+        modelCreditos = new LazyDataModel<Credito>() {
+            private static final long serialVersionUID = -5675337537196030329L;
+            static final String ORDER_DEFAULT = "fechaCreacion";
+
+            @Override
+            public List<Credito> load(int first, int pageSize, String sortField, SortOrder sortOrder,
+                                      Map<String, Object> filters) {
+
+                Map<String, String> filtersMap = filters.entrySet().stream()
+                        .collect(Collectors.toMap(Map.Entry::getKey, e -> (String) e.getValue()));
+
+                modelCreditos.setRowCount(getCount(filtersMap));
+                modelCreditos.setPageSize(pageSize);
+
+                return getList(first, pageSize, filtersMap, (sortField == null ? ORDER_DEFAULT : sortField),
+                        (sortOrder.name().equals(SortOrder.DESCENDING.toString())));
+            }
+        };
+    }
+
+    public void onSearch() {
+        filters.clear();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        filters.put("fecha_inicio", formatter.format(fechaInicio));
+        filters.put("fecha_fin", formatter.format(fechaFin));
+//        for (String filter : selectedFilters) {
+//            filters.put(filter, "");
+//        }
+//        if (convocatoria != null && convocatoria.getIdConvocatoriaSigeva() != null)
+//            filters.put("convocatoria.id", convocatoria.getId());
+        loadModels();
+    }
+
+    public List<Credito> getList(Integer page, Integer pagesize, Map<String, String> filters, String sortField,
+                                 Boolean asc) {
+        filters.putAll(this.filters.entrySet().stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, e -> (String) e.getValue())));
+        return creditoDAO.listwithPag(creditoDAO.getSearchPredicates(creditoDAO.rootCount(), filters), page,
+                pagesize, sortField, asc, true);
+    }
+
+    public int getCount(Map<String, String> filters) {
+        return creditoDAO.count(creditoDAO.getSearchPredicates(creditoDAO.rootCount(), filters)).intValue();
+    }
+
     public List<Integer> getAnios() {
         return anios;
     }
@@ -208,5 +269,29 @@ public class ReportesBean implements Serializable {
 
     public void setVencimientosDelDia(List<Cliente> vencimientosDelDia) {
         this.vencimientosDelDia = vencimientosDelDia;
+    }
+
+    public LazyDataModel<Credito> getModelCreditos() {
+        return modelCreditos;
+    }
+
+    public void setModelCreditos(LazyDataModel<Credito> modelCreditos) {
+        this.modelCreditos = modelCreditos;
+    }
+
+    public Date getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public Date getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
     }
 }
