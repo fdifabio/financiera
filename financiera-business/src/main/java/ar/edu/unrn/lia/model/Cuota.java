@@ -30,7 +30,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     //TODO: Ver de parametrizarlos!!
     public static final BigDecimal INTERES_VENCIDO = new BigDecimal(33);
     private BigDecimal interesDescuento = BigDecimal.ZERO;//Se utiliza cuando la cuota se paga por adelantado
-    private BigDecimal interesVencido = BigDecimal.ZERO;//Se utiliza cuando la cuota esta vencida
+    private BigDecimal interesVencido = INTERES_VENCIDO;//Se utiliza cuando la cuota esta vencida
 
     private Credito credito;
 
@@ -140,7 +140,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
 
     @Column(name = "interes_vencido")
     public BigDecimal getInteresVencido() {
-        return interesVencido;
+        return interesVencido.equals(BigDecimal.ZERO) ? INTERES_VENCIDO : interesVencido;
     }
 
     public void setInteresVencido(BigDecimal interesVencido) {
@@ -182,7 +182,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     @Transient
     public BigDecimal calcularCuotaInteresVencido() {
         //TODO: SALDO-> Ver de guardarlo cuando se genera el cobro
-        BigDecimal value = credito.getMontoCutoas().multiply(INTERES_VENCIDO).divide(new BigDecimal(100));
+        BigDecimal value = credito.getMontoCutoas().multiply(getInteresVencido()).divide(new BigDecimal(100));
         value = value.multiply(new BigDecimal(diasVencidos()));
         return value;
     }

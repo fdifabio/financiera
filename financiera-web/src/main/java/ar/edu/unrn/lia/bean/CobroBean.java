@@ -146,6 +146,7 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
 
     public void onRowEdit(RowEditEvent event) {
         Cuota cuota = (Cuota) event.getObject();
+        cuota.monto();
         if (cuota.getEstadoAnterior().equals(Cuota.Estado.ADEUDADO))
             cuota.setMontoAPagar(cuota.monto());
         cuota.getCobros().stream().reduce((first, second) -> second)
@@ -153,7 +154,8 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         //Evaluo si la cuota se pagara total o parcial
         if (cuota.getMontoAPagar().equals(cuota.monto()))
             cuota.setEstado(Cuota.Estado.SALDADO);
-        else cuota.setEstado(Cuota.Estado.PARCIALMENTE_SALDADO);
+        else
+            cuota.setEstado(Cuota.Estado.PARCIALMENTE_SALDADO);
         cuota.setSaldoAPagar(cuota.monto().subtract(cuota.getMontoAPagar()));
         FacesMessage msg = new FacesMessage("Cuota editada", "Se editó la cuota Nro. " + cuota.getNro());
         FacesContext.getCurrentInstance().addMessage(null, msg);

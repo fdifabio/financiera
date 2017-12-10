@@ -220,9 +220,7 @@
                                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="#{msgs['diasVencidos']}" width="50">
-                                            <h:outputText value="#{item.diasVencidos()}"/>
-                                        </p:column>
+
                                         <p:column headerText="#{msgs['formEstado']}" width="100">
                                             <h:outputText value="#{item.estadoAnterior.descripcion}"
                                                           styleClass="#{item.estadoAnterior.backgroundColor} White"
@@ -233,7 +231,9 @@
                                                           styleClass="#{item.estado.backgroundColor} White"
                                                           style="padding: 0px 5px 0px 5px;border-radius: 5px;display: block;text-align: center;"/>
                                         </p:column>
-
+                                        <p:column headerText="#{msgs['diasVencidos']}" width="50">
+                                            <h:outputText value="#{item.diasVencidos()}"/>
+                                        </p:column>
                                         <p:column headerText="Interés por día" width="150">
                                             <p:cellEditor>
 
