@@ -41,6 +41,10 @@
                             <h:outputText value="#{cajaBean.entity.fechaCierre}">
                                 <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                             </h:outputText>
+                            <h:outputText value="Saldo:" styleClass="FontBold"/>
+                            <h:outputText value="#{cajaBean.entity.saldo()}">
+                                <f:convertNumber type="currency" currencySymbol="$"/>
+                            </h:outputText>
                         </p:panelGrid>
                     </p:panel>
                     <div class="EmptyBox20"></div>

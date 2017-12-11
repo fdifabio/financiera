@@ -84,6 +84,7 @@
                                 </h:form>
 
                             </p:tab>
+
                             <p:tab title="Clientes morosos">
                                 <h:form id="tabcliente">
                                     <p:dataTable id="list" var="item" value="#{reportesBean.morosos}"
@@ -261,6 +262,82 @@
                                     </p:dialog>
                                     <!-- FIN PANEL DETALLE RENDICION -->
                                 </h:form>
+                            </p:tab>
+                            <p:tab title="Créditos por periodos">
+                                <h:form id="formCreditos">
+
+                                    <p:toolbar>
+                                        <f:facet name="left">
+                                            <p:calendar id="fechaInicio" placeholder="Fecha desde"
+                                                        value="#{reportesBean.fechaInicio}"
+                                                        required="true"
+                                                        requiredMessage="#{msgs['validationRequired']}"/>
+
+                                            <span class="ui-separator">
+                                                <span class="ui-icon ui-icon-grip-dotted-vertical"/>
+                                            </span>
+
+                                            <p:calendar id="fechaFin" placeholder="Fecha hasta"
+                                                        value="#{reportesBean.fechaFin}"
+                                                        required="true"
+                                                        requiredMessage="#{msgs['validationRequired']}"/>
+                                        </f:facet>
+
+                                        <f:facet name="right">
+                                            <p:commandButton id="search" update="formCreditos"
+                                                             actionListener="#{reportesBean.onSearch()}"
+                                                             oncomplete="PF('listCreditos').filter()"
+                                                             icon="fa fa-search Fs18"
+                                                             styleClass="CyanTextButton"/>
+                                            <p:tooltip for="search" value="Buscar"></p:tooltip>
+                                        </f:facet>
+
+                                    </p:toolbar>
+
+
+                                    <p:dataTable id="listCreditos" widgetVar="listCreditos" var="item"
+                                                 value="#{reportesBean.modelCreditos}"
+                                                 emptyMessage="No hay créditos para mostrar"
+                                                 reflow="true" rowKey="#{item.id}" lazy="true" paginator="true"
+                                                 paginatorPosition="bottom"
+                                                 resizableColumns="false" rows="10"
+                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                 rowsPerPageTemplate="10,20,30,50" dynamic="true" filterEvent="enter">
+
+                                        <p:column headerText="#{msgs['formFechaCreacion']}">
+                                            <h:outputText value="#{item.fechaCreacion}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="#{msgs['formFechaInicio']}">
+                                            <h:outputText value="#{item.fechaInicio}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="#{msgs['formCliente']}">
+                                            <h:outputText value="#{item.cliente.apellidoNombre}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="#{msgs['formCapital']}">
+                                            <h:outputText value="#{item.capital}">
+                                                <f:convertNumber type="currency" currencySymbol="$"/>
+                                            </h:outputText>
+                                        </p:column>
+                                        <p:column headerText="#{msgs['formCuotas']}">
+                                            <h:outputText value="#{item.cuotas}"/>
+                                        </p:column>
+                                        <p:column headerText="#{msgs['formInteres']}">
+                                            <h:outputText value="#{item.interes}"/>
+                                        </p:column>
+                                        <p:column headerText="#{msgs['formEstado']}">
+                                            <h:outputText value="#{item.estado.descripcion}"
+                                                          styleClass="#{item.estado.backgroundColor} White"
+                                                          style="padding: 0px 5px 0px 5px;border-radius: 5px;"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </h:form>
+
                             </p:tab>
                         </p:tabView>
 

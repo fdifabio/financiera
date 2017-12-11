@@ -10,6 +10,8 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,6 +57,30 @@ public class CreditoDAOImpl extends GenericDaoJpaImpl<Credito, Long> implements
         String estado = filters.get("estado");
         if (estado != null) {
             predicatesList.add(builder.equal(root.<Estado>get("estado"), Estado.valueOf(estado)));
+        }
+
+        String fechaInicio = filters.get("fecha_inicio");
+        if (fechaInicio != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = null;
+            try {
+                date = formatter.parse(fechaInicio);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            predicatesList.add(builder.greaterThanOrEqualTo(root.<Date>get("fechaInicio"), date));
+        }
+
+        String fechaFin = filters.get("fecha_fin");
+        if (fechaFin != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = null;
+            try {
+                date = formatter.parse(fechaFin);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            predicatesList.add(builder.lessThanOrEqualTo(root.<Date>get("fechaInicio"), date));
         }
 
 
