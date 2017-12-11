@@ -51,6 +51,11 @@
                                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                                         </h:outputText>
                                     </p:column>
+                                    <p:column headerText="Saldo">
+                                    <h:outputText value="#{item.saldo()}">
+                                        <f:convertNumber type="currency" currencySymbol="$"/>
+                                    </h:outputText>
+                                    </p:column>
                                     <p:column headerText="Opciones">
                                         <h:link outcome="view" title="#{msgs['btn.ver']}">
                                             <i class="icon-zoom-in Fs20"></i>
