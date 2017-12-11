@@ -27,6 +27,7 @@
     <ui:define name="content">
 
         <h1 class="TexAlCenter" style=" font-family: initial; color: black;">#{msgs['title']}</h1>
+        <div class="Container100">
         <div class="Container50 Responsive100 ">
             <div class="ContainerIndent">
                 <div class="Card ShadowEffect ui-fluid">
@@ -52,21 +53,20 @@
                             <h:form>
                                 <p:growl id="growlingreso" sticky="true" showDetail="true" life="3000"/>
                                 <h:commandButton styleClass="MovimientoIngreso" value="Ingreso" id="botonIngreso"
-                                                 onclick="PF('ingreso').show(); return false;">
+                                                 onclick="PF('ingreso').show(); return false;" style="cursor: pointer">
                                     <i class="fa fa-arrow-up Green"></i></h:commandButton>
                                 <p:tooltip for="botonIngreso" trackMouse="true" value="Registrar ingreso"
                                            position="button"/>
                                 <p:dialog header="Esta seguro que desea registrar un ingreso?" widgetVar="ingreso"
                                           resizable="false" style="background-color: #2f3535f7;">
                                     <h:panelGrid columns="3" cellpadding="5">
-                                        <h:outputLabel for="ingreso" value="Monto:"/>
+                                        <h:outputLabel for="ingreso" value="Monto:" style="    color: white;"/>
                                         <p:inputText id="ingreso" value="#{cajaBean.ingreso}"
                                                      required="true"
                                                      label="Ingreso" requiredMessage="Ingrese un valor"/>
                                         <div class="EmptyBox10"></div>
-                                        <h:outputLabel for="desc" value="Descripción:"/>
-                                        <p:inputText id="desc" value="#{cajaBean.descripcion}"
-
+                                        <h:outputLabel for="desc" value="Descripción:" style="    color: white;"/>
+                                        <p:inputText id="desc" value="#{cajaBean.descripcion}" maxlength="50"
                                                      label="Descripción" />
                                         <div class="EmptyBox10"></div>
                                         <p:commandButton value="Guardar" style="float:right;"
@@ -82,23 +82,23 @@
                             <h:form>
                                 <p:growl id="growlegreso" sticky="true" showDetail="true" life="3000"/>
                                 <h:commandButton styleClass="MovimientoEgreso" value="Egreso" id="botonEgreso"
-                                                 onclick="PF('egreso').show(); return false;">
+                                                 onclick="PF('egreso').show(); return false;" style="cursor: pointer">
                                     <i class="fa fa-arrow-down Red"></i></h:commandButton>
                                 <p:tooltip for="botonEgreso" trackMouse="true" value="Registrar egreso"
                                            position="button"/>
                                 <p:dialog header="Esta seguro que desea registrar un egreso?" widgetVar="egreso" style="background-color: #2f3535f7;"
                                           resizable="false">
                                     <h:panelGrid columns="3" cellpadding="5">
-                                        <h:outputLabel for="egreso" value="Monto:"/>
+                                        <h:outputLabel for="egreso" value="Monto:" style="    color: white;"/>
                                         <p:inputText id="egreso" value="#{cajaBean.egreso}"
                                                      required="true"
                                                      label="egreso" requiredMessage="Ingrese un valor"/>
                                         <div class="EmptyBox10"></div>
-                                        <h:outputLabel for="descegreso" value="Descripción:"/>
-                                        <p:inputText id="descegreso" value="#{cajaBean.descripcion}"
+                                        <h:outputLabel for="descegreso" value="Descripción:" style="    color: white;"/>
+                                        <p:inputText id="descegreso" value="#{cajaBean.descripcion}" maxlength="50"
                                                      label="Descripción" />
                                         <div class="EmptyBox10"></div>
-                                        <p:commandButton value="Guardar" style="float:right;"
+                                        <p:commandButton value="Guardar" style="float:left;"
                                                          update="growlegreso timelineFirst"
                                                          action="#{cajaBean.egreso()}"
                                                          oncomplete="egreso(xhr, status, args)"/>
@@ -206,6 +206,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
         <div class="Container100 Responsive100 TexAlCenter">
             <div class="Card ShadowEffect ui-fluid">

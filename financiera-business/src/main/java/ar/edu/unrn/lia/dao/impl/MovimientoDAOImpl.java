@@ -1,6 +1,8 @@
 package ar.edu.unrn.lia.dao.impl;
 
 import ar.edu.unrn.lia.dao.MovimientoDAO;
+import ar.edu.unrn.lia.dto.MonthYearDTO;
+import ar.edu.unrn.lia.dto.MovimientoDTO;
 import ar.edu.unrn.lia.generic.GenericDaoJpaImpl;
 import ar.edu.unrn.lia.model.Movimiento;
 
@@ -10,6 +12,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -67,6 +70,19 @@ public class MovimientoDAOImpl extends GenericDaoJpaImpl<Movimiento, Long> imple
         return (List<Movimiento>) query.getResultList();
     }
 
+    public List<MovimientoDTO> findByMonthYear(int month, int year, Movimiento.Tipo tipo) {
+        Query query = this.entityManager.createQuery("SELECT new ar.edu.unrn.lia.dto.MovimientoDTO(YEAR( m.fecha ) ,MONTH ( m.fecha ), DAY (m.fecha), SUM( m.monto)) FROM Movimiento m WHERE m.tipo = :tipo and YEAR( m.fecha ) = :year and MONTH( m.fecha ) = :month GROUP BY 1,2,3");
+        query.setParameter("tipo", tipo);
+        query.setParameter("year", year);
+        query.setParameter("month", month);
+        return (List<MovimientoDTO>) query.getResultList();
+    }
+
+    @Override
+    public List<Integer> listAnios() {
+        Query query = this.entityManager.createQuery("SELECT MONTH( m.fecha ) FROM Movimiento m  GROUP BY 1");
+        return (List<Integer>) query.getResultList();
+    }
 
 
 }

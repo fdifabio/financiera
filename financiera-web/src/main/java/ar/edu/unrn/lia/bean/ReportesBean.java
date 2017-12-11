@@ -1,9 +1,15 @@
 package ar.edu.unrn.lia.bean;
 
+import ar.edu.unrn.lia.dto.MonthYearDTO;
 import ar.edu.unrn.lia.model.Cliente;
+import ar.edu.unrn.lia.model.Movimiento;
 import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CuotaService;
-import org.primefaces.model.chart.*;
+import ar.edu.unrn.lia.service.MovimientoService;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.ChartSeries;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
@@ -21,16 +27,24 @@ public class ReportesBean implements Serializable {
 
     @Inject
     private CuotaService cuotaService;
+
     @Inject
     private ClienteService clienteService;
+
+    @Inject
+    private MovimientoService movimientoService;
+
     private BarChartModel barModel;
     private BarChartModel generalBarModel;
+    private BarChartModel movimientosBarModel;
     private int year = Calendar.getInstance().get(Calendar.YEAR);
-    private int month = Calendar.getInstance().get(Calendar.MONTH)+1;
+    private int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
     private int anioSelecionado = 0;
     private int anioGeneralSelecionado = 0;
+    private Integer anioMovimientoSelecionado = 0;
     private List<Integer> anios = new ArrayList<Integer>(0);
     private List<Integer> aniosAdeudados = new ArrayList<Integer>(0);
+    private List<Integer> aniosMeses = new ArrayList<Integer>(0);
     private List<Cliente> morosos = new ArrayList<>(0);
     private List<Cliente> vencimientosDelDia = new ArrayList<>(0);
 
@@ -43,10 +57,13 @@ public class ReportesBean implements Serializable {
         anioSelecionado = year;
         setAnios(cuotaService.listAnios());
         setAniosAdeudados(cuotaService.listAniosAdeudadas());
+        setAniosMeses(movimientoService.listAnios());
         setMorosos(clienteService.searchMorosos());
         setVencimientosDelDia(clienteService.searchVencimientosDelDia());
         createBarModel();
         createGeneralBarModel();
+        createMovimientosBarModel();
+
     }
 
     public BarChartModel getBarModel() {
@@ -134,6 +151,41 @@ public class ReportesBean implements Serializable {
         yAxis.setLabel("Monto ($)");
     }
 
+    private void createMovimientosBarModel() {
+        movimientosBarModel = new BarChartModel();
+        movimientosBarModel.setAnimate(true);
+        ChartSeries egresos = new ChartSeries();
+        egresos.setLabel("Egresos");
+        if(getAnioMovimientoSelecionado() != null)
+        movimientoService.findByMonthYear(getAnioMovimientoSelecionado(), 2017,Movimiento.Tipo.EGRESO).forEach(e -> egresos.set( e.getMes() + "/" + e.getAnio(), e.getMonto()));
+
+        ChartSeries ingresos = new ChartSeries();
+        ingresos.setLabel("Ingresos");
+        if(getAnioMovimientoSelecionado() != null)
+        movimientoService.findByMonthYear(getAnioMovimientoSelecionado(), 2017, Movimiento.Tipo.INGRESO).forEach(e -> egresos.set( e.getMes() + "/" + e.getAnio(), e.getMonto()));
+
+
+        if (egresos.getData().size() == 0 && ingresos.getData().size() == 0)
+            setIsrender(false);
+        else {
+            if (egresos.getData().size() != 0)
+                movimientosBarModel.addSeries(egresos);
+            if (ingresos.getData().size() != 0)
+                movimientosBarModel.addSeries(ingresos);
+
+        }
+        movimientosBarModel.setTitle("Movimientos");
+        movimientosBarModel.setSeriesColors("#43A047,#E53935");
+        movimientosBarModel.setLegendPosition("se");
+        movimientosBarModel.setStacked(true);
+
+        Axis xAxis = movimientosBarModel.getAxis(AxisType.X);
+        xAxis.setLabel("Dia");
+
+        Axis yAxis = movimientosBarModel.getAxis(AxisType.Y);
+        yAxis.setLabel("Monto ($)");
+    }
+
     public List<Integer> getAnios() {
         return anios;
     }
@@ -185,6 +237,10 @@ public class ReportesBean implements Serializable {
 
     }
 
+    public void onMovimientoChangeAnio() {
+        setIsrender(true);
+        createMovimientosBarModel();
+    }
     public Boolean getIsrender() {
         return isrender;
     }
@@ -209,4 +265,46 @@ public class ReportesBean implements Serializable {
     public void setVencimientosDelDia(List<Cliente> vencimientosDelDia) {
         this.vencimientosDelDia = vencimientosDelDia;
     }
+
+    public BarChartModel getMovimientosBarModel() {
+        return movimientosBarModel;
+    }
+
+    public void setMovimientosBarModel(BarChartModel movimientosBarModel) {
+        this.movimientosBarModel = movimientosBarModel;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public Integer getAnioMovimientoSelecionado() {
+        return anioMovimientoSelecionado;
+    }
+
+    public void setAnioMovimientoSelecionado(Integer anioMovimientoSelecionado) {
+        this.anioMovimientoSelecionado = anioMovimientoSelecionado;
+    }
+
+    public List<Integer> getAniosMeses() {
+        return aniosMeses;
+    }
+
+    public void setAniosMeses(List<Integer> aniosMeses) {
+        this.aniosMeses = aniosMeses;
+    }
+
+    public MovimientoService getMovimientoService() {
+        return movimientoService;
+    }
+
+    public void setMovimientoService(MovimientoService movimientoService) {
+        this.movimientoService = movimientoService;
+    }
+
+
 }

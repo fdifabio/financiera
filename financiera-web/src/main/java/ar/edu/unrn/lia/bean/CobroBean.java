@@ -204,7 +204,13 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
 
     private void calcularMovimientos() {
         List<Movimiento> movimientos = new ArrayList<>(0);
-        credito.getListCuotas().stream().forEach(c -> c.getCobros().stream().filter(co -> co.getId() == null).forEach(co -> movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro", Movimiento.Tipo.INGRESO, caja))));
+        credito.getListCuotas().stream().forEach(c -> c.getCobros().stream().filter(
+                co -> co.getId() == null).forEach(co -> {
+            if (usaSaldoCuenta)
+                movimientos.add(new Movimiento(total(), co.getFecha(), "Cobro a cliente (Usa Saldo a favor)" + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
+            else
+                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro a cliente " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
+        }));
         caja.getMovimientos().addAll(movimientos);
     }
 

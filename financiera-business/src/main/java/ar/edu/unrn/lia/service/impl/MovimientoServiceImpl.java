@@ -1,6 +1,8 @@
 package ar.edu.unrn.lia.service.impl;
 
 import ar.edu.unrn.lia.dao.MovimientoDAO;
+import ar.edu.unrn.lia.dto.MonthYearDTO;
+import ar.edu.unrn.lia.dto.MovimientoDTO;
 import ar.edu.unrn.lia.model.Movimiento;
 import ar.edu.unrn.lia.service.MovimientoService;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,4 +72,12 @@ public class MovimientoServiceImpl implements MovimientoService {
     }
 
 
+    public List<MovimientoDTO> findByMonthYear(int month, int year, Movimiento.Tipo tipo) {
+        return getEntityDAO().findByMonthYear(month, year, tipo);
+    }
+
+
+    public List<Integer> listAnios() {
+        return getEntityDAO().listAnios();
+    }
 }
