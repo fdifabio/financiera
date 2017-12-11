@@ -170,11 +170,11 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     @Override
     public String update() {
         //TODO:Deberia tener en cuenta el SaldoCuenta Nuevo y el Anterior!!!!.
-        if (usaSaldoCuenta) credito.setSaldoCuenta(BigDecimal.ZERO);
-        credito.setSaldoCuenta(credito.getSaldoCuenta().add(this.saldoCuenta));
 
         //Refleja los cobros en movimientos de caja
         calcularMovimientos();
+        if (usaSaldoCuenta) credito.setSaldoCuenta(BigDecimal.ZERO);
+        credito.setSaldoCuenta(credito.getSaldoCuenta().add(this.saldoCuenta));
 
         try {
 //            creditoService.save(credito);
@@ -209,9 +209,11 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         credito.getListCuotas().stream().forEach(c -> c.getCobros().stream().filter(
                 co -> co.getId() == null).forEach(co -> {
             if (usaSaldoCuenta)
-                movimientos.add(new Movimiento(total(), co.getFecha(), "Cobro a cliente (Usa Saldo a favor)" + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
+                movimientos.add(new Movimiento(total(), co.getFecha(), "Cobro a cliente (Usa saldo a cuenta) " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
+            else if (saldoCuenta.compareTo(BigDecimal.ZERO) > 0)
+                movimientos.add(new Movimiento(total(), co.getFecha(), "Cobro a cliente (Agrega saldo a cuenta) " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
             else
-                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro a cliente " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
+                movimientos.add(new Movimiento(total(), co.getFecha(), "Cobro a cliente " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
         }));
         caja.getMovimientos().addAll(movimientos);
     }

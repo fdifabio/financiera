@@ -38,9 +38,9 @@ public class ReportesBean implements Serializable {
 
     @Inject
     private ClienteService clienteService;
+
     @Inject
     private CreditoDAO creditoDAO;
-
 
     @Inject
     private MovimientoService movimientoService;
@@ -52,6 +52,7 @@ public class ReportesBean implements Serializable {
     private int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
     private int anioSelecionado = 0;
     private int anioGeneralSelecionado = 0;
+    private  int anioMovimientoSelecionado = 0;
     private List<Integer> anios = new ArrayList<Integer>(0);
     private List<Integer> aniosAdeudados = new ArrayList<Integer>(0);
     private List<Integer> aniosMeses = new ArrayList<Integer>(0);

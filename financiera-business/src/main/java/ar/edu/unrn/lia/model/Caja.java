@@ -5,9 +5,8 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Lucas on 05/09/2017.
@@ -55,6 +54,12 @@ public class Caja extends BaseEntity implements java.io.Serializable {
     @OneToMany(mappedBy = "caja",cascade = CascadeType.ALL,orphanRemoval = true)
     @Fetch(FetchMode.JOIN)
     public List<Movimiento> getMovimientos() {
+        return movimientos;
+    }
+
+    @Transient
+    public List<Movimiento> getMovimientosOrden() {
+        Collections.reverse(movimientos);
         return movimientos;
     }
 
