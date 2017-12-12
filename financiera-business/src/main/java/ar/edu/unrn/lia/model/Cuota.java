@@ -186,7 +186,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     @Transient
     public BigDecimal calcularCuotaInteresVencido() {
         //TODO: SALDO-> Ver de guardarlo cuando se genera el cobro
-        BigDecimal value = credito.getMontoCutoas().multiply(getInteresVencido()).divide(new BigDecimal(100));
+        BigDecimal value = saldoAPagarAnterior.multiply(getInteresVencido()).divide(new BigDecimal(100));
         value = value.multiply(new BigDecimal(diasVencidos()));
         return value;
     }

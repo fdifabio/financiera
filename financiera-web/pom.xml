@@ -13,7 +13,7 @@
 	<name>financiera Webapp</name>
 			
 		<build>
-		<finalName>intranet</finalName>
+		<finalName>financiera</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
