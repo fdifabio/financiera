@@ -82,7 +82,8 @@
                                         <!--headerText="#{msgs['formOpciones']}"-->
                                         <p:commandButton id="buttonSeleccionar"
                                                          actionListener="#{cobroBean.onCuotaSelect(item)}"
-                                                         update=":crear:msgs :crear:totales :crear:listSelected list" process="@this"
+                                                         update=":crear:msgs :crear:totales :crear:listSelected list"
+                                                         process="@this"
                                                          icon="fa fa-arrow-down" styleClass="Blue"
                                                          style="font-size: 0px;background-color: transparent;"/>
                                         <p:tooltip id="toolTipButtonSeleccionar" for="buttonSeleccionar"
@@ -308,12 +309,12 @@
                                                     </h:outputText>
                                                 </f:facet>
                                                 <f:facet name="input">
-                                                    <h:panelGroup>
+                                                   <!-- <h:panelGroup>
                                                         <h:outputText value="#{item.montoAPagar}">
                                                             <f:convertNumber pattern="#0.00"/>
                                                         </h:outputText>
-                                                    </h:panelGroup>
-                                                    <!--   <h:panelGroup
+                                                    </h:panelGroup>-->
+                                                    <h:panelGroup
                                                              rendered="#{!item.isEstadoAnteriorVencido() and !item.isEstadoAnteriorParcialmenteSaldado()}">
                                                          <h:outputText value="#{item.montoAPagar}">
                                                              <f:convertNumber pattern="#0.00"/>
@@ -321,11 +322,11 @@
                                                      </h:panelGroup>
                                                     <h:panelGroup
                                                              rendered="#{item.isEstadoAnteriorVencido() or item.isEstadoAnteriorParcialmenteSaldado()}">
-                                                         <p:inputNumber id="montoAPagar" decimalSeparator=","
+                                                         <p:inputNumber id="montoAPagar" decimalSeparator="," maxValue="#{item.monto()}"
                                                                         thousandSeparator="." value="#{item.montoAPagar}"
                                                                         validatorMessage="Ingrese un monto válido"
                                                                         placeholder="Monto" minValue="0"/>
-                                                     </h:panelGroup> -->
+                                                     </h:panelGroup>
                                                 </f:facet>
                                             </p:cellEditor>
                                         </p:column>
@@ -348,11 +349,26 @@
                                                  columnClasses="ui-grid-col-6,ui-grid-col-3,ui-grid-col-3"
                                                  style="padding: 10px;"
                                                  layout="grid" styleClass="ui-panelgrid-blank">
-                                        <div class="EmptyBox10"></div>
+
+                                        <p:outputPanel layout="block" deferred="true"
+                                                       style=" margin: 0px;  "
+                                                       styleClass="ui-messages ui-widget">
+                                            <p:outputPanel layout="block" style="margin: 0px;    padding: 0px 0px 10px 6px !important"
+                                                           styleClass="ui-messages-info ui-corner-all">
+                                                <p:outputPanel layout="inline" style="margin: 0px; "
+                                                               styleClass="ui-messages-info-icon"></p:outputPanel>
+                                                <ul>
+                                                    <li><span class="ui-messages-warn-summary">Importante</span>
+                                                        <span class="ui-messages-warn-detail">El saldo a cuenta debe ser menor al monto de la cuota</span>
+                                                    </li>
+                                                </ul>
+                                            </p:outputPanel>
+                                        </p:outputPanel>
                                         <h:outputText value="#{msgs['subtotal']}:" styleClass="FontBold"/>
                                         <h:outputText value="#{cobroBean.montoAcumulado()}">
                                             <f:convertNumber type="currency" currencySymbol="$"/>
                                         </h:outputText>
+
 
                                         <div class="EmptyBox10"></div>
                                         <h:outputText value="#{msgs['saldoCuenta']} anterior:"
@@ -373,11 +389,14 @@
                                         <h:panelGroup>
                                             <p:inputNumber id="saldoCuenta"
                                                            value="#{cobroBean.saldoCuenta}" symbol="$ "
-                                                           decimalSeparator="," thousandSeparator=".">
+                                                           decimalSeparator="," thousandSeparator="."
+                                                           decimalPlaces="2"
+                                                           maxValue="#{cobroBean.credito.montoCutoas}">
                                                 <p:ajax update="total"/>
                                             </p:inputNumber>
-                                            <p:message for="saldoCuenta"/>
+
                                         </h:panelGroup>
+
 
                                         <div class="EmptyBox10"></div>
                                         <h:outputText value="#{msgs['total']}:" styleClass="FontBold"/>
