@@ -296,6 +296,11 @@
                                                 </f:facet>
                                             </p:cellEditor>
                                         </p:column>
+                                        <p:column headerText="Saldo a pagar">
+                                            <h:outputText value="#{item.saldoAPagar}">
+                                                <f:convertNumber type="currency" currencySymbol="$"/>
+                                            </h:outputText>
+                                        </p:column>
                                         <p:column headerText="Monto">
                                             <h:outputText id="monto" value="#{item.monto()}">
                                                 <f:convertNumber type="currency" currencySymbol="$"/>
