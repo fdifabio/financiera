@@ -380,14 +380,16 @@
                                             <p:selectBooleanCheckbox value="#{cobroBean.usaSaldoCuenta}"
                                                                      title="Usar saldo cuenta"
                                                                      style="margin-left: 10px;">
-                                                <p:ajax update="total"/>
+                                                <p:ajax update="total panelSaldoCuenta" listener="#{cobroBean.resetSaldoCuenta}"/>
+
                                             </p:selectBooleanCheckbox>
                                         </h:panelGroup>
 
                                         <div class="EmptyBox10"></div>
                                         <h:outputText value="#{msgs['saldoCuenta']}:" styleClass="FontBold"/>
-                                        <h:panelGroup>
+                                        <h:panelGroup id="panelSaldoCuenta">
                                             <p:inputNumber id="saldoCuenta"
+                                                           disabled="#{cobroBean.usaSaldoCuenta}"
                                                            value="#{cobroBean.saldoCuenta}" symbol="$ "
                                                            decimalSeparator="," thousandSeparator="."
                                                            decimalPlaces="2"

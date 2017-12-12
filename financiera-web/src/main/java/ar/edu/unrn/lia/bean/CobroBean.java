@@ -37,7 +37,7 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     private Credito credito = new Credito();
     private BigDecimal saldoCuenta = BigDecimal.ZERO;
     private boolean usaSaldoCuenta = false;
-    boolean agregarsaldo=false;
+    boolean agregarsaldo = false;
 
     @Inject
     private AuthenticationBean authenticationBean;
@@ -137,7 +137,7 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         c.setInteresVencido(BigDecimal.ZERO);
         c.setEstado(c.getEstadoAnterior());
         c.setSaldoAPagar(c.getSaldoAPagarAnterior());
-       c.getCobros().remove(new Cobro(c.monto(), new Date(), "", c));
+        c.getCobros().remove(new Cobro(c.monto(), new Date(), "", c));
         cuotasPendientes.add(c);
     }
 
@@ -211,22 +211,25 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         List<Movimiento> movimientos = new ArrayList<>(0);
         credito.getListCuotas().stream().forEach(c -> c.getCobros().stream().filter(
                 co -> co.getId() == null).forEach(co -> {
-            if (usaSaldoCuenta) {
-                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota Nro "+c.getNro() +" a "+ credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
+            if (usaSaldoCuenta && credito.getSaldoCuenta().compareTo(BigDecimal.ZERO) > 0) {
+                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota Nro " + c.getNro() + " a " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
                 movimientos.add(new Movimiento(credito.getSaldoCuenta(), co.getFecha(), "Usa saldo a cuenta " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.EGRESO, caja));
-                usaSaldoCuenta=false;
+                usaSaldoCuenta = false;
                 credito.setSaldoCuenta(BigDecimal.ZERO);
 
             } else if (saldoCuenta.compareTo(BigDecimal.ZERO) > 0 && !agregarsaldo) {
-                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota Nro "+c.getNro() +" a "+  credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
+                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota Nro " + c.getNro() + " a " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
                 movimientos.add(new Movimiento(saldoCuenta, co.getFecha(), "Agrega saldo a cuenta " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
-                agregarsaldo=true;
-            }else
-                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota Nro "+c.getNro() +" a "+ credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
+                agregarsaldo = true;
+            } else
+                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota Nro " + c.getNro() + " a " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
         }));
         caja.getMovimientos().addAll(movimientos);
     }
 
+    public void resetSaldoCuenta() {
+        saldoCuenta = BigDecimal.ZERO;
+    }
 
     public CobroService getEntityService() {
         return entityService;
