@@ -3,6 +3,7 @@ package ar.edu.unrn.lia.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -140,7 +141,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
 
     @Column(name = "interes_vencido")
     public BigDecimal getInteresVencido() {
-        return interesVencido.equals(BigDecimal.ZERO) ? INTERES_VENCIDO : interesVencido;
+        return interesVencido;
     }
 
     public void setInteresVencido(BigDecimal interesVencido) {
@@ -174,9 +175,12 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
 
     @Transient
     public BigDecimal monto() {
+        BigDecimal monto;
         if (this.getEstadoAnterior().equals(Estado.VENCIDO))
-            return saldoAPagarAnterior.add(calcularCuotaInteresVencido());
-        return saldoAPagarAnterior.subtract(calcularCuotaInteresDescuento());
+            monto = saldoAPagarAnterior.add(calcularCuotaInteresVencido());
+        else
+            monto = saldoAPagarAnterior.subtract(calcularCuotaInteresDescuento());
+        return redondear(monto);
     }
 
     @Transient
@@ -257,6 +261,14 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     @Transient
     public BigDecimal getSaldoAPagarAnterior() {
         return saldoAPagarAnterior;
+    }
+
+    @Transient
+    private BigDecimal redondear(BigDecimal value) {
+//        BigDecimal big = new BigDecimal(value);
+//        big = big.setScale(2, RoundingMode.HALF_UP);
+//        return big.BigDecimalValue();
+        return value.setScale(2, RoundingMode.HALF_UP);
     }
 
     public void setSaldoAPagarAnterior(BigDecimal saldoAPagarAnterior) {
