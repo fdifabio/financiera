@@ -251,7 +251,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
 
     @Transient
     public BigDecimal getMontoAPagar() {
-        return montoAPagar;
+        return redondear(montoAPagar);
     }
 
     public void setMontoAPagar(BigDecimal montoAPagar) {
