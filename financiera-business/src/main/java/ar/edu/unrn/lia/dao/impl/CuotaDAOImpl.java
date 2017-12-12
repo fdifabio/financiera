@@ -90,6 +90,7 @@ public class CuotaDAOImpl extends GenericDaoJpaImpl<Cuota, Long> implements
         query.setParameter("month", month);
         return (List<CuotaDTO>) query.getResultList();
     }
+
     public List<CuotaDTO> countAdeudadas(int year, int month) {
 
         Query query = this.entityManager.createQuery("SELECT new ar.edu.unrn.lia.dto.CuotaDTO(YEAR( c.fechaVencimiento ) ,MONTH ( c.fechaVencimiento ), COUNT( c.cuotaCapital )) FROM Cuota c WHERE c.estado= :estado and YEAR( c.fechaVencimiento ) = :year and MONTH( c.fechaVencimiento ) > :month GROUP BY 1,2");
@@ -130,10 +131,10 @@ public class CuotaDAOImpl extends GenericDaoJpaImpl<Cuota, Long> implements
 
     @Override
     public void actualizarEstados() {
-        Query query = this.entityManager.createQuery("UPDATE Cuota c SET c.estado=:estado1 where :today > c.fechaVencimiento and (c.estado= :estado2 or c.estado= :estado3)");
+        Query query = this.entityManager.createQuery("UPDATE Cuota c SET c.estado=:estado1 where :today > c.fechaVencimiento and c.estado= :estado3");
         query.setParameter("estado1", Cuota.Estado.VENCIDO);
         query.setParameter("today", new Date());
-        query.setParameter("estado2", Cuota.Estado.PARCIALMENTE_SALDADO);
+//        query.setParameter("estado2", Cuota.Estado.PARCIALMENTE_SALDADO);
         query.setParameter("estado3", Cuota.Estado.ADEUDADO);
         query.executeUpdate();
     }
