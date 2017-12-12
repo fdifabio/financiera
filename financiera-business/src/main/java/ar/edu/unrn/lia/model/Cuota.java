@@ -1,5 +1,7 @@
 package ar.edu.unrn.lia.model;
 
+import org.hibernate.annotations.Fetch;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -119,7 +121,7 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cuota", fetch = FetchType.EAGER)
-//    @Fetch(FetchMode.JOIN)
+    @Fetch(org.hibernate.annotations.FetchMode.JOIN)
     public List<Cobro> getCobros() {
         return cobros;
     }
@@ -183,9 +185,12 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
         return redondear(monto);
     }
 
+
     @Transient
     public BigDecimal calcularCuotaInteresVencido() {
         //TODO: SALDO-> Ver de guardarlo cuando se genera el cobro
+        if (saldoAPagarAnterior == null)
+            saldoAPagarAnterior = saldoAPagar;
         BigDecimal value = saldoAPagarAnterior.multiply(getInteresVencido()).divide(new BigDecimal(100));
         value = value.multiply(new BigDecimal(diasVencidos()));
         return value;

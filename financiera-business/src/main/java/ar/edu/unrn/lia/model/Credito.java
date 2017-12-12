@@ -1,5 +1,8 @@
 package ar.edu.unrn.lia.model;
 
+import org.hibernate.FetchMode;
+import org.hibernate.annotations.Fetch;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -121,11 +124,11 @@ public class Credito extends BaseEntity implements java.io.Serializable {
 
     @Transient
     public List<Cuota> getListCuotasVencidas() {
-        return listCuotas.stream().filter(c -> c.isVencido()).collect(Collectors.toList());
+        return getListCuotas().stream().filter(c -> c.isVencido()).collect(Collectors.toList());
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "credito", orphanRemoval = true)
-//    @Fetch(FetchMode.JOIN)
+    @Fetch(org.hibernate.annotations.FetchMode.JOIN)
     public List<Cuota> getListCuotas() {
         return listCuotas;
     }
@@ -194,8 +197,9 @@ public class Credito extends BaseEntity implements java.io.Serializable {
 
     @Transient
     public Long totalCuotasPorPagar() {
-        return cuotas-totalCuotasPagas();
+        return cuotas - totalCuotasPagas();
     }
+
     @Transient
     private BigDecimal redondear(BigDecimal value) {
 //        BigDecimal big = new BigDecimal(value);
@@ -241,7 +245,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
 
     @Transient
     public boolean isCancelado() {
-       return estado.equals(Estado.CANCELADO);
+        return estado.equals(Estado.CANCELADO);
     }
 
     public Credito() {
