@@ -3,7 +3,9 @@ package ar.edu.unrn.lia.dao.impl;
 import ar.edu.unrn.lia.dao.CreditoDAO;
 import ar.edu.unrn.lia.generic.GenericDaoJpaImpl;
 import ar.edu.unrn.lia.model.Credito;
+import ar.edu.unrn.lia.model.Cuota;
 import ar.edu.unrn.lia.model.Estado;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Named;
 import javax.persistence.Query;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by Lucas on 22/08/2017.
@@ -125,11 +128,44 @@ public class CreditoDAOImpl extends GenericDaoJpaImpl<Credito, Long> implements
     }
 
     @Override
+    @Transactional
     public void actualizarEstados() {
-        Query query = this.entityManager.createQuery("UPDATE Credito c SET c.estado= :estado1 where c.estado= :estado2 and :today>c.fechaVencimiento ");
-        query.setParameter("estado1", Estado.LEGALES);
+
+        /*Actualiacion de creditos a estado Legales*/
+        Query query = this.entityManager.createQuery(" Select c FROM Credito c INNER JOIN FETCH c.listCuotas cu  where c.estado = :estado2  AND (cu.estado = :estado3 OR cu.estado = :estado4)");
         query.setParameter("estado2", Estado.ACTIVO);
-        query.setParameter("today", new Date());
-        query.executeUpdate();
+        query.setParameter("estado3", Cuota.Estado.VENCIDO);
+        query.setParameter("estado4", Cuota.Estado.PARCIALMENTE_SALDADO);
+
+
+        List<Credito> creditosConCuotasVencidas = query.getResultList();
+
+        if (!creditosConCuotasVencidas.isEmpty()) {
+            List<Long> ids = creditosConCuotasVencidas.stream().map(Credito::getId).collect(Collectors.toList());
+
+            Query query1 = this.entityManager.createQuery("UPDATE Credito c SET c.estado= :estado1  where c.id IN (:ids)");
+            query1.setParameter("estado1", Estado.LEGALES);
+            query1.setParameter("ids", ids);
+            query1.executeUpdate();
+        }
+
+        /*Actualiacion de creditos A estado ACTIVO, los cuales estan en estado Legal y que no tengan cuotas Vencidas. */
+        Query query3 = this.entityManager.createQuery(" Select c FROM Credito c WHERE c.estado = :estado2  AND not exists (Select c1 FROM Credito c1  JOIN  c1.listCuotas cu  WHERE cu.estado = :estado3 OR cu.estado = :estado4)");
+        query3.setParameter("estado2", Estado.LEGALES);
+        query3.setParameter("estado3", Cuota.Estado.VENCIDO);
+        query3.setParameter("estado4", Cuota.Estado.PARCIALMENTE_SALDADO);
+
+
+        List<Credito> creditosLegales = query3.getResultList();
+
+        if (!creditosLegales.isEmpty()) {
+            List<Long> ids = creditosLegales.stream().map(Credito::getId).collect(Collectors.toList());
+
+            Query query1 = this.entityManager.createQuery("UPDATE Credito c SET c.estado= :estado1  where c.id IN (:ids)");
+            query1.setParameter("estado1", Estado.ACTIVO);
+            query1.setParameter("ids", ids);
+            query1.executeUpdate();
+        }
+
     }
 }
