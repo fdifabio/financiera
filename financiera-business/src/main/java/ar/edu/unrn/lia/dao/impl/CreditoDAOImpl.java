@@ -71,7 +71,7 @@ public class CreditoDAOImpl extends GenericDaoJpaImpl<Credito, Long> implements
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            predicatesList.add(builder.greaterThanOrEqualTo(root.<Date>get("fechaInicio"), date));
+            predicatesList.add(builder.greaterThanOrEqualTo(root.<Date>get("fechaCreacion"), date));
         }
 
         String fechaFin = filters.get("fecha_fin");
@@ -83,7 +83,7 @@ public class CreditoDAOImpl extends GenericDaoJpaImpl<Credito, Long> implements
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            predicatesList.add(builder.lessThanOrEqualTo(root.<Date>get("fechaInicio"), date));
+            predicatesList.add(builder.lessThanOrEqualTo(root.<Date>get("fechaCreacion"), date));
         }
 
 

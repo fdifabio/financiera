@@ -73,7 +73,7 @@
                                                       styleClass="#{item.estado.backgroundColor} White"
                                                       style="padding: 0px 5px 0px 5px;border-radius: 5px; display: block;text-align: center;"/>
                                     </p:column>
-                                    <p:column headerText="Saldo a pagar">
+                                    <p:column headerText="Saldo adeudado">
                                         <h:outputText value="#{item.saldoAPagar}">
                                             <f:convertNumber type="currency" currencySymbol="$"/>
                                         </h:outputText>
@@ -216,7 +216,7 @@
                                             <h:outputText value="#{item.nro}"/>
 
                                         </p:column>
-                                        <p:column headerText="#{msgs['formFechaVencimiento']}">
+                                        <p:column headerText="#{msgs['formFechaVencimiento']}" width="70">
                                             <h:outputText value="#{item.fechaVencimiento}">
                                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                                             </h:outputText>
@@ -296,12 +296,12 @@
                                                 </f:facet>
                                             </p:cellEditor>
                                         </p:column>
-                                        <p:column headerText="Saldo a pagar">
+                                        <p:column headerText="Saldo adeudado" width="70">
                                             <h:outputText value="#{item.saldoAPagar}">
                                                 <f:convertNumber type="currency" currencySymbol="$"/>
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="Monto">
+                                        <p:column headerText="Monto" width="70">
                                             <h:outputText id="monto" value="#{item.monto()}">
                                                 <f:convertNumber type="currency" currencySymbol="$"/>
                                             </h:outputText>
