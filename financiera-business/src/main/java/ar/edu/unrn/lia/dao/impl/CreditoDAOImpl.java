@@ -132,7 +132,7 @@ public class CreditoDAOImpl extends GenericDaoJpaImpl<Credito, Long> implements
     public void actualizarEstados() {
 
         /*Actualiacion de creditos a estado Legales*/
-        Query query = this.entityManager.createQuery(" Select c FROM Credito c INNER JOIN FETCH c.listCuotas cu  where c.estado = :estado2  AND (cu.estado = :estado3 OR cu.estado = :estado4)");
+      /*  Query query = this.entityManager.createQuery(" Select c FROM Credito c INNER JOIN FETCH c.listCuotas cu  where c.estado = :estado2  AND (cu.estado = :estado3 OR cu.estado = :estado4)");
         query.setParameter("estado2", Estado.ACTIVO);
         query.setParameter("estado3", Cuota.Estado.VENCIDO);
         query.setParameter("estado4", Cuota.Estado.PARCIALMENTE_SALDADO);
@@ -147,7 +147,7 @@ public class CreditoDAOImpl extends GenericDaoJpaImpl<Credito, Long> implements
             query1.setParameter("estado1", Estado.LEGALES);
             query1.setParameter("ids", ids);
             query1.executeUpdate();
-        }
+        }*/
 
         /*Actualiacion de creditos A estado ACTIVO, los cuales estan en estado Legal y que no tengan cuotas Vencidas. */
         Query query3 = this.entityManager.createQuery(" Select c FROM Credito c WHERE c.estado = :estado2  AND not exists (Select c1 FROM Credito c1  JOIN  c1.listCuotas cu  WHERE cu.estado = :estado3 OR cu.estado = :estado4)");
@@ -167,5 +167,12 @@ public class CreditoDAOImpl extends GenericDaoJpaImpl<Credito, Long> implements
             query1.executeUpdate();
         }
 
+    }
+    @Transactional
+    public void cambiarEstado(Credito credito, Estado estado) {
+        Query query1 = this.entityManager.createQuery("UPDATE Credito c SET c.estado= :estado  where c= :credito");
+        query1.setParameter("estado", estado);
+        query1.setParameter("credito", credito);
+        query1.executeUpdate();
     }
 }

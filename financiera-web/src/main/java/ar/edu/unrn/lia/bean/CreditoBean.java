@@ -117,6 +117,10 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
         return Arrays.asList(Estado.values()).stream().map(Estado::toString).collect(Collectors.toList());
     }
 
+    public void cambiarEstadoLegales(Credito credito) {
+        entityService.cambiarEstado(credito, Estado.LEGALES);
+    }
+
     public BigDecimal interesVencido() {
         return Cuota.INTERES_VENCIDO;
     }
