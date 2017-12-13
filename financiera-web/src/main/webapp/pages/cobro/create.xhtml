@@ -239,17 +239,13 @@
                                             <p:cellEditor>
 
                                                 <f:facet name="output">
-                                                    <h:outputText value="#{item.interesVencido}">
+                                                    <h:panelGroup rendered="#{item.isEstadoAnteriorVencido() or item.isEstadoAnteriorParcialmenteSaldado()}">
+                                                    <h:outputText value="#{item.interesVencido}" >
                                                         <f:convertNumber pattern="#0"/>
                                                     </h:outputText>%
+                                                    </h:panelGroup>
                                                 </f:facet>
                                                 <f:facet name="input">
-                                                    <h:panelGroup
-                                                            rendered="#{!item.isEstadoAnteriorVencido() and !item.isEstadoAnteriorParcialmenteSaldado()}">
-                                                        <h:outputText value="#{item.interesVencido}">
-                                                            <f:convertNumber pattern="#0"/>
-                                                        </h:outputText>%
-                                                    </h:panelGroup>
                                                     <h:panelGroup
                                                             rendered="#{item.isEstadoAnteriorVencido() or item.isEstadoAnteriorParcialmenteSaldado()}">
                                                         <p:spinner suffix="%" min="0" max="100"
