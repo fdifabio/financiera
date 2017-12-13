@@ -225,7 +225,7 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
                 */
                 operacion = "Cobro de cuota ";
                 descripcion = descripcion + c.getNro().toString() + ", ";
-                cliente = "y Usa pago a cuenta $"+saldoCuenta + credito.getCliente().getApellidoNombre();
+                cliente = "y Usa pago a cuenta " + credito.getCliente().getApellidoNombre();
                // usaSaldoCuenta = false;
                 //credito.setSaldoCuenta(BigDecimal.ZERO);
 
@@ -235,7 +235,7 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
                 */
                 operacion = "Cobro de cuota ";
                 descripcion = descripcion + c.getNro().toString() + ", ";
-                cliente = "y Pago a cuenta $"+saldoCuenta + credito.getCliente().getApellidoNombre();
+                cliente = "y Pago a cuenta "+ credito.getCliente().getApellidoNombre();
                // agregarsaldo = true;
             } else {
                 // movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota Nro " + c.getNro() + " a " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
