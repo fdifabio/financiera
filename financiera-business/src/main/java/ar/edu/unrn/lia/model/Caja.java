@@ -135,8 +135,7 @@ public class Caja extends BaseEntity implements java.io.Serializable {
 
             }
         }
-        monto.negate();
-        return monto.doubleValue();
+        return 0 - monto.doubleValue();
     }
 
     @Transient
@@ -150,8 +149,7 @@ public class Caja extends BaseEntity implements java.io.Serializable {
 
             }
         }
-        monto.negate();
-        return monto.doubleValue();
+        return 0 - monto.doubleValue();
     }
 
 
