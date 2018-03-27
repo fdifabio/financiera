@@ -83,7 +83,8 @@ public class Movimiento extends BaseEntity implements java.io.Serializable {
 
     public enum Tipo implements Serializable {
 
-        EGRESO("Egreso", "Red", "fa fa-arrow-down"), INGRESO("Ingreso", "Green", "fa fa-arrow-up");
+        EGRESO("Egreso", "Red", "fa fa-arrow-down"), INGRESO("Ingreso", "Green", "fa fa-arrow-up"),
+        CREDITO("Credito Otorgado", "Red", "fa fa-arrow-down"), COBRO("Cobro", "Green", "fa fa-arrow-up");
 
         private String descripcion;
         private String color;

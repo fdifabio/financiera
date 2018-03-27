@@ -212,17 +212,17 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         credito.getListCuotas().stream().forEach(c -> c.getCobros().stream().filter(
                 co -> co.getId() == null).forEach(co -> {
             if (usaSaldoCuenta && credito.getSaldoCuenta().compareTo(BigDecimal.ZERO) > 0) {
-                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota Nro " + c.getNro() + " a " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
+                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
                 movimientos.add(new Movimiento(credito.getSaldoCuenta(), co.getFecha(), "Usa saldo a cuenta " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.EGRESO, caja));
                 usaSaldoCuenta = false;
                 credito.setSaldoCuenta(BigDecimal.ZERO);
 
             } else if (saldoCuenta.compareTo(BigDecimal.ZERO) > 0 && !agregarsaldo) {
-                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota Nro " + c.getNro() + " a " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
+                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
                 movimientos.add(new Movimiento(saldoCuenta, co.getFecha(), "Agrega saldo a cuenta " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
                 agregarsaldo = true;
             } else
-                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota Nro " + c.getNro() + " a " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
+                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
         }));
         caja.getMovimientos().addAll(movimientos);
     }

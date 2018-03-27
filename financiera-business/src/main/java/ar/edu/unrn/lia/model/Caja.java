@@ -5,7 +5,10 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -51,7 +54,7 @@ public class Caja extends BaseEntity implements java.io.Serializable {
         this.fechaCierre = fechaCierre;
     }
 
-    @OneToMany(mappedBy = "caja",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "caja", cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.JOIN)
     public List<Movimiento> getMovimientos() {
         return movimientos;
@@ -61,6 +64,18 @@ public class Caja extends BaseEntity implements java.io.Serializable {
     public List<Movimiento> getMovimientosOrden() {
         Collections.reverse(movimientos);
         return movimientos;
+    }
+
+    @Transient
+    public List<Movimiento> getMovimientosOrdenCobro() {
+        Collections.reverse(movimientos);
+        return movimientos.stream().filter(m -> m.getTipo().equals(Movimiento.Tipo.COBRO)).collect(Collectors.toList());
+    }
+
+    @Transient
+    public List<Movimiento> getMovimientosOrdenCredito() {
+        Collections.reverse(movimientos);
+        return movimientos.stream().filter(m -> m.getTipo().equals(Movimiento.Tipo.CREDITO)).collect(Collectors.toList());
     }
 
     public void setMovimientos(List<Movimiento> movimientos) {
@@ -73,7 +88,7 @@ public class Caja extends BaseEntity implements java.io.Serializable {
         if (this != null) {
             for (Movimiento movimiento : getMovimientos()
                     ) {
-                if (movimiento.getTipo() == Movimiento.Tipo.INGRESO)
+                if (movimiento.getTipo() == Movimiento.Tipo.INGRESO || movimiento.getTipo() == Movimiento.Tipo.COBRO)
                     monto = monto.add(movimiento.getMonto());
                 else
                     monto = monto.subtract(movimiento.getMonto());
@@ -82,6 +97,63 @@ public class Caja extends BaseEntity implements java.io.Serializable {
         }
         return monto.doubleValue();
     }
+
+    @Transient
+    public double saldoInicial() {
+        BigDecimal monto = BigDecimal.ZERO;
+        if (this != null) {
+            for (Movimiento movimiento : getMovimientos()
+                    ) {
+                if (movimiento.getTipo() == Movimiento.Tipo.INGRESO)
+                    monto = monto.add(movimiento.getMonto());
+
+            }
+        }
+        return monto.doubleValue();
+    }
+    @Transient
+    public double saldoCobros() {
+        BigDecimal monto = BigDecimal.ZERO;
+        if (this != null) {
+            for (Movimiento movimiento : getMovimientos()
+                    ) {
+                if (movimiento.getTipo() == Movimiento.Tipo.COBRO)
+                    monto = monto.add(movimiento.getMonto());
+
+            }
+        }
+        return monto.doubleValue();
+    }
+    @Transient
+    public double saldoCreditos() {
+        BigDecimal monto = BigDecimal.ZERO;
+        if (this != null) {
+            for (Movimiento movimiento : getMovimientos()
+                    ) {
+                if (movimiento.getTipo() == Movimiento.Tipo.CREDITO)
+                    monto = monto.add(movimiento.getMonto());
+
+            }
+        }
+        monto.negate();
+        return monto.doubleValue();
+    }
+
+    @Transient
+    public double saldoGastos() {
+        BigDecimal monto = BigDecimal.ZERO;
+        if (this != null) {
+            for (Movimiento movimiento : getMovimientos()
+                    ) {
+                if (movimiento.getTipo() == Movimiento.Tipo.EGRESO)
+                    monto = monto.add(movimiento.getMonto());
+
+            }
+        }
+        monto.negate();
+        return monto.doubleValue();
+    }
+
 
     @Transient
     public boolean habilitada() {

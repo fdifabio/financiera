@@ -25,66 +25,144 @@
 
     <ui:define name="content">
         <div class="Container100 ui-fluid">
-        <div class="Container50 ui-fluid">
-            <div class="ContainerIndent">
-                <div class="Card ShadowEffect">
-                    <p:panel header="Caja"
-                             style="margin-top:20px">
-                        <p:panelGrid columns="2"
-                                     columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid"
-                                     styleClass="ui-panelgrid-blank">
-                            <h:outputText value="Fecha apertura:" styleClass="FontBold"/>
-                            <h:outputText value="#{cajaBean.entity.fechaApertura}">
-                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
-                            </h:outputText>
-                            <h:outputText value="Fecha cierre:" styleClass="FontBold"/>
-                            <h:outputText value="#{cajaBean.entity.fechaCierre}">
-                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
-                            </h:outputText>
-                            <h:outputText value="Saldo:" styleClass="FontBold"/>
-                            <h:outputText value="#{cajaBean.entity.saldo()}">
-                                <f:convertNumber type="currency" currencySymbol="$"/>
-                            </h:outputText>
-                        </p:panelGrid>
-                    </p:panel>
-                    <div class="EmptyBox20"></div>
+            <div class="Container50 ui-fluid">
+                <div class="ContainerIndent">
+                    <div class="Card ShadowEffect">
+                        <p:panel header="Caja"
+                                 style="margin-top:20px">
+                            <p:panelGrid columns="2"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid"
+                                         styleClass="ui-panelgrid-blank">
+                                <h:outputText value="Fecha apertura:" styleClass="FontBold"/>
+                                <h:outputText value="#{cajaBean.entity.fechaApertura}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                </h:outputText>
+                                <h:outputText value="Fecha cierre:" styleClass="FontBold"/>
+                                <h:outputText value="#{cajaBean.entity.fechaCierre}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                </h:outputText>
+                                <h:outputText value="Saldo Inicial:" styleClass="FontBold"/>
+                                <h:outputText value="#{cajaBean.entity.saldoInicial()}">
+                                    <f:convertNumber type="currency" currencySymbol="$"/>
+                                </h:outputText>
+                                <h:outputText value="Total Cobros:" styleClass="FontBold"/>
+                                <h:outputText value="#{cajaBean.entity.saldoCobros()}">
+                                    <f:convertNumber type="currency" currencySymbol="$"/>
+                                </h:outputText>
+                                <h:outputText value="Total Gastos:" styleClass="FontBold"/>
+                                <h:outputText value="#{cajaBean.entity.saldoGastos()}">
+                                    <f:convertNumber type="currency" currencySymbol="$"/>
+                                </h:outputText>
+                                <h:outputText value="Total Creditos:" styleClass="FontBold"/>
+                                <h:outputText value="#{cajaBean.entity.saldoCreditos()}">
+                                    <f:convertNumber type="currency" currencySymbol="$"/>
+                                </h:outputText>
+                                <h:outputText value="Saldo:" styleClass="FontBold"/>
+                                <h:outputText value="#{cajaBean.entity.saldo()}">
+                                    <f:convertNumber type="currency" currencySymbol="$"/>
+                                </h:outputText>
+                            </p:panelGrid>
+                        </p:panel>
+                        <div class="EmptyBox20"></div>
 
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="Container50 ui-fluid">
-            <div class="ContainerIndent">
-                <div class="Card ShadowEffect">
-                    <p:dataTable id="list" var="item" value="#{cajaBean.entity.getMovimientosOrden()}"
-                                 emptyMessage="No hay movimientos para mostrar"
-                                 paginator="true" rows="6"
-                                 paginatorPosition="bottom"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="6,12,24,36,48">
-                        <p:column headerText="Fecha" style="text-align: center;">
-                            <h:outputText value="#{item.fecha}" >
-                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="Tipo" style="text-align: center;">
-                            <h:outputText value="#{item.tipo.descripcion}"
-                                          styleClass="#{item.tipo.backgroundColor} White"
-                                          style="padding: 0px 10px 0px 10px;border-radius: 5px; display: block;text-align: center;"/>
-                        </p:column>
-                        <p:column headerText="Descripción">
-                            <h:outputText value="#{item.descripcion}">
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="Monto"  style="text-align: center;">
-                            <h:outputText value="#{item.monto}">
-                            <f:convertNumber type="currency" currencySymbol="$"/>
-                            </h:outputText>
-                        </p:column>
+            <div class="Container50 ui-fluid">
+                <div class="ContainerIndent">
+                    <div class="Card ShadowEffect">
+                        <p:tabView>
+                            <p:tab title="Detalle">
+                                <p:dataTable id="list" var="item" value="#{cajaBean.entity.getMovimientosOrden()}"
+                                             emptyMessage="No hay movimientos para mostrar"
+                                             paginator="true" rows="6"
+                                             paginatorPosition="bottom"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="6,12,24,36,48">
+                                    <p:column headerText="Fecha" style="text-align: center;">
+                                        <h:outputText value="#{item.fecha}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Tipo" style="text-align: center;">
+                                        <h:outputText value="#{item.tipo.descripcion}"
+                                                      styleClass="#{item.tipo.backgroundColor} White"
+                                                      style="padding: 0px 10px 0px 10px;border-radius: 5px; display: block;text-align: center;"/>
+                                    </p:column>
+                                    <p:column headerText="Descripción">
+                                        <h:outputText value="#{item.descripcion}">
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Monto" style="text-align: center;">
+                                        <h:outputText value="#{item.monto}">
+                                            <f:convertNumber type="currency" currencySymbol="$"/>
+                                        </h:outputText>
+                                    </p:column>
 
-                    </p:dataTable>
+                                </p:dataTable>
+                            </p:tab>
+                            <p:tab title="Cobros">
+                                <p:dataTable id="listCobro" var="item" value="#{cajaBean.entity.getMovimientosOrdenCobro()}"
+                                             emptyMessage="No hay movimientos para mostrar"
+                                             paginator="true" rows="6"
+                                             paginatorPosition="bottom"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="6,12,24,36,48">
+                                    <p:column headerText="Fecha" style="text-align: center;">
+                                        <h:outputText value="#{item.fecha}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Tipo" style="text-align: center;">
+                                        <h:outputText value="#{item.tipo.descripcion}"
+                                                      styleClass="#{item.tipo.backgroundColor} White"
+                                                      style="padding: 0px 10px 0px 10px;border-radius: 5px; display: block;text-align: center;"/>
+                                    </p:column>
+                                    <p:column headerText="Descripción">
+                                        <h:outputText value="#{item.descripcion}">
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Monto" style="text-align: center;">
+                                        <h:outputText value="#{item.monto}">
+                                            <f:convertNumber type="currency" currencySymbol="$"/>
+                                        </h:outputText>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:tab>
+                            <p:tab title="Crèditos otorgados">
+                                <p:dataTable id="listCredito" var="item" value="#{cajaBean.entity.getMovimientosOrdenCredito()}"
+                                             emptyMessage="No hay movimientos para mostrar"
+                                             paginator="true" rows="6"
+                                             paginatorPosition="bottom"
+                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                             rowsPerPageTemplate="6,12,24,36,48">
+                                    <p:column headerText="Fecha" style="text-align: center;">
+                                        <h:outputText value="#{item.fecha}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Tipo" style="text-align: center;">
+                                        <h:outputText value="#{item.tipo.descripcion}"
+                                                      styleClass="#{item.tipo.backgroundColor} White"
+                                                      style="padding: 0px 10px 0px 10px;border-radius: 5px; display: block;text-align: center;"/>
+                                    </p:column>
+                                    <p:column headerText="Descripción">
+                                        <h:outputText value="#{item.descripcion}">
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column headerText="Monto" style="text-align: center;">
+                                        <h:outputText value="#{item.monto}">
+                                            <f:convertNumber type="currency" currencySymbol="$"/>
+                                        </h:outputText>
+                                    </p:column>
+
+                                </p:dataTable>
+                            </p:tab>
+                        </p:tabView>
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </ui:define>
 </ui:composition>

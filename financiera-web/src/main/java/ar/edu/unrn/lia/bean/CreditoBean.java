@@ -2,6 +2,8 @@ package ar.edu.unrn.lia.bean;
 
 import ar.edu.unrn.lia.bean.datamodel.DataModel;
 import ar.edu.unrn.lia.model.*;
+import ar.edu.unrn.lia.security.AuthenticationBean;
+import ar.edu.unrn.lia.service.CajaService;
 import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CreditoService;
 import ar.edu.unrn.lia.service.InteresService;
@@ -33,6 +35,11 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
     private Credito creditoSeleccionado;
     private BigDecimal saldoAdeudado;
 
+    private Caja caja;
+
+    @Inject
+    private AuthenticationBean authenticationBean;
+
     @Inject
     private CreditoService entityService;
 
@@ -41,6 +48,10 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     @Inject
     private InteresService interesService;
+
+
+    @Inject
+    CajaService cajaService;
 
 
     List<Interes> intereses = new ArrayList<>();
@@ -55,6 +66,7 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     public void inicio() {
         if (!FacesContext.getCurrentInstance().isPostback()) {
+            setCaja(getCajaService().getLast());
             if (getId() != null) {
                 setEntity(entityService.getEntityById(getId()));
                 setIsNew(false);
@@ -107,9 +119,17 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     }
 
+    private void addMovimientos() {
+        List<Movimiento> movimientos = new ArrayList<>(0);
+        movimientos.add(new Movimiento(getEntity().getCapital(), getEntity().getFechaCreacion(), Movimiento.Tipo.CREDITO.getDescripcion() + " a " + getEntity().getCliente().getApellidoNombre(), Movimiento.Tipo.CREDITO, caja));
+        caja.getMovimientos().addAll(movimientos);
+    }
     @Override
     public String update() {
         calcularCuotas();
+        addMovimientos();
+        cajaService.save(caja);
+        authenticationBean.updateMovimientos();
         return super.update();
     }
 
@@ -183,5 +203,21 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     public void setSaldoAdeudado(BigDecimal saldoAdeudado) {
         this.saldoAdeudado = saldoAdeudado;
+    }
+
+    public Caja getCaja() {
+        return caja;
+    }
+
+    public void setCaja(Caja caja) {
+        this.caja = caja;
+    }
+
+    public CajaService getCajaService() {
+        return cajaService;
+    }
+
+    public void setCajaService(CajaService cajaService) {
+        this.cajaService = cajaService;
     }
 }
