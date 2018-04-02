@@ -1,6 +1,5 @@
 package ar.edu.unrn.lia.service;
 
-import ar.edu.unrn.lia.model.Cliente;
 import ar.edu.unrn.lia.model.Garante;
 
 import java.util.List;

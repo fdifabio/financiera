@@ -1,6 +1,7 @@
 package ar.edu.unrn.lia.bean.convert;
 
 import ar.edu.unrn.lia.bean.CreditoBean;
+import ar.edu.unrn.lia.model.Garante;
 import ar.edu.unrn.lia.model.GenericEntity;
 import ar.edu.unrn.lia.service.GaranteService;
 
@@ -24,8 +25,7 @@ public class GaranteConverter implements Converter {
     public Object getAsObject(FacesContext context, UIComponent uic, String value) {
         if (value != null && value.trim().length() > 0) {
             try {
-//                    ThemeService service = (ThemeService) fc.getExternalContext().getApplicationMap().get("themeService");
-//                return clienteService.getEntityById(Long.parseLong(value));
+
                 Application application = context.getApplication();
                 ELContext elContext = context.getELContext();
 

@@ -132,6 +132,7 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
         movimientos.add(new Movimiento(getEntity().getCapital(), getEntity().getFechaCreacion(), Movimiento.Tipo.CREDITO.getDescripcion() + " a " + getEntity().getCliente().getApellidoNombre(), Movimiento.Tipo.CREDITO, caja));
         caja.getMovimientos().addAll(movimientos);
     }
+
     @Override
     public String update() {
         calcularCuotas();

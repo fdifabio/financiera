@@ -83,10 +83,10 @@
                                                          styleClass="ui-panelgrid-blank">
                                                 <h:outputLabel value="#{msgs['formBuscarGarante']}:"
                                                                styleClass="FontBold"
-                                                               for="garante"/>
+                                                               for="garantes"/>
 
                                                 <h:panelGroup>
-                                                    <p:autoComplete id="garante" value="#{creditoBean.entity.garante}"
+                                                    <p:autoComplete id="garantes" value="#{creditoBean.entity.garante}"
                                                                     placeholder="Ingrese código, nombre, apellido o DNI del garante"
                                                                     completeMethod="#{creditoBean.completeGarante}"
                                                                     var="g" itemLabel="#{g.apellidoNombre}"
@@ -108,7 +108,7 @@
                                                         </p:column>
                                                     </p:autoComplete>
 
-                                                    <p:message for="garante"/>
+                                                    <p:message for="garantes"/>
                                                 </h:panelGroup>
 
                                             </p:panelGrid>

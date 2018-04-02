@@ -1,10 +1,7 @@
 package ar.edu.unrn.lia.service.impl;
 
-import ar.edu.unrn.lia.dao.ClienteDAO;
 import ar.edu.unrn.lia.dao.GaranteDAO;
-import ar.edu.unrn.lia.model.Cliente;
 import ar.edu.unrn.lia.model.Garante;
-import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.GaranteService;
 import org.springframework.transaction.annotation.Transactional;
 
