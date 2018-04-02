@@ -15,6 +15,7 @@ import java.util.Map;
  */
 @Named("garanteService")
 public class GaranteServiceImpl implements GaranteService {
+
     @Inject
     GaranteDAO entityDAO;
 

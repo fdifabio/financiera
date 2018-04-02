@@ -3,11 +3,7 @@ package ar.edu.unrn.lia.bean;
 import ar.edu.unrn.lia.bean.datamodel.DataModel;
 import ar.edu.unrn.lia.model.*;
 import ar.edu.unrn.lia.security.AuthenticationBean;
-import ar.edu.unrn.lia.service.CajaService;
-import ar.edu.unrn.lia.service.ClienteService;
-import ar.edu.unrn.lia.service.CreditoService;
-import ar.edu.unrn.lia.service.GaranteService;
-import ar.edu.unrn.lia.service.InteresService;
+import ar.edu.unrn.lia.service.*;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
@@ -85,7 +81,6 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
     public List<Cliente> completeCliente(String apellidoNombre) {
         return clienteService.searchByApellidoNombre(apellidoNombre);
     }
-//:TODO hacer completeGarante
 
     public List<Garante> completeGarante(String apellidoNombre) {
         return garanteService.searchByApellidoNombre(apellidoNombre);
@@ -135,11 +130,18 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     @Override
     public String update() {
-        calcularCuotas();
-        addMovimientos();
-        cajaService.save(caja);
-        authenticationBean.updateMovimientos();
-        return super.update();
+        //Valida que la caja este habilitada
+        if (caja == null) {
+            mensajeFlash("Caja deshabilitada",
+                    "Habilite la caja!");
+            return UtilsBean.REDIRECT_SEARCH;
+        } else {
+            calcularCuotas();
+            addMovimientos();
+            cajaService.save(caja);
+            authenticationBean.updateMovimientos();
+            return super.update();
+        }
     }
 
     public List<String> getEstados() {

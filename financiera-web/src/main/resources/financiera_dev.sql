@@ -2576,9 +2576,9 @@ CREATE TABLE `garante` (
   `trabajo_horario` varchar(255) DEFAULT NULL,
   `trabajo_lugar` varchar(255) DEFAULT NULL,
   `trabajo_dia_cobro` int(11) NOT NULL,
-  `ciudad_id` bigint(20) DEFAULT NULL,
+  `ciudad_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-ALTER TABLE `garante` ADD `id` BIGINT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
+ALTER TABLE `garante` MODIFY `id` BIGINT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
 ALTER TABLE `garante` ADD `trabajo_telefono` VARCHAR(255) NOT NULL AFTER `trabajo_lugar`;
 ALTER TABLE `cliente` ADD `trabajo_telefono` VARCHAR(255) NOT NULL AFTER `trabajo_dia_cobro`;
 ALTER TABLE `cliente` DROP `garantia`;
