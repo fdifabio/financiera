@@ -1,6 +1,5 @@
 package ar.edu.unrn.lia.model;
 
-import org.hibernate.FetchMode;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
@@ -253,6 +252,11 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         else if (existenCuotasAdeudadas())
             this.setEstado(Estado.ACTIVO);
 
+    }
+
+    @Transient
+    public boolean isActivo() {
+        return estado.equals(Estado.ACTIVO);
     }
 
     @Transient

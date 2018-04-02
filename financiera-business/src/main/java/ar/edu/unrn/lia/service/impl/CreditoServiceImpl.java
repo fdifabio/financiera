@@ -3,6 +3,7 @@ package ar.edu.unrn.lia.service.impl;
 import ar.edu.unrn.lia.dao.CreditoDAO;
 import ar.edu.unrn.lia.dao.CuotaDAO;
 import ar.edu.unrn.lia.model.Credito;
+import ar.edu.unrn.lia.model.Estado;
 import ar.edu.unrn.lia.service.CreditoService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -82,5 +83,10 @@ public class CreditoServiceImpl implements CreditoService {
     public void actualizarEstadoCreditoYCuotas() {
         cuotaDAO.actualizarEstados();
         entityDAO.actualizarEstados();
+    }
+
+    @Override
+    public void cambiarEstado(Credito credito, Estado estado) {
+        entityDAO.cambiarEstado(credito, estado);
     }
 }

@@ -113,7 +113,20 @@
                                                        trackMouse="true"/>
                                         </h:panelGroup>
 
-                                        <p:commandLink id="btnEliminar" title="#{msgs['btnEliminar']}"
+                                        <h:panelGroup rendered="#{item.isActivo()}">
+                                            <p:commandLink id="btnLegales"
+                                                           actionListener="#{creditoBean.cambiarEstadoLegales(item)}"
+                                                           update="list formentity:growl">
+                                                <p:confirm header="#{msgs['confirmacion']}"
+                                                           message="#{msgs['confirmarCambioEstado']}" icon="ui-icon-alert"/>
+                                                <i class="fa  fa-legal BoldGray Fs20"></i>
+                                            </p:commandLink>
+                                            <p:tooltip id="toolTip-legales" for="btnLegales"
+                                                       value="#{msgs['btn.cambiar.estado.legales']}"
+                                                       trackMouse="true"/>
+                                        </h:panelGroup>
+
+                                        <p:commandLink id="btnEliminar"
                                                        actionListener="#{creditoBean.deleteCredito(item)}"
                                                        update="list formentity:growl">
                                             <p:confirm header="#{msgs['confirmacion']}"

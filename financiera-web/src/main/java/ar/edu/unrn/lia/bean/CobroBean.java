@@ -37,11 +37,7 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     private Credito credito = new Credito();
     private BigDecimal saldoCuenta = BigDecimal.ZERO;
     private boolean usaSaldoCuenta = false;
-    private boolean agregarsaldo = false;
-    private String descripcion = "";
-    private String operacion = "";
-    private String cliente = "";
-    private BigDecimal total = BigDecimal.ZERO;
+    boolean agregarsaldo = false;
 
     @Inject
     private AuthenticationBean authenticationBean;
@@ -113,8 +109,7 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     }
 
     public BigDecimal total() {
-        setTotal(montoAcumulado().add(saldoCuenta == null ? BigDecimal.ZERO : saldoCuenta).subtract(usaSaldoCuenta ? credito.getSaldoCuenta() : BigDecimal.ZERO));
-        return getTotal();
+        return montoAcumulado().add(saldoCuenta == null ? BigDecimal.ZERO : saldoCuenta).subtract(usaSaldoCuenta ? credito.getSaldoCuenta() : BigDecimal.ZERO);
     }
 
     public void onCuotaSelect(Cuota c) {
@@ -214,38 +209,21 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     private void calcularMovimientos() {
 
         List<Movimiento> movimientos = new ArrayList<>(0);
-        descripcion = "";
-        operacion = "";
-        cliente = "";
         credito.getListCuotas().stream().forEach(c -> c.getCobros().stream().filter(
                 co -> co.getId() == null).forEach(co -> {
             if (usaSaldoCuenta && credito.getSaldoCuenta().compareTo(BigDecimal.ZERO) > 0) {
-               /* movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota Nro " + c.getNro() + " a " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
+                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
                 movimientos.add(new Movimiento(credito.getSaldoCuenta(), co.getFecha(), "Usa saldo a cuenta " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.EGRESO, caja));
-                */
-                operacion = "Cobro de cuota ";
-                descripcion = descripcion + c.getNro().toString() + ", ";
-                cliente = "y Usa pago a cuenta " + credito.getCliente().getApellidoNombre();
-               // usaSaldoCuenta = false;
-                //credito.setSaldoCuenta(BigDecimal.ZERO);
+                usaSaldoCuenta = false;
+                credito.setSaldoCuenta(BigDecimal.ZERO);
 
             } else if (saldoCuenta.compareTo(BigDecimal.ZERO) > 0 && !agregarsaldo) {
-               /* movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota Nro " + c.getNro() + " a " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
+                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
                 movimientos.add(new Movimiento(saldoCuenta, co.getFecha(), "Agrega saldo a cuenta " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
-                */
-                operacion = "Cobro de cuota ";
-                descripcion = descripcion + c.getNro().toString() + ", ";
-                cliente = "y Pago a cuenta "+ credito.getCliente().getApellidoNombre();
-               // agregarsaldo = true;
-            } else {
-                // movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota Nro " + c.getNro() + " a " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
-                operacion = "Cobro de cuota ";
-                descripcion = descripcion + c.getNro().toString() + ", ";
-                cliente = " " + credito.getCliente().getApellidoNombre();
-            }
+                agregarsaldo = true;
+            } else
+                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
         }));
-        movimientos.add(new Movimiento(getTotal(), new Date(), "Credito Nro "+credito.getId()+" "+operacion + descripcion + " "+cliente, Movimiento.Tipo.INGRESO, caja));
-
         caja.getMovimientos().addAll(movimientos);
     }
 
@@ -331,13 +309,5 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
 
     public void setAuthenticationBean(AuthenticationBean authenticationBean) {
         this.authenticationBean = authenticationBean;
-    }
-
-    public BigDecimal getTotal() {
-        return total;
-    }
-
-    public void setTotal(BigDecimal total) {
-        this.total = total;
     }
 }
