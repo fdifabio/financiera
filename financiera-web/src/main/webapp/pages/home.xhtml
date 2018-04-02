@@ -70,9 +70,10 @@
                                                      label="Descripción" />
                                         <div class="EmptyBox10"></div>
                                         <p:commandButton value="Guardar" style="float:right;"
-                                                         update="growlingreso timelineFirst"
+
                                                          action="#{cajaBean.ingreso()}"
                                                          oncomplete="ingreso(xhr, status, args)"/>
+                                        <!-- update="growlingreso timelineFirst" -->
 
                                     </h:panelGrid>
                                 </p:dialog>
@@ -99,10 +100,10 @@
                                                      label="Descripción" />
                                         <div class="EmptyBox10"></div>
                                         <p:commandButton value="Guardar" style="float:left;"
-                                                         update="growlegreso timelineFirst"
+
                                                          action="#{cajaBean.egreso()}"
                                                          oncomplete="egreso(xhr, status, args)"/>
-
+                                      <!--  update="growlegreso timelineFirst" -->
                                     </h:panelGrid>
                                 </p:dialog>
                             </h:form>
@@ -208,7 +209,8 @@
         </div>
     </div>
 
-        <div class="Container100 Responsive100 TexAlCenter">
+        <!-- <div class="Container100 Responsive100 TexAlCenter">
+
             <div class="Card ShadowEffect ui-fluid">
                 <h3 style="margin-top: 0">Movimientos</h3>
                 <div class="EmptyBox20"></div>
@@ -227,6 +229,7 @@
             </div>
 
         </div>
+        -->
         <div class="EmptyBox20"></div>
 
 

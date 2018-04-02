@@ -2558,3 +2558,35 @@ INSERT INTO `parameter` (`id`, `key_col`, `value_col`, `description`, `uses_clas
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+CREATE TABLE `garante` (
+  `id` bigint(20) NOT NULL,
+  `apellido` varchar(255) DEFAULT NULL,
+  `celular` varchar(255) DEFAULT NULL,
+  `dni` varchar(255) DEFAULT NULL,
+  `domicilio` varchar(255) DEFAULT NULL,
+  `fecha_nacimiento` datetime DEFAULT NULL,
+  `fotocopia_dni` bit(1) NOT NULL,
+  `recibo` bit(1) NOT NULL,
+  `servicio` bit(1) NOT NULL,
+  `nombre` varchar(255) DEFAULT NULL,
+  `observacion` varchar(255) DEFAULT NULL,
+  `telefono` varchar(255) DEFAULT NULL,
+  `trabajo_horario` varchar(255) DEFAULT NULL,
+  `trabajo_lugar` varchar(255) DEFAULT NULL,
+  `trabajo_dia_cobro` int(11) NOT NULL,
+  `ciudad_id` bigint(20) DEFAULT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+ALTER TABLE `garante` ADD `id` BIGINT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`);
+ALTER TABLE `garante` ADD `trabajo_telefono` VARCHAR(255) NOT NULL AFTER `trabajo_lugar`;
+ALTER TABLE `cliente` ADD `trabajo_telefono` VARCHAR(255) NOT NULL AFTER `trabajo_dia_cobro`;
+ALTER TABLE `cliente` DROP `garantia`;
+ALTER TABLE `credito` DROP `garantia`;
+ALTER TABLE `credito` ADD `garante_id` BIGINT(20) NOT NULL AFTER `cliente_id`;
+
+ALTER TABLE `financiera_dev`.`credito` ADD INDEX `garante_id` (`garante_id`);
+INSERT INTO `garante` (`id`, `apellido`, `celular`, `dni`, `domicilio`, `fecha_nacimiento`, `fotocopia_dni`, `recibo`, `servicio`, `nombre`, `observacion`, `telefono`, `trabajo_horario`, `trabajo_lugar`, `trabajo_telefono`, `trabajo_dia_cobro`, `ciudad_id`) VALUES
+(NULL, 'Difabio', '02920515493', '36849832', NULL, NULL, b'0', b'0', b'0', 'Guillermo', NULL, NULL, NULL, NULL, '', 12, NULL);
+INSERT INTO `garante` (`id`, `apellido`, `celular`, `dni`, `domicilio`, `fecha_nacimiento`, `fotocopia_dni`, `recibo`, `servicio`, `nombre`, `observacion`, `telefono`, `trabajo_horario`, `trabajo_lugar`, `trabajo_telefono`, `trabajo_dia_cobro`, `ciudad_id`) VALUES
+(NULL, 'Negrin', '02915329615', '38036986', 'Bisgetti49', '2018-03-20 00:00:00', b'1', b'1', b'1', 'Evelyn', NULL, NULL, NULL, NULL, '324234324324', '12', NULL);

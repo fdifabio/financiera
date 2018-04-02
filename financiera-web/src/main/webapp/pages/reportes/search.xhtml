@@ -96,10 +96,11 @@
                                         <p:column headerText="#{msgs['formDni']}">
                                             <h:outputText value="#{item.dni}"/>
                                         </p:column>
-
+                                            <!--
                                         <p:column headerText="Cliente">
                                             <h:outputText value="#{item.apellidoNombre}"/>
                                         </p:column>
+                                         -->
                                         <p:column headerText="#{msgs['formCelular']}">
                                             <h:outputText value="#{item.celular}"/>
                                         </p:column>
@@ -198,8 +199,10 @@
                                                                 <h:outputText value="#{msgs['cuotas']}"/>
                                                                 <ui:include src="/pages/includes/exporterButtons.xhtml">
                                                                     <ui:param name="target" value="cuotasList"/>
+                                                                    <!--
                                                                     <ui:param name="fileName"
                                                                               value="Reporte cuotas #{clienteBean.entity.apellidoNombre}"/>
+                                                                              -->
                                                                 </ui:include>
 
                                                             </f:facet>
@@ -311,11 +314,13 @@
                                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                                             </h:outputText>
                                         </p:column>
+                                        <!--
                                         <p:column headerText="#{msgs['formCliente']}">
                                             <h:outputText value="#{item.cliente.apellidoNombre}">
                                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                                             </h:outputText>
                                         </p:column>
+                                        -->
                                         <p:column headerText="#{msgs['formCapital']}">
                                             <h:outputText value="#{item.capital}">
                                                 <f:convertNumber type="currency" currencySymbol="$"/>

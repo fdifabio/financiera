@@ -5,10 +5,7 @@ import ar.edu.unrn.lia.model.Ciudad;
 import ar.edu.unrn.lia.model.Cliente;
 import ar.edu.unrn.lia.model.Credito;
 import ar.edu.unrn.lia.model.Provincia;
-import ar.edu.unrn.lia.service.CiudadService;
-import ar.edu.unrn.lia.service.ClienteService;
-import ar.edu.unrn.lia.service.CreditoService;
-import ar.edu.unrn.lia.service.ProvinciaService;
+import ar.edu.unrn.lia.service.*;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DataAccessException;
 

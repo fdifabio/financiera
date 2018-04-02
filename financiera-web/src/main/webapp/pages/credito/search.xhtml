@@ -53,48 +53,49 @@
                                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                                         </h:outputText>
                                     </p:column>
-                                    <p:column headerText="#{msgs['formCliente']}"
-                                              sortBy="#{item.cliente}" filterBy="#{item.cliente}">
-                                        <h:outputText value="#{item.cliente.apellidoNombre}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                        </h:outputText>
-                                    </p:column>
-                                    <p:column headerText="#{msgs['formCapital']}"
-                                              sortBy="#{item.capital}">
-                                        <h:outputText value="#{item.capital}">
-                                            <f:convertNumber type="currency" currencySymbol="$"/>
-                                        </h:outputText>
-                                    </p:column>
-                                    <p:column headerText="#{msgs['formCuotas']}">
-                                        <h:outputText value="#{item.cuotas}"/>
-                                    </p:column>
-                                    <p:column headerText="#{msgs['formInteres']}">
-                                        <h:outputText value="#{item.interes}"/>
-                                    </p:column>
-                                    <p:column filterBy="#{item.estado}" headerText="#{msgs['formEstado']}"
-                                              filterMatchMode="exact" width="160">
-                                        <f:facet name="filter">
-                                            <p:selectOneMenu onchange="PF('listCreditos').filter()">
-                                                <f:selectItem itemLabel="TODOS" itemValue="#{null}"
-                                                              noSelectionOption="true"/>
-                                                <f:selectItems value="#{creditoBean.estados}"
-                                                />
-                                            </p:selectOneMenu>
-                                        </f:facet>
-                                        <h:outputText value="#{item.estado.descripcion}"
-                                                      styleClass="#{item.estado.backgroundColor} White"
-                                                      style="padding: 0px 5px 0px 5px;border-radius: 5px;"/>
-                                    </p:column>
+
+                                   <p:column headerText="#{msgs['formCliente']}"
+                                             sortBy="#{item.cliente.apellido}" filterBy="#{item.cliente.apellido}">
+                                       <h:outputText value="#{item.cliente.apellido}">
+                                       </h:outputText>
+                                   </p:column>
+
+                                   <p:column headerText="#{msgs['formCapital']}"
+                                             sortBy="#{item.capital}">
+                                       <h:outputText value="#{item.capital}">
+                                           <f:convertNumber type="currency" currencySymbol="$"/>
+                                       </h:outputText>
+                                   </p:column>
+                                   <p:column headerText="#{msgs['formCuotas']}">
+                                       <h:outputText value="#{item.cuotas}"/>
+                                   </p:column>
+                                   <p:column headerText="#{msgs['formInteres']}">
+                                       <h:outputText value="#{item.interes}"/>
+                                   </p:column>
+                                   <p:column filterBy="#{item.estado}" headerText="#{msgs['formEstado']}"
+                                             filterMatchMode="exact" width="160">
+                                       <f:facet name="filter">
+                                           <p:selectOneMenu onchange="PF('listCreditos').filter()">
+                                               <f:selectItem itemLabel="TODOS" itemValue="#{null}"
+                                                             noSelectionOption="true"/>
+                                               <f:selectItems value="#{creditoBean.estados}"
+                                               />
+                                           </p:selectOneMenu>
+                                       </f:facet>
+                                       <h:outputText value="#{item.estado.descripcion}"
+                                                     styleClass="#{item.estado.backgroundColor} White"
+                                                     style="padding: 0px 5px 0px 5px;border-radius: 5px;"/>
+                                   </p:column>
 
 
-                                    <p:column headerText="Opciones">
-                                        <!--   <h:link id="btnEditar" outcome="create" title="#{msgs['btnEditar']}">
-                                               <i class="icon-edit Fs20"></i>
-                                               <f:param name="id" value="#{item.id}"/>
-                                           </h:link>
-                                           <p:tooltip id="toolTip-editar" for="btnEditar" value="#{msgs['btnEditar']}"
-                                                      trackMouse="true"/>
-                                           -->
+                                   <p:column headerText="Opciones">
+                                       <!--   <h:link id="btnEditar" outcome="create" title="#{msgs['btnEditar']}">
+                                              <i class="icon-edit Fs20"></i>
+                                              <f:param name="id" value="#{item.id}"/>
+                                          </h:link>
+                                          <p:tooltip id="toolTip-editar" for="btnEditar" value="#{msgs['btnEditar']}"
+                                                     trackMouse="true"/>
+                                          -->
                                         <h:link id="btnVer" outcome="view">
                                             <i class="icon-zoom-in Fs20"></i>
                                             <f:param name="id" value="#{item.id}"/>

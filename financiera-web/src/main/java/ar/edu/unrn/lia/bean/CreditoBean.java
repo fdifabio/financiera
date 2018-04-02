@@ -4,6 +4,7 @@ import ar.edu.unrn.lia.bean.datamodel.DataModel;
 import ar.edu.unrn.lia.model.*;
 import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CreditoService;
+import ar.edu.unrn.lia.service.GaranteService;
 import ar.edu.unrn.lia.service.InteresService;
 import org.springframework.context.annotation.Scope;
 
@@ -41,7 +42,8 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     @Inject
     private InteresService interesService;
-
+    @Inject
+    private GaranteService garanteService;
 
     List<Interes> intereses = new ArrayList<>();
 
@@ -71,6 +73,12 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
     public List<Cliente> completeCliente(String apellidoNombre) {
         return clienteService.searchByApellidoNombre(apellidoNombre);
     }
+//:TODO hacer completeGarante
+
+    public List<Garante> completeGarante(String apellidoNombre) {
+        return garanteService.searchByApellidoNombre(apellidoNombre);
+    }
+
 
     public void calcularCuotas() {
 //    montoCuota = entity.calcularMontoCuotas();
@@ -135,6 +143,14 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     public void setClienteService(ClienteService clienteService) {
         this.clienteService = clienteService;
+    }
+
+    public GaranteService getGaranteService() {
+        return garanteService;
+    }
+
+    public void setGaranteService(GaranteService garanteService) {
+        this.garanteService = garanteService;
     }
 
     public List<Cliente> getClientes() {

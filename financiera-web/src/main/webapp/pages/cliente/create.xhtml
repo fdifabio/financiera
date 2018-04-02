@@ -185,6 +185,17 @@
                                                 <p:message for="horario"/>
                                             </h:panelGroup>
                                             <h:panelGroup layout="block">
+                                                <p:outputLabel for="telefonoTrabajo" value="#{msgs['formTelefonoLaboral']}:" styleClass="FontBold"/>
+                                                <p:inputText id="telefonoTrabajo"
+                                                             type="number"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{clienteBean.entity.trabajoTelefono}"
+                                                             placeholder="Ej: 2920 553245">
+                                                </p:inputText>
+                                            </h:panelGroup>
+                                            <div class="EmptyBox20"></div>
+                                            <h:panelGroup layout="block">
                                                 <p:outputLabel for="fechaCobro" value="#{msgs['formFechaCobro']}:" styleClass="FontBold"/>
                                                 <p:spinner id="fechaCobro" required="true"
                                                            requiredMessage="#{msgs['validationRequired']}"

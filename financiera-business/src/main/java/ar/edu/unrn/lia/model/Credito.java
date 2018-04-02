@@ -32,6 +32,18 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     private BigDecimal saldoCuenta = BigDecimal.ZERO;
     private List<Cuota> listCuotas = new ArrayList<>(0);
 
+    private Garante garante;
+
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "garante_id")
+    public Garante getGarante() {
+        return garante;
+    }
+
+    public void setGarante(Garante garante) {
+        this.garante = garante;
+    }
+
     public BigDecimal getCapital() {
         return capital;
     }

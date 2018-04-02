@@ -76,7 +76,43 @@
 
                                             </p:panelGrid>
                                         </p:fieldset>
+                                        <p:fieldset legend="#{msgs['formDatosGarante']}" style="margin-bottom:20px">
+                                            <p:panelGrid columns="2"
+                                                         columnClasses="ui-grid-col-3,ui-grid-col-9"
+                                                         layout="grid"
+                                                         styleClass="ui-panelgrid-blank">
+                                                <h:outputLabel value="#{msgs['formBuscarGarante']}:"
+                                                               styleClass="FontBold"
+                                                               for="garante"/>
 
+                                                <h:panelGroup>
+                                                    <p:autoComplete id="garante" value="#{creditoBean.entity.garante}"
+                                                                    placeholder="Ingrese código, nombre, apellido o DNI del garante"
+                                                                    completeMethod="#{creditoBean.completeGarante}"
+                                                                    var="g" itemLabel="#{g.apellidoNombre}"
+                                                                    itemValue="#{g}"
+                                                                    converter="garanteConverter" forceSelection="true"
+                                                                    required="true"
+                                                                    requiredMessage="#{msgs['validationRequired']}">
+                                                        <p:column style="width:10%">
+                                                            <h:outputText value="#{g.id}"/>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <h:outputText value="#{g.apellidoNombre}"/>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <h:outputText value="#{g.dni}"/>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <h:outputText value="#{g.trabajoDiaCobro}"/>
+                                                        </p:column>
+                                                    </p:autoComplete>
+
+                                                    <p:message for="garante"/>
+                                                </h:panelGroup>
+
+                                            </p:panelGrid>
+                                        </p:fieldset>
                                         <p:fieldset legend="#{msgs['formDatosCredito']}" style="margin-bottom:20px">
 
                                             <p:panelGrid columns="4"
