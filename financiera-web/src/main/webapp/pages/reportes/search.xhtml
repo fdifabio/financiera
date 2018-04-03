@@ -97,19 +97,29 @@
                                         <p:column headerText="#{msgs['formDni']}">
                                             <h:outputText value="#{item.dni}"/>
                                         </p:column>
-                                            <!--
+
                                         <p:column headerText="Cliente">
                                             <h:outputText value="#{item.apellidoNombre}"/>
                                         </p:column>
-                                         -->
-                                        <p:column headerText="#{msgs['formCelular']}">
-                                            <h:outputText value="#{item.celular}"/>
-                                        </p:column>
+
                                         <p:column headerText="Monto Adeudado">
                                             <h:outputText value="#{item.saldoAdeudado}">
                                                 <f:convertNumber type="currency" currencySymbol="$"/>
                                             </h:outputText>
                                         </p:column>
+
+                                        <p:column headerText="#{msgs['form.telefono']}s personales">
+                                            <h:outputText value="Cel:#{item.celular} / Tel:#{item.telefono}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Trabajo">
+                                            <h:outputText value="#{item.trabajoLugar} #{item.trabajoHorario} #{item.trabajoTelefono}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Dia de cobro">
+                                            <h:outputText value="#{item.trabajoDiaCobro}"/>
+                                        </p:column>
+
                                         <p:column headerText="#{msgs['formOpciones']}">
                                             <p:commandButton id="btnDetalle" update=":tabs:tabcliente:creditoDetalle"
                                                              oncomplete="PF('dialogCredito').show('#{component.clientId}')"

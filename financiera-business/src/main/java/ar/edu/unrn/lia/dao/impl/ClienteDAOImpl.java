@@ -95,8 +95,9 @@ public class ClienteDAOImpl extends GenericDaoJpaImpl<Cliente, Long> implements
 
     @Override
     public List<Cliente> searchMorosos() {
-        Query query = this.entityManager.createQuery("SELECT new ar.edu.unrn.lia.model.Cliente(c.id, c.dni, c.nombre, c.apellido, c.celular, sum(cuo.saldoAPagar), cre.id) FROM Cliente c LEFT JOIN c.creditos cre LEFT JOIN cre.listCuotas cuo WHERE  cre.estado = :estado GROUP BY cre.id");
-        query.setParameter("estado", Estado.LEGALES);
+        /*public Cliente(Long id, String nombre, String apellido, String dni, String telefono, String celular, String trabajoLugar, String trabajoHorario, int trabajoDiaCobro, String trabajoTelefono, BigDecimal saldoAdeudado, Long idCredito) {*/
+        Query query = this.entityManager.createQuery("SELECT new ar.edu.unrn.lia.model.Cliente(c.id, c.nombre, c.apellido, c.dni, c.telefono, c.celular, c.trabajoLugar, c.trabajoHorario, c.trabajoDiaCobro, c.trabajoTelefono, sum(cuo.saldoAPagar), cre.id) FROM Cliente c LEFT JOIN c.creditos cre LEFT JOIN cre.listCuotas cuo WHERE  cre.estado <> :estado GROUP BY cre.id");
+        query.setParameter("estado", Estado.CANCELADO);
         return query.getResultList();
     }
 
