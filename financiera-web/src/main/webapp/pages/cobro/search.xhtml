@@ -33,6 +33,7 @@
                                 <p:growl showDetail="true" id="msgGrwl"/>
                                 <!-- insertar usuario -->
                                 <p:dataTable id="list" var="item" value="#{creditoBean.list}"
+                                             styleClass="TexAlCenter"
                                              emptyMessage="No hay créditos para mostrar"
                                              reflow="true" rowKey="#{item.id}" lazy="true" paginator="true"
                                              paginatorPosition="bottom"

@@ -34,6 +34,7 @@
                                 <p:growl showDetail="true" id="msgGrwl"/>
                                 <!-- insertar cliente -->
                                 <p:dataTable id="list" var="item" value="#{clienteBean.list}" styleClass="TexAlCenter"
+                                             emptyMessage="No hay clientes para mostrar"
                                              reflow="true" lazy="true" paginator="true" paginatorPosition="bottom"
                                              resizableColumns="false" rows="10"
                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
