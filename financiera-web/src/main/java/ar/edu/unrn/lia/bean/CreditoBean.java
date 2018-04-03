@@ -67,15 +67,15 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
             setCaja(getCajaService().getLast());
             if (getId() != null) {
                 setEntity(entityService.getEntityById(getId()));
-                setIsNew(false);
+        setIsNew(false);
 //                calcularCuotas();
-            } else {
-                setEntity(new Credito());
-                setIsNew(true);
+    } else {
+        setEntity(new Credito());
+        setIsNew(true);
 //                clientes.addAll(clienteService.getAll());
-            }
+    }
             super.setUrlDesde(getRequestURL());
-        }
+}
     }
 
     public List<Cliente> completeCliente(String apellidoNombre) {

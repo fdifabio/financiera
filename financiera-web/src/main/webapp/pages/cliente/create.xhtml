@@ -148,7 +148,7 @@
                                             <div class="EmptyBox20"></div>
                                             <h:panelGroup layout="block">
                                                 <p:inputTextarea rows="5" cols="30" counter="display" maxlength="300"
-                                                                 counterTemplate="{0} characters remaining."
+                                                                 counterTemplate="{0} caracteres restantes."
                                                                  autoResize="false" id="observaciones"
                                                                  placeholder="Ingrese una observación"
                                                                  requiredMessage="#{msgs['validationRequired']}"
@@ -220,10 +220,6 @@
                                             <p:selectBooleanCheckbox value="#{clienteBean.entity.recibo}">
                                                 <!--<p:ajax update="msg" listener="#{selectBooleanView.addMessage}" /> -->
                                             </p:selectBooleanCheckbox>
-                                            <h:outputText value="#{msgs['formGarantia']}:" styleClass="FontBold"/>
-                                            <p:selectBooleanCheckbox value="#{clienteBean.entity.garantia}">
-                                                <!--<p:ajax update="msg" listener="#{selectBooleanView.addMessage}" /> -->
-                                            </p:selectBooleanCheckbox>
                                             <h:outputText value="#{msgs['formServicio']}:" styleClass="FontBold"/>
                                             <p:selectBooleanCheckbox value="#{clienteBean.entity.servicio}">
                                                 <!--<p:ajax update="msg" listener="#{selectBooleanView.addMessage}" /> -->
@@ -243,7 +239,7 @@
                                             <p:commandButton id="linksave" value="#{msgs['btnGuardar']}"
                                                              icon="fa fa-sign-in"
                                                              styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
-                                                             action="#{clienteBean.update}" title="Grabar"
+                                                             action="#{clienteBean.update}" title="Guardar"
                                                              update="crear" validateClient="true"/>
                                         </div>
                                     </div>
