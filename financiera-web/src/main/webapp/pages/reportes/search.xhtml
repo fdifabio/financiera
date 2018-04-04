@@ -87,30 +87,55 @@
 
                             <p:tab title="Clientes morosos">
                                 <h:form id="tabcliente">
-                                    <p:dataTable id="list" var="item" value="#{reportesBean.morosos}"
+                                    <p:dataTable id="morososList" var="item" value="#{reportesBean.morosos}"
                                                  styleClass="TexAlCenter"
                                                  emptyMessage="No hay clientes para mostrar"
                                                  reflow="true" paginator="true" paginatorPosition="bottom"
                                                  resizableColumns="false" rows="10"
                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                  rowsPerPageTemplate="10,20,30,50">
-                                        <p:column headerText="#{msgs['formDni']}">
+                                        <f:facet name="header">
+                                            Clientes morosos
+                                            <ui:include src="/pages/includes/exporterButtons.xhtml">
+                                                <ui:param name="target" value="morososList"/>
+                                                <ui:param name="fileName"
+                                                          value="Reporte_morosos_#{reportesBean.date()}"/>
+                                            </ui:include>
+
+                                        </f:facet>
+                                        <p:column headerText="#{msgs['formDni']}" width="60">
                                             <h:outputText value="#{item.dni}"/>
                                         </p:column>
-                                            <!--
+
                                         <p:column headerText="Cliente">
                                             <h:outputText value="#{item.apellidoNombre}"/>
                                         </p:column>
-                                         -->
-                                        <p:column headerText="#{msgs['formCelular']}">
-                                            <h:outputText value="#{item.celular}"/>
-                                        </p:column>
+
                                         <p:column headerText="Monto Adeudado">
                                             <h:outputText value="#{item.saldoAdeudado}">
                                                 <f:convertNumber type="currency" currencySymbol="$"/>
                                             </h:outputText>
                                         </p:column>
-                                        <p:column headerText="#{msgs['formOpciones']}">
+
+                                        <p:column headerText="Cuotas vencidas" filterBy="#{item.cantCuotasVencidas}"
+                                                  width="70">
+                                            <h:outputText value="#{item.cantCuotasVencidas}"/>
+                                        </p:column>
+
+                                        <p:column headerText="#{msgs['form.telefono']}s personales">
+                                            <h:outputText value="Cel:#{item.celular} / Tel:#{item.telefono}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Info. de trabajo">
+                                            <h:outputText
+                                                    value="#{item.trabajoLugar} #{item.trabajoHorario} #{item.trabajoTelefono}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Dia de cobro" width="40">
+                                            <h:outputText value="#{item.trabajoDiaCobro}"/>
+                                        </p:column>
+
+                                        <p:column width="20" exportable="false">
                                             <p:commandButton id="btnDetalle" update=":tabs:tabcliente:creditoDetalle"
                                                              oncomplete="PF('dialogCredito').show('#{component.clientId}')"
                                                              class="fa fa-search-plus Fs20" title=""

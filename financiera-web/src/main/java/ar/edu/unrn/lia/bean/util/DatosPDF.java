@@ -1,10 +1,6 @@
 package ar.edu.unrn.lia.bean.util;
 
 import ar.edu.unrn.lia.config.ParamValue;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.BarcodeQRCode;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;

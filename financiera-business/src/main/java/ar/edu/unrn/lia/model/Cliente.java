@@ -7,7 +7,6 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +25,7 @@ public class Cliente extends Persona implements java.io.Serializable {
     /*TRANSIENT*/
     private BigDecimal saldoAdeudado;
     private Credito creditoAdeudado;
+    private Long cantCuotasVencidas;
 
     public Cliente() {
         super();
@@ -40,6 +40,23 @@ public class Cliente extends Persona implements java.io.Serializable {
         this.saldoAdeudado = saldoAdeudado;
         this.creditoAdeudado = new Credito(idCredito);
     }
+
+    public Cliente(Long id, String nombre, String apellido, String dni, String telefono, String celular, String trabajoLugar, String trabajoHorario, int trabajoDiaCobro, String trabajoTelefono, BigDecimal saldoAdeudado, Long idCredito) {
+        this.id = id;
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.telefono = telefono;
+        this.celular = celular;
+        this.trabajoLugar = trabajoLugar;
+        this.trabajoHorario = trabajoHorario;
+        this.trabajoDiaCobro = trabajoDiaCobro;
+        this.trabajoTelefono = trabajoTelefono;
+        this.saldoAdeudado = saldoAdeudado;
+        this.creditoAdeudado = new Credito(idCredito);
+        this.cantCuotasVencidas = this.creditoAdeudado.cuotasVencidas();
+    }
+
 
     public Cliente(Long id, String dni, String nombre, String apellido, String celular) {
         this.id = id;
@@ -116,6 +133,24 @@ public class Cliente extends Persona implements java.io.Serializable {
     @Override
     public String getApellidoNombre() {
         return super.getApellidoNombre();
+    }
+
+    @Transient
+    public Credito getCreditoAdeudado() {
+        return creditoAdeudado;
+    }
+
+    public void setCreditoAdeudado(Credito creditoAdeudado) {
+        this.creditoAdeudado = creditoAdeudado;
+    }
+
+    @Transient
+    public Long getCantCuotasVencidas() {
+        return cantCuotasVencidas;
+    }
+
+    public void setCantCuotasVencidas(Long cantCuotasVencidas) {
+        this.cantCuotasVencidas = cantCuotasVencidas;
     }
 }
 

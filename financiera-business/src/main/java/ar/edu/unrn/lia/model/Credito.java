@@ -33,8 +33,8 @@ public class Credito extends BaseEntity implements java.io.Serializable {
 
     private Garante garante;
 
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "garante_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "garante_id")
     public Garante getGarante() {
         return garante;
     }
@@ -241,6 +241,11 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     @Transient
     public boolean existenCuotasAdeudadas() {
         return getListCuotas().stream().filter(Cuota::isAdeudado).findAny().isPresent();
+    }
+
+    @Transient
+    public long cuotasVencidas() {
+        return getListCuotas().stream().filter(c -> c.isParcialmenteSaldado() || c.isVencido()).count();
     }
 
     @Transient
