@@ -34,7 +34,7 @@
 
     <ui:define name="content">
         <style>
-            .ui-datatable-header{
+            .ui-datatable-header {
                 background-color: transparent !important;
             }
         </style>
@@ -44,10 +44,8 @@
                     <div class="ContainerIndent">
                         <h:panelGroup id="panelDatos">
                             <div class="Card ShadowEffect ui-fluid">
-                                <p:panel  header="#{msgs['formDatosCliente']}"
-                                          style="margin-top:20px">
-                                <p:fieldset legend="#{msgs['formDatosCliente']}:" style="margin-bottom:20px">
-
+                                <p:panel header="#{msgs['formDatosCliente']}"
+                                         style="margin-top:20px">
 
                                     <p:panelGrid columns="4"
                                                  columnClasses="ui-grid-col-2,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
@@ -67,10 +65,9 @@
                                         <h:outputText value="#{creditoBean.entity.cliente.trabajoLugar}"/>
                                     </p:panelGrid>
 
-                                </p:fieldset>
                                 </p:panel>
-                                <p:panel  header="#{msgs['formDatosGarante']}"
-                                          style="margin-top:20px">
+                                <p:panel header="#{msgs['formDatosGarante']}"
+                                         style="margin-top:20px">
                                     <p:fieldset legend="Datos Personales" style="margin-bottom:20px">
                                         <p:panelGrid columns="2"
                                                      columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid"
@@ -109,20 +106,23 @@
                                                      columnClasses="ui-grid-col-4,ui-grid-col-8" layout="grid"
                                                      styleClass="ui-panelgrid-blank">
                                             <h:outputText value="#{msgs['formDNI']}:" styleClass="FontBold"/>
-                                            <p:selectBooleanCheckbox value="#{creditoBean.entity.garante.fotocopiaDni}" disabled="true">
+                                            <p:selectBooleanCheckbox value="#{creditoBean.entity.garante.fotocopiaDni}"
+                                                                     disabled="true">
                                             </p:selectBooleanCheckbox>
                                             <h:outputText value="#{msgs['formRecibo']}:" styleClass="FontBold"/>
-                                            <p:selectBooleanCheckbox value="#{creditoBean.entity.garante.recibo}" disabled="true">
+                                            <p:selectBooleanCheckbox value="#{creditoBean.entity.garante.recibo}"
+                                                                     disabled="true">
                                             </p:selectBooleanCheckbox>
 
                                             <h:outputText value="#{msgs['formServicio']}:" styleClass="FontBold"/>
-                                            <p:selectBooleanCheckbox value="#{creditoBean.entity.garante.servicio}" disabled="true">
+                                            <p:selectBooleanCheckbox value="#{creditoBean.entity.garante.servicio}"
+                                                                     disabled="true">
                                             </p:selectBooleanCheckbox>
                                         </p:panelGrid>
                                     </p:fieldset>
                                 </p:panel>
-
-                                <p:fieldset legend="#{msgs['formDatosCredito']}:" style="margin-bottom:20px">
+                                <p:panel header="#{msgs['formDatosCredito']}"
+                                         style="margin-top:20px">
 
                                     <p:panelGrid columns="4"
                                                  columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
@@ -202,7 +202,7 @@
                                             <f:convertNumber type="currency" currencySymbol="$"/>
                                         </h:outputText>
                                     </p:panelGrid>
-                                </p:fieldset>
+                                </p:panel>
                                 <p:fieldset legend="#{msgs['cuotas']}:" style="margin-bottom:20px">
 
                                     <h:form id="formentity" class="TexAlCenter">

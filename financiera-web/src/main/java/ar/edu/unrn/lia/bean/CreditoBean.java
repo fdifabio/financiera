@@ -34,6 +34,16 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     private Caja caja;
 
+    private Garante garante;
+
+    private Ciudad ciudadSelecionada = new Ciudad();
+
+    private Provincia provinciaSelecionada = new Provincia();
+
+    List<Provincia> provincias = new ArrayList<>();
+
+    List<Ciudad> ciudades = new ArrayList<>(0);
+
     @Inject
     private AuthenticationBean authenticationBean;
 
@@ -47,10 +57,14 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
     private InteresService interesService;
     @Inject
     private GaranteService garanteService;
+    @Inject
+    private ProvinciaService provinciaService;
 
     @Inject
     CajaService cajaService;
 
+    @Inject
+    private CiudadService ciudadService;
 
     List<Interes> intereses = new ArrayList<>();
 
@@ -58,6 +72,7 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
     public void init() {
         setModelLazy(new DataModel<Credito>(entityService));
         setServices(entityService);
+        this.provincias = provinciaService.getAll();
         this.intereses = interesService.getAll();
         LOG.debug("init.. " + this.getClass().getName());
     }
@@ -67,15 +82,15 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
             setCaja(getCajaService().getLast());
             if (getId() != null) {
                 setEntity(entityService.getEntityById(getId()));
-        setIsNew(false);
+                setIsNew(false);
 //                calcularCuotas();
-    } else {
-        setEntity(new Credito());
-        setIsNew(true);
+            } else {
+                setEntity(new Credito());
+                setIsNew(true);
 //                clientes.addAll(clienteService.getAll());
-    }
+            }
             super.setUrlDesde(getRequestURL());
-}
+        }
     }
 
     public List<Cliente> completeCliente(String apellidoNombre) {
@@ -142,6 +157,13 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
             authenticationBean.updateMovimientos();
             return super.update();
         }
+    }
+
+    public String updateGarante() {
+        this.ciudadSelecionada.setProvincia(provinciaSelecionada);
+        garante.setCiudad(ciudadSelecionada);
+        garanteService.save(garante);
+        return super.update();
     }
 
     public List<String> getEstados() {
@@ -236,11 +258,59 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
         this.caja = caja;
     }
 
+    public Garante getGarante() {
+        return garante;
+    }
+
+    public void setGarante(Garante garante) {
+        this.garante = garante;
+    }
+
     public CajaService getCajaService() {
         return cajaService;
     }
 
     public void setCajaService(CajaService cajaService) {
         this.cajaService = cajaService;
+    }
+
+    public List<Provincia> getProvincias() {
+        return provincias;
+    }
+
+    public void setProvincias(List<Provincia> provincias) {
+        this.provincias = provincias;
+    }
+
+    public List<Ciudad> getCiudades() {
+        return ciudades;
+    }
+
+    public void setCiudades(List<Ciudad> ciudades) {
+        this.ciudades = ciudades;
+    }
+
+    public Ciudad getCiudadSelecionada() {
+        return ciudadSelecionada;
+    }
+
+    public void setCiudadSelecionada(Ciudad ciudadSelecionada) {
+        this.ciudadSelecionada = ciudadSelecionada;
+    }
+
+    public Provincia getProvinciaSelecionada() {
+        return provinciaSelecionada;
+    }
+
+    public void setProvinciaSelecionada(Provincia provinciaSelecionada) {
+        this.provinciaSelecionada = provinciaSelecionada;
+    }
+
+    public List<Ciudad> listCiudades() {
+        return ciudadService.getList(provinciaSelecionada.getId());
+    }
+
+    public void onProvinciaChange() {
+        this.ciudades = listCiudades();
     }
 }

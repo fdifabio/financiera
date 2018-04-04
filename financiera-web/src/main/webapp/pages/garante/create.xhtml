@@ -1,0 +1,269 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:sec="http://www.springframework.org/security/facelets/tags">
+<ui:composition template="/templates/template.xhtml">
+
+    <ui:define name="subheader">
+        <h:outputText class="BigTopic" value="#{msgs['formGaranteModificar']}"
+                      rendered="#{garanteBean.entity.id != null}"/>
+
+        <h:outputText class="BigTopic" value="#{msgs['formGaranteCrear']}"
+                      rendered="#{garanteBean.entity.id == null}"/>
+
+    </ui:define>
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{garanteBean.id}"/>
+        <f:event type="preRenderView" listener="#{garanteBean.inicio()}"/>
+    </f:metadata>
+
+    <ui:define name="actions">
+        <a href="search.jsf"
+           class="BoldGray Fs18 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                class="icon-list"></i> #{msgs['listar']}</a>
+        <h:panelGroup rendered="#{garanteBean.entity.id != null}" id="hello">
+            <a href="view.jsf?id=#{garanteBean.entity.id}"
+               class="BoldGray Fs18 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                    class="icon-zoom-in"></i> #{msgs['detalle']} </a>
+            <a href="create.jsf"
+               class="BoldGray Fs18 FontRobotoLight Fright MarRight20 HoverEffect"><i
+                    class="icon-person_add"></i> #{msgs['btnNuevo']}</a>
+        </h:panelGroup>
+    </ui:define>
+    <ui:define name="content">
+        <div class="Container100">
+            <div class="ContainerIndent">
+                <div class="Card ShadowEffect ui-fluid">
+                    <div class="MarAuto WidAutoOnMobile">
+                        <div class="ContainerIndent">
+                            <div class="EmptyBox20"></div>
+                            <h:form id="crear">
+                                <p:panel id="panelCrear">
+                                    <p:growl autoUpdate="true" showDetail="true" life="3000"
+                                             globalOnly="true"/>
+                                    <p:messages globalOnly="true" styleClass="error"
+                                                showSummary="true" showDetail="true"/>
+                                    <p:fieldset legend="Datos Personales" style="margin-bottom:20px">
+                                        <p:panelGrid columns="2" class="ui-grid-col-6"
+                                                     columnClasses="ui-grid-col-4,ui-grid-col-4" layout="grid"
+                                                     styleClass="ui-panelgrid-blank">
+
+                                            <p:outputLabel for="nombre" value="#{msgs['formNombre']}:"
+                                                           styleClass="FontBold"/>
+                                            <p:outputLabel for="apellido" value="#{msgs['formApellido']}:"
+                                                           styleClass="FontBold"/>
+                                            <h:panelGroup layout="block">
+                                                <p:inputText id="nombre"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{garanteBean.entity.nombre}"
+                                                             placeholder="Ej: Juan">
+                                                </p:inputText>
+                                                <p:message for="nombre"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block">
+                                                <p:inputText id="apellido"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             validatorMessage="Formato invalido"
+                                                             value="#{garanteBean.entity.apellido}"
+                                                             placeholder="Ej: Perez">
+                                                </p:inputText>
+                                                <p:message for="apellido"/>
+                                            </h:panelGroup>
+                                            <p:outputLabel for="dni" value="#{msgs['formDni']}:" styleClass="FontBold"/>
+                                            <p:outputLabel for="telefono" value="#{msgs['formTelefono']}:"
+                                                           styleClass="FontBold"/>
+                                            <h:panelGroup layout="block">
+                                                <p:inputText id="dni"
+                                                             type="number"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{garanteBean.entity.dni}"
+                                                             placeholder="Ej: 35745346">
+                                                </p:inputText>
+                                                <p:message for="dni"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block">
+                                                <p:inputText id="telefono"
+                                                             type="number"
+                                                             value="#{garanteBean.entity.telefono}"
+                                                             placeholder="Ej: 425865">
+                                                </p:inputText>
+                                            </h:panelGroup>
+                                            <p:outputLabel for="celular" value="#{msgs['formCelular']}:"
+                                                           styleClass="FontBold"/>
+                                            <p:outputLabel for="direccion" value="#{msgs['formDireccion']}:"
+                                                           styleClass="FontBold"/>
+                                            <h:panelGroup layout="block">
+                                                <p:inputText id="celular"
+                                                             type="number"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{garanteBean.entity.celular}"
+                                                             placeholder="Ej: 2920 553245">
+                                                </p:inputText>
+                                                <p:message for="celular"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block">
+                                                <p:inputText id="direccion"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{garanteBean.entity.domicilio}"
+                                                             placeholder="Ej: Colon 345">
+                                                </p:inputText>
+                                                <p:message for="celular"/>
+                                            </h:panelGroup>
+                                            <p:outputLabel for="provincia"
+                                                           value="#{msgs['form.provincia']}:"/>
+                                            <p:outputLabel for="ciudades"
+                                                           value="#{msgs['form.ciudad']}"/>
+                                            <h:panelGroup layout="block">
+                                                <p:selectOneMenu id="provincia"
+                                                                 value="#{garanteBean.provinciaSelecionada.id}"
+                                                                 converter="#{provinciaConverter}"
+                                                                 required="true"
+                                                                 requiredMessage="#{msgs['validationRequired']}">
+                                                    <f:selectItem itemLabel="--Seleccione una Provincia--"
+                                                                  itemValue="" noSelectionOption="true"/>
+                                                    <f:selectItems value="#{garanteBean.provincias}" var="p"
+                                                                   itemLabel="#{p.nombre}" itemValue="#{p.id}"/>
+                                                    <p:ajax update="ciudades"
+                                                            listener="#{garanteBean.onProvinciaChange}"/>
+                                                </p:selectOneMenu>
+                                                <p:message for="provincia" styleClass="alert alert-danger"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block">
+                                                <p:selectOneMenu id="ciudades"
+                                                                 value="#{garanteBean.ciudadSelecionada.id}"
+                                                                 converter="#{ciudadConverter}" required="true"
+                                                                 requiredMessage="#{msgs['validationRequired']}">
+                                                    <f:selectItem itemLabel="--Seleccione una Ciudad--"
+                                                                  itemValue="" noSelectionOption="true"/>
+                                                    <f:selectItems value="#{garanteBean.ciudades}" var="c"
+                                                                   itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
+
+                                                </p:selectOneMenu>
+                                                <p:message for="ciudades" styleClass="alert alert-danger"/>
+                                            </h:panelGroup>
+                                            <p:outputLabel for="observaciones" value="#{msgs['formObservaciones']}:"
+                                                           styleClass="FontBold"/>
+                                            <div class="EmptyBox20"></div>
+                                            <h:panelGroup layout="block">
+                                                <p:inputTextarea rows="5" cols="30" counter="display" maxlength="300"
+                                                                 counterTemplate="{0} caracteres restantes."
+                                                                 autoResize="false" id="observaciones"
+                                                                 placeholder="Ingrese una observación"
+                                                                 requiredMessage="#{msgs['validationRequired']}"
+                                                                 value="#{garanteBean.entity.observacion}"/>
+                                                <h:outputText id="display"/>
+                                            </h:panelGroup>
+                                            <p:message for="observaciones"/>
+
+                                        </p:panelGrid>
+                                    </p:fieldset>
+                                    <p:fieldset legend="#{msgs['formDatosLaborales']}:" style="margin-bottom:20px">
+                                        <p:panelGrid columns="2"
+                                                     columnClasses="ui-grid-col-4,ui-grid-col-4" layout="grid"
+                                                     styleClass="ui-panelgrid-blank">
+                                            <p:outputLabel for="lugar" value="#{msgs['formLugarLaboral']}:"
+                                                           styleClass="FontBold"/>
+                                            <p:outputLabel for="horario" value="#{msgs['formHorarioLaboral']}:"
+                                                           styleClass="FontBold"/>
+                                            <h:panelGroup layout="block">
+                                                <p:inputText id="lugar"
+                                                             required="true"
+                                                             placeholder="Ej: Ministerio de Educación"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{garanteBean.entity.trabajoLugar}">
+                                                </p:inputText>
+                                                <p:message for="lugar"/>
+
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block">
+                                                <p:inputMask id="horario" required="true"
+                                                             placeholder="Ej: 08:00 -- 15:00"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{garanteBean.entity.trabajoHorario}"
+                                                             mask="99:99--99:99"/>
+
+                                                <p:message for="horario"/>
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block">
+                                                <p:outputLabel for="telefonoTrabajo"
+                                                               value="#{msgs['formTelefonoLaboral']}:"
+                                                               styleClass="FontBold"/>
+                                                <p:inputText id="telefonoTrabajo"
+                                                             type="number"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                             value="#{garanteBean.entity.trabajoTelefono}"
+                                                             placeholder="Ej: 2920 553245">
+                                                </p:inputText>
+                                            </h:panelGroup>
+                                            <div class="EmptyBox20"></div>
+                                            <h:panelGroup layout="block">
+                                                <p:outputLabel for="fechaCobro" value="#{msgs['formFechaCobro']}:"
+                                                               styleClass="FontBold"/>
+                                                <p:spinner id="fechaCobro" required="true"
+                                                           requiredMessage="#{msgs['validationRequired']}"
+                                                           value="#{garanteBean.entity.trabajoDiaCobro}" min="1"
+                                                           max="31"
+                                                />
+                                            </h:panelGroup>
+                                            <h:panelGroup layout="block" style="    margin-top: 7%;">
+                                                <h:outputText value="Ingrese el día aproximado de cobro"></h:outputText>
+                                            </h:panelGroup>
+                                        </p:panelGrid>
+                                    </p:fieldset>
+                                    <p:fieldset legend="#{msgs['formDocumentos']}:" style="margin-bottom:20px">
+                                        <p:panelGrid columns="2"
+                                                     columnClasses="ui-grid-col-4,ui-grid-col-4" layout="grid"
+                                                     styleClass="ui-panelgrid-blank">
+                                            <h:outputText value="#{msgs['formDNI']}:" styleClass="FontBold"/>
+                                            <p:selectBooleanCheckbox value="#{garanteBean.entity.fotocopiaDni}">
+                                                <!--<p:ajax update="msg" listener="#{selectBooleanView.addMessage}" /> -->
+                                            </p:selectBooleanCheckbox>
+                                            <h:outputText value="#{msgs['formRecibo']}:" styleClass="FontBold"/>
+                                            <p:selectBooleanCheckbox value="#{garanteBean.entity.recibo}">
+                                                <!--<p:ajax update="msg" listener="#{selectBooleanView.addMessage}" /> -->
+                                            </p:selectBooleanCheckbox>
+                                            <h:outputText value="#{msgs['formServicio']}:" styleClass="FontBold"/>
+                                            <p:selectBooleanCheckbox value="#{garanteBean.entity.servicio}">
+                                                <!--<p:ajax update="msg" listener="#{selectBooleanView.addMessage}" /> -->
+                                            </p:selectBooleanCheckbox>
+                                        </p:panelGrid>
+                                    </p:fieldset>
+                                    <div class="EmptyBox30"></div>
+                                    <div class="Fright">
+                                        <div class="Wid45 Fleft Responsive45 MarRight10">
+                                            <p:commandButton value="#{msgs['btnCancelar']}"
+                                                             icon="fa fa-close"
+                                                             styleClass="RedButton Fs16 White RaisedButton Fleft FloatNoneOnMobile"
+                                                             action="search?faces-redirect=true"
+                                                             title="#{msgs['btnCancelar']}" immediate="true"/>
+                                        </div>
+                                        <div class="Wid45 Fleft Responsive45">
+                                            <p:commandButton id="linksave" value="#{msgs['btnGuardar']}"
+                                                             icon="fa fa-sign-in"
+                                                             styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
+                                                             action="#{garanteBean.update}" title="Guardar"
+                                                             update="crear" validateClient="true"/>
+                                        </div>
+                                    </div>
+                                </p:panel>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+
+</ui:composition>
+</html>
