@@ -25,6 +25,7 @@ public class Cliente extends Persona implements java.io.Serializable {
     /*TRANSIENT*/
     private BigDecimal saldoAdeudado;
     private Credito creditoAdeudado;
+    private Long cantCuotasVencidas;
 
     public Cliente() {
         super();
@@ -53,6 +54,7 @@ public class Cliente extends Persona implements java.io.Serializable {
         this.trabajoTelefono = trabajoTelefono;
         this.saldoAdeudado = saldoAdeudado;
         this.creditoAdeudado = new Credito(idCredito);
+        this.cantCuotasVencidas = this.creditoAdeudado.cuotasVencidas();
     }
 
 
@@ -140,6 +142,15 @@ public class Cliente extends Persona implements java.io.Serializable {
 
     public void setCreditoAdeudado(Credito creditoAdeudado) {
         this.creditoAdeudado = creditoAdeudado;
+    }
+
+    @Transient
+    public Long getCantCuotasVencidas() {
+        return cantCuotasVencidas;
+    }
+
+    public void setCantCuotasVencidas(Long cantCuotasVencidas) {
+        this.cantCuotasVencidas = cantCuotasVencidas;
     }
 }
 

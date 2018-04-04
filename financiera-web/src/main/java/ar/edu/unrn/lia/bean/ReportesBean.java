@@ -1,19 +1,14 @@
 package ar.edu.unrn.lia.bean;
 
-import ar.edu.unrn.lia.dto.MonthYearDTO;
 import ar.edu.unrn.lia.dao.CreditoDAO;
 import ar.edu.unrn.lia.model.Cliente;
-import ar.edu.unrn.lia.model.Movimiento;
 import ar.edu.unrn.lia.model.Credito;
+import ar.edu.unrn.lia.model.Movimiento;
 import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CuotaService;
+import ar.edu.unrn.lia.service.MovimientoService;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.BarChartModel;
-import org.primefaces.model.chart.ChartSeries;
-import ar.edu.unrn.lia.service.MovimientoService;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.BarChartModel;
@@ -52,7 +47,7 @@ public class ReportesBean implements Serializable {
     private int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
     private int anioSelecionado = 0;
     private int anioGeneralSelecionado = 0;
-    private  int anioMovimientoSelecionado = 0;
+    private int anioMovimientoSelecionado = 0;
     private List<Integer> anios = new ArrayList<Integer>(0);
     private List<Integer> aniosAdeudados = new ArrayList<Integer>(0);
     private List<Integer> aniosMeses = new ArrayList<Integer>(0);
@@ -218,13 +213,13 @@ public class ReportesBean implements Serializable {
         movimientosBarModel.setAnimate(true);
         ChartSeries egresos = new ChartSeries();
         egresos.setLabel("Egresos");
-        if(getAnioMovimientoSelecionado() != null)
-        movimientoService.findByMonthYear(getAnioMovimientoSelecionado(), 2017,Movimiento.Tipo.EGRESO).forEach(e -> egresos.set( e.getMes() + "/" + e.getAnio(), e.getMonto()));
+        if (getAnioMovimientoSelecionado() != null)
+            movimientoService.findByMonthYear(getAnioMovimientoSelecionado(), 2017, Movimiento.Tipo.EGRESO).forEach(e -> egresos.set(e.getMes() + "/" + e.getAnio(), e.getMonto()));
 
         ChartSeries ingresos = new ChartSeries();
         ingresos.setLabel("Ingresos");
-        if(getAnioMovimientoSelecionado() != null)
-        movimientoService.findByMonthYear(getAnioMovimientoSelecionado(), 2017, Movimiento.Tipo.INGRESO).forEach(e -> egresos.set( e.getMes() + "/" + e.getAnio(), e.getMonto()));
+        if (getAnioMovimientoSelecionado() != null)
+            movimientoService.findByMonthYear(getAnioMovimientoSelecionado(), 2017, Movimiento.Tipo.INGRESO).forEach(e -> egresos.set(e.getMes() + "/" + e.getAnio(), e.getMonto()));
 
 
         if (egresos.getData().size() == 0 && ingresos.getData().size() == 0)
@@ -303,6 +298,7 @@ public class ReportesBean implements Serializable {
         setIsrender(true);
         createMovimientosBarModel();
     }
+
     public Boolean getIsrender() {
         return isrender;
     }
@@ -392,5 +388,8 @@ public class ReportesBean implements Serializable {
         this.movimientoService = movimientoService;
     }
 
-
+    public String date() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return simpleDateFormat.format(new Date());
+    }
 }
