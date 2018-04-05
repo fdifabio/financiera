@@ -17,6 +17,8 @@
     <f:metadata>
         <f:viewParam name="id" value="#{creditoBean.id}"/>
         <f:event type="preRenderView" listener="#{creditoBean.inicio()}"/>
+        <f:event type="preRenderView" listener="#{garanteBean.inicio()}"/>
+        <f:event type="preRenderView" listener="#{clienteBean.inicio()}"/>
     </f:metadata>
 
     <ui:define name="actions">
@@ -73,8 +75,8 @@
 
                                                     <p:message for="clientes"/>
                                                 </h:panelGroup>
-                                                <p:commandButton id="btnNewCliente" update=":crear:garanteNew"
-                                                                 oncomplete="PF('dialogGarante').show()"
+                                                <p:commandButton id="btnNewCliente" update=":crear:clienteNew"
+                                                                 oncomplete="PF('dialogCliente').show()"
                                                                  value="Nuevo cliente"
                                                                  icon="fa fa-user-plus"
                                                                  actionListener="#{creditoBean.cargarCredito(item)}"/>
@@ -266,35 +268,6 @@
                                                         <f:convertNumber type="currency" currencySymbol="$"/>
                                                     </h:outputText>
                                                 </p:column>
-
-                                                <!--<p:columnGroup type="footer"
-                                                               rendered="#{!creditoBean.entity.listCuotas.isEmpty()}">
-                                                    <p:row styleClass="FontBold">
-                                                        <p:column colspan="1" footerText="Totales: "
-                                                                  style="text-align:center"/>
-                                                        <p:column>
-                                                            <f:facet name="footer">
-                                                                <h:outputText value="#{creditoBean.entity.totalCapital()}">
-                                                                    <f:convertNumber type="currency" currencySymbol="$"/>
-                                                                </h:outputText>
-                                                            </f:facet>
-                                                        </p:column>
-                                                        <p:column>
-                                                            <f:facet name="footer">
-                                                                <h:outputText value="#{creditoBean.entity.totalInteres()}">
-                                                                    <f:convertNumber type="currency" currencySymbol="$"/>
-                                                                </h:outputText>
-                                                            </f:facet>
-                                                        </p:column>
-                                                        <p:column>
-                                                            <f:facet name="footer">
-                                                                <h:outputText value="#{creditoBean.entity.totalSaldo()}">
-                                                                    <f:convertNumber type="currency" currencySymbol="$"/>
-                                                                </h:outputText>
-                                                            </f:facet>
-                                                        </p:column>
-                                                    </p:row>
-                                                </p:columnGroup>-->
                                             </p:dataTable>
                                         </div>
                                     </div>
@@ -317,6 +290,227 @@
                                         </div>
                                     </div>
                                 </p:panel>
+                                <!-- PANEL ALTA DE CLIENTE -->
+                                <p:dialog widgetVar="dialogCliente" showEffect="slide"
+                                          dynamic="true" modal="true" hideEffect="slide" dismissable="true"
+                                          showCloseIcon="true" position="left" width="800px"
+                                          fitViewport="true" height="700px" closeOnEscape="true"
+                                          draggable="false" header="Alta  de cliente">
+                                    <p:outputPanel id="clienteNew" style="text-align:center;">
+
+                                        <h:panelGroup >
+                                            <h:form id="crearCliente">
+                                                <p:panel id="panelCrearCliente">
+                                                    <p:growl autoUpdate="true" showDetail="true" life="3000"
+                                                             globalOnly="true"/>
+                                                    <p:messages globalOnly="true" styleClass="error"
+                                                                showSummary="true" showDetail="true"/>
+                                                    <p:fieldset legend="Datos Personales" style="margin-bottom:20px">
+                                                        <p:panelGrid columns="2" class="ui-grid-col-6"
+                                                                     columnClasses="ui-grid-col-4,ui-grid-col-4" layout="grid"
+                                                                     styleClass="ui-panelgrid-blank">
+
+                                                            <p:outputLabel for="nombreCliente" value="#{msgs['formNombre']}:" styleClass="FontBold"/>
+                                                            <p:outputLabel for="apellidoCliente" value="#{msgs['formApellido']}:" styleClass="FontBold"/>
+                                                            <h:panelGroup layout="block">
+                                                                <p:inputText id="nombreCliente"
+                                                                             required="true"
+                                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                                             value="#{clienteBean.entity.nombre}"
+                                                                             placeholder="Ej: Juan">
+                                                                </p:inputText>
+                                                                <p:message for="nombreCliente"/>
+                                                            </h:panelGroup>
+                                                            <h:panelGroup layout="block">
+                                                                <p:inputText id="apellidoCliente"
+                                                                             required="true"
+                                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                                             validatorMessage="Formato invalido"
+                                                                             value="#{clienteBean.entity.apellido}"
+                                                                             placeholder="Ej: Perez">
+                                                                </p:inputText>
+                                                                <p:message for="apellidoCliente"/>
+                                                            </h:panelGroup>
+                                                            <p:outputLabel for="dniCliente" value="#{msgs['formDni']}:" styleClass="FontBold"/>
+                                                            <p:outputLabel for="telefonoCliente" value="#{msgs['formTelefono']}:" styleClass="FontBold"/>
+                                                            <h:panelGroup layout="block">
+                                                                <p:inputText id="dniCliente"
+                                                                             type="number"
+                                                                             required="true"
+                                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                                             value="#{clienteBean.entity.dni}"
+                                                                             placeholder="Ej: 35745346">
+                                                                </p:inputText>
+                                                                <p:message for="dniCliente"/>
+                                                            </h:panelGroup>
+                                                            <h:panelGroup layout="block">
+                                                                <p:inputText id="telefonoCliente"
+                                                                             type="number"
+                                                                             value="#{clienteBean.entity.telefono}"
+                                                                             placeholder="Ej: 425865">
+                                                                </p:inputText>
+                                                            </h:panelGroup>
+                                                            <p:outputLabel for="celularCliente" value="#{msgs['formCelular']}:" styleClass="FontBold"/>
+                                                            <p:outputLabel for="direccionCliente" value="#{msgs['formDireccion']}:" styleClass="FontBold"/>
+                                                            <h:panelGroup layout="block">
+                                                                <p:inputText id="celularCliente"
+                                                                             type="number"
+                                                                             required="true"
+                                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                                             value="#{clienteBean.entity.celular}"
+                                                                             placeholder="Ej: 2920 553245">
+                                                                </p:inputText>
+                                                                <p:message for="celularCliente"/>
+                                                            </h:panelGroup>
+                                                            <h:panelGroup layout="block">
+                                                                <p:inputText id="direccionCliente"
+                                                                             required="true"
+                                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                                             value="#{clienteBean.entity.domicilio}"
+                                                                             placeholder="Ej: Colon 345">
+                                                                </p:inputText>
+                                                                <p:message for="celularCliente"/>
+                                                            </h:panelGroup>
+                                                            <p:outputLabel for="provinciaCliente"
+                                                                           value="#{msgs['form.provincia']}:"/>
+                                                            <p:outputLabel for="ciudadesCliente"
+                                                                           value="#{msgs['form.ciudad']}"/>
+                                                            <h:panelGroup layout="block">
+                                                                <p:selectOneMenu id="provinciaCliente"
+                                                                                 value="#{clienteBean.provinciaSelecionada.id}"
+                                                                                 converter="#{provinciaConverter}"
+                                                                                 required="true"
+                                                                                 requiredMessage="#{msgs['validationRequired']}">
+                                                                    <f:selectItem itemLabel="--Seleccione una Provincia--"
+                                                                                  itemValue="" noSelectionOption="true"/>
+                                                                    <f:selectItems value="#{clienteBean.provincias}" var="p"
+                                                                                   itemLabel="#{p.nombre}" itemValue="#{p.id}"/>
+                                                                    <p:ajax update="ciudadesCliente"
+                                                                            listener="#{clienteBean.onProvinciaChange}"/>
+                                                                </p:selectOneMenu>
+                                                                <p:message for="provinciaCliente" styleClass="alert alert-danger"/>
+                                                            </h:panelGroup>
+                                                            <h:panelGroup layout="block">
+                                                                <p:selectOneMenu id="ciudadesCliente"
+                                                                                 value="#{clienteBean.ciudadSelecionada.id}"
+                                                                                 converter="#{ciudadConverter}" required="true"
+                                                                                 requiredMessage="#{msgs['validationRequired']}">
+                                                                    <f:selectItem itemLabel="--Seleccione una Ciudad--"
+                                                                                  itemValue="" noSelectionOption="true"/>
+                                                                    <f:selectItems value="#{clienteBean.ciudades}" var="c"
+                                                                                   itemLabel="#{c.nombre}" itemValue="#{c.id}"/>
+
+                                                                </p:selectOneMenu>
+                                                                <p:message for="ciudadesCliente" styleClass="alert alert-danger"/>
+                                                            </h:panelGroup>
+                                                            <p:outputLabel for="observacionesCliente" value="#{msgs['formObservaciones']}:" styleClass="FontBold"/>
+                                                            <div class="EmptyBox20"></div>
+                                                            <h:panelGroup layout="block">
+                                                                <p:inputTextarea rows="5" cols="30" counter="displayCliente" maxlength="300"
+                                                                                 counterTemplate="{0} caracteres restantes."
+                                                                                 autoResize="false" id="observacionesCliente"
+                                                                                 placeholder="Ingrese una observación"
+                                                                                 requiredMessage="#{msgs['validationRequired']}"
+                                                                                 value="#{clienteBean.entity.observacion}"/>
+                                                                <h:outputText id="displayCliente"/>
+                                                            </h:panelGroup>
+                                                            <p:message for="observacionesCliente"/>
+
+                                                        </p:panelGrid>
+                                                    </p:fieldset>
+                                                    <p:fieldset legend="#{msgs['formDatosLaborales']}:" style="margin-bottom:20px">
+                                                        <p:panelGrid columns="2"
+                                                                     columnClasses="ui-grid-col-4,ui-grid-col-4" layout="grid"
+                                                                     styleClass="ui-panelgrid-blank">
+                                                            <p:outputLabel for="lugarCliente" value="#{msgs['formLugarLaboral']}:" styleClass="FontBold"/>
+                                                            <p:outputLabel for="horarioCliente" value="#{msgs['formHorarioLaboral']}:" styleClass="FontBold"/>
+                                                            <h:panelGroup layout="block">
+                                                                <p:inputText id="lugarCliente"
+                                                                             required="true"
+                                                                             placeholder="Ej: Ministerio de Educación"
+                                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                                             value="#{clienteBean.entity.trabajoLugar}">
+                                                                </p:inputText>
+                                                                <p:message for="lugarCliente"/>
+
+                                                            </h:panelGroup>
+                                                            <h:panelGroup layout="block">
+                                                                <p:inputMask id="horarioCliente" required="true"
+                                                                             placeholder="Ej: 08:00 -- 15:00"
+                                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                                             value="#{clienteBean.entity.trabajoHorario}"
+                                                                             mask="99:99--99:99"/>
+
+                                                                <p:message for="horarioCliente"/>
+                                                            </h:panelGroup>
+                                                            <h:panelGroup layout="block">
+                                                                <p:outputLabel for="telefonoTrabajoCliente" value="#{msgs['formTelefonoLaboral']}:" styleClass="FontBold"/>
+                                                                <p:inputText id="telefonoTrabajoCliente"
+                                                                             type="number"
+                                                                             required="true"
+                                                                             requiredMessage="#{msgs['validationRequired']}"
+                                                                             value="#{clienteBean.entity.trabajoTelefono}"
+                                                                             placeholder="Ej: 2920 553245">
+                                                                </p:inputText>
+                                                            </h:panelGroup>
+                                                            <div class="EmptyBox20"></div>
+                                                            <h:panelGroup layout="block">
+                                                                <p:outputLabel for="fechaCobroCliente" value="#{msgs['formFechaCobro']}:" styleClass="FontBold"/>
+                                                                <p:spinner id="fechaCobroCliente" required="true"
+                                                                           requiredMessage="#{msgs['validationRequired']}"
+                                                                           value="#{clienteBean.entity.trabajoDiaCobro}" min="1"
+                                                                           max="31"
+                                                                />
+                                                            </h:panelGroup>
+                                                            <h:panelGroup layout="block" style="    margin-top: 7%;">
+                                                                <h:outputText value="Ingrese el día aproximado de cobro"></h:outputText>
+                                                            </h:panelGroup>
+                                                        </p:panelGrid>
+                                                    </p:fieldset>
+                                                    <p:fieldset legend="#{msgs['formDocumentos']}:" style="margin-bottom:20px">
+                                                        <p:panelGrid columns="2"
+                                                                     columnClasses="ui-grid-col-4,ui-grid-col-4" layout="grid"
+                                                                     styleClass="ui-panelgrid-blank">
+                                                            <h:outputText value="#{msgs['formDNI']}:" styleClass="FontBold"/>
+                                                            <p:selectBooleanCheckbox value="#{clienteBean.entity.fotocopiaDni}">
+                                                            </p:selectBooleanCheckbox>
+                                                            <h:outputText value="#{msgs['formRecibo']}:" styleClass="FontBold"/>
+                                                            <p:selectBooleanCheckbox value="#{clienteBean.entity.recibo}">
+                                                            </p:selectBooleanCheckbox>
+                                                            <h:outputText value="#{msgs['formServicio']}:" styleClass="FontBold"/>
+                                                            <p:selectBooleanCheckbox value="#{clienteBean.entity.servicio}">
+                                                            </p:selectBooleanCheckbox>
+                                                        </p:panelGrid>
+                                                    </p:fieldset>
+                                                    <div class="EmptyBox30"></div>
+                                                    <div class="Fright">
+                                                        <div class="Wid45 Fleft Responsive45 MarRight10">
+                                                            <p:commandButton value="#{msgs['btnCancelar']}"
+                                                                             icon="fa fa-close"
+                                                                             styleClass="RedButton Fs16 White RaisedButton Fleft FloatNoneOnMobile"
+                                                                             action="search?faces-redirect=true"
+                                                                             title="#{msgs['btnCancelar']}" immediate="true"/>
+                                                        </div>
+                                                        <div class="Wid45 Fleft Responsive45">
+                                                            <p:commandButton id="linksaveCliente" value="#{msgs['btnGuardar']}"
+                                                                             icon="fa fa-sign-in"
+                                                                             process="@form"
+                                                                             styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
+                                                                             action="#{clienteBean.update}" title="Guardar"
+                                                                             update="crearCliente" validateClient="true"/>
+                                                        </div>
+                                                    </div>
+                                                </p:panel>
+                                            </h:form>
+
+
+                                        </h:panelGroup>
+
+
+                                    </p:outputPanel>
+
+                                </p:dialog>
+
                                 <!-- PANEL ALTA DE GARANTE -->
                                 <p:dialog widgetVar="dialogGarante" showEffect="slide"
                                           dynamic="true" modal="true" hideEffect="slide" dismissable="true"
@@ -500,15 +694,12 @@
                                                                      styleClass="ui-panelgrid-blank">
                                                             <h:outputText value="#{msgs['formDNI']}:" styleClass="FontBold"/>
                                                             <p:selectBooleanCheckbox value="#{garanteBean.entity.fotocopiaDni}">
-                                                                <!--<p:ajax update="msg" listener="#{selectBooleanView.addMessage}" /> -->
                                                             </p:selectBooleanCheckbox>
                                                             <h:outputText value="#{msgs['formRecibo']}:" styleClass="FontBold"/>
                                                             <p:selectBooleanCheckbox value="#{garanteBean.entity.recibo}">
-                                                                <!--<p:ajax update="msg" listener="#{selectBooleanView.addMessage}" /> -->
                                                             </p:selectBooleanCheckbox>
                                                             <h:outputText value="#{msgs['formServicio']}:" styleClass="FontBold"/>
                                                             <p:selectBooleanCheckbox value="#{garanteBean.entity.servicio}">
-                                                                <!--<p:ajax update="msg" listener="#{selectBooleanView.addMessage}" /> -->
                                                             </p:selectBooleanCheckbox>
                                                         </p:panelGrid>
                                                     </p:fieldset>
@@ -524,6 +715,7 @@
                                                         <div class="Wid45 Fleft Responsive45">
                                                             <p:commandButton id="linksavegarante" value="#{msgs['btnGuardar']}"
                                                                              icon="fa fa-sign-in"
+                                                                             process="@form"
                                                                              styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
                                                                              action="#{garanteBean.update}" title="Guardar"
                                                                              update="crearGarante" validateClient="true"/>

@@ -211,7 +211,7 @@
                                                     <p:panel style="border:0px !important;">
                                                         <p:dataTable id="cuotasList" var="cuota"
                                                                      styleClass="TexAlCenter"
-                                                                     value="#{creditoBean.creditoSeleccionado.getListCuotasVencidas()}"
+                                                                     value="#{creditoBean.creditoSeleccionado.getListCuotas()}"
                                                                      reflow="true" rowKey="#{item}" lazy="true" rows="6"
                                                                      paginator="true" rowIndexVar="index"
                                                                      emptyMessage="El credito no posee cuotas"
@@ -226,10 +226,8 @@
                                                                 <h:outputText value="#{msgs['cuotas']}"/>
                                                                 <ui:include src="/pages/includes/exporterButtons.xhtml">
                                                                     <ui:param name="target" value="cuotasList"/>
-                                                                    <!--
                                                                     <ui:param name="fileName"
-                                                                              value="Reporte cuotas #{clienteBean.entity.apellidoNombre}"/>
-                                                                              -->
+                                                                              value="Reporte credito"/>
                                                                 </ui:include>
 
                                                             </f:facet>

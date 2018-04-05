@@ -34,8 +34,6 @@ public class GaranteBean extends GenericBean<Garante> implements Serializable {
 
     private Ciudad ciudadSelecionada = new Ciudad();
 
-    // GenericConvert<Ciudad> ciudadConvert = new GenericConvert<Ciudad>();
-
     @Inject
     private ProvinciaService provinciaService;
 
@@ -70,8 +68,6 @@ public class GaranteBean extends GenericBean<Garante> implements Serializable {
                 getEntity().setCiudad(new Ciudad());
                 getEntity().getCiudad().setProvincia(new Provincia());
             }
-            // getCiudadConvert().setService(ciudadService);
-            // getProvinciaConvert().setService(provinciaService);
             super.setUrlDesde(getRequestURL());
 
         }
@@ -194,4 +190,6 @@ public class GaranteBean extends GenericBean<Garante> implements Serializable {
     public void setCreditoService(CreditoService creditoService) {
         this.creditoService = creditoService;
     }
+
+
 }

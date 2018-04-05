@@ -37,8 +37,6 @@ public class ClienteBean extends GenericBean<Cliente> implements Serializable {
 
     private Ciudad ciudadSelecionada = new Ciudad();
 
-    // GenericConvert<Ciudad> ciudadConvert = new GenericConvert<Ciudad>();
-
     @Inject
     private ProvinciaService provinciaService;
 
@@ -46,8 +44,6 @@ public class ClienteBean extends GenericBean<Cliente> implements Serializable {
 
     @Inject
     private CreditoService creditoService;
-
-    //  GenericConvert<Provincia> provinciaConvert = new GenericConvert<Provincia>();
 
     List<Provincia> provincias = new ArrayList<>();
 
