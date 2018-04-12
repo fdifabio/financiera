@@ -1,12 +1,16 @@
 package ar.edu.unrn.lia.service.impl;
 
 import ar.edu.unrn.lia.dao.ClienteDAO;
+import ar.edu.unrn.lia.dao.CreditoDAO;
+import ar.edu.unrn.lia.dao.CuotaDAO;
 import ar.edu.unrn.lia.model.Cliente;
+import ar.edu.unrn.lia.model.Credito;
 import ar.edu.unrn.lia.service.ClienteService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +21,8 @@ import java.util.Map;
 public class ClienteServiceImpl implements ClienteService {
     @Inject
     ClienteDAO entityDAO;
+    @Inject
+    CreditoDAO creditoDAO;
 
     public ClienteDAO getEntityDAO() {
         return entityDAO;
@@ -74,7 +80,11 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public List<Cliente> searchMorosos() {
-        return getEntityDAO().searchMorosos();
+        List<Cliente> clientes = new ArrayList<>();
+        clientes = getEntityDAO().searchMorosos();
+        clientes.stream().forEach(cliente ->
+                cliente.setCreditoAdeudado(creditoDAO.read(cliente.getCreditoAdeudado().getId())));
+        return clientes;
     }
 
     @Override

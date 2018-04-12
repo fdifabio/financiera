@@ -16,6 +16,7 @@ import org.primefaces.model.chart.ChartSeries;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -75,6 +76,13 @@ public class ReportesBean implements Serializable {
         createMovimientosBarModel();
 
         loadModels();
+    }
+
+    public void inicio() {
+        if (!FacesContext.getCurrentInstance().isPostback()) {
+            setFechaInicio(new Date());
+            setFechaFin(new Date());
+        }
     }
 
     public BarChartModel getBarModel() {

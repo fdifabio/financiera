@@ -8,6 +8,9 @@
     <ui:define name="subheader">
         Reportes
     </ui:define>
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{reportesBean.inicio()}"/>
+    </f:metadata>
     <ui:define name="content">
         <div class="Container100">
             <div class="ContainerIndent">
@@ -108,7 +111,7 @@
                                         </p:column>
 
                                         <p:column headerText="Cliente">
-                                            <h:outputText value="#{item.apellidoNombre}"/>
+                                            <h:outputText value="#{item.id} - #{item.apellidoNombre}"/>
                                         </p:column>
 
                                         <p:column headerText="Monto Adeudado">
@@ -135,8 +138,30 @@
                                             <h:outputText value="#{item.trabajoDiaCobro}"/>
                                         </p:column>
 
+                                        <p:column visible="gone" headerText="Credito Nro" width="40">
+                                            <h:outputText value="#{item.creditoAdeudado.id}"/>
+                                        </p:column>
+                                        <p:column visible="gone" headerText="Fecha de inicio del Credito" width="40">
+                                            <h:outputText value="#{item.creditoAdeudado.fechaInicio}"/>
+                                        </p:column>
+                                        <p:column visible="gone" headerText="Capital" width="40">
+                                            <h:outputText value="#{item.creditoAdeudado.capital}"/>
+                                        </p:column>
+
+                                        <ui:repeat var="cuota" value="#{item.creditoAdeudado.listCuotas}">
+                                            <p:row>
+                                                <p:column headerText="Capital" width="40">
+
+                                                    Nro: #{cuota.nro} Monto:#{cuota.saldoAPagar}
+                                                </p:column>
+                                            </p:row>
+
+                                        </ui:repeat>
+
+
                                         <p:column width="20" exportable="false">
                                             <p:commandButton id="btnDetalle" update=":tabs:tabcliente:creditoDetalle"
+
                                                              oncomplete="PF('dialogCredito').show('#{component.clientId}')"
                                                              class="fa fa-search-plus Fs20" title=""
                                                              style="background-color: transparent; color: black; border: none"
@@ -288,7 +313,7 @@
                                     <!-- FIN PANEL DETALLE RENDICION -->
                                 </h:form>
                             </p:tab>
-                            <p:tab title="Créditos por periodos">
+                            <p:tab title="Créditos otorgados">
                                 <h:form id="formCreditos">
 
                                     <p:toolbar>
@@ -306,9 +331,9 @@
                                                         value="#{reportesBean.fechaFin}"
                                                         required="true"
                                                         requiredMessage="#{msgs['validationRequired']}"/>
-                                        </f:facet>
-
-                                        <f:facet name="right">
+                                            <span class="ui-separator">
+                                                <span class="ui-icon ui-icon-grip-dotted-vertical"/>
+                                            </span>
                                             <p:commandButton id="search" update="formCreditos"
                                                              actionListener="#{reportesBean.onSearch()}"
                                                              oncomplete="PF('listCreditos').filter()"
@@ -317,10 +342,19 @@
                                             <p:tooltip for="search" value="Buscar"></p:tooltip>
                                         </f:facet>
 
+
+                                        <f:facet name="right">
+                                            Creditos otorgados
+                                            <ui:include src="/pages/includes/exporterButtons.xhtml">
+                                                <ui:param name="target" value="listCreditosOtorgados"/>
+                                                <ui:param name="fileName"
+                                                          value="Creditos_otorgados_#{reportesBean.date()}"/>
+                                            </ui:include>
+                                        </f:facet>
                                     </p:toolbar>
 
 
-                                    <p:dataTable id="listCreditos" widgetVar="listCreditos" var="item"
+                                    <p:dataTable id="listCreditosOtorgados" widgetVar="listCreditos" var="item"
                                                  styleClass="TexAlCenter"
                                                  value="#{reportesBean.modelCreditos}"
                                                  emptyMessage="No hay créditos para mostrar"

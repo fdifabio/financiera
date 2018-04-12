@@ -9,12 +9,14 @@
 
 <h:commandLink styleClass="Inline GreenBack"
 	title="#{msgs['descargaExcel']}"
+			   process="@form"
 	style="float:right;width: auto;    border-top-right-radius: 10px;">
 	<i class="fa fa-file-excel-o Fs25 White"></i>
 	<p:dataExporter type="xls" target="#{target}" fileName="#{fileName}" postProcessor="#{customizedDocumentsView.postProcessXLSDocument}" />
 </h:commandLink>
 
 <h:commandLink styleClass="Inline RedBack"
+			   process="@form"
 	title="#{msgs['descargaPdf']}"
 	style="float:right;width: auto;border-top-right-radius: 10px;margin-right: 5px;">
 	<i class=" fa fa-file-pdf-o Fs25 White"> </i>
