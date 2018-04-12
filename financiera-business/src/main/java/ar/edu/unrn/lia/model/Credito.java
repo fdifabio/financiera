@@ -265,6 +265,14 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     }
 
     @Transient
+    public String listCuotasString() {
+        StringBuilder string = new StringBuilder();
+        this.listCuotas.stream().forEach(cuota ->
+                string.append("Nro: ").append(cuota.getNro().toString()).append(" Monto: ").append(cuota.getSaldoAPagar().setScale(2, BigDecimal.ROUND_CEILING).toString()).append(" - "));
+        return string.toString();
+    }
+
+    @Transient
     public boolean isCancelado() {
         return estado.equals(Estado.CANCELADO);
     }
