@@ -80,6 +80,33 @@ public class GaranteBean extends GenericBean<Garante> implements Serializable {
         return super.update();
     }
 
+    public String updateFromCredito() {
+        this.ciudadSelecionada.setProvincia(provinciaSelecionada);
+        getEntity().setCiudad(ciudadSelecionada);
+        try {
+            services.save(getEntity());
+            LOG.debug("Guardando " + getEntity());
+            if (getIsNew()) {
+                mensajeFlash(bundleMessage("INFO.mensaje"),
+                        bundleMessage("INFO.mensajeFlash"));
+                setIsNew(false);
+            } else
+                mensajeFlash(bundleMessage("INFO.mensaje"),
+                        bundleMessage("INFO.mensajeFlash"));
+            return UtilsBean.REDIRECT_CREATE;
+        } catch (DataAccessException e) {
+            agregarMensaje(FacesMessage.SEVERITY_ERROR, bundleMessage("error"),
+                    bundleMessage("error.guardar"));
+            LOG.error(" Error al actualizar " + e.getMessage());
+            return null;
+        } catch (Exception e) {
+            agregarMensaje(FacesMessage.SEVERITY_ERROR, bundleMessage("error"),
+                    e.getMessage());
+            LOG.error("Error al actualizar" + e.getMessage());
+            return null;
+        }
+    }
+
     public List<Credito> listCreditos() {
         return creditoService.listByClienteId(getId());
     }
