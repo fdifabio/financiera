@@ -54,7 +54,7 @@ public class Cliente extends Persona implements java.io.Serializable {
         this.trabajoTelefono = trabajoTelefono;
         this.saldoAdeudado = saldoAdeudado;
         this.creditoAdeudado = new Credito(idCredito);
-        this.cantCuotasVencidas = this.creditoAdeudado.cuotasVencidas();
+//        this.cantCuotasVencidas = this.creditoAdeudado.cuotasVencidas();
     }
 
 

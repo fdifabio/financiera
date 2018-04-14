@@ -122,7 +122,7 @@
 
                                         <p:column headerText="Cuotas vencidas" filterBy="#{item.cantCuotasVencidas}"
                                                   width="70">
-                                            <h:outputText value="#{item.cantCuotasVencidas}"/>
+                                            <h:outputText value="#{item.creditoAdeudado.cuotasVencidas()}"/>
                                         </p:column>
 
                                         <p:column headerText="#{msgs['form.telefono']}s personales">

@@ -4,7 +4,6 @@ import ar.edu.unrn.lia.dao.CuotaDAO;
 import ar.edu.unrn.lia.dto.CuotaDTO;
 import ar.edu.unrn.lia.generic.GenericDaoJpaImpl;
 import ar.edu.unrn.lia.model.Cuota;
-import com.oracle.tools.packager.Log;
 
 import javax.inject.Named;
 import javax.persistence.Query;
