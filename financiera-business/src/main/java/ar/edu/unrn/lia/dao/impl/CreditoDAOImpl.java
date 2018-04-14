@@ -37,8 +37,9 @@ public class CreditoDAOImpl extends GenericDaoJpaImpl<Credito, Long> implements
 
         String id = filters.get("id");
         if (id != null && !"".equals(id)) {
-            predicatesList.add(builder.like(root.<String>get("id"),
-                    '%' + id + '%'));
+            Long idaux= Long.valueOf(id);
+            predicatesList.add(builder.equal(root.<Long>get("id"),
+                    idaux));
         }
         String cliente = filters.get("cliente");
         if (cliente != null && !"".equals(cliente)) {

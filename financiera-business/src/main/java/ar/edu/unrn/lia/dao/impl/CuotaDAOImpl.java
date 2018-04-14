@@ -4,16 +4,14 @@ import ar.edu.unrn.lia.dao.CuotaDAO;
 import ar.edu.unrn.lia.dto.CuotaDTO;
 import ar.edu.unrn.lia.generic.GenericDaoJpaImpl;
 import ar.edu.unrn.lia.model.Cuota;
+import com.oracle.tools.packager.Log;
 
 import javax.inject.Named;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Named("CuotaDAO")
 
@@ -131,9 +129,13 @@ public class CuotaDAOImpl extends GenericDaoJpaImpl<Cuota, Long> implements
 
     @Override
     public void actualizarEstados() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
         Query query = this.entityManager.createQuery("UPDATE Cuota c SET c.estado=:estado1 where :today > c.fechaVencimiento and c.estado= :estado3");
         query.setParameter("estado1", Cuota.Estado.VENCIDO);
-        query.setParameter("today", new Date());
+        query.setParameter("today", calendar.getTime());
+       System.out.print(calendar.getTime().toString());
 //        query.setParameter("estado2", Cuota.Estado.PARCIALMENTE_SALDADO);
         query.setParameter("estado3", Cuota.Estado.ADEUDADO);
         query.executeUpdate();

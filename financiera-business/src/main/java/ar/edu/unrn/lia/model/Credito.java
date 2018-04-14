@@ -267,8 +267,10 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     @Transient
     public String listCuotasString() {
         StringBuilder string = new StringBuilder();
-        this.listCuotas.stream().forEach(cuota ->
-                string.append("Nro: ").append(cuota.getNro().toString()).append(" Monto: ").append(cuota.getSaldoAPagar().setScale(2, BigDecimal.ROUND_CEILING).toString()).append(" - "));
+        this.listCuotas.stream()
+                .filter(cuota -> cuota.getEstado() != Cuota.Estado.SALDADO)
+                .forEach(cuota ->
+                string.append("(Nro: ").append(cuota.getNro().toString()).append(" Monto: ").append(cuota.getSaldoAPagar().setScale(2, BigDecimal.ROUND_CEILING).toString()).append(" Estado: ").append(cuota.getEstado().getDescripcion()).append(" )\n "));
         return string.toString();
     }
 
