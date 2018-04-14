@@ -227,10 +227,11 @@
                                             <p:cellEditor>
 
                                                 <f:facet name="output">
-                                                    <h:panelGroup rendered="#{item.isEstadoAnteriorVencido() or item.isEstadoAnteriorParcialmenteSaldado()}">
-                                                    <h:outputText value="#{item.interesVencido}" >
-                                                        <f:convertNumber pattern="#0"/>
-                                                    </h:outputText>%
+                                                    <h:panelGroup
+                                                            rendered="#{item.isEstadoAnteriorVencido() or item.isEstadoAnteriorParcialmenteSaldado()}">
+                                                        <h:outputText value="#{item.interesVencido}">
+                                                            <f:convertNumber pattern="#0"/>
+                                                        </h:outputText>%
                                                     </h:panelGroup>
                                                 </f:facet>
                                                 <f:facet name="input">
@@ -298,24 +299,25 @@
                                                     </h:outputText>
                                                 </f:facet>
                                                 <f:facet name="input">
-                                                   <!-- <h:panelGroup>
-                                                        <h:outputText value="#{item.montoAPagar}">
-                                                            <f:convertNumber pattern="#0.00"/>
-                                                        </h:outputText>
-                                                    </h:panelGroup>-->
-                                                    <h:panelGroup
-                                                             rendered="#{!item.isEstadoAnteriorVencido() and !item.isEstadoAnteriorParcialmenteSaldado()}">
+                                                    <!-- <h:panelGroup>
                                                          <h:outputText value="#{item.montoAPagar}">
                                                              <f:convertNumber pattern="#0.00"/>
-                                                         </h:outputText>%
-                                                     </h:panelGroup>
+                                                         </h:outputText>
+                                                     </h:panelGroup>-->
                                                     <h:panelGroup
-                                                             rendered="#{item.isEstadoAnteriorVencido() or item.isEstadoAnteriorParcialmenteSaldado()}">
-                                                         <p:inputNumber id="montoAPagar" decimalSeparator="," maxValue="#{item.monto()}"
-                                                                        thousandSeparator="." value="#{item.montoAPagar}"
-                                                                        validatorMessage="Ingrese un monto válido"
-                                                                        placeholder="Monto" minValue="0"/>
-                                                     </h:panelGroup>
+                                                            rendered="#{!item.isEstadoAnteriorVencido() and !item.isEstadoAnteriorParcialmenteSaldado()}">
+                                                        <h:outputText value="#{item.montoAPagar}">
+                                                            <f:convertNumber pattern="#0.00"/>
+                                                        </h:outputText>%
+                                                    </h:panelGroup>
+                                                    <h:panelGroup
+                                                            rendered="#{item.isEstadoAnteriorVencido() or item.isEstadoAnteriorParcialmenteSaldado()}">
+                                                        <p:inputNumber id="montoAPagar" decimalSeparator=","
+                                                                       maxValue="#{item.monto()}"
+                                                                       thousandSeparator="." value="#{item.montoAPagar}"
+                                                                       validatorMessage="Ingrese un monto válido"
+                                                                       placeholder="Monto" minValue="0"/>
+                                                    </h:panelGroup>
                                                 </f:facet>
                                             </p:cellEditor>
                                         </p:column>
@@ -342,7 +344,8 @@
                                         <p:outputPanel layout="block" deferred="true"
                                                        style=" margin: 0px;  "
                                                        styleClass="ui-messages ui-widget">
-                                            <p:outputPanel layout="block" style="margin: 0px;    padding: 0px 0px 10px 6px !important"
+                                            <p:outputPanel layout="block"
+                                                           style="margin: 0px;    padding: 0px 0px 10px 6px !important"
                                                            styleClass="ui-messages-info ui-corner-all">
                                                 <p:outputPanel layout="inline" style="margin: 0px; "
                                                                styleClass="ui-messages-info-icon"></p:outputPanel>
@@ -369,7 +372,8 @@
                                             <p:selectBooleanCheckbox value="#{cobroBean.usaSaldoCuenta}"
                                                                      title="Usar saldo cuenta"
                                                                      style="margin-left: 10px;">
-                                                <p:ajax update="total panelSaldoCuenta" listener="#{cobroBean.resetSaldoCuenta}"/>
+                                                <p:ajax update="total panelSaldoCuenta"
+                                                        listener="#{cobroBean.resetSaldoCuenta}"/>
 
                                             </p:selectBooleanCheckbox>
                                         </h:panelGroup>
@@ -419,7 +423,9 @@
                                             <p:commandButton id="linksave" value="#{msgs['btnRegistarCobro']}"
                                                              icon="fa fa-save"
                                                              styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
-                                                             action="#{cobroBean.update}" title="Grabar"
+                                                             action="#{cobroBean.update}"
+                                                             disabled="#{cobroBean.selectedCuotas.isEmpty()}"
+                                                             title="Grabar"
                                                              update="crear" validateClient="true"/>
                                         </div>
                                     </div>
