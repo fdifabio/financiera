@@ -69,7 +69,7 @@
                                         <!--headerText="#{msgs['formOpciones']}"-->
                                         <p:commandButton id="buttonSeleccionar"
                                                          actionListener="#{cobroBean.onCuotaSelect(item)}"
-                                                         update=":crear:msgs :crear:totales :crear:listSelected list :crear:linksave"
+                                                         update=":crear:msgs :crear:totales :crear:listSelected list :crear:linksave :crear:saldoCuentaCheck"
                                                          process="@this"
                                                          icon="fa fa-arrow-down" styleClass="Blue"
                                                          style="font-size: 0px;background-color: transparent;"/>
@@ -328,7 +328,7 @@
                                         <p:column width="30">
                                             <p:commandButton id="buttonQuitar"
                                                              actionListener="#{cobroBean.onCuotaUnSelect(item)}"
-                                                             update=":crear:msgs :crear:totales :list listSelected"
+                                                             update=":crear:msgs :crear:totales :list listSelected crear:linksave crear:saldoCuentaCheck"
                                                              icon="fa fa-arrow-up" styleClass="Blue"
                                                              style="font-size: 0px;background-color: transparent;"/>
                                             <p:tooltip id="toolTipButtonQuitar" for="buttonQuitar"
@@ -365,12 +365,13 @@
                                         <div class="EmptyBox10"></div>
                                         <h:outputText value="#{msgs['saldoCuenta']} anterior:"
                                                       styleClass="FontBold"/>
-                                        <h:panelGroup>
+                                        <h:panelGroup id="saldoCuentaCheck">
                                             <h:outputText value="#{cobroBean.credito.saldoCuenta}">
                                                 <f:convertNumber type="currency" currencySymbol="$"/>
                                             </h:outputText>
                                             <p:selectBooleanCheckbox value="#{cobroBean.usaSaldoCuenta}"
-                                                                     title="Usar saldo cuenta"
+                                                                     rendered="#{!cobroBean.selectedCuotas.isEmpty()}"
+                                                                     title="Usar saldo a cuenta" itemLabel="Usar saldo"
                                                                      style="margin-left: 10px;">
                                                 <p:ajax update="total panelSaldoCuenta"
                                                         listener="#{cobroBean.resetSaldoCuenta}"/>
@@ -387,7 +388,7 @@
                                                            decimalSeparator="," thousandSeparator="."
                                                            decimalPlaces="2"
                                                            maxValue="#{cobroBean.credito.montoCutoas}">
-                                                <p:ajax update="total"/>
+                                                <p:ajax update="total linksave" event="keyup"/>
                                             </p:inputNumber>
                                         </h:panelGroup>
 
@@ -398,7 +399,7 @@
                                                            value="#{cobroBean.descuento}" symbol="$ "
                                                            decimalSeparator="," thousandSeparator="."
                                                            decimalPlaces="2">
-                                                <p:ajax update="total"/>
+                                                <p:ajax update="total "/>
                                             </p:inputNumber>
                                         </h:panelGroup>
 
@@ -424,7 +425,7 @@
                                                              icon="fa fa-save"
                                                              styleClass="GreenButton Fs16 White Fright FloatNoneOnMobile"
                                                              action="#{cobroBean.update}"
-                                                             disabled="#{cobroBean.selectedCuotas.isEmpty()}"
+                                                             disabled="#{cobroBean.deshabilitarBotonGuardar()}"
                                                              title="Grabar"
                                                              update="crear" validateClient="true"/>
                                         </div>
