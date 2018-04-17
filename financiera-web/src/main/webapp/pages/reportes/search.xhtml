@@ -124,6 +124,15 @@
                                                   width="70">
                                             <h:outputText value="#{item.creditoAdeudado.cuotasVencidas()}"/>
                                         </p:column>
+                                        <p:column headerText="Fecha último pago"
+                                                  width="70">
+                                            <h:outputText id="ultimopago" value="#{item.creditoAdeudado.ultimoPago()}" rendered="#{item.creditoAdeudado.ultimoPago()!=null}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                            <h:outputText id="nullultimopago" value="#{msgs['formNoUltimoPago']}" rendered="#{item.creditoAdeudado.ultimoPago()==null}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </p:column>
 
                                         <p:column headerText="#{msgs['form.telefono']}s personales">
                                             <h:outputText value="Cel:#{item.celular} / Tel:#{item.telefono}"/>
@@ -142,7 +151,9 @@
                                             <h:outputText value="#{item.creditoAdeudado.id}"/>
                                         </p:column>
                                         <p:column visible="gone" headerText="Fecha de inicio del Credito" width="40">
-                                            <h:outputText value="#{item.creditoAdeudado.fechaInicio}"/>
+                                            <h:outputText value="#{item.creditoAdeudado.fechaInicio}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
                                         </p:column>
                                         <p:column visible="gone" headerText="Capital" width="40">
                                             <h:outputText value="#{item.creditoAdeudado.capital}"/>

@@ -103,3 +103,6 @@ INSERT INTO `parameter` (`id`, `key_col`, `value_col`, `description`, `uses_clas
 
 /*ULTIMO - 28/11/2017*/
 ALTER TABLE `usuario` DROP ` enabled `;
+
+/*ULTIMO - 16/04/2018*/
+ALTER TABLE `cuota` CHANGE `fecha_cierre` `fecha_pago` DATE NULL DEFAULT NULL;

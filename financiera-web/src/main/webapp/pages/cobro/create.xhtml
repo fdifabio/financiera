@@ -230,7 +230,7 @@
                                                     <h:panelGroup
                                                             rendered="#{item.isEstadoAnteriorVencido() or item.isEstadoAnteriorParcialmenteSaldado()}">
                                                         <h:outputText value="#{item.interesVencido}">
-                                                            <f:convertNumber pattern="#0"/>
+                                                            <f:convertNumber pattern="#0.00"/>
                                                         </h:outputText>%
                                                     </h:panelGroup>
                                                 </f:facet>

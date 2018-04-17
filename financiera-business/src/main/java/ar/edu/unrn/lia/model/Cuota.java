@@ -25,13 +25,13 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     private BigDecimal saldo;
     private BigDecimal saldoAPagar;// En un principio va ser igual al monto de la cuota
     private Date fechaVencimiento;
-    private Date fechaCierre;
+    private Date fechaPago;
 
     private Estado estado = Estado.ADEUDADO;
     private List<Cobro> cobros;
 
     //TODO: Ver de parametrizarlos!!
-    public static final BigDecimal INTERES_VENCIDO = new BigDecimal(33);
+    public static final BigDecimal INTERES_VENCIDO = new BigDecimal(0.33);
     private BigDecimal interesDescuento = BigDecimal.ZERO;//Se utiliza cuando la cuota se paga por adelantado
     private BigDecimal interesVencido = INTERES_VENCIDO;//Se utiliza cuando la cuota esta vencida
 
@@ -100,14 +100,14 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
         this.fechaVencimiento = fechaVencimiento;
     }
 
-    @Column(name = "fecha_cierre")
-    public Date getFechaCierre() {
-        return fechaCierre;
+    @Column(name = "fecha_pago")
+    public Date getFechaPago() {
+        return fechaPago;
     }
 
 
-    public void setFechaCierre(Date fechaCierre) {
-        this.fechaCierre = fechaCierre;
+    public void setFechaPago(Date fechaPago) {
+        this.fechaPago = fechaPago;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -243,17 +243,21 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         return getListCuotas().stream().filter(Cuota::isAdeudado).findAny().isPresent();
     }
 
-    @Transient
+       @Transient
     public long cuotasVencidas() {
         return getListCuotas().stream().filter(c -> c.isParcialmenteSaldado() || c.isVencido()).count();
+    }
+    @Transient
+    public Date ultimoPago() {
+        return getListCuotas().stream().filter(cuota -> cuota.getFechaPago()!= null).map(Cuota::getFechaPago).max(Date::compareTo).orElse(null);
     }
 
     @Transient
     public void actualizarEstado() {
         if (this.isCuotasSaldadas())
             this.setEstado(Estado.CANCELADO);
-        else if (existenCuotasVencidas())
-            this.setEstado(Estado.LEGALES);
+        /*else if (existenCuotasVencidas())
+            this.setEstado(Estado.LEGALES);*/
         else if (existenCuotasAdeudadas())
             this.setEstado(Estado.ACTIVO);
 

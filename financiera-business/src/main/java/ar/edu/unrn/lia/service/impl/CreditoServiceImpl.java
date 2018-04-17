@@ -82,7 +82,7 @@ public class CreditoServiceImpl implements CreditoService {
     @Transactional
     public void actualizarEstadoCreditoYCuotas() {
         cuotaDAO.actualizarEstados();
-        entityDAO.actualizarEstados();
+        //entityDAO.actualizarEstados();
     }
 
     @Override

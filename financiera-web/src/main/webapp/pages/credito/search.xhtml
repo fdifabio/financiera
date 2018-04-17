@@ -34,7 +34,7 @@
                                 <p:growl id="growl" showDetail="true" life="3000"/>
 
                                 <p:dataTable id="list" widgetVar="listCreditos" var="item" value="#{creditoBean.list}"
-                                             emptyMessage="No hay créditos para mostrar"
+                                             emptyMessage="No hay créditos para mostrar"  sortOrder="descending"  sortby="#{item.id}"
                                              reflow="true" rowKey="#{item.id}" lazy="true" paginator="true"
                                              paginatorPosition="bottom"
                                              resizableColumns="false" rows="10"
