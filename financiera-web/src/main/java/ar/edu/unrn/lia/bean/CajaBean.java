@@ -74,7 +74,7 @@ public class CajaBean extends GenericBean<Caja> implements Serializable {
     }
 
     public String habilitarCaja() {
-        entityService.habilitarCaja(new Caja(new Date()), new Movimiento(BigDecimal.valueOf(monto), new Date(), "Saldo incial", Movimiento.Tipo.INGRESO));
+        entityService.habilitarCaja(new Caja(new Date()), new Movimiento(BigDecimal.valueOf(monto), new Date(), "Saldo inicial", Movimiento.Tipo.INGRESO));
         authenticationBean.updateMovimientos();
         agregarMensaje(FacesMessage.SEVERITY_INFO, "Caja habilitada", "Monto habilitado: $" + monto);
         return UtilsBean.REDIRECT_HOME;

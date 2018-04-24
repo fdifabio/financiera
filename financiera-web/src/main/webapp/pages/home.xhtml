@@ -83,19 +83,19 @@
                                     <h:outputText value="#{cajaBean.getLast().fechaCierre}">
                                         <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
                                     </h:outputText>
-                                    <h:outputText value="Saldo Inicial:" styleClass="FontBold"/>
+                                    <h:outputText value="Saldo inicial:" styleClass="FontBold"/>
                                     <h:outputText value="#{cajaBean.getLast().saldoInicial()}">
                                         <f:convertNumber type="currency" currencySymbol="$"/>
                                     </h:outputText>
-                                    <h:outputText value="Total Cobros:" styleClass="FontBold"/>
+                                    <h:outputText value="Total cobros:" styleClass="FontBold"/>
                                     <h:outputText value="#{cajaBean.getLast().saldoCobros()}">
                                         <f:convertNumber type="currency" currencySymbol="$"/>
                                     </h:outputText>
-                                    <h:outputText value="Total Gastos:" styleClass="FontBold"/>
+                                    <h:outputText value="Total gastos:" styleClass="FontBold"/>
                                     <h:outputText value="#{cajaBean.getLast().saldoGastos()}">
                                         <f:convertNumber type="currency" currencySymbol="$"/>
                                     </h:outputText>
-                                    <h:outputText value="Total Creditos:" styleClass="FontBold"/>
+                                    <h:outputText value="Total créditos:" styleClass="FontBold"/>
                                     <h:outputText value="#{cajaBean.getLast().saldoCreditos()}">
                                         <f:convertNumber type="currency" currencySymbol="$"/>
                                     </h:outputText>
@@ -127,14 +127,6 @@
                                     }
                                 </script>
                             </h:panelGroup>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="Container100 Responsive100 TexAlCenter">
-                    <div class="ContainerIndent">
-
-                        <div class="Card ShadowEffect ui-fluid">
                             <div class="EmptyBox20"></div>
                             <p:tabView>
                                 <p:tab title="Detalle">
@@ -233,6 +225,7 @@
                             </p:tabView>
                             <div class="EmptyBox20"></div>
                         </div>
+
                     </div>
                 </div>
             </div>

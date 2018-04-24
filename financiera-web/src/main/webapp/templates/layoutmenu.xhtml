@@ -13,7 +13,7 @@
                                 icon="icon-home"
                                 outcome="/pages/home?faces-redirect=true"/>
                 </sec:ifAnyGranted>
-                <sec:ifAnyGranted roles="ROLE_ADMIN">
+                <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_PRESTAMISTA">
                     <p:menuitem id="rm_preferencias" value="#{msgs['menu.preferencias']}"
                                 icon="icon-settings"
                                 outcome="/pages/preferencias/search?faces-redirect=true"/>
@@ -26,6 +26,9 @@
                     <p:menuitem id="rm_cliente" value="#{msgs['menu.cliente']}"
                                 icon="fa fa-users"
                                 outcome="/pages/cliente/search?faces-redirect=true"/>
+                    <p:menuitem id="rm_gatante" value="#{msgs['menu.garante']}"
+                                icon="fa fa-male"
+                                outcome="/pages/garante/search?faces-redirect=true"/>
                     <p:menuitem id="rm_credito" value="#{msgs['menu.credito']}"
                                 icon="fa fa-money"
                                 outcome="/pages/credito/search?faces-redirect=true"/>

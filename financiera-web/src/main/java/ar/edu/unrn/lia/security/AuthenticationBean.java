@@ -4,9 +4,7 @@ import ar.edu.unrn.lia.bean.GenericBean;
 import ar.edu.unrn.lia.bean.UtilsBean;
 import ar.edu.unrn.lia.bean.util.Backup;
 import ar.edu.unrn.lia.bean.util.BundleMessagei18;
-import ar.edu.unrn.lia.bean.util.ParameterBean;
 import ar.edu.unrn.lia.logger.Log;
-import ar.edu.unrn.lia.model.Caja;
 import ar.edu.unrn.lia.model.Movimiento;
 import ar.edu.unrn.lia.model.Role;
 import ar.edu.unrn.lia.model.User;
@@ -36,10 +34,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
-import java.util.Date;
 
 
 @Component
@@ -88,8 +84,6 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
     MovimientoService movimientoService;
 
     private TimelineModel timelineMovimientos;
-
-    private String patternDate;
 
     public AuthenticationBean() {
     }
@@ -335,10 +329,6 @@ public class AuthenticationBean extends GenericBean<User> implements Serializabl
 
     public void setTimelineMovimientos(TimelineModel timelineMovimientos) {
         this.timelineMovimientos = timelineMovimientos;
-    }
-
-    public String getPatternDate() {
-        return ParameterBean.patternDate;
     }
 
     public CajaService getCajaService() {

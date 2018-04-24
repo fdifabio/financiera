@@ -16,7 +16,7 @@
     <title>#{msgs['title']}</title>
     <ui:insert name="head"/>
 </h:head>
-<h:body styleClass="GrayModena Geometry" style="height:auto;">
+<h:body styleClass="GrayModena Geometry" style="height:auto; background-color: #18849c">
 
     <div class="Wid90 DispBlock MarAuto MarTopPerc5 TexAlCenter">
         <div class="Wid33 MarAuto WidAutoOnMobile">
@@ -56,42 +56,6 @@
                 <div class="EmptyBox5 ShowOnMobile"></div>
                 <div class="EmptyBox10"></div>
                 <div class="Separator"></div>
-                <p:commandButton value="#{msgs['forgotPassword']}" onclick="PF('dlg2').show();"
-                                 style="background-color:#b02779; "
-                                 icon="fa fa-lock" />
-                <div class="Separator"></div>
-               <!-- <div>
-                    <p:link id="registerForm" value="#{msgs['registerLink']}"
-                            icon="fa fa-sign-in"
-                            styleClass="btn btn-default"
-                            outcome="register"/>
-                </div>-->
-                <div class="EmptyBox20"></div>
-                <h:form>
-                    <p:dialog header="#{msgs['form.recuperar.pass']}" widgetVar="dlg2" resizable="false"
-                              closable="true" cellpadding="5"
-                              draggable="false" showEffect="true" modal="true" scrollable="true">
-                        <p:growl id="pass" showDetail="true" closable="true" globalOnly="true"/>
-                        <div class="Wid100">
-                            <p:inputText style="width: 280px" id="mail"
-                                         value="#{authenticationBean.email}"
-                                         required="true"
-                                         requiredMessage="#{msgs['validationRequired']}"
-                                         validator="#{authenticationBean.validateMail}"
-                                         validatorMessage="Formato invalido"
-                                         placeholder="#{msgs['email']}">
-                                <f:validateRegex
-                                        pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.(com|com.ar|net|‌​org|edu.ar)"/>
-                            </p:inputText>
-                            <p:message for="mail"/>
-                        </div>
-                        <div class="EmptyBox10"></div>
-                        <p:commandButton value="#{msgs['btn.eviar']}"
-                                         actionListener="#{authenticationBean.enviarMail}"
-                                         align="right" update="mail,pass" validateClient="true"
-                                         oncomplete="handleLoginRequest(xhr, status, args)"/>
-                    </p:dialog>
-                </h:form>
                 <div class="Wid100 TexAlCenter MarTop20 Fs14 FontRobotoRegular Gray">
                     <i class="fa fa-copyright">D3SOFT</i>
                     <br/>

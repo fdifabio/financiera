@@ -56,7 +56,7 @@
                                             <p:outputLabel for="apellido" value="#{msgs['formApellido']}:"
                                                            styleClass="FontBold"/>
                                             <h:panelGroup layout="block">
-                                                <p:inputText id="nombre"
+                                                <p:inputText id="nombre" maxlength="254"
                                                              required="true"
                                                              requiredMessage="#{msgs['validationRequired']}"
                                                              value="#{garanteBean.entity.nombre}"
@@ -65,7 +65,7 @@
                                                 <p:message for="nombre"/>
                                             </h:panelGroup>
                                             <h:panelGroup layout="block">
-                                                <p:inputText id="apellido"
+                                                <p:inputText id="apellido" maxlength="254"
                                                              required="true"
                                                              requiredMessage="#{msgs['validationRequired']}"
                                                              validatorMessage="Formato invalido"
@@ -78,7 +78,7 @@
                                             <p:outputLabel for="telefono" value="#{msgs['formTelefono']}:"
                                                            styleClass="FontBold"/>
                                             <h:panelGroup layout="block">
-                                                <p:inputText id="dni"
+                                                <p:inputText id="dni" maxlength="254"
                                                              type="number"
                                                              required="true"
                                                              requiredMessage="#{msgs['validationRequired']}"
@@ -88,7 +88,7 @@
                                                 <p:message for="dni"/>
                                             </h:panelGroup>
                                             <h:panelGroup layout="block">
-                                                <p:inputText id="telefono"
+                                                <p:inputText id="telefono" maxlength="254"
                                                              type="number"
                                                              value="#{garanteBean.entity.telefono}"
                                                              placeholder="Ej: 425865">
@@ -99,7 +99,7 @@
                                             <p:outputLabel for="direccion" value="#{msgs['formDireccion']}:"
                                                            styleClass="FontBold"/>
                                             <h:panelGroup layout="block">
-                                                <p:inputText id="celular"
+                                                <p:inputText id="celular" maxlength="254"
                                                              type="number"
                                                              required="true"
                                                              requiredMessage="#{msgs['validationRequired']}"
@@ -153,7 +153,7 @@
                                                            styleClass="FontBold"/>
                                             <div class="EmptyBox20"></div>
                                             <h:panelGroup layout="block">
-                                                <p:inputTextarea rows="5" cols="30" counter="display" maxlength="300"
+                                                <p:inputTextarea rows="5" cols="30" counter="display" maxlength="254"
                                                                  counterTemplate="{0} caracteres restantes."
                                                                  autoResize="false" id="observaciones"
                                                                  placeholder="Ingrese una observación"

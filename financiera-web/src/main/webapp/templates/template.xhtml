@@ -83,46 +83,7 @@
                     <ui:insert name="actionshome">
 
                     </ui:insert>
-                    <!-- SUB TOPBAR START -->
-                    <ui:insert name="subheader">
-                        <h:form>
-                            <sec:ifAnyGranted roles="ROLE_ADMIN">
-                                <h:commandLink styleClass="MarRight20 Blue"
-                                               action="/pages/user/search?faces-redirect=true" ajax="false">
-                                    <i class="icon-people"></i>
-                                    <h:outputText value="#{msgs['menu.user']}"/>
-                                </h:commandLink>
-                            </sec:ifAnyGranted>
-                            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_SECRETARIO, ROLE_AGR">
-                                <h:commandLink styleClass="MarRight20 Blue"
-                                               action="/pages/eprofesional/search?faces-redirect=true" ajax="false">
-                                    <i class="icon-paper"></i>
-                                    <h:outputText value="#{msgs['menuEProfesional']}"/>
-                                </h:commandLink>
-                            </sec:ifAnyGranted>
-                            <sec:ifAnyGranted roles="ROLE_ADMIN, ROLE_SECRETARIO, ROLE_AGR">
-                                <h:commandLink styleClass="MarRight20 Blue"
-                                               action="/pages/comitente/search?faces-redirect=true" ajax="false">
-                                    <i class="icon-work"></i>
-                                    <h:outputText value="#{msgs['menuComitente']}"/>
-                                </h:commandLink>
-                            </sec:ifAnyGranted>
-                            <sec:ifAnyGranted roles="ROLE_AGR">
-                                <h:commandLink styleClass="MarRight20 Blue"
-                                               action="/pages/perfil/miperfil?faces-redirect=true" ajax="false">
-                                    <i class="icon-person"></i>
-                                    <h:outputText value="#{msgs['micuenta']}"/>
-                                </h:commandLink>
-                            </sec:ifAnyGranted>
-                            <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SECRETARIO,ROLE_AGR">
-                                <h:commandLink styleClass="MarRight20 Blue"
-                                               action="/pages/user/cambioclave?faces-redirect=true" ajax="false">
-                                    <i class="icon-vpn_key"></i>
-                                    <h:outputText value="#{msgs['menu.cambio.clave']}"/>
-                                </h:commandLink>
-                            </sec:ifAnyGranted>
-                        </h:form>
-                    </ui:insert>
+
                     <ui:insert name="actions">
 
                     </ui:insert>
@@ -132,11 +93,11 @@
                     <!-- footer -->
                     <div class="Container100">
                         <div class="ContainerIndent TexAlCenter Fs20">
-                            <i class="fa fa-copyright" style="background-color: white;
-    border-radius: 11px;
-    padding: 10px;
-    color: grey;">D3SOFT</i>
-                            <br/>
+                            <div class="Card ShadowEffect" style="    padding: 0px;">
+                                <div class="Container100 Responsive100">
+                                    <p:graphicImage name="images/logod3s.jpg" style="width: 130px; " library="modena-layout"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
