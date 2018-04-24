@@ -137,6 +137,7 @@ public class ReportesBean implements Serializable {
     }
 
     private void createGeneralBarModel() {
+
         generalBarModel = new BarChartModel();
         generalBarModel.setAnimate(true);
         ChartSeries saldadas = new ChartSeries();
@@ -147,12 +148,13 @@ public class ReportesBean implements Serializable {
         ChartSeries adeudadas = new ChartSeries();
         adeudadas.setLabel("Adeudadas");
         cuotaService.listAdeudadas(getAnioGeneralSelecionado(), 0).forEach(a -> adeudadas.set(a.getMes() + "/" + a.getAnio(), a.getMonto()));
-        if (saldadas.getData().size() == 0 && adeudadas.getData().size() == 0)
+        if (saldadas.getData().isEmpty() && adeudadas.getData().isEmpty())
             setIsrender(false);
         else {
-            if (saldadas.getData().size() != 0)
+            setIsrender(false);
+            if (!saldadas.getData().isEmpty())
                 generalBarModel.addSeries(saldadas);
-            if (adeudadas.getData().size() != 0)
+            if (!adeudadas.getData().isEmpty())
                 generalBarModel.addSeries(adeudadas);
 
         }

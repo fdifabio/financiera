@@ -38,11 +38,11 @@
                                     </h:panelGroup>
                                     <h:panelGroup id="chartgeneral">
 
-                                        <h:panelGroup rendered="#{reportesBean.isrender}">
+                                        <h:panelGroup rendered="#{!reportesBean.isrender}">
                                             <p:chart type="bar" model="#{reportesBean.generalBarModel}"
                                                      style="height:300px"/>
                                         </h:panelGroup>
-                                        <h:panelGroup rendered="#{!reportesBean.isrender}">
+                                        <h:panelGroup rendered="#{reportesBean.isrender}">
                                             <p:outputPanel layout="block" deferred="true"
                                                            style="    margin-left: 10px !important;"
                                                            styleClass="ui-messages ui-widget">

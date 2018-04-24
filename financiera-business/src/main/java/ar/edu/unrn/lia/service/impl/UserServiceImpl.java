@@ -76,8 +76,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Transactional
     public void save(User entity) {
+        entity.setPassword(encriptarClave(entity.getPassword()));
         if (entity.getId() == null) {
-            entity.setPassword(encriptarClave(entity.getPassword()));
             getEntityDAO().create(entity);
         } else {
             getEntityDAO().update(entity);
