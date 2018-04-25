@@ -6,7 +6,7 @@
 >
 <ui:composition template="/templates/template.xhtml">
     <f:metadata>
-
+        <f:event type="preRenderView" listener="#{creditoBean.inicio()}"/>
     </f:metadata>
 
     <ui:define name="subheader">
@@ -99,8 +99,8 @@
                                     <h:outputText value="#{cajaBean.getLast().saldoCreditos()}">
                                         <f:convertNumber type="currency" currencySymbol="$"/>
                                     </h:outputText>
-                                    <p:separator />
-                                    <p:separator />
+                                    <p:separator/>
+                                    <p:separator/>
                                     <h:outputText value="Saldo:" styleClass="FontBold"/>
                                     <h:outputText value="#{cajaBean.getLast().saldo()}">
                                         <f:convertNumber type="currency" currencySymbol="$"/>
@@ -231,7 +231,88 @@
             </div>
             <div class="Container50 Responsive100 TexAlCenter">
                 <div class="ContainerIndent">
+                    <div class="ContainerIndent">
+                        <div class="Card ShadowEffect ui-fluid">
+                            <h3 style="margin-top: 0">Simulacro de crédito </h3>
+                            <div class="EmptyBox20"></div>
+                            <div class="EmptyBox20"></div>
+                            <h:form id="crear">
+                                <p:panel id="panelCrear">
+                                    <p:panelGrid columns="4"
+                                                 columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                                 layout="grid"
+                                                 styleClass="ui-panelgrid-blank">
 
+
+
+
+                                        <h:outputLabel value="#{msgs['formCapital']}:" styleClass="FontBold"
+                                                       for="capital"/>
+                                        <h:panelGroup>
+                                            <p:inputNumber id="capital"
+                                                           required="true"
+                                                           requiredMessage="#{msgs['validationRequired']}"
+                                                           value="#{creditoBean.entity.capital}" symbol="$ "
+                                                           decimalSeparator="," thousandSeparator=".">
+                                            </p:inputNumber>
+                                            <p:message for="capital"/>
+                                        </h:panelGroup>
+
+                                        <h:outputLabel value="" styleClass="FontBold"
+                                                       for="estado"/>
+                                        <h:panelGroup>
+                                            <p:outputLabel id="estado"
+                                                           value=" "
+                                            />
+                                        </h:panelGroup>
+
+                                        <h:outputLabel value="#{msgs['formCuotas']}:" styleClass="FontBold"
+                                                       for="cuotas"/>
+                                        <h:panelGroup>
+                                            <p:inputText id="cuotas"
+                                                         required="true"
+                                                         requiredMessage="#{msgs['validationRequired']}"
+                                                         value="#{creditoBean.entity.cuotas}">
+                                            </p:inputText>
+                                            <p:message for="cuotas"/>
+                                        </h:panelGroup>
+
+
+                                        <h:outputLabel value="#{msgs['formCuota']}:" styleClass="FontBold"/>
+                                        <h:outputText value="#{creditoBean.entity.montoCutoas}"
+                                                      style="padding: 0px 5px 0px 5px;border-radius: 5px; font-size: 25px;"
+                                                      styleClass="#{creditoBean.entity.estado.backgroundColor} White">
+                                            <f:convertNumber type="currency" currencySymbol="$"/>
+                                        </h:outputText>
+
+                                        <h:outputLabel value="#{msgs['formInteres']}:" styleClass="FontBold"
+                                                       for="interes"/>
+
+                                        <h:panelGroup>
+                                            <p:selectOneMenu id="interes"
+                                                             value="#{creditoBean.entity.interes}"
+                                                             converter="#{interesConverter}"
+                                                             required="true"
+                                                             requiredMessage="#{msgs['validationRequired']}">
+                                                <f:selectItem itemLabel="--Seleccione un Interes--"
+                                                              itemValue="" noSelectionOption="true"/>
+                                                <f:selectItems value="#{creditoBean.intereses}" var="i"
+                                                               itemLabel="#{i.valor} %" itemValue="#{i.valor}"/>
+
+                                            </p:selectOneMenu>
+                                            <p:message for="interes"/>
+                                        </h:panelGroup>
+
+
+                                        <div class="EmptyBox30"></div>
+                                        <p:commandButton value="Calcular cuotas" update="crear"
+                                                         icon="fa fa-calculator"
+                                                         actionListener="#{creditoBean.calcularMontoCuotas}"/>
+                                    </p:panelGrid>
+                                </p:panel>
+                            </h:form>
+                        </div>
+                    </div>
                     <div class="Card ShadowEffect ui-fluid">
                         <h3 style="margin-top: 0">Vencimientos del día</h3>
                         <div class="EmptyBox20"></div>
@@ -273,6 +354,7 @@
                         </p:dataTable>
                     </div>
                 </div>
+
             </div>
         </div>
 
