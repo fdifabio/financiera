@@ -1,236 +1,243 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>ar.edu.unrn.lia.financiera</groupId>
-	<artifactId>financiera</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>financiera-parent</name>
-	<modules>
-		<module>financiera-business</module>
-		<module>financiera-web</module>
-	</modules>
-	
-	<properties>
-	<!-- Modulo business -->
-		<spring.version>4.2.3.RELEASE</spring.version>
-		<org.springsecurity-version>4.0.3.RELEASE</org.springsecurity-version>
-		
-		<cdi.version>1.0</cdi.version>
-		<jdk.version>1.8</jdk.version>
-		<junit.version>4.12</junit.version>
-		<mysql.connector.version>5.1.17</mysql.connector.version>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>ar.edu.unrn.lia.financiera</groupId>
+    <artifactId>financiera</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>financiera-parent</name>
+    <modules>
+        <module>financiera-business</module>
+        <module>financiera-web</module>
+    </modules>
 
-		<logback.version>1.1.3</logback.version>
-		<jcl.slf4j.version>1.7.12</jcl.slf4j.version>
-		
-		<javax.validation.version>1.1.0.Final</javax.validation.version>
-		<hibernate.version>5.0.3.Final</hibernate.version>
-		<hibernate.validator.version>5.2.2.Final</hibernate.validator.version>
-		<hibernate.entitymanager.version>5.0.3.Final</hibernate.entitymanager.version>
-		<jboss.logging.version>3.3.0.Final</jboss.logging.version>
-		<c3p0.version>0.9.1.2</c3p0.version>
-		<org.slf4j.version>1.6.6</org.slf4j.version>
-		<twitterCore.version>[4.0,)</twitterCore.version>
-		<log4j.version>1.2.16</log4j.version>
-		
-		<!-- Modulo WEB -->
-		<spring.integration.mail-version>4.2.3.RELEASE</spring.integration.mail-version>
-		<com.lowagie-version>2.1.7</com.lowagie-version>
-		<org.apache.poi-version>3.9</org.apache.poi-version>
-		<javax.mail-version>1.4.7</javax.mail-version>
-		<org.primefaces-version>6.1</org.primefaces-version>
-		<org.primefaces.extensions-version>6.1.1</org.primefaces.extensions-version>
-		<javax.inject-version>1</javax.inject-version>
-		<org.apache.tomcat.maven-version>2.0-beta-1</org.apache.tomcat.maven-version>
-		<maven.eclipse.plugin-version>2.9</maven.eclipse.plugin-version>
-		<tomcat.servlet.api-version>7.0.42</tomcat.servlet.api-version>
-		<jsf.api-version>2.2.12</jsf.api-version>
-		<jsf.impl-version>2.2.12</jsf.impl-version>
-		<jstl-version>1.2</jstl-version>
-		<javax.servlet-version>3.1.0</javax.servlet-version>
-		
-	</properties>
-	
+    <properties>
+        <!-- Modulo business -->
+        <spring.version>4.2.3.RELEASE</spring.version>
+        <org.springsecurity-version>4.0.3.RELEASE</org.springsecurity-version>
 
-	<repositories>
-		<repository> <!-- para faces -->
-	        <id>jboss-repo</id>
-	        <name>Jboss Repository</name>
-	        <url>http://repository.jboss.com/maven2/</url>
-            <releases><enabled>true</enabled></releases>
-            <snapshots><enabled>false</enabled></snapshots>
-		</repository>		
-		<repository>   
-		   <id>jboss-public-repository-group</id>
-			  <name>JBoss Public Maven Repository Group</name>
-			  <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-		 </repository>
-		<repository>     
-			 <id>jboss-developer-repository-group</id>
-			  <name>JBoss Developer Maven Repository Group</name>
-			  <url>http://repository.jboss.org/nexus/content/groups/developer/</url>
-		 </repository>
-		
-		 <repository>
-			  <id>jboss-earlyaccess</id>
-			  <name>JBoss Early Access</name>
-			  <url>https://maven.repository.redhat.com/earlyaccess/all/</url>
-			   </repository>
-		<repository>
-			<id>org.springframework.security.taglibs.facelets</id>
-			<url>http://spring-security-facelets-taglib.googlecode.com/svn/repo/</url>
-		</repository>
-		<repository>
-			<id>prime-repo</id>
-			<name>PrimeFaces Maven Repository</name>
-			<url>http://repository.primefaces.org</url>
-			<layout>default</layout>
-		</repository>
-		<repository>
-			<id>org.springframework.maven.milestone</id>
-			<name>Spring Maven Milestone Repository</name>
-			<url>http://maven.springframework.org/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+        <cdi.version>1.0</cdi.version>
+        <jdk.version>1.8</jdk.version>
+        <junit.version>4.12</junit.version>
+        <mysql.connector.version>5.1.17</mysql.connector.version>
 
-	
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-scm-plugin</artifactId>
-				<version>1.9.2</version>
-				<configuration>
-					<connectionType>connection</connectionType>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.12.4</version>
-				<configuration>
-					<skipTests>true</skipTests>
-				</configuration>
-		</plugin>
-		</plugins>
-		 
-	</build>
-	<dependencies>
-		<!-- Spring 4 dependencies  -->
-		<!-- The spring-core and spring-beans modules provide the fundamental parts of the framework, including the IoC and Dependency Injection  -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-        </exclusions>
-		</dependency>
+        <logback.version>1.1.3</logback.version>
+        <jcl.slf4j.version>1.7.12</jcl.slf4j.version>
 
-		<!-- REACTIVEX -->
-		<dependency>
-			<groupId>io.reactivex.rxjava2</groupId>
-			<artifactId>rxjava</artifactId>
-			<version>2.1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-				
-		<!-- 1. exclude commons-logging -->
-		
-		<!-- The Context (spring-context) module builds on the solid base provided by the Core and Beans modules: it is a means to access objects in a 
-		framework-style. The Context module inherits its features from the Beans module and adds support for internationalization: resource bundles, event propagation, resource loading, and the transparent creation of contexts by, for example, a Servlet container.  -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-			<exclusions>
-				<!-- Exclude Commons Logging in favor of SLF4j -->
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		
-		<!-- Log library -->
-		<!-- logging interface -->
-		
-		<!-- 2. Bridge logging from JCL to SLF4j-->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${jcl.slf4j.version}</version>
-		</dependency>
-		<!-- 3. logback -->
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${logback.version}</version>
-		</dependency>	
-	
-		<!--/ Log library -->
-			
-		<!-- Seguridad 4.0.3.RELEASE -->
-		<!-- Contains core authentication and access-contol classes and interfaces, remoting support and basic provisioning APIs. Required by any 
-		application which uses Spring Security. Supports standalone applications, remote clients, method (service layer) security and JDBC user provisioning.-->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${org.springsecurity-version}</version>
-		</dependency>
-				
-		<!-- Contains the security namespace parsing code. You need it if you are using the Spring Security XML namespace for configuration-->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>${org.springsecurity-version}</version>
-		</dependency>
-		
-		<!-- JSR-330 Spring supports for the standard JSR 330: Dependency Injection for Java.
-		@Inject instead of Spring’s @Autowired to inject a bean.
-		@Named instead of Spring’s @Component to declare a bean.
-		-->
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>${javax.inject-version}</version>
-		</dependency>
-		
-		<!--Hibernate's Bean Validation (JSR-303) reference implementation. -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>${hibernate.validator.version}</version>
-		</dependency>
-		
-		<!-- Test Dependencies -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-			<scope>test</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
+        <javax.validation.version>1.1.0.Final</javax.validation.version>
+        <hibernate.version>5.0.3.Final</hibernate.version>
+        <hibernate.validator.version>5.2.2.Final</hibernate.validator.version>
+        <hibernate.entitymanager.version>5.0.3.Final</hibernate.entitymanager.version>
+        <jboss.logging.version>3.3.0.Final</jboss.logging.version>
+        <c3p0.version>0.9.1.2</c3p0.version>
+        <org.slf4j.version>1.6.6</org.slf4j.version>
+        <twitterCore.version>[4.0,)</twitterCore.version>
+        <log4j.version>1.2.16</log4j.version>
 
-		<!-- /TEST -->
+        <!-- Modulo WEB -->
+        <spring.integration.mail-version>4.2.3.RELEASE</spring.integration.mail-version>
+        <com.lowagie-version>2.1.7</com.lowagie-version>
+        <org.apache.poi-version>3.9</org.apache.poi-version>
+        <javax.mail-version>1.4.7</javax.mail-version>
+        <org.primefaces-version>6.1</org.primefaces-version>
+        <org.primefaces.extensions-version>6.1.1</org.primefaces.extensions-version>
+        <javax.inject-version>1</javax.inject-version>
+        <org.apache.tomcat.maven-version>2.0-beta-1</org.apache.tomcat.maven-version>
+        <maven.eclipse.plugin-version>2.9</maven.eclipse.plugin-version>
+        <tomcat.servlet.api-version>7.0.42</tomcat.servlet.api-version>
+        <jsf.api-version>2.2.12</jsf.api-version>
+        <jsf.impl-version>2.2.12</jsf.impl-version>
+        <jstl-version>1.2</jstl-version>
+        <javax.servlet-version>3.1.0</javax.servlet-version>
 
-		
-	</dependencies>
+    </properties>
+
+
+    <repositories>
+        <repository> <!-- para faces -->
+            <id>jboss-repo</id>
+            <name>Jboss Repository</name>
+            <url>http://repository.jboss.com/maven2/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>jboss-public-repository-group</id>
+            <name>JBoss Public Maven Repository Group</name>
+            <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>jboss-developer-repository-group</id>
+            <name>JBoss Developer Maven Repository Group</name>
+            <url>http://repository.jboss.org/nexus/content/groups/developer/</url>
+        </repository>
+
+        <repository>
+            <id>jboss-earlyaccess</id>
+            <name>JBoss Early Access</name>
+            <url>https://maven.repository.redhat.com/earlyaccess/all/</url>
+        </repository>
+        <repository>
+            <!--<id>org.springframework.security.taglibs.facelets</id>
+            <url>http://spring-security-facelets-taglib.googlecode.com/svn/repo/</url>-->
+            <id>org.springframework.security.taglibs.facelets</id>
+            <url>http://nexus.lia.unrn.edu.ar:8081/nexus/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>prime-repo</id>
+            <name>PrimeFaces Maven Repository</name>
+            <url>http://repository.primefaces.org</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>org.springframework.maven.milestone</id>
+            <name>Spring Maven Milestone Repository</name>
+            <url>http://maven.springframework.org/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-plugin</artifactId>
+                <version>1.9.2</version>
+                <configuration>
+                    <connectionType>connection</connectionType>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.4</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+    <dependencies>
+        <!-- Spring 4 dependencies  -->
+        <!-- The spring-core and spring-beans modules provide the fundamental parts of the framework, including the IoC and Dependency Injection  -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- REACTIVEX -->
+        <dependency>
+            <groupId>io.reactivex.rxjava2</groupId>
+            <artifactId>rxjava</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- 1. exclude commons-logging -->
+
+        <!-- The Context (spring-context) module builds on the solid base provided by the Core and Beans modules: it is a means to access objects in a
+        framework-style. The Context module inherits its features from the Beans module and adds support for internationalization: resource bundles, event propagation, resource loading, and the transparent creation of contexts by, for example, a Servlet container.  -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+            <exclusions>
+                <!-- Exclude Commons Logging in favor of SLF4j -->
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- Log library -->
+        <!-- logging interface -->
+
+        <!-- 2. Bridge logging from JCL to SLF4j-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${jcl.slf4j.version}</version>
+        </dependency>
+        <!-- 3. logback -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <!--/ Log library -->
+
+        <!-- Seguridad 4.0.3.RELEASE -->
+        <!-- Contains core authentication and access-contol classes and interfaces, remoting support and basic provisioning APIs. Required by any
+        application which uses Spring Security. Supports standalone applications, remote clients, method (service layer) security and JDBC user provisioning.-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${org.springsecurity-version}</version>
+        </dependency>
+
+        <!-- Contains the security namespace parsing code. You need it if you are using the Spring Security XML namespace for configuration-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${org.springsecurity-version}</version>
+        </dependency>
+
+        <!-- JSR-330 Spring supports for the standard JSR 330: Dependency Injection for Java.
+        @Inject instead of Spring’s @Autowired to inject a bean.
+        @Named instead of Spring’s @Component to declare a bean.
+        -->
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>${javax.inject-version}</version>
+        </dependency>
+
+        <!--Hibernate's Bean Validation (JSR-303) reference implementation. -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator.version}</version>
+        </dependency>
+
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- /TEST -->
+
+
+    </dependencies>
 </project>
