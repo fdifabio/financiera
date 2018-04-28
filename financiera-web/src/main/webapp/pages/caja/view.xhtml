@@ -75,6 +75,7 @@
                     <div class="Card ShadowEffect">
                         <p:tabView>
                             <p:tab title="Detalle">
+                                <h:form id="tabdetalle">
                                 <p:dataTable id="list" var="item" value="#{cajaBean.entity.getMovimientosOrden()}"
                                              emptyMessage="No hay movimientos para mostrar"
                                              styleClass="TexAlCenter"
@@ -82,6 +83,15 @@
                                              paginatorPosition="bottom"
                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                              rowsPerPageTemplate="6,12,24,36,48">
+                                    <f:facet name="header">
+                                        Todos los movimientos
+                                        <ui:include src="/pages/includes/exporterButtons.xhtml">
+                                            <ui:param name="target" value="list"/>
+                                            <ui:param name="fileName"
+                                                      value="Detalle_caja_#{cajaBean.entity.fechaApertura}"/>
+                                        </ui:include>
+
+                                    </f:facet>
                                     <p:column headerText="Fecha" style="text-align: center;">
                                         <h:outputText value="#{item.fecha}">
                                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
@@ -103,6 +113,7 @@
                                     </p:column>
 
                                 </p:dataTable>
+                                </h:form>
                             </p:tab>
                             <p:tab title="Cobros">
                                 <p:dataTable id="listCobro" var="item" value="#{cajaBean.entity.getMovimientosOrdenCobro()}"

@@ -37,7 +37,7 @@
                             </div>
                             <div class="Container50">
                                 <h:panelGroup rendered="#{cajaBean.getLast().habilitada()}">
-                                    <h:form>
+
                                         <p:growl id="growlegreso" sticky="true" showDetail="true" life="3000"/>
                                         <h:commandButton styleClass="MovimientoEgreso" value="Gasto" id="botonEgreso"
                                                          onclick="PF('egreso').show(); return false;"
@@ -45,6 +45,15 @@
                                             <i class="fa fa-arrow-down Red"></i></h:commandButton>
                                         <p:tooltip for="botonEgreso" trackMouse="true" value="Registrar gasto"
                                                    position="button"/>
+
+                                        <p:growl id="growlingreso" sticky="true" showDetail="true" life="3000"/>
+                                        <h:commandButton styleClass="MovimientoIngreso" value="Ingreso" id="botonIngreso"
+                                                         onclick="PF('ingreso').show(); return false;"
+                                                         style="cursor: pointer; margin-left:5px;">
+                                            <i class="fa fa-arrow-up Green"></i></h:commandButton>
+                                        <p:tooltip for="botonIngreso" trackMouse="true" value="Registrar ingreso"
+                                                   position="button"/>
+                                    <h:form>
                                         <p:dialog header="Esta seguro que desea registrar un egreso?" widgetVar="egreso"
                                                   style="background-color: #2f3535f7;"
                                                   resizable="false">
@@ -64,6 +73,30 @@
                                                                  update="growlegreso"
                                                                  action="#{cajaBean.egreso()}"
                                                                  oncomplete="egreso(xhr, status, args)"/>
+
+                                            </h:panelGrid>
+                                        </p:dialog>
+                                    </h:form>
+                                    <h:form>
+                                        <p:dialog header="Esta seguro que desea registrar un ingreso?" widgetVar="ingreso"
+                                                  style="background-color: #2f3535f7;"
+                                                  resizable="false">
+                                            <h:panelGrid columns="3" cellpadding="5">
+                                                <h:outputLabel for="ingreso" value="Monto:" style="    color: white;"/>
+                                                <p:inputText id="ingreso" value="#{cajaBean.ingreso}"
+                                                             required="true"
+                                                             label="ingreso" requiredMessage="Ingrese un valor"/>
+                                                <div class="EmptyBox10"></div>
+                                                <h:outputLabel for="descingreso" value="Descripción:"
+                                                               style="    color: white;"/>
+                                                <p:inputText id="descingreso" value="#{cajaBean.descripcion}"
+                                                             maxlength="50"
+                                                             label="Descripción"/>
+                                                <div class="EmptyBox10"></div>
+                                                <p:commandButton value="Guardar" style="float:left;"
+                                                                 update="growlingreso"
+                                                                 action="#{cajaBean.ingreso()}"
+                                                                 oncomplete="ingreso(xhr, status, args)"/>
 
                                             </h:panelGrid>
                                         </p:dialog>
