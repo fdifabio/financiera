@@ -115,7 +115,7 @@
                                                                    value="#{preferenciasBean.selectedInteres.valor}"
                                                                    required="true" symbol="%"
                                                                    symbolPosition="s"
-                                                                   decimalPlaces="0"
+                                                                   decimalSeparator=","
                                                                    placeholder="Ej: 5%"/>
 
                                                     <f:facet name="footer">
@@ -135,11 +135,11 @@
                                             <p:outputPanel id="interesCrear">
                                                 <h:panelGrid columns="2">
                                                     <h:outputText for="interescrear" value="Monto:"/>
-                                                    <p:inputNumber id="interescrear" minValue="0" maxValue="100"
+                                                    <p:inputNumber id="interescrear"
                                                                    value="#{preferenciasBean.newInteres.valor}"
                                                                    required="true" symbol="%"
                                                                    symbolPosition="s"
-                                                                   decimalPlaces="0"
+                                                                   decimalSeparator=","
                                                                    placeholder="Ej: 5%"/>
 
                                                     <f:facet name="footer">
