@@ -168,8 +168,10 @@
                                           resizable="false">
                                     <h:panelGrid columns="3" cellpadding="5">
                                         <h:outputLabel for="monto" value="Monto: $"/>
-                                        <p:inputText id="monto" value="#{cajaBean.monto}" required="true"
+                                        <p:inputText id="monto" rendered="#{!cajaBean.islastSaldo()}" value="#{cajaBean.monto}" required="true"
                                                      label="monto" requiredMessage="Ingrese un valor"/>
+                                        <p:inputText id="saldoanterior" rendered="#{cajaBean.islastSaldo()}" value="#{cajaBean.monto}"
+                                                     label="monto" disabled="true" requiredMessage="Ingrese un valor"/>
 
                                         <p:commandButton value="Habilitar" style="float:right;"
                                                          update="growlhabilitar txt_count"

@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.net.DatagramPacket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -73,7 +74,24 @@ public class CajaBean extends GenericBean<Caja> implements Serializable {
         return entityService.getLast();
     }
 
+    public Double getLastSaldo() {
+        if (entityService.getLastSaldo()==null)
+            return Double.valueOf(0);
+        return entityService.getLastSaldo().saldo();
+    }
+
+    public boolean islastSaldo() {
+        if (getLastSaldo() != null) {
+            monto = getLastSaldo();
+            return true;
+        } else
+            return false;
+    }
+
     public String habilitarCaja() {
+//        if (getLastSaldo() != null && !getLastSaldo().equals(0))
+//            entityService.habilitarCaja(new Caja(new Date()), new Movimiento(BigDecimal.valueOf(getLastSaldo()), new Date(), "Saldo inicial", Movimiento.Tipo.INGRESO));
+
         entityService.habilitarCaja(new Caja(new Date()), new Movimiento(BigDecimal.valueOf(monto), new Date(), "Saldo inicial", Movimiento.Tipo.INGRESO));
         authenticationBean.updateMovimientos();
         agregarMensaje(FacesMessage.SEVERITY_INFO, "Caja habilitada", "Monto habilitado: $" + monto);

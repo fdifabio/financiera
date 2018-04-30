@@ -13,4 +13,6 @@ public interface CajaDAO extends GenericDao<Caja, Long> {
     void cerrarCaja(Caja caja);
 
     Caja getLast();
+
+    Caja getLastSaldo();
 }

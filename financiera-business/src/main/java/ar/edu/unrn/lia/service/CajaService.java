@@ -16,4 +16,6 @@ public interface CajaService extends IGenericService<Caja> {
     void cerrarCaja(Caja caja);
 
     Caja getLast();
+
+    Caja getLastSaldo();
 }

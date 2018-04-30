@@ -82,6 +82,10 @@ public class CajaServiceImpl implements CajaService {
         return getEntityDAO().getLast();
     }
 
+    public Caja getLastSaldo() {
+        return getEntityDAO().getLastSaldo();
+    }
+
     @Transactional
     public void delete(Caja entity) {
         getEntityDAO().delete(entity);

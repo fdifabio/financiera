@@ -161,4 +161,5 @@ public class Caja extends BaseEntity implements java.io.Serializable {
     public boolean habilitada() {
         return getFechaCierre() == null;
     }
+
 }

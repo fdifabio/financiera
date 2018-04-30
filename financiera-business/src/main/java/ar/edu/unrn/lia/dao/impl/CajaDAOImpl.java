@@ -46,7 +46,7 @@ public class CajaDAOImpl extends GenericDaoJpaImpl<Caja, Long> implements
                 .createQuery(Caja.class);
         Root<Caja> fromCaja = cq.from(Caja.class);
         fromCaja.alias("entity");
-        Order order = orderByQuery(sortField, false , criteriaBuilder, fromCaja);
+        Order order = orderByQuery(sortField, false, criteriaBuilder, fromCaja);
 
         final TypedQuery<Caja> query = this.entityManager
                 .createQuery(cq.where(where).orderBy(order));
@@ -75,8 +75,17 @@ public class CajaDAOImpl extends GenericDaoJpaImpl<Caja, Long> implements
         if (cajas == null || cajas.isEmpty()) {
             return null;
         }
-        Caja caja= cajas.get(0);
+        Caja caja = cajas.get(0);
         return caja;
     }
 
+    public Caja getLastSaldo() {
+        Query query = this.entityManager.createQuery("FROM Caja c ORDER BY c.id DESC ");
+        List<Caja> cajas = (List<Caja>) query.getResultList();
+        if (cajas == null || cajas.isEmpty()) {
+            return null;
+        }
+        Caja caja = cajas.get(0);
+        return caja;
+    }
 }
