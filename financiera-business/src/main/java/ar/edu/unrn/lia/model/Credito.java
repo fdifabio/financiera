@@ -30,7 +30,6 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     private BigDecimal montoCutoas;
     private BigDecimal saldoCuenta = BigDecimal.ZERO;
     private List<Cuota> listCuotas = new ArrayList<>(0);
-
     private Garante garante;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -243,13 +242,31 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         return getListCuotas().stream().filter(Cuota::isAdeudado).findAny().isPresent();
     }
 
-       @Transient
+    @Transient
     public long cuotasVencidas() {
         return getListCuotas().stream().filter(c -> c.isParcialmenteSaldado() || c.isVencido()).count();
     }
+
+    @Transient
+    public BigDecimal getSaldoAdeudado() {
+        BigDecimal total;
+        List<Cuota> adeudadas = new ArrayList<>();
+        getListCuotas().stream().filter(c -> c.isParcialmenteSaldado() || c.isVencido()).forEach(cuota -> {
+            cuota.setSaldoAPagarAnterior(cuota.getSaldoAPagar());
+            cuota.setInteresVencido(Cuota.INTERES_VENCIDO);
+            cuota.setMontoAPagar(cuota.monto());
+            adeudadas.add(cuota);
+        });
+
+        Double sum = adeudadas.stream().mapToDouble(cuota -> cuota.getMontoAPagar().doubleValue()).sum();
+
+        total = BigDecimal.valueOf(sum).subtract(getSaldoCuenta());
+        return (total);
+    }
+
     @Transient
     public Date ultimoPago() {
-        return getListCuotas().stream().filter(cuota -> cuota.getFechaPago()!= null).map(Cuota::getFechaPago).max(Date::compareTo).orElse(null);
+        return getListCuotas().stream().filter(cuota -> cuota.getFechaPago() != null).map(Cuota::getFechaPago).max(Date::compareTo).orElse(null);
     }
 
     @Transient
@@ -274,7 +291,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         this.listCuotas.stream()
                 .filter(cuota -> cuota.getEstado() != Cuota.Estado.SALDADO)
                 .forEach(cuota ->
-                string.append("(Nro: ").append(cuota.getNro().toString()).append(" Monto: ").append(cuota.getSaldoAPagar().setScale(2, BigDecimal.ROUND_CEILING).toString()).append(" Estado: ").append(cuota.getEstado().getDescripcion()).append(" )\n "));
+                        string.append("(Nro: ").append(cuota.getNro().toString()).append(" Monto: ").append(cuota.getSaldoAPagar().setScale(2, BigDecimal.ROUND_CEILING).toString()).append(" Estado: ").append(cuota.getEstado().getDescripcion()).append(" )\n "));
         return string.toString();
     }
 

@@ -7,10 +7,10 @@
 <ui:composition template="/templates/template.xhtml">
 
     <ui:define name="subheader">
-        <h:outputText class="FontBold" value="#{msgs['formCobroModificar']}"
+        <h:outputText  value="#{msgs['formCobroModificar']}"
                       rendered="#{cobroBean.entity.id != null}"/>
 
-        <h:outputText class="BigTopic" value="#{msgs['formCobroCrear']}"
+        <h:outputText  value="#{msgs['formCobroCrear']}"
                       rendered="#{cobroBean.entity.id == null}"/>
     </ui:define>
 

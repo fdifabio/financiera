@@ -214,14 +214,18 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         credito.getListCuotas().stream().forEach(c -> c.getCobros().stream().filter(
                 co -> co.getId() == null).forEach(co -> {
             if (usaSaldoCuenta && credito.getSaldoCuenta().compareTo(BigDecimal.ZERO) > 0) {
-                movimientos.add(new Movimiento(co.getMonto().subtract(credito.getSaldoCuenta()), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() +". Usa saldo a cuenta por $" + credito.getSaldoCuenta()+". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
-             //   movimientos.add(new Movimiento(credito.getSaldoCuenta(), co.getFecha(), "Usa saldo a cuenta " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.EGRESO, caja));
+                if ((descuento.compareTo(BigDecimal.ZERO) > 0))
+                    movimientos.add(new Movimiento(co.getMonto().subtract(credito.getSaldoCuenta().add(descuento)), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Usa saldo a cuenta por " + credito.getSaldoCuenta() + ". Se desconto " + descuento + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
+                else
+                    movimientos.add(new Movimiento(co.getMonto().subtract(credito.getSaldoCuenta()), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Usa saldo a cuenta por " + credito.getSaldoCuenta() + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
+
+                //   movimientos.add(new Movimiento(credito.getSaldoCuenta(), co.getFecha(), "Usa saldo a cuenta " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.EGRESO, caja));
                 usaSaldoCuenta = false;
                 credito.setSaldoCuenta(BigDecimal.ZERO);
 
             } else if (descuento.compareTo(BigDecimal.ZERO) > 0) {
-                movimientos.add(new Movimiento(co.getMonto().subtract(descuento), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() +". Se desconto $"+descuento+ ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
-              //  movimientos.add(new Movimiento(descuento, co.getFecha(), " Descuento a " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.EGRESO, caja));
+                movimientos.add(new Movimiento(co.getMonto().subtract(descuento), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Se desconto " + descuento + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
+                //  movimientos.add(new Movimiento(descuento, co.getFecha(), " Descuento a " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.EGRESO, caja));
                 usaSaldoCuenta = false;
                 credito.setSaldoCuenta(BigDecimal.ZERO);
             } else if (saldoCuenta.compareTo(BigDecimal.ZERO) > 0 && !agregarsaldo) {

@@ -7,10 +7,10 @@
 <ui:composition template="/templates/template.xhtml">
 
     <ui:define name="subheader">
-        <h:outputText class="BigTopic" value="#{msgs['formClienteModificar']}"
+        <h:outputText  value="#{msgs['formClienteModificar']}"
                       rendered="#{clienteBean.entity.id != null}"/>
 
-        <h:outputText class="BigTopic" value="#{msgs['formClienteCrear']}"
+        <h:outputText value="#{msgs['formClienteCrear']}"
                       rendered="#{clienteBean.entity.id == null}"/>
 
     </ui:define>

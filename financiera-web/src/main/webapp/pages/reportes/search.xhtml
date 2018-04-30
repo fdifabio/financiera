@@ -106,24 +106,36 @@
                                             </ui:include>
 
                                         </f:facet>
-                                        <p:column headerText="#{msgs['formDni']}" width="60">
-                                            <h:outputText value="#{item.dni}"/>
-                                        </p:column>
 
                                         <p:column headerText="Cliente">
                                             <h:outputText value="#{item.id} - #{item.apellidoNombre}"/>
                                         </p:column>
+                                        <p:column headerText="Tel. personales">
+                                            <h:outputText value="Cel:#{item.celular} / Tel:#{item.telefono}"/>
+                                        </p:column>
 
+                                        <p:column headerText="Info. de trabajo">
+                                            <h:outputText
+                                                    value="Lugar: #{item.trabajoLugar} Horario: #{item.trabajoHorario} Tel: #{item.trabajoTelefono}"/>
+                                        </p:column>
                                         <p:column headerText="Monto Adeudado">
-                                            <h:outputText value="#{item.saldoAdeudado}">
+                                            <h:outputText value="#{item.creditoAdeudado.getSaldoAdeudado()}">
                                                 <f:convertNumber type="currency" currencySymbol="$"/>
                                             </h:outputText>
                                         </p:column>
 
                                         <p:column headerText="Cuotas vencidas" filterBy="#{item.creditoAdeudado.cuotasVencidas()}"
-                                                  width="70">
+                                        >
                                             <h:outputText value="#{item.creditoAdeudado.cuotasVencidas()}"/>
                                         </p:column>
+                                        <p:column headerText="Garante">
+                                            <h:outputText value="#{item.garante.id} -#{item.garante.apellidoNombre}"/>
+                                        </p:column>
+                                        <p:column headerText="Tel. personales">
+                                            <h:outputText value="Cel:#{item.garante.celular} / Tel:#{item.garante.telefono}"/>
+                                        </p:column>
+
+
                                         <p:column headerText="Fecha último pago"
                                                   width="70">
                                             <h:outputText id="ultimopago" value="#{item.creditoAdeudado.ultimoPago()}" rendered="#{item.creditoAdeudado.ultimoPago()!=null}">
@@ -134,33 +146,25 @@
                                             </h:outputText>
                                         </p:column>
 
-                                        <p:column headerText="#{msgs['form.telefono']}s personales">
-                                            <h:outputText value="Cel:#{item.celular} / Tel:#{item.telefono}"/>
-                                        </p:column>
 
-                                        <p:column headerText="Info. de trabajo">
-                                            <h:outputText
-                                                    value="#{item.trabajoLugar} #{item.trabajoHorario} #{item.trabajoTelefono}"/>
-                                        </p:column>
+                                        <!--<p:column headerText="Dia de cobro" width="40">-->
+                                            <!--<h:outputText value="#{item.trabajoDiaCobro}"/>-->
+                                        <!--</p:column>-->
 
-                                        <p:column headerText="Dia de cobro" width="40">
-                                            <h:outputText value="#{item.trabajoDiaCobro}"/>
-                                        </p:column>
-
-                                        <p:column visible="gone" headerText="Credito Nro" width="40">
+                                        <p:column  headerText="Cred. Nro" width="40">
                                             <h:outputText value="#{item.creditoAdeudado.id}"/>
                                         </p:column>
-                                        <p:column visible="gone" headerText="Fecha de inicio del Credito" width="40">
-                                            <h:outputText value="#{item.creditoAdeudado.fechaInicio}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                        </h:outputText>
-                                        </p:column>
+                                        <!--  <p:column visible="gone" headerText="Fecha de inicio del Credito" width="40">
+                                             <h:outputText value="#{item.creditoAdeudado.fechaInicio}">
+                                             <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                         </h:outputText>
+                                         </p:column>
                                         <p:column visible="gone" headerText="Capital" width="40">
-                                            <h:outputText value="#{item.creditoAdeudado.capital}"/>
-                                        </p:column>
-                                        <p:column visible="gone" headerText="Cuotas Adeudadas" width="4pro0">
-                                            <h:outputText value="#{item.creditoAdeudado.listCuotasString()}"/>
-                                        </p:column>
+                                             <h:outputText value="#{item.creditoAdeudado.capital}"/>
+                                         </p:column>
+                                         <p:column visible="gone" headerText="Cuotas Adeudadas" width="4pro0">-->
+                                            <!--<h:outputText value="#{item.creditoAdeudado.listCuotasString()}"/>-->
+                                        <!--</p:column>-->
 
 
                                         <p:column width="20" exportable="false">

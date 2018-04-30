@@ -5,6 +5,7 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -151,7 +152,10 @@ public class Caja extends BaseEntity implements java.io.Serializable {
         }
         return 0 - monto.doubleValue();
     }
-
+    public String date() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        return simpleDateFormat.format(this.fechaApertura);
+    }
 
     @Transient
     public boolean habilitada() {

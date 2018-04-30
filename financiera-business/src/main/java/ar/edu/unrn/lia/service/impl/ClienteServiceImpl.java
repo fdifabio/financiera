@@ -5,11 +5,13 @@ import ar.edu.unrn.lia.dao.CreditoDAO;
 import ar.edu.unrn.lia.dao.CuotaDAO;
 import ar.edu.unrn.lia.model.Cliente;
 import ar.edu.unrn.lia.model.Credito;
+import ar.edu.unrn.lia.model.Cuota;
 import ar.edu.unrn.lia.service.ClienteService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -82,8 +84,10 @@ public class ClienteServiceImpl implements ClienteService {
     public List<Cliente> searchMorosos() {
         List<Cliente> clientes = new ArrayList<>();
         clientes = getEntityDAO().searchMorosos();
-        clientes.stream().forEach(cliente ->
-                cliente.setCreditoAdeudado(creditoDAO.read(cliente.getCreditoAdeudado().getId())));
+        clientes.stream().forEach(cliente -> {
+            cliente.setCreditoAdeudado(creditoDAO.read(cliente.getCreditoAdeudado().getId()));
+            cliente.setGarante(creditoDAO.read(cliente.getCreditoAdeudado().getId()).getGarante());
+        });
         return clientes;
     }
 
