@@ -3,10 +3,7 @@ package ar.edu.unrn.lia.bean;
 import ar.edu.unrn.lia.bean.datamodel.DataModel;
 import ar.edu.unrn.lia.model.*;
 import ar.edu.unrn.lia.security.AuthenticationBean;
-import ar.edu.unrn.lia.service.CajaService;
-import ar.edu.unrn.lia.service.ClienteService;
-import ar.edu.unrn.lia.service.CobroService;
-import ar.edu.unrn.lia.service.CreditoService;
+import ar.edu.unrn.lia.service.*;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.event.SelectEvent;
@@ -56,7 +53,8 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
 
     @Inject
     CajaService cajaService;
-
+    @Inject
+    private CuotaService cuotaService;
 
     private List<Cuota> cuotasPendientes = new ArrayList<>(0);
     private List<Cuota> selectedCuotas = new ArrayList<>(0);
@@ -114,15 +112,20 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     }
 
     public void onCuotaSelect(Cuota c) {
+        BigDecimal montoaux = BigDecimal.ZERO;
+
         if (caja != null && caja.habilitada()) {
             c.setFechaPago(new Date());
             c.setEstadoAnterior(c.getEstado());
             c.setSaldoAPagarAnterior(c.getSaldoAPagar());
             c.setEstado(Cuota.Estado.SALDADO);
-            if (c.getEstadoAnterior().equals(Cuota.Estado.VENCIDO) || c.getEstadoAnterior().equals(Cuota.Estado.PARCIALMENTE_SALDADO))
+            // montoaux=c.getSaldoAPagar();
+            if (c.getEstadoAnterior().equals(Cuota.Estado.VENCIDO) || c.getEstadoAnterior().equals(Cuota.Estado.PARCIALMENTE_SALDADO)) {
                 c.setInteresVencido(Cuota.INTERES_VENCIDO);
-
+            }
             c.setMontoAPagar(c.monto());
+
+
             c.getCobros().add(new Cobro(c.monto(), new Date(), "", c));
             selectedCuotas.add(c);
             cuotasPendientes.remove(c);
@@ -138,7 +141,7 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         c.setInteresDescuento(BigDecimal.ZERO);
         c.setInteresVencido(BigDecimal.ZERO);
         c.setEstado(c.getEstadoAnterior());
-        c.setSaldoAPagar(c.getSaldoAPagarAnterior());
+        // c.setSaldoAPagar(c.getSaldoAPagarAnterior());
         c.getCobros().remove(new Cobro(c.monto(), new Date(), "", c));
         cuotasPendientes.add(c);
     }
@@ -176,6 +179,7 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
         //TODO:Deberia tener en cuenta el SaldoCuenta Nuevo y el Anterior!!!!.
 
         //Refleja los cobros en movimientos de caja
+        credito.setFechaUltimoPago(new Date());
         calcularMovimientos();
         if (usaSaldoCuenta) credito.setSaldoCuenta(BigDecimal.ZERO);
         credito.setSaldoCuenta(credito.getSaldoCuenta().add(this.saldoCuenta));
@@ -236,6 +240,22 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
                 movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
         }));
         if (selectedCuotas.isEmpty() && !agregarsaldo) {
+            //Todo agregar el editar Cuota
+            if (credito.existenCuotasVencidas()) {
+
+                Cuota cuotaven;
+                credito.setSaldoCuenta(credito.getSaldoCuenta().add(getSaldoCuenta()));
+
+                cuotaven = credito.getListCuotasVencidas().get(0);
+                cuotaven.setFechaPago(new Date());
+                cuotaven.setEstadoAnterior(cuotaven.getEstado());
+                cuotaven.setSaldoAPagarAnterior(cuotaven.getSaldoAPagar());
+                cuotaven.setSaldoAPagar(cuotaven.monto());
+                cuotaService.save(cuotaven);
+                credito.setSaldoCuenta(BigDecimal.ZERO);
+                setSaldoCuenta(BigDecimal.ZERO);
+
+            }
             movimientos.add(new Movimiento(saldoCuenta, new Date(), "Agrega saldo a cuenta " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
             agregarsaldo = true;
         }

@@ -25,6 +25,7 @@ public class Credito extends BaseEntity implements java.io.Serializable {
     private Date fechaCreacion = new Date();
     private Date fechaInicio = new Date();
     private Date fechaVencimiento;
+    private Date fechaUltimoPago;
     private Estado estado = Estado.ACTIVO;
     private Cliente cliente;
     private BigDecimal montoCutoas;
@@ -130,6 +131,15 @@ public class Credito extends BaseEntity implements java.io.Serializable {
 
     public void setSaldoCuenta(BigDecimal saldoCuenta) {
         this.saldoCuenta = saldoCuenta;
+    }
+
+    @Column(name = "fecha_ultimo_pago")
+    public Date getFechaUltimoPago() {
+        return fechaUltimoPago;
+    }
+
+    public void setFechaUltimoPago(Date fechaUltimoPago) {
+        this.fechaUltimoPago = fechaUltimoPago;
     }
 
     @Transient

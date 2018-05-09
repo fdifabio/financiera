@@ -138,7 +138,7 @@
 
                                         <p:column headerText="Fecha último pago"
                                                   width="70">
-                                            <h:outputText id="ultimopago" value="#{item.creditoAdeudado.ultimoPago()}" rendered="#{item.creditoAdeudado.ultimoPago()!=null}">
+                                            <h:outputText id="ultimopago" value="#{item.creditoAdeudado.fechaUltimoPago}" rendered="#{item.creditoAdeudado.ultimoPago()!=null}">
                                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
                                             </h:outputText>
                                             <h:outputText id="nullultimopago" value="#{msgs['formNoUltimoPago']}" rendered="#{item.creditoAdeudado.ultimoPago()==null}">

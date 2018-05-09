@@ -178,9 +178,14 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
     @Transient
     public BigDecimal monto() {
         BigDecimal monto;
-        if (this.getEstadoAnterior().equals(Estado.VENCIDO) || this.getEstadoAnterior().equals(Estado.PARCIALMENTE_SALDADO))
+        if (this.getEstadoAnterior().equals(Estado.VENCIDO) || this.getEstadoAnterior().equals(Estado.PARCIALMENTE_SALDADO)) {
+            if (credito.getSaldoCuenta() != null) {
+                setSaldoAPagarAnterior(getSaldoAPagar().subtract(credito.getSaldoCuenta()));
+                //credito.setSaldoCuenta(BigDecimal.ZERO);
+            }
             monto = saldoAPagarAnterior.add(calcularCuotaInteresVencido());
-        else
+
+        } else
             monto = saldoAPagarAnterior.subtract(calcularCuotaInteresDescuento());
         return redondear(monto);
     }
@@ -209,7 +214,12 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
 
     @Transient
     public long diasVencidos() {
-        LocalDate date = fechaVencimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate date;
+        if (credito.getFechaUltimoPago().after(fechaVencimiento)) {
+            date = credito.getFechaUltimoPago().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        } else {
+            date = fechaVencimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
         long dias = Duration.between(date.atStartOfDay(), LocalDate.now().atStartOfDay()).toDays();
         return dias > 0 ? dias : 0;
     }

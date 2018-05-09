@@ -97,6 +97,12 @@
                                                 <div class="knob-container ui-corner-all">
                                                 <h:outputText value="Nro: #{creditoBean.entity.id}" styleClass="FontBold"/>
                                                 </div>
+                                                <div class="knob-container ui-corner-all">
+                                                    <h:outputText value="Ultimo pago: "></h:outputText>
+                                                    <h:outputText value="#{creditoBean.entity.fechaUltimoPago}" styleClass="FontBold">
+                                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                    </h:outputText>
+                                                </div>
                                             </h:panelGroup>
                                         </h:panelGroup>
 
