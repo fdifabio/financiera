@@ -213,54 +213,61 @@ public class CobroBean extends GenericBean<Cobro> implements Serializable {
     }
 
     private void calcularMovimientos() {
+        if (caja != null && caja.habilitada()) {
+            List<Movimiento> movimientos = new ArrayList<>(0);
+            credito.getListCuotas().stream().forEach(c -> c.getCobros().stream().filter(
+                    co -> co.getId() == null).forEach(co -> {
+                if (usaSaldoCuenta && credito.getSaldoCuenta().compareTo(BigDecimal.ZERO) > 0) {
+                    if ((descuento.compareTo(BigDecimal.ZERO) > 0))
+                        movimientos.add(new Movimiento(co.getMonto().subtract(credito.getSaldoCuenta().add(descuento)), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Usa saldo a cuenta por " + credito.getSaldoCuenta() + ". Se desconto " + descuento + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
+                    else
+                        movimientos.add(new Movimiento(co.getMonto().subtract(credito.getSaldoCuenta()), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Usa saldo a cuenta por " + credito.getSaldoCuenta() + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
 
-        List<Movimiento> movimientos = new ArrayList<>(0);
-        credito.getListCuotas().stream().forEach(c -> c.getCobros().stream().filter(
-                co -> co.getId() == null).forEach(co -> {
-            if (usaSaldoCuenta && credito.getSaldoCuenta().compareTo(BigDecimal.ZERO) > 0) {
-                if ((descuento.compareTo(BigDecimal.ZERO) > 0))
-                    movimientos.add(new Movimiento(co.getMonto().subtract(credito.getSaldoCuenta().add(descuento)), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Usa saldo a cuenta por " + credito.getSaldoCuenta() + ". Se desconto " + descuento + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
-                else
-                    movimientos.add(new Movimiento(co.getMonto().subtract(credito.getSaldoCuenta()), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Usa saldo a cuenta por " + credito.getSaldoCuenta() + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
+                    //   movimientos.add(new Movimiento(credito.getSaldoCuenta(), co.getFecha(), "Usa saldo a cuenta " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.EGRESO, caja));
+                    usaSaldoCuenta = false;
+                    credito.setSaldoCuenta(BigDecimal.ZERO);
 
-                //   movimientos.add(new Movimiento(credito.getSaldoCuenta(), co.getFecha(), "Usa saldo a cuenta " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.EGRESO, caja));
-                usaSaldoCuenta = false;
-                credito.setSaldoCuenta(BigDecimal.ZERO);
+                } else if (descuento.compareTo(BigDecimal.ZERO) > 0) {
+                    movimientos.add(new Movimiento(co.getMonto().subtract(descuento), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Se desconto " + descuento + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
+                    //  movimientos.add(new Movimiento(descuento, co.getFecha(), " Descuento a " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.EGRESO, caja));
+                    usaSaldoCuenta = false;
+                    credito.setSaldoCuenta(BigDecimal.ZERO);
+                } else if (saldoCuenta.compareTo(BigDecimal.ZERO) > 0 && !agregarsaldo) {
+                    movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
+                    movimientos.add(new Movimiento(saldoCuenta, co.getFecha(), "Agrega saldo a cuenta " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
+                    agregarsaldo = true;
+                } else
+                    movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
+            }));
+            if (selectedCuotas.isEmpty() && !agregarsaldo) {
+                //Todo agregar el editar Cuota
+                if (credito.existenCuotasVencidas()) {
 
-            } else if (descuento.compareTo(BigDecimal.ZERO) > 0) {
-                movimientos.add(new Movimiento(co.getMonto().subtract(descuento), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Se desconto " + descuento + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
-                //  movimientos.add(new Movimiento(descuento, co.getFecha(), " Descuento a " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.EGRESO, caja));
-                usaSaldoCuenta = false;
-                credito.setSaldoCuenta(BigDecimal.ZERO);
-            } else if (saldoCuenta.compareTo(BigDecimal.ZERO) > 0 && !agregarsaldo) {
-                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
-                movimientos.add(new Movimiento(saldoCuenta, co.getFecha(), "Agrega saldo a cuenta " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
+                    Cuota cuotaven;
+                    credito.setSaldoCuenta(credito.getSaldoCuenta().add(getSaldoCuenta()));
+
+                    cuotaven = credito.getListCuotasVencidas().get(0);
+                    cuotaven.setFechaPago(new Date());
+                    cuotaven.setEstadoAnterior(cuotaven.getEstado());
+                    cuotaven.setSaldoAPagarAnterior(cuotaven.getSaldoAPagar());
+                    cuotaven.setSaldoAPagar(cuotaven.monto());
+                    cuotaService.save(cuotaven);
+                    credito.setSaldoCuenta(BigDecimal.ZERO);
+
+
+                }
+                movimientos.add(new Movimiento(saldoCuenta, new Date(), "Agrega saldo a cuenta " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
                 agregarsaldo = true;
-            } else
-                movimientos.add(new Movimiento(co.getMonto(), co.getFecha(), "Cobro de cuota " + c.getNro() + "/" + credito.getCuotas() + " a " + credito.getCliente().getApellidoNombre() + ". Estado: " + c.getEstado().getDescripcion(), Movimiento.Tipo.COBRO, caja));
-        }));
-        if (selectedCuotas.isEmpty() && !agregarsaldo) {
-            //Todo agregar el editar Cuota
-            if (credito.existenCuotasVencidas()) {
-
-                Cuota cuotaven;
-                credito.setSaldoCuenta(credito.getSaldoCuenta().add(getSaldoCuenta()));
-
-                cuotaven = credito.getListCuotasVencidas().get(0);
-                cuotaven.setFechaPago(new Date());
-                cuotaven.setEstadoAnterior(cuotaven.getEstado());
-                cuotaven.setSaldoAPagarAnterior(cuotaven.getSaldoAPagar());
-                cuotaven.setSaldoAPagar(cuotaven.monto());
-                cuotaService.save(cuotaven);
-                credito.setSaldoCuenta(BigDecimal.ZERO);
                 setSaldoCuenta(BigDecimal.ZERO);
-
             }
-            movimientos.add(new Movimiento(saldoCuenta, new Date(), "Agrega saldo a cuenta " + credito.getCliente().getApellidoNombre(), Movimiento.Tipo.INGRESO, caja));
-            agregarsaldo = true;
+            caja.getMovimientos().addAll(movimientos);
+        } else {
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Caja deshabilitada!", "Para poder registar un cobro deberá habilitar la caja.");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
         }
-        caja.getMovimientos().addAll(movimientos);
-    }
+
+
+}
 
     public void resetSaldoCuenta() {
         saldoCuenta = BigDecimal.ZERO;

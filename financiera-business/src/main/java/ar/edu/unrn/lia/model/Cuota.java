@@ -214,13 +214,17 @@ public class Cuota extends BaseEntity implements java.io.Serializable {
 
     @Transient
     public long diasVencidos() {
-        LocalDate date;
-        if (credito.getFechaUltimoPago().after(fechaVencimiento)) {
-            date = credito.getFechaUltimoPago().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        } else {
+        LocalDate date = null;
+        if (credito.getFechaUltimoPago() != null) {
+            if (credito.getFechaUltimoPago().after(fechaVencimiento)) {
+                date = credito.getFechaUltimoPago().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            } else {
+                date = fechaVencimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            }
+        } else{
             date = fechaVencimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         }
-        long dias = Duration.between(date.atStartOfDay(), LocalDate.now().atStartOfDay()).toDays();
+            long dias = Duration.between(date.atStartOfDay(), LocalDate.now().atStartOfDay()).toDays();
         return dias > 0 ? dias : 0;
     }
 

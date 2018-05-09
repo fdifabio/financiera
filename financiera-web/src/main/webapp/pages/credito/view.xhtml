@@ -85,21 +85,23 @@
                                         </h:panelGroup>
                                         <h:panelGroup>
                                             <h:panelGroup rendered="#{!creditoBean.entity.isCancelado()}">
-                                                <h:outputLink id="btnCobro" value="/pages/cobro/create.jsf">
-                                                    <f:param name="credito_id" value="#{creditoBean.entity.id}"/>
-                                                    <i class="fa fa-briefcase Fs20"> #{msgs['registarCobro']}</i>
-                                                </h:outputLink>
+                                                <h:link id="btnCobro" outcome="/pages/cobro/create.jsf">
+                                                    <f:param name="credito_id"
+                                                             value="#{creditoBean.entity.id}"/>
+                                                    <i class="fa fa-briefcase Fs20">#{msgs['registarCobro']}</i>
+                                                </h:link>
                                                 <p:tooltip id="toolTip-cobro" for="btnCobro"
                                                            value="#{msgs['registarCobro']}"
                                                            trackMouse="true"/>
-                                                <div class="knob-container ui-corner-all"/>
                                                 <!-- :TODO Acomodar Numero-->
                                                 <div class="knob-container ui-corner-all">
-                                                <h:outputText value="Nro: #{creditoBean.entity.id}" styleClass="FontBold"/>
+                                                    <h:outputText value="Nro: #{creditoBean.entity.id}"
+                                                                  styleClass="FontBold"/>
                                                 </div>
                                                 <div class="knob-container ui-corner-all">
                                                     <h:outputText value="Ultimo pago: "></h:outputText>
-                                                    <h:outputText value="#{creditoBean.entity.fechaUltimoPago}" styleClass="FontBold">
+                                                    <h:outputText value="#{creditoBean.entity.fechaUltimoPago}"
+                                                                  styleClass="FontBold">
                                                         <f:convertDateTime pattern="dd/MM/yyyy"/>
                                                     </h:outputText>
                                                 </div>
@@ -137,76 +139,76 @@
                                         </h:outputText>
                                     </p:panelGrid>
 
-                                <p:fieldset legend="#{msgs['cuotas']}:" style="margin-bottom:20px">
+                                    <p:fieldset legend="#{msgs['cuotas']}:" style="margin-bottom:20px">
 
-                                    <h:form id="formentity" class="TexAlCenter">
-                                        <h:panelGrid id="cuotasCredito">
+                                        <h:form id="formentity" class="TexAlCenter">
+                                            <h:panelGrid id="cuotasCredito">
 
-                                            <p:dataTable id="cuotasList" var="item"
-                                                         value="#{creditoBean.entity.listCuotas}"
-                                                         reflow="true" rowKey="#{item.nro}" lazy="true"
-                                                         paginator="true" rowIndexVar="index"
-                                                         rows="8"
-                                                         emptyMessage="El credito no posee cuotas"
-                                                         summary="true"
-                                                         resizableColumns="false"
-                                                         paginatorPosition="bottom"
-                                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                         currentPageReportTemplate="({currentPage} de {totalPages})"
-                                                         filterEvent="enter" class="TexAlCenter"
-                                                         sortBy="#{item.nro}">
-                                                <f:facet name="header">
+                                                <p:dataTable id="cuotasList" var="item"
+                                                             value="#{creditoBean.entity.listCuotas}"
+                                                             reflow="true" rowKey="#{item.nro}" lazy="true"
+                                                             paginator="true" rowIndexVar="index"
+                                                             rows="8"
+                                                             emptyMessage="El credito no posee cuotas"
+                                                             summary="true"
+                                                             resizableColumns="false"
+                                                             paginatorPosition="bottom"
+                                                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                             currentPageReportTemplate="({currentPage} de {totalPages})"
+                                                             filterEvent="enter" class="TexAlCenter"
+                                                             sortBy="#{item.nro}">
+                                                    <f:facet name="header">
 
-                                                    <ui:include src="/pages/includes/exporterButtons.xhtml">
-                                                        <ui:param name="target" value="cuotasList"/>
-                                                        <ui:param name="fileName"
-                                                                  value="Reporte cuotas #{creditoBean.entity.cliente.apellidoNombre}"/>
-                                                    </ui:include>
+                                                        <ui:include src="/pages/includes/exporterButtons.xhtml">
+                                                            <ui:param name="target" value="cuotasList"/>
+                                                            <ui:param name="fileName"
+                                                                      value="Reporte cuotas #{creditoBean.entity.cliente.apellidoNombre}"/>
+                                                        </ui:include>
 
-                                                </f:facet>
+                                                    </f:facet>
 
-                                                <p:column headerText="Fecha de venciminento">
-                                                    <h:outputText value="#{item.fechaVencimiento}">
-                                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                                    </h:outputText>
-                                                </p:column>
+                                                    <p:column headerText="Fecha de venciminento">
+                                                        <h:outputText value="#{item.fechaVencimiento}">
+                                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                        </h:outputText>
+                                                    </p:column>
 
-                                                <p:column headerText="Período">
-                                                    <h:outputText value="#{item.nro}"/>
-                                                </p:column>
+                                                    <p:column headerText="Período">
+                                                        <h:outputText value="#{item.nro}"/>
+                                                    </p:column>
 
-                                                <p:column headerText="Cuota capital"
-                                                          style="text-wrap:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                                                    <h:outputText id="otjusti" value="#{item.cuotaCapital}">
-                                                        <f:convertNumber type="currency" currencySymbol="$"/>
-                                                    </h:outputText>
-                                                </p:column>
-                                                <p:column headerText="Cuota interes">
-                                                    <h:outputText value="#{item.cuotaInteres}">
-                                                        <f:convertNumber type="currency" currencySymbol="$"/>
-                                                    </h:outputText>
-                                                </p:column>
+                                                    <p:column headerText="Cuota capital"
+                                                              style="text-wrap:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                                        <h:outputText id="otjusti" value="#{item.cuotaCapital}">
+                                                            <f:convertNumber type="currency" currencySymbol="$"/>
+                                                        </h:outputText>
+                                                    </p:column>
+                                                    <p:column headerText="Cuota interes">
+                                                        <h:outputText value="#{item.cuotaInteres}">
+                                                            <f:convertNumber type="currency" currencySymbol="$"/>
+                                                        </h:outputText>
+                                                    </p:column>
 
-                                                <p:column headerText="Saldo">
-                                                    <h:outputText value="#{item.saldo}">
-                                                        <f:convertNumber type="currency" currencySymbol="$"/>
-                                                    </h:outputText>
-                                                </p:column>
+                                                    <p:column headerText="Saldo">
+                                                        <h:outputText value="#{item.saldo}">
+                                                            <f:convertNumber type="currency" currencySymbol="$"/>
+                                                        </h:outputText>
+                                                    </p:column>
 
-                                                <p:column headerText="Estado">
-                                                    <p:outputLabel id="estado"
-                                                                   value="#{item.estado.descripcion}"
-                                                                   style="padding: 0px 5px 0px 5px;border-radius: 5px;"
-                                                                   styleClass="#{item.estado.backgroundColor} White"/>
-                                                </p:column>
+                                                    <p:column headerText="Estado">
+                                                        <p:outputLabel id="estado"
+                                                                       value="#{item.estado.descripcion}"
+                                                                       style="padding: 0px 5px 0px 5px;border-radius: 5px;"
+                                                                       styleClass="#{item.estado.backgroundColor} White"/>
+                                                    </p:column>
 
-                                            </p:dataTable>
+                                                </p:dataTable>
 
 
-                                        </h:panelGrid>
-                                    </h:form>
+                                            </h:panelGrid>
+                                        </h:form>
 
-                                </p:fieldset>
+                                    </p:fieldset>
                                 </p:panel>
                                 <p:panel header="#{msgs['formDatosCliente']}" toggleable="true"
                                          style="margin-top:20px">

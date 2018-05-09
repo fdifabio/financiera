@@ -38,21 +38,21 @@
                             <div class="Container50">
                                 <h:panelGroup rendered="#{cajaBean.getLast().habilitada()}">
 
-                                        <p:growl id="growlegreso" sticky="true" showDetail="true" life="3000"/>
-                                        <h:commandButton styleClass="MovimientoEgreso" value="Gasto" id="botonEgreso"
-                                                         onclick="PF('egreso').show(); return false;"
-                                                         style="cursor: pointer">
-                                            <i class="fa fa-arrow-down Red"></i></h:commandButton>
-                                        <p:tooltip for="botonEgreso" trackMouse="true" value="Registrar gasto"
-                                                   position="button"/>
+                                    <p:growl id="growlegreso" sticky="true" showDetail="true" life="3000"/>
+                                    <h:commandButton styleClass="MovimientoEgreso" value="Gasto" id="botonEgreso"
+                                                     onclick="PF('egreso').show(); return false;"
+                                                     style="cursor: pointer">
+                                        <i class="fa fa-arrow-down Red"></i></h:commandButton>
+                                    <p:tooltip for="botonEgreso" trackMouse="true" value="Registrar gasto"
+                                               position="button"/>
 
-                                        <p:growl id="growlingreso" sticky="true" showDetail="true" life="3000"/>
-                                        <h:commandButton styleClass="MovimientoIngreso" value="Ingreso" id="botonIngreso"
-                                                         onclick="PF('ingreso').show(); return false;"
-                                                         style="cursor: pointer; margin-left:5px;">
-                                            <i class="fa fa-arrow-up Green"></i></h:commandButton>
-                                        <p:tooltip for="botonIngreso" trackMouse="true" value="Registrar ingreso"
-                                                   position="button"/>
+                                    <p:growl id="growlingreso" sticky="true" showDetail="true" life="3000"/>
+                                    <h:commandButton styleClass="MovimientoIngreso" value="Ingreso" id="botonIngreso"
+                                                     onclick="PF('ingreso').show(); return false;"
+                                                     style="cursor: pointer; margin-left:5px;">
+                                        <i class="fa fa-arrow-up Green"></i></h:commandButton>
+                                    <p:tooltip for="botonIngreso" trackMouse="true" value="Registrar ingreso"
+                                               position="button"/>
                                     <h:form>
                                         <p:dialog header="Esta seguro que desea registrar un egreso?" widgetVar="egreso"
                                                   style="background-color: #2f3535f7;"
@@ -78,7 +78,8 @@
                                         </p:dialog>
                                     </h:form>
                                     <h:form>
-                                        <p:dialog header="Esta seguro que desea registrar un ingreso?" widgetVar="ingreso"
+                                        <p:dialog header="Esta seguro que desea registrar un ingreso?"
+                                                  widgetVar="ingreso"
                                                   style="background-color: #2f3535f7;"
                                                   resizable="false">
                                             <h:panelGrid columns="3" cellpadding="5">
@@ -277,8 +278,6 @@
                                                  styleClass="ui-panelgrid-blank">
 
 
-
-
                                         <h:outputLabel value="#{msgs['formCapital']}:" styleClass="FontBold"
                                                        for="capital"/>
                                         <h:panelGroup>
@@ -376,12 +375,12 @@
                                 </h:outputText>
                             </p:column>
                             <p:column width="30">
-
-                                <h:outputLink id="btnCobro" value="/pages/cobro/create.jsf">
+                                <h:link id="btnCobro" outcome="/pages/cobro/create.jsf">
                                     <f:param name="credito_id" value="#{itemvencidas.creditoAdeudado.id}"/>
                                     <i class="fa fa-briefcase Fs20"></i>
-                                </h:outputLink>
-                                <p:tooltip id="toolTip-cobro" for="btnCobro" value="#{msgs['registarCobro']}"
+                                </h:link>
+                                <p:tooltip id="toolTip-cobro" for="btnCobro"
+                                           value="#{msgs['registarCobro']}"
                                            trackMouse="true"/>
                             </p:column>
                         </p:dataTable>
