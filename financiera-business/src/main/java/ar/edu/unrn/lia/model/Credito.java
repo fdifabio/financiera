@@ -202,4 +202,11 @@ public class Credito extends BaseEntity implements java.io.Serializable {
         }
         return acumulador;
     }
+
+    public Credito() {
+        super();
+    }
+    public Credito(Long id) {
+        this.setId(id);
+    }
 }

@@ -1,5 +1,7 @@
 package ar.edu.unrn.lia.bean;
 
+import ar.edu.unrn.lia.model.Cliente;
+import ar.edu.unrn.lia.service.ClienteService;
 import ar.edu.unrn.lia.service.CuotaService;
 import org.primefaces.model.chart.*;
 import org.springframework.context.annotation.Scope;
@@ -19,6 +21,8 @@ public class ReportesBean implements Serializable {
 
     @Inject
     private CuotaService cuotaService;
+    @Inject
+    private ClienteService clienteService;
     private BarChartModel barModel;
     private BarChartModel generalBarModel;
     private int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -27,7 +31,9 @@ public class ReportesBean implements Serializable {
     private int anioGeneralSelecionado = 0;
     private List<Integer> anios = new ArrayList<Integer>(0);
     private List<Integer> aniosAdeudados = new ArrayList<Integer>(0);
+    private List<Cliente> morosos = new ArrayList<>(0);
     private Boolean isrender = true;
+
 
     @PostConstruct
     public void init() {
@@ -35,6 +41,7 @@ public class ReportesBean implements Serializable {
         anioSelecionado = year;
         setAnios(cuotaService.listAnios());
         setAniosAdeudados(cuotaService.listAniosAdeudadas());
+        setMorosos(clienteService.searchMorosos());
 
         createBarModel();
         createGeneralBarModel();
@@ -182,5 +189,14 @@ public class ReportesBean implements Serializable {
 
     public void setIsrender(Boolean isrender) {
         this.isrender = isrender;
+    }
+
+
+    public List<Cliente> getMorosos() {
+        return morosos;
+    }
+
+    public void setMorosos(List<Cliente> morosos) {
+        this.morosos = morosos;
     }
 }

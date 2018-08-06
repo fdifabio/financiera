@@ -16,6 +16,7 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
     private List<Cliente> clientes = new ArrayList<Cliente>(0);
     private double montoCuota;
     private Credito creditoSeleccionado;
+    private BigDecimal saldoAdeudado;
 
     @Inject
     private CreditoService entityService;
@@ -82,6 +84,12 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
     public void cargarCredito(Credito credito) {
         this.setCreditoSeleccionado(getEntityService().getEntityById(credito.getId()));
     }
+
+    public void cargarCreditoMoroso(Credito credito, BigDecimal salgoAdeudado) {
+        this.setCreditoSeleccionado(getEntityService().getEntityById(credito.getId()));
+        this.setSaldoAdeudado(salgoAdeudado);
+    }
+
 
     public void deleteCredito(Credito credito) {
         try {
@@ -159,5 +167,13 @@ public class CreditoBean extends GenericBean<Credito> implements Serializable {
 
     public void setIntereses(List<Interes> intereses) {
         this.intereses = intereses;
+    }
+
+    public BigDecimal getSaldoAdeudado() {
+        return saldoAdeudado;
+    }
+
+    public void setSaldoAdeudado(BigDecimal saldoAdeudado) {
+        this.saldoAdeudado = saldoAdeudado;
     }
 }

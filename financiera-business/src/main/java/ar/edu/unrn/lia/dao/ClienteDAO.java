@@ -11,5 +11,7 @@ import java.util.List;
 public interface ClienteDAO extends GenericDao<Cliente, Long> {
 
     public List<Cliente> searchByApellidoNombre(String apellidoNombre);
+
+    public List<Cliente> searchMorosos();
 }
 
